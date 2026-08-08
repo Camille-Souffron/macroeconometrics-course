@@ -1,0 +1,1481 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Chapter 0: Mathematical Foundations – Macroeconometrics</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../chapters/01-time-series.html" rel="next">
+<link href="../index.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-0a2ba924a51c51b1951dc2bd466f6823.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Macroeconometrics</span>
+    </a>
+  </div>
+        <div class="quarto-navbar-tools tools-end">
+    <a href="https://github.com/Camille-Souffron/macroeconometrics-course" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+</div>
+          <div id="quarto-search" class="" title="Search"></div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/00-mathematical-foundations.html">Mathematical Preliminaries</a></li><li class="breadcrumb-item"><a href="../chapters/00-mathematical-foundations.html">Chapter 0: Mathematical Foundations</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Mathematical Preliminaries</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/00-mathematical-foundations.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Chapter 0: Mathematical Foundations</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text">Foundations</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/01-time-series.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction to Time Series</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text">Univariate Linear Models</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/02-arma.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">AR, MA, and ARMA Processes</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text">Frequency-Domain Methods</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/08-frequency-filtering.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Frequency-Domain Analysis and Filtering</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
+ <span class="menu-text">Vector Autoregressions</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/03-var.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Vector Autoregressions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/04-svar-identification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Structural VARs, Identification, and Policy Shock Assessment</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false">
+ <span class="menu-text">Cointegration and Multivariate Extensions</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/05-cointegration-dfm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Panel VAR, Cointegration, and Dynamic Factor Models</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false">
+ <span class="menu-text">Nonlinear and Time-Varying Models</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/06-nonlinear.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Beyond Linearity: Thresholds, Regime Changes, and Local Projections</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false">
+ <span class="menu-text">Bayesian Methods</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/07-bvar.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Bayesian Estimation: Foundations and Applications to VARs</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sec-maths-motivating-system" id="toc-sec-maths-motivating-system" class="nav-link active" data-scroll-target="#sec-maths-motivating-system">A small model that contains most of the course</a></li>
+  <li><a href="#sec-linear-algebra-foundations" id="toc-sec-linear-algebra-foundations" class="nav-link" data-scroll-target="#sec-linear-algebra-foundations">Linear algebra: describing several movements at once</a>
+  <ul class="collapse">
+  <li><a href="#vectors-distances-and-directions" id="toc-vectors-distances-and-directions" class="nav-link" data-scroll-target="#vectors-distances-and-directions">Vectors, distances, and directions</a></li>
+  <li><a href="#sec-matrices-transformations" id="toc-sec-matrices-transformations" class="nav-link" data-scroll-target="#sec-matrices-transformations">Matrices are transformations, not tables</a></li>
+  <li><a href="#systems-inversion-determinant-and-projection" id="toc-systems-inversion-determinant-and-projection" class="nav-link" data-scroll-target="#systems-inversion-determinant-and-projection">Systems, inversion, determinant, and projection</a></li>
+  <li><a href="#sec-eigenvalues-stability" id="toc-sec-eigenvalues-stability" class="nav-link" data-scroll-target="#sec-eigenvalues-stability">Eigenvalues: the directions a dynamic system recognises</a></li>
+  <li><a href="#decompositions-choose-coordinates-that-reveal-structure" id="toc-decompositions-choose-coordinates-that-reveal-structure" class="nav-link" data-scroll-target="#decompositions-choose-coordinates-that-reveal-structure">Decompositions: choose coordinates that reveal structure</a></li>
+  </ul></li>
+  <li><a href="#sec-probability-foundations" id="toc-sec-probability-foundations" class="nav-link" data-scroll-target="#sec-probability-foundations">Probability: describing uncertainty before observing data</a>
+  <ul class="collapse">
+  <li><a href="#a-gamble-an-event-and-a-random-variable" id="toc-a-gamble-an-event-and-a-random-variable" class="nav-link" data-scroll-target="#a-gamble-an-event-and-a-random-variable">A gamble, an event, and a random variable</a></li>
+  <li><a href="#distribution-expectation-variance-and-conditioning" id="toc-distribution-expectation-variance-and-conditioning" class="nav-link" data-scroll-target="#distribution-expectation-variance-and-conditioning">Distribution, expectation, variance, and conditioning</a></li>
+  <li><a href="#sec-probability-versus-statistics" id="toc-sec-probability-versus-statistics" class="nav-link" data-scroll-target="#sec-probability-versus-statistics">Probability is not statistics</a></li>
+  <li><a href="#sec-lln-clt" id="toc-sec-lln-clt" class="nav-link" data-scroll-target="#sec-lln-clt">Why averages become reliable: LLN and CLT</a></li>
+  <li><a href="#sec-sampling-distributions" id="toc-sec-sampling-distributions" class="nav-link" data-scroll-target="#sec-sampling-distributions">Why Normal, Student, chi-square, and Fisher distributions appear</a></li>
+  <li><a href="#estimation-confidence-intervals-and-tests" id="toc-estimation-confidence-intervals-and-tests" class="nav-link" data-scroll-target="#estimation-confidence-intervals-and-tests">Estimation, confidence intervals, and tests</a></li>
+  </ul></li>
+  <li><a href="#sec-stochastic-processes-foundations" id="toc-sec-stochastic-processes-foundations" class="nav-link" data-scroll-target="#sec-stochastic-processes-foundations">Stochastic processes: probability arranged through time</a></li>
+  <li><a href="#sec-bayes-foundations" id="toc-sec-bayes-foundations" class="nav-link" data-scroll-target="#sec-bayes-foundations">Bayesian inference: uncertainty about parameters as well as data</a></li>
+  <li><a href="#sec-signal-fourier-foundations" id="toc-sec-signal-fourier-foundations" class="nav-link" data-scroll-target="#sec-signal-fourier-foundations">Signals and Fourier analysis: another coordinate system for time series</a></li>
+  <li><a href="#summary-a-map-for-the-rest-of-the-course" id="toc-summary-a-map-for-the-rest-of-the-course" class="nav-link" data-scroll-target="#summary-a-map-for-the-rest-of-the-course">Summary: a map for the rest of the course</a></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading">Further reading</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/Camille-Souffron/macroeconometrics-course/edit/main/chapters/00-mathematical-foundations.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/Camille-Souffron/macroeconometrics-course/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/00-mathematical-foundations.html">Mathematical Preliminaries</a></li><li class="breadcrumb-item"><a href="../chapters/00-mathematical-foundations.html">Chapter 0: Mathematical Foundations</a></li></ol></nav>
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title"><span id="sec-mathematical-foundations" class="quarto-section-identifier">Chapter 0: Mathematical Foundations</span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Macroeconometrics asks a recurring question: given a finite, noisy history, what can be learned about an economy whose relevant mechanisms are partly unobserved? The models in the following chapters provide different answers, but they repeatedly use the same language. A vector collects several variables at one date; a matrix maps today’s state into tomorrow’s; a probability distribution distinguishes a model from a realization; an estimator turns a sample into a statement about an unknown quantity.</p>
+<p>This chapter develops that common language from problems rather than from a list of definitions. Its purpose is not to replace a course in mathematics. It is to make the mathematics used in macroeconometrics legible enough that every later formula can be read as an economic statement.</p>
+<section id="sec-maths-motivating-system" class="level2">
+<h2 class="anchored" data-anchor-id="sec-maths-motivating-system">A small model that contains most of the course</h2>
+<p>Imagine that the state of an economy is summarized by output and inflation deviations,</p>
+<p><span id="eq-maths-state-system"><span class="math display">\[
+x_t=
+\begin{pmatrix}y_t\\ \pi_t\end{pmatrix},
+\qquad
+x_{t+1}=Ax_t+u_{t+1},
+\tag{1}\]</span></span></p>
+<p>where <span class="math inline">\(A\)</span> describes internal propagation and <span class="math inline">\(u_{t+1}\)</span> collects new disturbances. Questions that look different at first are all contained in this compact expression:</p>
+<ul>
+<li>What does it mean to multiply a matrix by a vector, and when can a system of equations be solved?</li>
+<li>Does the economy return after a shock, oscillate, or explode? The answer is in the eigenvalues of <span class="math inline">\(A\)</span>.</li>
+<li>What does it mean for <span class="math inline">\(u_t\)</span> to be random? How do we describe its mean, variance, and dependence over time?</li>
+<li>With only <span class="math inline">\(T\)</span> observations, how can we estimate <span class="math inline">\(A\)</span>, attach uncertainty to it, or revise beliefs about it?</li>
+<li>If a component repeats slowly, how can its periodicity be read from the data?</li>
+</ul>
+<p>The rest of the chapter unpacks these questions in that order.</p>
+</section>
+<section id="sec-linear-algebra-foundations" class="level2">
+<h2 class="anchored" data-anchor-id="sec-linear-algebra-foundations">Linear algebra: describing several movements at once</h2>
+<section id="vectors-distances-and-directions" class="level3">
+<h3 class="anchored" data-anchor-id="vectors-distances-and-directions">Vectors, distances, and directions</h3>
+<p>At one date, a scalar records one quantity. A <strong>vector</strong> records several quantities together. The vector <span class="math inline">\(x=(x_1,\ldots,x_n)'\in\mathbb R^n\)</span> is a point in an <span class="math inline">\(n\)</span>-dimensional space; its entries depend on the chosen coordinates, but the object is the same economic state. In two dimensions, <span class="math inline">\((y_t,\pi_t)'\)</span> locates output and inflation jointly.</p>
+<p>The basic operation is a weighted sum. If <span class="math inline">\(a,b\in\mathbb R^n\)</span> and <span class="math inline">\(\alpha,\beta\in\mathbb R\)</span>, then <span class="math inline">\(\alpha a+\beta b\)</span> is another vector. The set of all such combinations is the <strong>span</strong> of <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>. It answers a concrete question: which movements can be built from the directions already available? Vectors are <strong>linearly independent</strong> if none can be manufactured from the others. A collection that is both independent and spans the whole space is a <strong>basis</strong>. Its number of vectors is the <strong>dimension</strong>.</p>
+<p>The inner product <span class="math inline">\(a'b=\sum_i a_ib_i\)</span> measures alignment. It generates the Euclidean length <span class="math inline">\(\|a\|=\sqrt{a'a}\)</span> and the angle between vectors,</p>
+<p><span class="math display">\[
+\cos\angle(a,b)=\frac{a'b}{\|a\|\,\|b\|}.
+\]</span></p>
+<p>Orthogonality, <span class="math inline">\(a'b=0\)</span>, means that the directions have no linear overlap. This geometry is not decorative: least squares, principal components, and structural-shock orthogonalization are all problems of projection onto orthogonal directions.</p>
+</section>
+<section id="sec-matrices-transformations" class="level3">
+<h3 class="anchored" data-anchor-id="sec-matrices-transformations">Matrices are transformations, not tables</h3>
+<p>A matrix is often introduced as a rectangular table of numbers. Its useful meaning is more active: an <span class="math inline">\(m\times n\)</span> matrix <span class="math inline">\(A\)</span> is a linear rule that takes each <span class="math inline">\(n\)</span>-vector <span class="math inline">\(x\)</span> into an <span class="math inline">\(m\)</span>-vector <span class="math inline">\(Ax\)</span>. It can rotate, stretch, compress, shear, or project a space. The columns of <span class="math inline">\(A\)</span> are simply the images of the basis vectors.</p>
+<div id="fig-linear-transformation" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-linear-transformation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figures/mathematics/linear-transformation-eigenvectors.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-linear-transformation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: A matrix transforms every vector in a space at once. The coloured vector is one example; the purple directions on the right are eigenvectors, which keep their direction under the transformation.
+</figcaption>
+</figure>
+</div>
+<p>Matrix multiplication is composition of transformations. If <span class="math inline">\(z=Bx\)</span> and <span class="math inline">\(y=Az\)</span>, then <span class="math inline">\(y=(AB)x\)</span>: <span class="math inline">\(B\)</span> acts first, then <span class="math inline">\(A\)</span>. The order matters because economic mechanisms need not commute. In a VAR, for example, multiplying the companion matrix repeatedly traces how today’s state propagates through future dates.</p>
+<p>The identity matrix <span class="math inline">\(I\)</span> leaves every vector unchanged. A transpose <span class="math inline">\(A'\)</span> exchanges rows and columns. A symmetric matrix satisfies <span class="math inline">\(A=A'\)</span>; covariance matrices are the most important example. The <strong>rank</strong> of <span class="math inline">\(A\)</span> is the number of independent directions that survive its transformation. If rank is below <span class="math inline">\(n\)</span>, some distinct input vectors produce the same output, so information has been lost.</p>
+</section>
+<section id="systems-inversion-determinant-and-projection" class="level3">
+<h3 class="anchored" data-anchor-id="systems-inversion-determinant-and-projection">Systems, inversion, determinant, and projection</h3>
+<p>The system <span class="math inline">\(Ax=b\)</span> asks which input <span class="math inline">\(x\)</span> produces the observed outcome <span class="math inline">\(b\)</span>. For a square matrix, a unique solution for every <span class="math inline">\(b\)</span> exists exactly when <span class="math inline">\(A\)</span> is invertible:</p>
+<p><span class="math display">\[
+x=A^{-1}b,\qquad A^{-1}A=AA^{-1}=I.
+\]</span></p>
+<p>Inversion is a strong condition, not a routine operation. It fails when the columns of <span class="math inline">\(A\)</span> are linearly dependent, because the system contains redundant information or lacks a direction needed to identify <span class="math inline">\(x\)</span>.</p>
+<p>The <strong>determinant</strong> of a square matrix gives a geometric test. In two dimensions, <span class="math inline">\(|\det A|\)</span> is the factor by which areas are scaled; in <span class="math inline">\(n\)</span> dimensions it scales volume. A determinant of zero means that an area or volume has been flattened into a lower-dimensional object, hence no inverse exists. The sign records an orientation reversal. Determinants are useful for theory, though numerical work normally solves <span class="math inline">\(Ax=b\)</span> directly rather than forming <span class="math inline">\(A^{-1}\)</span>.</p>
+<p>Many econometric systems have no exact solution because data contain noise: <span class="math inline">\(X\beta\approx y\)</span>. Ordinary least squares chooses the coefficient vector whose fitted value <span class="math inline">\(X\hat\beta\)</span> is closest to <span class="math inline">\(y\)</span> in Euclidean distance. The residual <span class="math inline">\(y-X\hat\beta\)</span> is orthogonal to every column of <span class="math inline">\(X\)</span>,</p>
+<p><span id="eq-ols-projection"><span class="math display">\[
+X'(y-X\hat\beta)=0,
+\qquad
+\hat\beta=(X'X)^{-1}X'y,
+\tag{2}\]</span></span></p>
+<p>when <span class="math inline">\(X\)</span> has full column rank. Equation <a href="#eq-ols-projection" class="quarto-xref">Equation&nbsp;<span>2</span></a> is a projection theorem: regression decomposes data into the component explained by the regressors and an orthogonal remainder. It is not, by itself, a causal theorem.</p>
+</section>
+<section id="sec-eigenvalues-stability" class="level3">
+<h3 class="anchored" data-anchor-id="sec-eigenvalues-stability">Eigenvalues: the directions a dynamic system recognises</h3>
+<p>Iterating <a href="#eq-maths-state-system" class="quarto-xref">Equation&nbsp;<span>1</span></a> without new shocks gives <span class="math inline">\(x_{t+h}=A^hx_t\)</span>. Directly multiplying <span class="math inline">\(A\)</span> many times hides the structure. An <strong>eigenvector</strong> <span class="math inline">\(v\neq0\)</span> is a direction which the matrix does not turn; it only scales it:</p>
+<p><span class="math display">\[
+Av=\lambda v.
+\]</span></p>
+<p>The scalar <span class="math inline">\(\lambda\)</span> is its <strong>eigenvalue</strong>. Along that direction, <span class="math inline">\(A^hv=\lambda^h v\)</span>. In discrete time, <span class="math inline">\(|\lambda|&lt;1\)</span> means decay, <span class="math inline">\(|\lambda|&gt;1\)</span> explosion, and <span class="math inline">\(|\lambda|=1\)</span> persistence without decay. A negative eigenvalue flips the sign each period. A complex-conjugate pair creates rotation, so that trajectories oscillate; its modulus governs whether the oscillation is damped or amplified.</p>
+<div id="fig-matrix-stability" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-matrix-stability-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figures/mathematics/matrix-stability-phase-portraits.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-matrix-stability-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Two systems with complex eigenvalues. On the left, the modulus is below one and all trajectories spiral back to the origin. On the right, the modulus exceeds one and the same qualitative motion becomes explosive.
+</figcaption>
+</figure>
+</div>
+<p>The matrix is stable precisely when its <strong>spectral radius</strong> <span class="math inline">\(\rho(A)=\max_i|\lambda_i|\)</span> is below one. This condition appears throughout the course: stationarity of a VAR, convergence of an impulse response, stability of a state-space model, and local determinacy of a linearized DSGE model. For a continuous-time system <span class="math inline">\(\dot x_t=Ax_t\)</span>, the corresponding condition is <span class="math inline">\(\mathrm{Re}(\lambda_i)&lt;0\)</span>.</p>
+<p>For a nonlinear law <span class="math inline">\(x_{t+1}=g(x_t)\)</span>, a steady state <span class="math inline">\(x^*\)</span> satisfies <span class="math inline">\(g(x^*)=x^*\)</span>. Near it,</p>
+<p><span class="math display">\[
+x_{t+1}-x^*\approx J_g(x^*)(x_t-x^*),
+\]</span></p>
+<p>where <span class="math inline">\(J_g\)</span> is the <strong>Jacobian</strong>, the matrix of first derivatives. Local stability is therefore a matrix-stability question. A linear approximation only describes nearby paths; if trajectories move far away, nonlinearities can change the conclusion.</p>
+</section>
+<section id="decompositions-choose-coordinates-that-reveal-structure" class="level3">
+<h3 class="anchored" data-anchor-id="decompositions-choose-coordinates-that-reveal-structure">Decompositions: choose coordinates that reveal structure</h3>
+<p>If <span class="math inline">\(A\)</span> has enough independent eigenvectors, <span class="math inline">\(A=V\Lambda V^{-1}\)</span>, where the columns of <span class="math inline">\(V\)</span> are eigenvectors and <span class="math inline">\(\Lambda\)</span> is diagonal. This <strong>diagonalization</strong> converts a coupled system into independent directions. It explains why the eigenvalues determine <span class="math inline">\(A^h=V\Lambda^hV^{-1}\)</span>.</p>
+<p>Symmetric matrices are especially well behaved. The <strong>spectral theorem</strong> states that a real symmetric matrix has real eigenvalues and an orthonormal eigenbasis:</p>
+<p><span class="math display">\[
+S=Q\Lambda Q',\qquad Q'Q=I.
+\]</span></p>
+<p>For a covariance matrix <span class="math inline">\(\Sigma\)</span>, eigenvalues are non-negative because <span class="math inline">\(a'\Sigma a=\mathrm{Var}(a'X)\geq0\)</span>. The eigenvectors are uncorrelated directions of variation. PCA uses exactly this decomposition: it rotates the data into directions ranked by variance.</p>
+<p>For a general rectangular matrix, the singular-value decomposition is the more universal result,</p>
+<p><span class="math display">\[
+X=U\,D\,V',
+\]</span></p>
+<p>with orthonormal <span class="math inline">\(U,V\)</span> and non-negative singular values on the diagonal of <span class="math inline">\(D\)</span>. It separates a transformation into a rotation, independent stretches, and another rotation. PCA, low-rank factor models, and regularization all rely on this geometry. The Cholesky factorization <span class="math inline">\(\Sigma=PP'\)</span> is another important decomposition for a positive-definite covariance matrix, used to turn independent shocks into correlated reduced-form innovations.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="A practical stability checklist">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>A practical stability checklist
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For a scalar AR(1), inspect <span class="math inline">\(|\phi|\)</span>. For a VAR, companion matrix, or Jacobian, compute eigenvalues and inspect their moduli. A stable reduced form does not identify an economic mechanism, but an unstable one cannot be treated as covariance stationary. If the result lies near one, numerical precision and sampling uncertainty matter: “below one” is not the same as “confidently stable.”</p>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-probability-foundations" class="level2">
+<h2 class="anchored" data-anchor-id="sec-probability-foundations">Probability: describing uncertainty before observing data</h2>
+<section id="a-gamble-an-event-and-a-random-variable" class="level3">
+<h3 class="anchored" data-anchor-id="a-gamble-an-event-and-a-random-variable">A gamble, an event, and a random variable</h3>
+<p>Consider tomorrow’s policy rate. Before tomorrow arrives, several outcomes are possible. The set of all complete possible outcomes is the <strong>sample space</strong> <span class="math inline">\(\Omega\)</span>. An <strong>event</strong> is a collection of outcomes, such as “inflation exceeds the target.” Probability assigns a number between zero and one to each event in a way that respects disjoint addition.</p>
+<p>The formal object is a probability space <span class="math inline">\((\Omega,\mathcal F,\mathbb P)\)</span>. The collection <span class="math inline">\(\mathcal F\)</span> is a <strong>sigma-algebra</strong>, a set of events closed under complements and countable unions. Its job is modest but essential: it rules out ill-posed sets for which a coherent probability could not be assigned. A <strong>random variable</strong> <span class="math inline">\(X:\Omega\to\mathbb R\)</span> is a measurable numerical description of an outcome. “Measurable” means that statements such as <span class="math inline">\(X\leq a\)</span> are legitimate events in <span class="math inline">\(\mathcal F\)</span>.</p>
+<p>This small dose of measure theory is the foundation, not an obstacle course. It makes the following objects precise: conditional expectation, likelihoods, stochastic processes, and convergence in probability. In most applied work, the central question is simpler: which probability law plausibly generated the variable we observe?</p>
+</section>
+<section id="distribution-expectation-variance-and-conditioning" class="level3">
+<h3 class="anchored" data-anchor-id="distribution-expectation-variance-and-conditioning">Distribution, expectation, variance, and conditioning</h3>
+<p>A distribution tells us how probability is allocated. For a discrete variable, <span class="math inline">\(Pr(X=x)\)</span> can be positive. For a continuous variable with density <span class="math inline">\(f_X\)</span>, individual points have probability zero and intervals have probability</p>
+<p><span class="math display">\[
+\Pr(a\leq X\leq b)=\int_a^b f_X(x)\,dx.
+\]</span></p>
+<p>The expectation is a probability-weighted average, <span class="math inline">\(E[X]=\sum_xxp(x)\)</span> or <span class="math inline">\(E[X]=\int xf_X(x)dx\)</span>. It need not be an outcome that will occur; it is the centre of a probability law. Variance <span class="math inline">\(\mathrm{Var}(X)=E[(X-E[X])^2]\)</span> measures dispersion. Covariance <span class="math inline">\(\mathrm{Cov}(X,Y)\)</span> records joint linear variation, and correlation rescales it to lie between minus one and one.</p>
+<p>Conditional probability updates a description after information arrives. If <span class="math inline">\(B\)</span> has positive probability, <span class="math inline">\(\Pr(A\mid B)=\Pr(A\cap B)/\Pr(B)\)</span>. Conditional expectation <span class="math inline">\(E[X\mid\mathcal I]\)</span> is the best mean-square prediction of <span class="math inline">\(X\)</span> using the information set <span class="math inline">\(\mathcal I\)</span>. The law of iterated expectations,</p>
+<p><span class="math display">\[
+E\big[E(X\mid\mathcal I)\big]=E[X],
+\]</span></p>
+<p>is the logic behind forecasts, regressions, and filtering.</p>
+</section>
+<section id="sec-probability-versus-statistics" class="level3">
+<h3 class="anchored" data-anchor-id="sec-probability-versus-statistics">Probability is not statistics</h3>
+<p><strong>Probability</strong> starts with a model and derives the behaviour of possible data. If <span class="math inline">\(Y_t=\beta X_t+\varepsilon_t\)</span> and the distribution of <span class="math inline">\((X_t,\varepsilon_t)\)</span> is known, probability describes the distribution of <span class="math inline">\(Y_t\)</span>. <strong>Statistics</strong> starts with one realized sample <span class="math inline">\((y_1,\ldots,y_T)\)</span> and asks what can be learned about the unknown distribution, parameter, or model that generated it.</p>
+<p>A <strong>statistical model</strong> is a family of distributions <span class="math inline">\(\{P_\theta:\theta\in\Theta\}\)</span>. The parameter <span class="math inline">\(\theta\)</span> indexes possible data-generating mechanisms: an AR coefficient, a variance, a regression slope, a VAR matrix, or an entire latent state path. Data do not reveal <span class="math inline">\(\theta\)</span> directly. An estimator <span class="math inline">\(\hat\theta(Y_1,\ldots,Y_T)\)</span> is itself random before the sample is drawn. Its sampling distribution is the bridge between an estimate and an inference claim.</p>
+</section>
+<section id="sec-lln-clt" class="level3">
+<h3 class="anchored" data-anchor-id="sec-lln-clt">Why averages become reliable: LLN and CLT</h3>
+<p>Suppose <span class="math inline">\(X_1,\ldots,X_n\)</span> are independent draws with finite mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2\)</span>. The <strong>law of large numbers</strong> says</p>
+<p><span class="math display">\[
+\bar X_n=\frac1n\sum_{i=1}^nX_i\xrightarrow{p}\mu.
+\]</span></p>
+<p>It justifies replacing a population moment by a sample moment. The statement is about convergence in probability, not exact equality in a finite sample.</p>
+<p>The <strong>central limit theorem</strong> adds the shape of the remaining uncertainty:</p>
+<p><span class="math display">\[
+\frac{\sqrt n(\bar X_n-\mu)}{\sigma}\xrightarrow{d}\mathcal N(0,1).
+\]</span></p>
+<p>The parent distribution need not be Normal. Averages of many finite-variance contributions become approximately Normal after centring and scaling. This is why Normal approximations are so widespread in econometrics.</p>
+<div id="fig-lln-clt" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-lln-clt-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figures/mathematics/lln-clt-simulation.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-lln-clt-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: The left panel follows an average of skewed exponential draws as the sample grows. The right panel shows that the centred, scaled means are already close to a Normal curve at a moderate sample size.
+</figcaption>
+</figure>
+</div>
+<p>Time series are not i.i.d., so the theorem cannot simply be invoked. Stationarity, ergodicity, and sufficiently weak dependence replace independence in time-series LLNs and CLTs. Persistent data contain less independent information than equally many independent observations, which is why naive standard errors are too small in serially correlated settings.</p>
+</section>
+<section id="sec-sampling-distributions" class="level3">
+<h3 class="anchored" data-anchor-id="sec-sampling-distributions">Why Normal, Student, chi-square, and Fisher distributions appear</h3>
+<p>These distributions are not an arbitrary taxonomy. They arise from different unknown pieces of a model.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Distribution</th>
+<th>What it standardizes</th>
+<th>Typical econometric appearance</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Normal</td>
+<td>A mean with known scale, or a large-sample estimator</td>
+<td>asymptotic <span class="math inline">\(z\)</span> statistic</td>
+</tr>
+<tr class="even">
+<td>Student <span class="math inline">\(t\)</span></td>
+<td>A mean or coefficient with estimated scale</td>
+<td>finite-sample regression test under Gaussian errors</td>
+</tr>
+<tr class="odd">
+<td>Chi-square</td>
+<td>A sum of squared standardized Normal quantities</td>
+<td>variance test, Wald test, likelihood-ratio limit</td>
+</tr>
+<tr class="even">
+<td>Fisher <span class="math inline">\(F\)</span></td>
+<td>A ratio of two independent scaled chi-square variables</td>
+<td>joint restriction test, comparison of residual variances</td>
+</tr>
+</tbody>
+</table>
+<p>The Student distribution has heavier tails than the Normal because estimating a scale introduces uncertainty. The chi-square is non-negative because it is built from squares. The <span class="math inline">\(F\)</span> distribution is non-negative and right-skewed because it compares two sources of variation. In large samples, many tests become asymptotically Normal or chi-square even when finite-sample exact distributions are unavailable.</p>
+<div id="fig-sampling-distributions" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sampling-distributions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figures/mathematics/sampling-distributions.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sampling-distributions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: Sampling distributions reflect different inferential problems. Estimating a scale gives the heavier tails of Student’s <span class="math inline">\(t\)</span>; squaring and comparing independent Gaussian components produces chi-square and <span class="math inline">\(F\)</span> laws.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="estimation-confidence-intervals-and-tests" class="level3">
+<h3 class="anchored" data-anchor-id="estimation-confidence-intervals-and-tests">Estimation, confidence intervals, and tests</h3>
+<p>The likelihood <span class="math inline">\(L(\theta;y)\)</span> is the model’s density or mass for the observed data, viewed as a function of <span class="math inline">\(\theta\)</span>. Maximum likelihood chooses <span class="math inline">\(\hat\theta\)</span> that makes the observed sample most probable under the maintained model. Under regularity conditions,</p>
+<p><span class="math display">\[
+\sqrt T(\hat\theta-\theta_0)\xrightarrow{d}\mathcal N\big(0,\mathcal I(\theta_0)^{-1}\big),
+\]</span></p>
+<p>where <span class="math inline">\(\mathcal I\)</span> is information. This asymptotic statement supplies standard errors, confidence intervals, Wald tests, score tests, and likelihood-ratio tests.</p>
+<p>A 95 percent confidence interval is a procedure which covers the fixed true parameter in 95 percent of repeated samples under the model. A <span class="math inline">\(p\)</span>-value is the probability, under a specified null hypothesis, of a statistic at least as incompatible with that null as the realized one. Neither is the probability that the parameter or hypothesis itself is true.</p>
+</section>
+</section>
+<section id="sec-stochastic-processes-foundations" class="level2">
+<h2 class="anchored" data-anchor-id="sec-stochastic-processes-foundations">Stochastic processes: probability arranged through time</h2>
+<p>A stochastic process <span class="math inline">\((X_t)_{t\in\mathbb Z}\)</span> is a sequence of random variables indexed by time. The observed series <span class="math inline">\(x_1,\ldots,x_T\)</span> is one path. This distinction matters: the model assigns probability to many possible histories, while economics gives us only one.</p>
+<p>For a weakly stationary process, <span class="math inline">\(E[X_t]=\mu\)</span> is constant and <span class="math inline">\(\mathrm{Cov}(X_t,X_{t-h})=\gamma(h)\)</span> depends only on the lag. The process may be highly persistent without being non-stationary. An AR(1),</p>
+<p><span class="math display">\[
+X_t=\phi X_{t-1}+\varepsilon_t,
+\]</span></p>
+<p>is stationary for <span class="math inline">\(|\phi|&lt;1\)</span>: shocks fade at rate <span class="math inline">\(\phi^h\)</span>. A random walk has <span class="math inline">\(phi=1\)</span>; shocks never fade, variance accumulates, and the level has no fixed unconditional distribution.</p>
+<div id="fig-stationary-random-walk" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-stationary-random-walk-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figures/mathematics/stationary-ar-versus-random-walk.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-stationary-random-walk-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5: The same innovations drive both paths. The stationary AR(1) forgets them gradually; the random walk retains every past innovation in its level.
+</figcaption>
+</figure>
+</div>
+<p>The economic distinction is substantial. A temporary demand shock in a stable system eventually disappears. A shock to a random-walk component permanently changes the forecast level. A unit-root test is therefore not a ritual preliminary: it asks which sort of persistence is compatible with the data, and thus which transformations and inferential approximations are defensible. The time-series chapter returns to these distinctions in detail (<a href="01-time-series.html" class="quarto-xref"><span>1&nbsp; Introduction to Time Series</span></a>).</p>
+</section>
+<section id="sec-bayes-foundations" class="level2">
+<h2 class="anchored" data-anchor-id="sec-bayes-foundations">Bayesian inference: uncertainty about parameters as well as data</h2>
+<p>Frequentist inference treats <span class="math inline">\(\theta\)</span> as fixed and data as random. Bayesian inference represents prior uncertainty about <span class="math inline">\(\theta\)</span> with a density <span class="math inline">\(p(\theta)\)</span>, then updates it with the likelihood <span class="math inline">\(p(y\mid\theta)\)</span>:</p>
+<p><span id="eq-bayes-rule"><span class="math display">\[
+p(\theta\mid y)=\frac{p(y\mid\theta)p(\theta)}{p(y)},
+\qquad
+p(y)=\int p(y\mid\theta)p(\theta)\,d\theta.
+\tag{3}\]</span></span></p>
+<p>The denominator is a normalising constant. The content of Bayes’ rule is proportionality: posterior <span class="math inline">\(\propto\)</span> likelihood <span class="math inline">\(\times\)</span> prior. The prior matters most when data are sparse or weakly informative. It need not be “subjective” in a casual sense: it can encode parameter restrictions, historical evidence, regularisation, or a disciplined belief that a large VAR should not have implausibly large coefficients.</p>
+<div id="fig-bayesian-update" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-bayesian-update-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figures/mathematics/bayesian-update.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-bayesian-update-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6: A prior density and a likelihood combine into a posterior. The graph does not show a compromise by convention; it shows multiplication of two probability statements, followed by normalisation.
+</figcaption>
+</figure>
+</div>
+<p>Bayesian credible intervals have a direct conditional interpretation: given the model, prior, and data, the posterior assigns a stated probability to the interval. Their validity therefore depends on the model and prior. The later Bayesian VAR chapter develops computation and prior choice in the setting where this distinction is most useful (<a href="07-bvar.html" class="quarto-xref"><span>8&nbsp; Bayesian Estimation: Foundations and Applications to VARs</span></a>).</p>
+</section>
+<section id="sec-signal-fourier-foundations" class="level2">
+<h2 class="anchored" data-anchor-id="sec-signal-fourier-foundations">Signals and Fourier analysis: another coordinate system for time series</h2>
+<p>Suppose a measured series contains a slow movement, a seasonal rhythm, a business-cycle fluctuation, and noise. Looking only at dates mixes these components together. Fourier analysis changes coordinates: instead of asking how a series moves at date <span class="math inline">\(t\)</span>, it asks how much of its variation is associated with each periodicity.</p>
+<p>The building blocks are sines and cosines. Euler’s identity <span class="math inline">\(e^{i\omega t}=\cos(\omega t)+i\sin(\omega t)\)</span> packages both in one complex exponential. For <span class="math inline">\(T\)</span> observations, the discrete Fourier transform is</p>
+<p><span class="math display">\[
+\widetilde X(\omega_j)=\sum_{t=0}^{T-1}x_t e^{-i\omega_jt},
+\qquad \omega_j=\frac{2\pi j}{T}.
+\]</span></p>
+<p>Its squared modulus gives the periodogram. Large values indicate that a sinusoidal component of that frequency helps describe the observed path. Sampling imposes a hard limit: with observations one period apart, frequencies above the Nyquist frequency cannot be separately recovered. A monthly rhythm cannot be learned from quarterly observations.</p>
+<div id="fig-fourier-foundations" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-fourier-foundations-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figures/mathematics/fourier-time-and-frequency.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fourier-foundations-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7: A simulated series combines rhythms of 7 and 24 observations with noise. The time path hides their separate roles; the periodogram makes both periodicities visible.
+</figcaption>
+</figure>
+</div>
+<p>For a weakly stationary process, the Fourier transform of the autocovariance is the spectral density, and its integral is variance. A linear filter multiplies that spectrum by its squared gain. This unifies ARMA dynamics, signal extraction, seasonal adjustment, and cycle filters. The frequency-domain chapter develops estimation, cross-spectra, coherence, and the economic interpretation of filtering (<a href="08-frequency-filtering.html" class="quarto-xref"><span>3&nbsp; Frequency-Domain Analysis and Filtering</span></a>).</p>
+</section>
+<section id="summary-a-map-for-the-rest-of-the-course" class="level2">
+<h2 class="anchored" data-anchor-id="summary-a-map-for-the-rest-of-the-course">Summary: a map for the rest of the course</h2>
+<p>Matrices organise simultaneous variables and dynamic feedback. Their eigenvalues determine whether local dynamics decay, oscillate, or explode. Probability describes possible data under a model; statistics uses one realised sample to learn about the unknown model; asymptotic theory makes that learning quantifiable. Stochastic processes add temporal dependence, so stationarity and unit roots become questions about what can be inferred from one history. Fourier analysis offers a second coordinate system in which persistence is described by frequency rather than lag.</p>
+<p>The purpose of these tools is disciplined interpretation. Algebra tells us what a model can do; probability tells us what it implies before data; statistics tells us how uncertain an empirical conclusion remains after data.</p>
+</section>
+<section id="further-reading" class="level2">
+<h2 class="anchored" data-anchor-id="further-reading">Further reading</h2>
+<p>For linear algebra, Strang <span class="citation" data-cites="Strang2016">(<a href="../references.html#ref-Strang2016" role="doc-biblioref">Strang 2016</a>)</span> is exceptionally clear on geometry, eigenvalues, and decompositions. Casella and Berger <span class="citation" data-cites="CasellaBerger2002">(<a href="../references.html#ref-CasellaBerger2002" role="doc-biblioref">Casella and Berger 2002</a>)</span> provide a rigorous introduction to probability and statistical inference; van der Vaart <span class="citation" data-cites="vanDerVaart1998">(<a href="../references.html#ref-vanDerVaart1998" role="doc-biblioref">Vaart 1998</a>)</span> develops asymptotic statistics. Hamilton <span class="citation" data-cites="Hamilton1994">(<a href="../references.html#ref-Hamilton1994" role="doc-biblioref">Hamilton 1994</a>)</span> connects these foundations to time-series econometrics.</p>
+
+
+<!-- -->
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-CasellaBerger2002" class="csl-entry" role="listitem">
+Casella, George, and Roger L. Berger. 2002. <em>Statistical Inference</em>. 2nd ed. Duxbury.
+</div>
+<div id="ref-Hamilton1994" class="csl-entry" role="listitem">
+Hamilton, James D. 1994. <em>Time Series Analysis</em>. Princeton University Press.
+</div>
+<div id="ref-Strang2016" class="csl-entry" role="listitem">
+Strang, Gilbert. 2016. <em>Introduction to Linear Algebra</em>. 5th ed. Wellesley-Cambridge Press.
+</div>
+<div id="ref-vanDerVaart1998" class="csl-entry" role="listitem">
+Vaart, Aad W. van der. 1998. <em>Asymptotic Statistics</em>. Cambridge University Press.
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const cellDetails = window.document.querySelectorAll(".cell details.code-fold");
+        for (let i=0; i<cellDetails.length; i++) {
+          const details = cellDetails[i];
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell div.sourceCode.cell-code");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+            // default icon
+            link.classList.add("external");
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../index.html" class="pagination-link" aria-label="Preface">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Preface</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../chapters/01-time-series.html" class="pagination-link" aria-label="Introduction to Time Series">
+        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction to Time Series</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Chapter 0: Mathematical Foundations {.unnumbered #sec-mathematical-foundations}</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>Macroeconometrics asks a recurring question: given a finite, noisy history, what can be learned about an economy whose relevant mechanisms are partly unobserved? The models in the following chapters provide different answers, but they repeatedly use the same language. A vector collects several variables at one date; a matrix maps today’s state into tomorrow’s; a probability distribution distinguishes a model from a realization; an estimator turns a sample into a statement about an unknown quantity.</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>This chapter develops that common language from problems rather than from a list of definitions. Its purpose is not to replace a course in mathematics. It is to make the mathematics used in macroeconometrics legible enough that every later formula can be read as an economic statement.</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">## A small model that contains most of the course {#sec-maths-motivating-system}</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>Imagine that the state of an economy is summarized by output and inflation deviations,</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>x_t=</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}y_t<span class="sc">\\</span> \pi_t\end{pmatrix},</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>\qquad</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>x_{t+1}=Ax_t+u_{t+1},</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>$$ {#eq-maths-state-system}</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>where $A$ describes internal propagation and $u_{t+1}$ collects new disturbances. Questions that look different at first are all contained in this compact expression:</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>What does it mean to multiply a matrix by a vector, and when can a system of equations be solved?</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Does the economy return after a shock, oscillate, or explode? The answer is in the eigenvalues of $A$.</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>What does it mean for $u_t$ to be random? How do we describe its mean, variance, and dependence over time?</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>With only $T$ observations, how can we estimate $A$, attach uncertainty to it, or revise beliefs about it?</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>If a component repeats slowly, how can its periodicity be read from the data?</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>The rest of the chapter unpacks these questions in that order.</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="fu">## Linear algebra: describing several movements at once {#sec-linear-algebra-foundations}</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="fu">### Vectors, distances, and directions</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>At one date, a scalar records one quantity. A **vector** records several quantities together. The vector $x=(x_1,\ldots,x_n)'\in\mathbb R^n$ is a point in an $n$-dimensional space; its entries depend on the chosen coordinates, but the object is the same economic state. In two dimensions, $(y_t,\pi_t)'$ locates output and inflation jointly.</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>The basic operation is a weighted sum. If $a,b\in\mathbb R^n$ and $\alpha,\beta\in\mathbb R$, then $\alpha a+\beta b$ is another vector. The set of all such combinations is the **span** of $a$ and $b$. It answers a concrete question: which movements can be built from the directions already available? Vectors are **linearly independent** if none can be manufactured from the others. A collection that is both independent and spans the whole space is a **basis**. Its number of vectors is the **dimension**.</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>The inner product $a'b=\sum_i a_ib_i$ measures alignment. It generates the Euclidean length $<span class="sc">\|</span>a<span class="sc">\|</span>=\sqrt{a'a}$ and the angle between vectors,</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>\cos\angle(a,b)=\frac{a'b}{<span class="sc">\|</span>a<span class="sc">\|</span>\,<span class="sc">\|</span>b<span class="sc">\|</span>}.</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>Orthogonality, $a'b=0$, means that the directions have no linear overlap. This geometry is not decorative: least squares, principal components, and structural-shock orthogonalization are all problems of projection onto orthogonal directions.</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="fu">### Matrices are transformations, not tables {#sec-matrices-transformations}</span></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>A matrix is often introduced as a rectangular table of numbers. Its useful meaning is more active: an $m\times n$ matrix $A$ is a linear rule that takes each $n$-vector $x$ into an $m$-vector $Ax$. It can rotate, stretch, compress, shear, or project a space. The columns of $A$ are simply the images of the basis vectors.</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="al">![A matrix transforms every vector in a space at once. The coloured vector is one example; the purple directions on the right are eigenvectors, which keep their direction under the transformation.](../figures/mathematics/linear-transformation-eigenvectors.png)</span>{#fig-linear-transformation}</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>Matrix multiplication is composition of transformations. If $z=Bx$ and $y=Az$, then $y=(AB)x$: $B$ acts first, then $A$. The order matters because economic mechanisms need not commute. In a VAR, for example, multiplying the companion matrix repeatedly traces how today’s state propagates through future dates.</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>The identity matrix $I$ leaves every vector unchanged. A transpose $A'$ exchanges rows and columns. A symmetric matrix satisfies $A=A'$; covariance matrices are the most important example. The **rank** of $A$ is the number of independent directions that survive its transformation. If rank is below $n$, some distinct input vectors produce the same output, so information has been lost.</span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a><span class="fu">### Systems, inversion, determinant, and projection</span></span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>The system $Ax=b$ asks which input $x$ produces the observed outcome $b$. For a square matrix, a unique solution for every $b$ exists exactly when $A$ is invertible:</span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>x=A^{-1}b,\qquad A^{-1}A=AA^{-1}=I.</span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>Inversion is a strong condition, not a routine operation. It fails when the columns of $A$ are linearly dependent, because the system contains redundant information or lacks a direction needed to identify $x$.</span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>The **determinant** of a square matrix gives a geometric test. In two dimensions, $|\det A|$ is the factor by which areas are scaled; in $n$ dimensions it scales volume. A determinant of zero means that an area or volume has been flattened into a lower-dimensional object, hence no inverse exists. The sign records an orientation reversal. Determinants are useful for theory, though numerical work normally solves $Ax=b$ directly rather than forming $A^{-1}$.</span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a>Many econometric systems have no exact solution because data contain noise: $X\beta\approx y$. Ordinary least squares chooses the coefficient vector whose fitted value $X\hat\beta$ is closest to $y$ in Euclidean distance. The residual $y-X\hat\beta$ is orthogonal to every column of $X$,</span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a>X'(y-X\hat\beta)=0,</span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a>\qquad</span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a>\hat\beta=(X'X)^{-1}X'y,</span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a>$$ {#eq-ols-projection}</span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a>when $X$ has full column rank. Equation @eq-ols-projection is a projection theorem: regression decomposes data into the component explained by the regressors and an orthogonal remainder. It is not, by itself, a causal theorem.</span>
+<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a><span class="fu">### Eigenvalues: the directions a dynamic system recognises {#sec-eigenvalues-stability}</span></span>
+<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a>Iterating @eq-maths-state-system without new shocks gives $x_{t+h}=A^hx_t$. Directly multiplying $A$ many times hides the structure. An **eigenvector** $v\neq0$ is a direction which the matrix does not turn; it only scales it:</span>
+<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a>Av=\lambda v.</span>
+<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a>The scalar $\lambda$ is its **eigenvalue**. Along that direction, $A^hv=\lambda^h v$. In discrete time, $|\lambda|&lt;1$ means decay, $|\lambda|&gt;1$ explosion, and $|\lambda|=1$ persistence without decay. A negative eigenvalue flips the sign each period. A complex-conjugate pair creates rotation, so that trajectories oscillate; its modulus governs whether the oscillation is damped or amplified.</span>
+<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a><span class="al">![Two systems with complex eigenvalues. On the left, the modulus is below one and all trajectories spiral back to the origin. On the right, the modulus exceeds one and the same qualitative motion becomes explosive.](../figures/mathematics/matrix-stability-phase-portraits.png)</span>{#fig-matrix-stability}</span>
+<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a>The matrix is stable precisely when its **spectral radius** $\rho(A)=\max_i|\lambda_i|$ is below one. This condition appears throughout the course: stationarity of a VAR, convergence of an impulse response, stability of a state-space model, and local determinacy of a linearized DSGE model. For a continuous-time system $\dot x_t=Ax_t$, the corresponding condition is $\mathrm{Re}(\lambda_i)&lt;0$.</span>
+<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a>For a nonlinear law $x_{t+1}=g(x_t)$, a steady state $x^*$ satisfies $g(x^*)=x^*$. Near it,</span>
+<span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a>x_{t+1}-x^*\approx J_g(x^*)(x_t-x^*),</span>
+<span id="cb1-94"><a href="#cb1-94" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a>where $J_g$ is the **Jacobian**, the matrix of first derivatives. Local stability is therefore a matrix-stability question. A linear approximation only describes nearby paths; if trajectories move far away, nonlinearities can change the conclusion.</span>
+<span id="cb1-97"><a href="#cb1-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-98"><a href="#cb1-98" aria-hidden="true" tabindex="-1"></a><span class="fu">### Decompositions: choose coordinates that reveal structure</span></span>
+<span id="cb1-99"><a href="#cb1-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-100"><a href="#cb1-100" aria-hidden="true" tabindex="-1"></a>If $A$ has enough independent eigenvectors, $A=V\Lambda V^{-1}$, where the columns of $V$ are eigenvectors and $\Lambda$ is diagonal. This **diagonalization** converts a coupled system into independent directions. It explains why the eigenvalues determine $A^h=V\Lambda^hV^{-1}$.</span>
+<span id="cb1-101"><a href="#cb1-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-102"><a href="#cb1-102" aria-hidden="true" tabindex="-1"></a>Symmetric matrices are especially well behaved. The **spectral theorem** states that a real symmetric matrix has real eigenvalues and an orthonormal eigenbasis:</span>
+<span id="cb1-103"><a href="#cb1-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-104"><a href="#cb1-104" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-105"><a href="#cb1-105" aria-hidden="true" tabindex="-1"></a>S=Q\Lambda Q',\qquad Q'Q=I.</span>
+<span id="cb1-106"><a href="#cb1-106" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-107"><a href="#cb1-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-108"><a href="#cb1-108" aria-hidden="true" tabindex="-1"></a>For a covariance matrix $\Sigma$, eigenvalues are non-negative because $a'\Sigma a=\mathrm{Var}(a'X)\geq0$. The eigenvectors are uncorrelated directions of variation. PCA uses exactly this decomposition: it rotates the data into directions ranked by variance.</span>
+<span id="cb1-109"><a href="#cb1-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-110"><a href="#cb1-110" aria-hidden="true" tabindex="-1"></a>For a general rectangular matrix, the singular-value decomposition is the more universal result,</span>
+<span id="cb1-111"><a href="#cb1-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-112"><a href="#cb1-112" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-113"><a href="#cb1-113" aria-hidden="true" tabindex="-1"></a>X=U\,D\,V',</span>
+<span id="cb1-114"><a href="#cb1-114" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-115"><a href="#cb1-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-116"><a href="#cb1-116" aria-hidden="true" tabindex="-1"></a>with orthonormal $U,V$ and non-negative singular values on the diagonal of $D$. It separates a transformation into a rotation, independent stretches, and another rotation. PCA, low-rank factor models, and regularization all rely on this geometry. The Cholesky factorization $\Sigma=PP'$ is another important decomposition for a positive-definite covariance matrix, used to turn independent shocks into correlated reduced-form innovations.</span>
+<span id="cb1-117"><a href="#cb1-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-118"><a href="#cb1-118" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip title="A practical stability checklist"}</span>
+<span id="cb1-119"><a href="#cb1-119" aria-hidden="true" tabindex="-1"></a>For a scalar AR(1), inspect $|\phi|$. For a VAR, companion matrix, or Jacobian, compute eigenvalues and inspect their moduli. A stable reduced form does not identify an economic mechanism, but an unstable one cannot be treated as covariance stationary. If the result lies near one, numerical precision and sampling uncertainty matter: “below one” is not the same as “confidently stable.”</span>
+<span id="cb1-120"><a href="#cb1-120" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-121"><a href="#cb1-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-122"><a href="#cb1-122" aria-hidden="true" tabindex="-1"></a><span class="fu">## Probability: describing uncertainty before observing data {#sec-probability-foundations}</span></span>
+<span id="cb1-123"><a href="#cb1-123" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-124"><a href="#cb1-124" aria-hidden="true" tabindex="-1"></a><span class="fu">### A gamble, an event, and a random variable</span></span>
+<span id="cb1-125"><a href="#cb1-125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-126"><a href="#cb1-126" aria-hidden="true" tabindex="-1"></a>Consider tomorrow’s policy rate. Before tomorrow arrives, several outcomes are possible. The set of all complete possible outcomes is the **sample space** $\Omega$. An **event** is a collection of outcomes, such as “inflation exceeds the target.” Probability assigns a number between zero and one to each event in a way that respects disjoint addition.</span>
+<span id="cb1-127"><a href="#cb1-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-128"><a href="#cb1-128" aria-hidden="true" tabindex="-1"></a>The formal object is a probability space $(\Omega,\mathcal F,\mathbb P)$. The collection $\mathcal F$ is a **sigma-algebra**, a set of events closed under complements and countable unions. Its job is modest but essential: it rules out ill-posed sets for which a coherent probability could not be assigned. A **random variable** $X:\Omega\to\mathbb R$ is a measurable numerical description of an outcome. “Measurable” means that statements such as $X\leq a$ are legitimate events in $\mathcal F$.</span>
+<span id="cb1-129"><a href="#cb1-129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-130"><a href="#cb1-130" aria-hidden="true" tabindex="-1"></a>This small dose of measure theory is the foundation, not an obstacle course. It makes the following objects precise: conditional expectation, likelihoods, stochastic processes, and convergence in probability. In most applied work, the central question is simpler: which probability law plausibly generated the variable we observe?</span>
+<span id="cb1-131"><a href="#cb1-131" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-132"><a href="#cb1-132" aria-hidden="true" tabindex="-1"></a><span class="fu">### Distribution, expectation, variance, and conditioning</span></span>
+<span id="cb1-133"><a href="#cb1-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-134"><a href="#cb1-134" aria-hidden="true" tabindex="-1"></a>A distribution tells us how probability is allocated. For a discrete variable, $Pr(X=x)$ can be positive. For a continuous variable with density $f_X$, individual points have probability zero and intervals have probability</span>
+<span id="cb1-135"><a href="#cb1-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-136"><a href="#cb1-136" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-137"><a href="#cb1-137" aria-hidden="true" tabindex="-1"></a>\Pr(a\leq X\leq b)=\int_a^b f_X(x)\,dx.</span>
+<span id="cb1-138"><a href="#cb1-138" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-139"><a href="#cb1-139" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-140"><a href="#cb1-140" aria-hidden="true" tabindex="-1"></a>The expectation is a probability-weighted average, $E<span class="co">[</span><span class="ot">X</span><span class="co">]</span>=\sum_xxp(x)$ or $E<span class="co">[</span><span class="ot">X</span><span class="co">]</span>=\int xf_X(x)dx$. It need not be an outcome that will occur; it is the centre of a probability law. Variance $\mathrm{Var}(X)=E<span class="co">[</span><span class="ot">(X-E[X])^2</span><span class="co">]</span>$ measures dispersion. Covariance $\mathrm{Cov}(X,Y)$ records joint linear variation, and correlation rescales it to lie between minus one and one.</span>
+<span id="cb1-141"><a href="#cb1-141" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-142"><a href="#cb1-142" aria-hidden="true" tabindex="-1"></a>Conditional probability updates a description after information arrives. If $B$ has positive probability, $\Pr(A\mid B)=\Pr(A\cap B)/\Pr(B)$. Conditional expectation $E<span class="co">[</span><span class="ot">X\mid\mathcal I</span><span class="co">]</span>$ is the best mean-square prediction of $X$ using the information set $\mathcal I$. The law of iterated expectations,</span>
+<span id="cb1-143"><a href="#cb1-143" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-144"><a href="#cb1-144" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-145"><a href="#cb1-145" aria-hidden="true" tabindex="-1"></a>E\big<span class="co">[</span><span class="ot">E(X\mid\mathcal I)\big</span><span class="co">]</span>=E<span class="co">[</span><span class="ot">X</span><span class="co">]</span>,</span>
+<span id="cb1-146"><a href="#cb1-146" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-147"><a href="#cb1-147" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-148"><a href="#cb1-148" aria-hidden="true" tabindex="-1"></a>is the logic behind forecasts, regressions, and filtering.</span>
+<span id="cb1-149"><a href="#cb1-149" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-150"><a href="#cb1-150" aria-hidden="true" tabindex="-1"></a><span class="fu">### Probability is not statistics {#sec-probability-versus-statistics}</span></span>
+<span id="cb1-151"><a href="#cb1-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-152"><a href="#cb1-152" aria-hidden="true" tabindex="-1"></a>**Probability** starts with a model and derives the behaviour of possible data. If $Y_t=\beta X_t+\varepsilon_t$ and the distribution of $(X_t,\varepsilon_t)$ is known, probability describes the distribution of $Y_t$. **Statistics** starts with one realized sample $(y_1,\ldots,y_T)$ and asks what can be learned about the unknown distribution, parameter, or model that generated it.</span>
+<span id="cb1-153"><a href="#cb1-153" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-154"><a href="#cb1-154" aria-hidden="true" tabindex="-1"></a>A **statistical model** is a family of distributions $<span class="sc">\{</span>P_\theta:\theta\in\Theta<span class="sc">\}</span>$. The parameter $\theta$ indexes possible data-generating mechanisms: an AR coefficient, a variance, a regression slope, a VAR matrix, or an entire latent state path. Data do not reveal $\theta$ directly. An estimator $\hat\theta(Y_1,\ldots,Y_T)$ is itself random before the sample is drawn. Its sampling distribution is the bridge between an estimate and an inference claim.</span>
+<span id="cb1-155"><a href="#cb1-155" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-156"><a href="#cb1-156" aria-hidden="true" tabindex="-1"></a><span class="fu">### Why averages become reliable: LLN and CLT {#sec-lln-clt}</span></span>
+<span id="cb1-157"><a href="#cb1-157" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-158"><a href="#cb1-158" aria-hidden="true" tabindex="-1"></a>Suppose $X_1,\ldots,X_n$ are independent draws with finite mean $\mu$ and variance $\sigma^2$. The **law of large numbers** says</span>
+<span id="cb1-159"><a href="#cb1-159" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-160"><a href="#cb1-160" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-161"><a href="#cb1-161" aria-hidden="true" tabindex="-1"></a>\bar X_n=\frac1n\sum_{i=1}^nX_i\xrightarrow{p}\mu.</span>
+<span id="cb1-162"><a href="#cb1-162" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-163"><a href="#cb1-163" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-164"><a href="#cb1-164" aria-hidden="true" tabindex="-1"></a>It justifies replacing a population moment by a sample moment. The statement is about convergence in probability, not exact equality in a finite sample.</span>
+<span id="cb1-165"><a href="#cb1-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-166"><a href="#cb1-166" aria-hidden="true" tabindex="-1"></a>The **central limit theorem** adds the shape of the remaining uncertainty:</span>
+<span id="cb1-167"><a href="#cb1-167" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-168"><a href="#cb1-168" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-169"><a href="#cb1-169" aria-hidden="true" tabindex="-1"></a>\frac{\sqrt n(\bar X_n-\mu)}{\sigma}\xrightarrow{d}\mathcal N(0,1).</span>
+<span id="cb1-170"><a href="#cb1-170" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-171"><a href="#cb1-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-172"><a href="#cb1-172" aria-hidden="true" tabindex="-1"></a>The parent distribution need not be Normal. Averages of many finite-variance contributions become approximately Normal after centring and scaling. This is why Normal approximations are so widespread in econometrics.</span>
+<span id="cb1-173"><a href="#cb1-173" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-174"><a href="#cb1-174" aria-hidden="true" tabindex="-1"></a><span class="al">![The left panel follows an average of skewed exponential draws as the sample grows. The right panel shows that the centred, scaled means are already close to a Normal curve at a moderate sample size.](../figures/mathematics/lln-clt-simulation.png)</span>{#fig-lln-clt}</span>
+<span id="cb1-175"><a href="#cb1-175" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-176"><a href="#cb1-176" aria-hidden="true" tabindex="-1"></a>Time series are not i.i.d., so the theorem cannot simply be invoked. Stationarity, ergodicity, and sufficiently weak dependence replace independence in time-series LLNs and CLTs. Persistent data contain less independent information than equally many independent observations, which is why naive standard errors are too small in serially correlated settings.</span>
+<span id="cb1-177"><a href="#cb1-177" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-178"><a href="#cb1-178" aria-hidden="true" tabindex="-1"></a><span class="fu">### Why Normal, Student, chi-square, and Fisher distributions appear {#sec-sampling-distributions}</span></span>
+<span id="cb1-179"><a href="#cb1-179" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-180"><a href="#cb1-180" aria-hidden="true" tabindex="-1"></a>These distributions are not an arbitrary taxonomy. They arise from different unknown pieces of a model.</span>
+<span id="cb1-181"><a href="#cb1-181" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-182"><a href="#cb1-182" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Distribution <span class="pp">|</span> What it standardizes <span class="pp">|</span> Typical econometric appearance <span class="pp">|</span></span>
+<span id="cb1-183"><a href="#cb1-183" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>-<span class="pp">|</span>-<span class="pp">|</span>-<span class="pp">|</span></span>
+<span id="cb1-184"><a href="#cb1-184" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Normal <span class="pp">|</span> A mean with known scale, or a large-sample estimator <span class="pp">|</span> asymptotic $z$ statistic <span class="pp">|</span></span>
+<span id="cb1-185"><a href="#cb1-185" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Student $t$ <span class="pp">|</span> A mean or coefficient with estimated scale <span class="pp">|</span> finite-sample regression test under Gaussian errors <span class="pp">|</span></span>
+<span id="cb1-186"><a href="#cb1-186" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Chi-square <span class="pp">|</span> A sum of squared standardized Normal quantities <span class="pp">|</span> variance test, Wald test, likelihood-ratio limit <span class="pp">|</span></span>
+<span id="cb1-187"><a href="#cb1-187" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Fisher $F$ <span class="pp">|</span> A ratio of two independent scaled chi-square variables <span class="pp">|</span> joint restriction test, comparison of residual variances <span class="pp">|</span></span>
+<span id="cb1-188"><a href="#cb1-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-189"><a href="#cb1-189" aria-hidden="true" tabindex="-1"></a>The Student distribution has heavier tails than the Normal because estimating a scale introduces uncertainty. The chi-square is non-negative because it is built from squares. The $F$ distribution is non-negative and right-skewed because it compares two sources of variation. In large samples, many tests become asymptotically Normal or chi-square even when finite-sample exact distributions are unavailable.</span>
+<span id="cb1-190"><a href="#cb1-190" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-191"><a href="#cb1-191" aria-hidden="true" tabindex="-1"></a><span class="al">![Sampling distributions reflect different inferential problems. Estimating a scale gives the heavier tails of Student’s $t$; squaring and comparing independent Gaussian components produces chi-square and $F$ laws.](../figures/mathematics/sampling-distributions.png)</span>{#fig-sampling-distributions}</span>
+<span id="cb1-192"><a href="#cb1-192" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-193"><a href="#cb1-193" aria-hidden="true" tabindex="-1"></a><span class="fu">### Estimation, confidence intervals, and tests</span></span>
+<span id="cb1-194"><a href="#cb1-194" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-195"><a href="#cb1-195" aria-hidden="true" tabindex="-1"></a>The likelihood $L(\theta;y)$ is the model’s density or mass for the observed data, viewed as a function of $\theta$. Maximum likelihood chooses $\hat\theta$ that makes the observed sample most probable under the maintained model. Under regularity conditions,</span>
+<span id="cb1-196"><a href="#cb1-196" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-197"><a href="#cb1-197" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-198"><a href="#cb1-198" aria-hidden="true" tabindex="-1"></a>\sqrt T(\hat\theta-\theta_0)\xrightarrow{d}\mathcal N\big(0,\mathcal I(\theta_0)^{-1}\big),</span>
+<span id="cb1-199"><a href="#cb1-199" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-200"><a href="#cb1-200" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-201"><a href="#cb1-201" aria-hidden="true" tabindex="-1"></a>where $\mathcal I$ is information. This asymptotic statement supplies standard errors, confidence intervals, Wald tests, score tests, and likelihood-ratio tests.</span>
+<span id="cb1-202"><a href="#cb1-202" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-203"><a href="#cb1-203" aria-hidden="true" tabindex="-1"></a>A 95 percent confidence interval is a procedure which covers the fixed true parameter in 95 percent of repeated samples under the model. A $p$-value is the probability, under a specified null hypothesis, of a statistic at least as incompatible with that null as the realized one. Neither is the probability that the parameter or hypothesis itself is true.</span>
+<span id="cb1-204"><a href="#cb1-204" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-205"><a href="#cb1-205" aria-hidden="true" tabindex="-1"></a><span class="fu">## Stochastic processes: probability arranged through time {#sec-stochastic-processes-foundations}</span></span>
+<span id="cb1-206"><a href="#cb1-206" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-207"><a href="#cb1-207" aria-hidden="true" tabindex="-1"></a>A stochastic process $(X_t)_{t\in\mathbb Z}$ is a sequence of random variables indexed by time. The observed series $x_1,\ldots,x_T$ is one path. This distinction matters: the model assigns probability to many possible histories, while economics gives us only one.</span>
+<span id="cb1-208"><a href="#cb1-208" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-209"><a href="#cb1-209" aria-hidden="true" tabindex="-1"></a>For a weakly stationary process, $E<span class="co">[</span><span class="ot">X_t</span><span class="co">]</span>=\mu$ is constant and $\mathrm{Cov}(X_t,X_{t-h})=\gamma(h)$ depends only on the lag. The process may be highly persistent without being non-stationary. An AR(1),</span>
+<span id="cb1-210"><a href="#cb1-210" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-211"><a href="#cb1-211" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-212"><a href="#cb1-212" aria-hidden="true" tabindex="-1"></a>X_t=\phi X_{t-1}+\varepsilon_t,</span>
+<span id="cb1-213"><a href="#cb1-213" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-214"><a href="#cb1-214" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-215"><a href="#cb1-215" aria-hidden="true" tabindex="-1"></a>is stationary for $|\phi|&lt;1$: shocks fade at rate $\phi^h$. A random walk has $phi=1$; shocks never fade, variance accumulates, and the level has no fixed unconditional distribution.</span>
+<span id="cb1-216"><a href="#cb1-216" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-217"><a href="#cb1-217" aria-hidden="true" tabindex="-1"></a><span class="al">![The same innovations drive both paths. The stationary AR(1) forgets them gradually; the random walk retains every past innovation in its level.](../figures/mathematics/stationary-ar-versus-random-walk.png)</span>{#fig-stationary-random-walk}</span>
+<span id="cb1-218"><a href="#cb1-218" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-219"><a href="#cb1-219" aria-hidden="true" tabindex="-1"></a>The economic distinction is substantial. A temporary demand shock in a stable system eventually disappears. A shock to a random-walk component permanently changes the forecast level. A unit-root test is therefore not a ritual preliminary: it asks which sort of persistence is compatible with the data, and thus which transformations and inferential approximations are defensible. The time-series chapter returns to these distinctions in detail (@sec-time-series).</span>
+<span id="cb1-220"><a href="#cb1-220" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-221"><a href="#cb1-221" aria-hidden="true" tabindex="-1"></a><span class="fu">## Bayesian inference: uncertainty about parameters as well as data {#sec-bayes-foundations}</span></span>
+<span id="cb1-222"><a href="#cb1-222" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-223"><a href="#cb1-223" aria-hidden="true" tabindex="-1"></a>Frequentist inference treats $\theta$ as fixed and data as random. Bayesian inference represents prior uncertainty about $\theta$ with a density $p(\theta)$, then updates it with the likelihood $p(y\mid\theta)$:</span>
+<span id="cb1-224"><a href="#cb1-224" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-225"><a href="#cb1-225" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-226"><a href="#cb1-226" aria-hidden="true" tabindex="-1"></a>p(\theta\mid y)=\frac{p(y\mid\theta)p(\theta)}{p(y)},</span>
+<span id="cb1-227"><a href="#cb1-227" aria-hidden="true" tabindex="-1"></a>\qquad</span>
+<span id="cb1-228"><a href="#cb1-228" aria-hidden="true" tabindex="-1"></a>p(y)=\int p(y\mid\theta)p(\theta)\,d\theta.</span>
+<span id="cb1-229"><a href="#cb1-229" aria-hidden="true" tabindex="-1"></a>$$ {#eq-bayes-rule}</span>
+<span id="cb1-230"><a href="#cb1-230" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-231"><a href="#cb1-231" aria-hidden="true" tabindex="-1"></a>The denominator is a normalising constant. The content of Bayes’ rule is proportionality: posterior $\propto$ likelihood $\times$ prior. The prior matters most when data are sparse or weakly informative. It need not be “subjective” in a casual sense: it can encode parameter restrictions, historical evidence, regularisation, or a disciplined belief that a large VAR should not have implausibly large coefficients.</span>
+<span id="cb1-232"><a href="#cb1-232" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-233"><a href="#cb1-233" aria-hidden="true" tabindex="-1"></a><span class="al">![A prior density and a likelihood combine into a posterior. The graph does not show a compromise by convention; it shows multiplication of two probability statements, followed by normalisation.](../figures/mathematics/bayesian-update.png)</span>{#fig-bayesian-update}</span>
+<span id="cb1-234"><a href="#cb1-234" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-235"><a href="#cb1-235" aria-hidden="true" tabindex="-1"></a>Bayesian credible intervals have a direct conditional interpretation: given the model, prior, and data, the posterior assigns a stated probability to the interval. Their validity therefore depends on the model and prior. The later Bayesian VAR chapter develops computation and prior choice in the setting where this distinction is most useful (@sec-bvar).</span>
+<span id="cb1-236"><a href="#cb1-236" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-237"><a href="#cb1-237" aria-hidden="true" tabindex="-1"></a><span class="fu">## Signals and Fourier analysis: another coordinate system for time series {#sec-signal-fourier-foundations}</span></span>
+<span id="cb1-238"><a href="#cb1-238" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-239"><a href="#cb1-239" aria-hidden="true" tabindex="-1"></a>Suppose a measured series contains a slow movement, a seasonal rhythm, a business-cycle fluctuation, and noise. Looking only at dates mixes these components together. Fourier analysis changes coordinates: instead of asking how a series moves at date $t$, it asks how much of its variation is associated with each periodicity.</span>
+<span id="cb1-240"><a href="#cb1-240" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-241"><a href="#cb1-241" aria-hidden="true" tabindex="-1"></a>The building blocks are sines and cosines. Euler’s identity $e^{i\omega t}=\cos(\omega t)+i\sin(\omega t)$ packages both in one complex exponential. For $T$ observations, the discrete Fourier transform is</span>
+<span id="cb1-242"><a href="#cb1-242" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-243"><a href="#cb1-243" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-244"><a href="#cb1-244" aria-hidden="true" tabindex="-1"></a>\widetilde X(\omega_j)=\sum_{t=0}^{T-1}x_t e^{-i\omega_jt},</span>
+<span id="cb1-245"><a href="#cb1-245" aria-hidden="true" tabindex="-1"></a>\qquad \omega_j=\frac{2\pi j}{T}.</span>
+<span id="cb1-246"><a href="#cb1-246" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-247"><a href="#cb1-247" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-248"><a href="#cb1-248" aria-hidden="true" tabindex="-1"></a>Its squared modulus gives the periodogram. Large values indicate that a sinusoidal component of that frequency helps describe the observed path. Sampling imposes a hard limit: with observations one period apart, frequencies above the Nyquist frequency cannot be separately recovered. A monthly rhythm cannot be learned from quarterly observations.</span>
+<span id="cb1-249"><a href="#cb1-249" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-250"><a href="#cb1-250" aria-hidden="true" tabindex="-1"></a><span class="al">![A simulated series combines rhythms of 7 and 24 observations with noise. The time path hides their separate roles; the periodogram makes both periodicities visible.](../figures/mathematics/fourier-time-and-frequency.png)</span>{#fig-fourier-foundations}</span>
+<span id="cb1-251"><a href="#cb1-251" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-252"><a href="#cb1-252" aria-hidden="true" tabindex="-1"></a>For a weakly stationary process, the Fourier transform of the autocovariance is the spectral density, and its integral is variance. A linear filter multiplies that spectrum by its squared gain. This unifies ARMA dynamics, signal extraction, seasonal adjustment, and cycle filters. The frequency-domain chapter develops estimation, cross-spectra, coherence, and the economic interpretation of filtering (@sec-frequency-filtering).</span>
+<span id="cb1-253"><a href="#cb1-253" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-254"><a href="#cb1-254" aria-hidden="true" tabindex="-1"></a><span class="fu">## Summary: a map for the rest of the course</span></span>
+<span id="cb1-255"><a href="#cb1-255" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-256"><a href="#cb1-256" aria-hidden="true" tabindex="-1"></a>Matrices organise simultaneous variables and dynamic feedback. Their eigenvalues determine whether local dynamics decay, oscillate, or explode. Probability describes possible data under a model; statistics uses one realised sample to learn about the unknown model; asymptotic theory makes that learning quantifiable. Stochastic processes add temporal dependence, so stationarity and unit roots become questions about what can be inferred from one history. Fourier analysis offers a second coordinate system in which persistence is described by frequency rather than lag.</span>
+<span id="cb1-257"><a href="#cb1-257" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-258"><a href="#cb1-258" aria-hidden="true" tabindex="-1"></a>The purpose of these tools is disciplined interpretation. Algebra tells us what a model can do; probability tells us what it implies before data; statistics tells us how uncertain an empirical conclusion remains after data.</span>
+<span id="cb1-259"><a href="#cb1-259" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-260"><a href="#cb1-260" aria-hidden="true" tabindex="-1"></a><span class="fu">## Further reading</span></span>
+<span id="cb1-261"><a href="#cb1-261" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-262"><a href="#cb1-262" aria-hidden="true" tabindex="-1"></a>For linear algebra, Strang <span class="co">[</span><span class="ot">@Strang2016</span><span class="co">]</span> is exceptionally clear on geometry, eigenvalues, and decompositions. Casella and Berger <span class="co">[</span><span class="ot">@CasellaBerger2002</span><span class="co">]</span> provide a rigorous introduction to probability and statistical inference; van der Vaart <span class="co">[</span><span class="ot">@vanDerVaart1998</span><span class="co">]</span> develops asymptotic statistics. Hamilton <span class="co">[</span><span class="ot">@Hamilton1994</span><span class="co">]</span> connects these foundations to time-series econometrics.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Camille Souffron, Ecole Normale Supérieure &amp; Paris School of Economics</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/Camille-Souffron/macroeconometrics-course/edit/main/chapters/00-mathematical-foundations.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/Camille-Souffron/macroeconometrics-course/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+<p>Built with Quarto</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
