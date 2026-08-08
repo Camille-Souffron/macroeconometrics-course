@@ -102,7 +102,7 @@ $$ {#eq-arma-spectrum}
 Estimating the ARMA coefficients pools information across frequencies and supplies a smooth spectrum, but moves the risk to specification error. The practical complement is transparent non-parametric evidence, sensitivity to the sample, and confidence intervals or bootstrap tests, as in the supplied papers.
 
 ::: {.callout-important title="Before estimating a spectrum"}
-The standard stationary spectrum is a property of an $I(0)$ process. A level series with a unit root has an enormous and sample-dependent mass near frequency zero; a trend can masquerade as a low-frequency cycle. First decide whether the economic object is a level, a growth rate, a detrended series, or a filtered component. The transformation is part of the estimand, not cosmetic pre-processing.
+Everything in this chapter's ordinary spectral analysis is built on **weak (covariance) stationarity**: a constant mean and a covariance $\gamma(h)$ that depends only on the lag. In practice the target therefore has to be $I(0)$ after a justified transformation. A level series with a unit root has an enormous and sample-dependent mass near frequency zero; a trend can masquerade as a low-frequency cycle. First decide whether the economic object is a level, a growth rate, a detrended series, or a filtered component. The transformation is part of the estimand, not cosmetic pre-processing. Cross-spectra and coherence additionally require the pair of series to be *jointly* covariance stationary.
 :::
 
 ### Cross-spectrum, coherence, and phase: co-movement by frequency {#sec-cross-spectrum}
@@ -150,6 +150,20 @@ This simple example mirrors the economic intuition in Beaudry, Galizia, and Port
 
 ## Linear filters as frequency-dependent weights {#sec-linear-filters}
 
+### Why filter at all? {#sec-why-filter}
+
+Filtering begins with an economic question, not a software command. Macroeconomic levels mix movements that occur on radically different horizons: a slow rise in productivity or population, a recession, a seasonal pattern, a measurement error, and possibly a financial boom. The aim is to construct a series that matches the object one wants to analyse. There are three very different tasks which are too often collapsed into “remove the trend”:
+
+1. **Making a statistical model admissible.** ARMA, VAR, and the ordinary spectral density above need a covariance-stationary object. Differencing a unit-root level, or removing a well-supported deterministic trend, can produce such an $I(0)$ series. The goal is valid inference about a specified process, not an estimate of potential output.
+2. **Describing cyclical fluctuations.** A researcher may want a dated account of medium-run expansions and contractions. A band-pass or high-pass filter then defines which periodicities are called “cycle.” This is descriptive, and can be useful, but the frequency band is an assumption.
+3. **Measuring an economically structural latent object.** Calling the remainder an “output gap,” a demand shortfall, or a fall in potential output is much stronger. It requires a model of technology, capacity, labour supply, inflation, or other structural restrictions. A univariate statistical filter alone does not supply them.
+
+The distinction is consequential in a crisis. If a smooth trend is allowed to fall with observed GDP, a persistent slump is recorded partly as a **structural** loss of potential output. If the trend is held nearly fixed, the same shortfall is recorded chiefly as a large **conjunctural** output gap. Neither conclusion is contained in the GDP series by itself. The filter places a prior on how quickly potential output is allowed to move.
+
+::: {.callout-important title="There is no data-only trend-cycle decomposition"}
+Writing $Y_t=T_t+C_t$ creates two unknown series from one observation at every date. Without restrictions, there are infinitely many decompositions. A filter supplies those restrictions: smoothness for HP, a pass band for BK/CF, an ARIMA benchmark for CF, or a state equation and signal-to-noise ratio for a Kalman filter. Filtering is thus an explicit modelling choice, and its parameters must be reported with the result.
+:::
+
 ### The transfer function
 
 A two-sided linear time-invariant filter is
@@ -192,7 +206,15 @@ G_T(\omega)=\frac{1}{1+16\lambda\sin^4(\omega/2)},\qquad
 G_C(\omega)=\frac{16\lambda\sin^4(\omega/2)}{1+16\lambda\sin^4(\omega/2)}.
 $$ {#eq-hp-gain}
 
-HP is consequently a smooth high-pass filter, not a literal 6–32-quarter band-pass filter. The conventional quarterly value $\lambda=1600$ encodes a particular cut-off, and changing data frequency requires changing $\lambda$ [@RavnUhlig2002]. The rule is transparent in @eq-hp-gain; it is not universally economically justified.
+HP is consequently a smooth high-pass filter, not a literal 6–32-quarter band-pass filter. Crucially, its parameter is a *choice*. At $\lambda=0$, the fitted trend is exactly $T_t=Y_t$ and the cycle is zero: **everything is trend**. As $\lambda\to\infty$, the fitted trend approaches a straight line: all departures from that line are **cycle**. The conventional quarterly value $\lambda=1600$ is one intermediate prior, not a result selected by the data; changing data frequency requires changing it [@RavnUhlig2002].
+
+![The same log real-GDP series, 2000 onward, under three HP smoothness choices. A low $\lambda$ lets “trend” follow the recession and recovery closely, shrinking the estimated gap; a high $\lambda$ holds potential nearly linear, enlarging and prolonging the estimated cyclical shortfall. The omitted limiting cases sharpen the point: at $\lambda=0$ there is no cycle, while as $\lambda\to\infty$ every non-linear movement is cycle. Data: FRED GDPC1; code: `code/python/make_frequency_figures.py`.](../figures/frequency/hp-lambda-sensitivity.png){#fig-hp-lambda-sensitivity}
+
+Hamilton [@Hamilton2018] shows why this discretion is not the only concern. First, the conventional HP filter induces a particular oscillatory dynamic relation even when it is applied to data whose underlying changes are close to unpredictable: apparent persistence, cross-correlation, and “cycles” can be properties of the filter rather than of the data-generating process. Second, the two-sided estimate of $T_t$ uses future observations. An ex post HP decomposition can therefore label a crash temporary after observing a later recovery, whereas a real-time observer would have judged much more of it permanent. Finally, a likelihood-based interpretation of the HP state-space model would estimate the signal-to-noise ratio rather than assume 1,600; Hamilton finds that data-coherent values can be far smaller. His practical alternative for quarterly data is a regression of $Y_{t+8}$ on a constant and the four most recent observations, using an 8-quarter forecast residual as the cyclical component.
+
+::: {.callout-warning title="Do not infer the nature of a crisis from one HP line"}
+An HP decomposition cannot decide whether a recession is a demand-driven, temporary shortfall or a permanent supply-side loss. If the policy question is precisely this distinction, report the sensitivity to $\lambda$, use real-time vintages and one-sided estimates, and bring in structural evidence such as inflation, unemployment, capacity use, productivity, and a model with an explicit potential-output concept. The line labelled “trend” is an estimate conditional on those assumptions, not observed potential GDP.
+:::
 
 ### Ideal filters and feasible approximations
 

@@ -164,6 +164,30 @@ def make_endpoint_revisions():
     plt.close(fig)
 
 
+def make_hp_lambda_sensitivity():
+    """Show that the HP decomposition is chosen by lambda, not discovered by data."""
+    gdp = pd.read_csv(DATA, parse_dates=["observation_date"]).dropna()
+    gdp = gdp.rename(columns={"observation_date": "date", "GDPC1": "gdp"})
+    gdp = gdp[gdp.date >= "2000-01-01"].reset_index(drop=True)
+    y = 100 * np.log(gdp.gdp.to_numpy())
+    choices = [(6.25, "#2166ac", "$\\lambda=6.25$"), (1600, "#b2182b", "$\\lambda=1600$"), (100000, "#542788", "$\\lambda=100{,}000$")]
+    results = [(lam, color, label, *hp_cycle(y, lam)) for lam, color, label in choices]
+    fig, axes = plt.subplots(2, 1, figsize=(11, 6.4), sharex=True)
+    axes[0].plot(gdp.date, y, color=GREY, lw=1.25, label="log real GDP (×100)")
+    for lam, color, label, cycle, trend in results:
+        axes[0].plot(gdp.date, trend, color=color, lw=1.8, label=f"HP trend, {label}")
+    axes[0].set(title="One series, several definitions of trend", ylabel="log points")
+    axes[0].legend(ncol=2, frameon=True, fontsize=8.5)
+    axes[1].axhline(0, color="black", lw=.7)
+    for lam, color, label, cycle, trend in results:
+        axes[1].plot(gdp.date, cycle, color=color, lw=1.8, label=f"HP cycle, {label}")
+    axes[1].set(title="The residual, hence the economic diagnosis, moves with $\\lambda$", ylabel="log points")
+    axes[1].legend(ncol=3, frameon=True, fontsize=8.5, loc="lower left")
+    fig.tight_layout()
+    fig.savefig(FIGURES / "hp-lambda-sensitivity.png", dpi=180, bbox_inches="tight")
+    plt.close(fig)
+
+
 def make_hours_spread_cross_spectrum():
     """Empirical cross-spectrum: hours and the Baa minus Treasury spread."""
     ids = ["HOANBS", "BAA10YM"]
@@ -220,4 +244,5 @@ if __name__ == "__main__":
     make_spectrum_and_gain()
     make_gdp_filters()
     make_endpoint_revisions()
+    make_hp_lambda_sensitivity()
     make_hours_spread_cross_spectrum()
