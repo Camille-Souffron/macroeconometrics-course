@@ -86,6 +86,8 @@ additional, independent restrictions needed to pin down $C(0)$: the system is **
 
 Even worse, suppose one impact matrix $C(0)$ satisfies $\Sigma_u = C(0)C(0)'$. For *any* orthogonal matrix $Q$ ($Q'Q = QQ' = I_k$), defining $\tilde C(0) = C(0)Q$ and $\tilde\varepsilon_t = Q'\varepsilon_t$ gives $\tilde C(0)\tilde C(0)' = C(0)QQ'C(0)' = C(0)C(0)' = \Sigma_u$ and $E[\tilde\varepsilon_t\tilde\varepsilon_t'] = I_k$ as well. So the *same* reduced form is consistent with infinitely many rotations $(C(0)Q, Q'\varepsilon_t)$ - different structural-shock decompositions that are **observationally equivalent** from the reduced form alone. Additional restrictions must select a single rotation (or a credible subset of them) out of this continuum.
 
+The covariance factorisation, orthogonal rotations, and uniqueness of the Cholesky factor are reviewed in @sec-decompositions.
+
 ## Recursive (Cholesky) identification
 
 The simplest resolution imposes enough zero restrictions on $C(0)$ to make it unique, through a recursive, hierarchical ordering of the variables $y_t = (y_{1t}, \ldots, y_{kt})'$: variable 1 does not react contemporaneously to any other variable (its innovation is purely its own structural shock - contemporaneously exogenous); variable 2 reacts contemporaneously at most to variable 1 and its own shock; variable 3 reacts at most to variables 1 and 2 and its own shock; and so on. This forces $C(0)$ to be **lower triangular**,
@@ -365,6 +367,8 @@ z_t = \lambda\,\varepsilon_t^* + \eta_t,
 $$
 
 with $\eta_t$ measurement noise uncorrelated with every structural shock. Two conditions make $z_t$ a valid instrument for $\varepsilon_t^*$: **relevance**, $\mathrm{Cov}(z_t, \varepsilon_t^*) \ne 0$ (the proxy actually carries signal about the shock of interest), and **exogeneity**, $\mathrm{Cov}(z_t, \varepsilon_t^j) = 0$ for every other shock $j \ne *$ (the proxy's noise is uncorrelated with every *other* structural shock in the system) - exactly the relevance and exclusion-restriction conditions familiar from instrumental-variable estimation.
+
+The corresponding moment-condition and two-stage least-squares logic is introduced in @sec-gmm.
 :::
 
 **How it works, as a Proxy-SVAR.** Estimate the reduced-form VAR to obtain residuals $u_t$; identify the impact vector of the target shock as $b_* \propto E[u_t z_t]$, the covariance of the reduced-form residuals with the proxy - this works because, under the exogeneity condition, only the *column* of the impact matrix $B$ associated with $\varepsilon_t^*$ actually covaries with $z_t$, so that covariance vector identifies (up to scale) exactly that column; normalize $b_*$ to represent a one-unit shock, and compute IRFs from it exactly as in any other identified SVAR (@sec-irf).

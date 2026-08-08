@@ -139,6 +139,8 @@ $$
 
 where $s_t \in \{1, \ldots, K\}$ is the regime index (e.g. $1=$ expansion, $2=$ recession), and $A_j^{(i)}, \Sigma^{(i)}$ are regime-specific coefficients and shock covariances. Regime switches are discrete jumps, governed by a probabilistic rule (the Markov chain); the regime itself is typically **latent** - never directly observed, only inferred from the data.
 
+The basic Markov property and the distinction between a hidden state and observed data are introduced in @sec-stochastic-processes-foundations and @sec-state-space-foundations.
+
 ::: {.callout-note title="What is a Markov chain, and why use one for regimes?"}
 A Markov chain is a process moving between finitely many states where the future depends only on the *current* state, not the full past: $\Pr(s_t = j \mid s_{t-1}, s_{t-2}, \ldots) = \Pr(s_t = j \mid s_{t-1})$ for all $j$ - "memoryless," in the sense that forecasting $s_t$ requires knowing only $s_{t-1}$. This fits business-cycle phases (expansion/recession), weather (sunny/rainy), and financial markets (normal/crisis) naturally. It is useful for macro regime-switching specifically because it supplies a *probabilistic law* for entering and leaving regimes - no arbitrary dating rule or ad hoc threshold is needed - while still capturing both persistence (spells can be long) and occasional abrupt jumps, and remaining parsimonious (just a handful of transition probabilities).
 :::
@@ -174,6 +176,8 @@ with $A_{j,t}$ and $\Sigma_t$ now **time-varying**. At every date $t$, the model
 ### TVP-VAR as a state-space model
 
 Stack the coefficients into a state vector, $\theta_t = (\mathrm{vec}(A_{0,t})', \mathrm{vec}(A_{1,t})', \ldots, \mathrm{vec}(A_{p,t})', \mathrm{vech}(\Sigma_t)')'$, so that the **measurement equation** is the VAR itself, $y_t = A_{0,t} + \cdots + A_{p,t}y_{t-p} + u_t$, and the **state equation** describes how the parameters evolve:
+
+The vectorisation notation and the filtering versus smoothing distinction are reviewed in @sec-decompositions and @sec-state-space-foundations.
 
 $$
 \theta_t = \theta_{t-1} + \eta_t, \qquad \eta_t \sim \mathcal{N}(0, Q) \text{ with small variance,}
@@ -221,6 +225,8 @@ y_{t+h} = \alpha_h + \beta_h \varepsilon_t + \Gamma_h X_{t-1} + u_{t+h}, \qquad 
 $$
 
 with $X_{t-1}$ a vector of controls (lags of $y_t$, lags of $\varepsilon_t$, other covariates; the number of lags either matching a VAR's $p$ or a conventional macro rule, e.g. 4 quarters or 12 months). The coefficient of interest, $\beta_h \approx \partial y_{t+h}/\partial\varepsilon_t$, *is* the impulse response at horizon $h$. Estimation runs one OLS regression per horizon; collecting $\{\hat\beta_h\}_{h=0}^H$ and plotting against $h$ gives the empirical IRF directly. Because the residual $u_{t+h}$'s autocorrelation grows with $h$ by construction (overlapping horizons), HAC/Newey-West standard errors (or a block bootstrap for confidence bands) are standard practice.
+
+The role of conditional expectations, OLS projection, instruments, and bootstrap inference is reviewed in @sec-joint-distributions, @sec-ols-assumptions, and @sec-gmm.
 :::
 
 ### Why local projections are useful

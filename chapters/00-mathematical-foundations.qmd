@@ -323,7 +323,7 @@ The steady-state condition is what removes the constant term. Defining the devia
 
 The qualification “local” is substantive. Eigenvalues of the Jacobian describe the evolution of small deviations from $x^*$; they do not rule out other steady states, constraints, or regime changes far away. In macroeconomic models, log-linearisation is valuable precisely because it replaces a difficult nonlinear equilibrium map with this locally faithful matrix map, while leaving the scope of the approximation visible.
 
-### Decompositions: choose coordinates that reveal structure
+### Decompositions: choose coordinates that reveal structure {#sec-decompositions}
 
 If $A$ has enough independent eigenvectors, $A=V\Lambda V^{-1}$, where the columns of $V$ are eigenvectors and $\Lambda$ is diagonal. This **diagonalization** is a change of basis. In the original coordinates, the components may interact at every period; in eigenvector coordinates, each coordinate is simply multiplied by its eigenvalue. It explains why the eigenvalues determine $A^h=V\Lambda^hV^{-1}$. Diagonalization fails for some matrices, including certain matrices with repeated eigenvalues, but the stability conclusion still follows from the eigenvalues through more general decompositions.
 
@@ -347,6 +347,16 @@ with orthonormal $U,V$ and non-negative singular values on the diagonal of $D$. 
 
 The QR decomposition, $X=QR$, is especially useful for regression calculations. Its columns in $Q$ are orthonormal directions spanning the column space of $X$, and $R$ is upper triangular. Solving $X\beta\approx y$ can then proceed by projecting $y$ onto $Q$ and solving a triangular system, avoiding the numerical amplification that may arise from explicitly forming $X'X$. The decompositions differ in form, but share one purpose: replace coordinates that obscure the problem with coordinates that expose its independent directions.
 
+Two further operations recur in multivariate econometrics. The **vectorisation** $\operatorname{vec}(B)$ stacks the columns of a matrix $B$ into one long vector. The **Kronecker product** $A\otimes B$ replaces each entry $a_{ij}$ of $A$ by the block $a_{ij}B$. Its central identity is
+
+$$
+\operatorname{vec}(AXB)=(B'\otimes A)\operatorname{vec}(X).
+$$
+
+It keeps track simultaneously of variation across equations and variation across observations. For a VAR estimated as $Y=XB+U$, the covariance of $\operatorname{vec}(\hat B)$ naturally has the form $\Sigma_u\otimes(X'X)^{-1}$: the first factor concerns correlated innovations across equations, the second concerns the information in the shared regressor matrix.
+
+Covariance matrices also reveal why shocks are not identified by a reduced-form covariance alone. If $\Sigma_u=PP'$ and $Q$ is an **orthogonal** matrix, $Q'Q=I$, then $(PQ)(PQ)'=\Sigma_u$ as well. A rotation changes the directions called “shocks” without changing the covariance of observed innovations. The Cholesky factor is the unique lower-triangular square root with positive diagonal under a chosen ordering; it selects one such rotation by a recursive timing assumption. SVAR restrictions, sign restrictions, and heteroskedasticity-based methods all add information to choose among these observationally equivalent rotations.
+
 ::: {.callout-tip title="A practical stability checklist"}
 For a scalar AR(1), inspect $|\phi|$. For a VAR, companion matrix, or Jacobian, compute eigenvalues and inspect their moduli. A stable reduced form does not identify an economic mechanism, but an unstable one cannot be treated as covariance stationary. If the result lies near one, numerical precision and sampling uncertainty matter: “below one” is not the same as “confidently stable.”
 :::
@@ -354,6 +364,21 @@ For a scalar AR(1), inspect $|\phi|$. For a VAR, companion matrix, or Jacobian, 
 ## Calculus and optimisation: choosing an estimator or an allocation {#sec-optimisation-foundations}
 
 Econometric estimators and economic equilibria frequently arise from the same mathematical question: among feasible candidates, which one makes an objective largest or smallest? A household chooses consumption and labour subject to a budget; a firm chooses inputs; OLS chooses coefficients that minimise squared residuals; maximum likelihood chooses a parameter that makes the observed data most compatible with a model. The economic interpretation differs, but the local calculations are shared.
+
+### Functions, logarithms, and rates of change {#sec-functions-transformations}
+
+A function maps each admissible input to one output. In macroeconomics, $Y=F(K,L)$ maps capital and labour into output; in econometrics, $m(x)=E[Y\mid X=x]$ maps an observed regressor into a conditional mean. Before taking a logarithm, ratio, or inverse, its domain matters: $\log x$ requires $x>0$, and a ratio becomes unstable when its denominator approaches zero.
+
+The logarithm turns multiplicative growth into addition. If a positive series moves from $Y_{t-1}$ to $Y_t$, then
+
+$$
+\Delta\log Y_t
+=\log Y_t-\log Y_{t-1}
+=\log\left(\frac{Y_t}{Y_{t-1}}\right)
+\approx\frac{Y_t-Y_{t-1}}{Y_{t-1}}
+$$
+
+for moderate changes. The approximation is Taylor’s expansion of $\log(1+g)$ around $g=0$. Thus a log difference is approximately a proportional growth rate, while $100\Delta\log Y_t$ is approximately a percentage change. The distinction becomes visible for large movements: a fall from 100 to 50 is minus 50 percent, whereas the log change is $\log(.5)\approx-.693$. Transformations change both the units and the object being modelled, so they should be chosen for an economic reason rather than by habit.
 
 ### From a slope to a gradient
 
@@ -471,7 +496,7 @@ Skewness is equally concrete. Household income is usually right-skewed: most obs
 
 ![The left panel shows why the mean can exceed the median in a right-skewed income distribution. The right panel holds variance fixed and isolates the role of kurtosis: a heavy-tailed law makes large standardized moves more likely.](../figures/mathematics/income-skewness-kurtosis.png){#fig-income-skewness-kurtosis}
 
-### Joint distributions, information, and prediction
+### Joint distributions, information, and prediction {#sec-joint-distributions}
 
 Macroeconometric questions rarely concern an isolated variable. Output and inflation, consumption and income, or a return and a financial spread move jointly. Their **joint distribution** assigns probabilities to pairs or vectors. From it one obtains the marginal distribution of each component by integrating or summing out the other, and the conditional distribution by asking how the possibilities for one variable change after observing the other.
 
@@ -485,6 +510,8 @@ $$
 Its diagonal entries are variances and its off-diagonal entries are covariances. The matrix is symmetric and positive semidefinite because, for any portfolio or linear combination $a$, $a'\Sigma a=\operatorname{Var}(a'X)\geq0$. This compact expression is the bridge from separate uncertainty to portfolio risk, VAR innovations, factor models, and multivariate forecasting.
 
 The multivariate Normal law is the benchmark in which a mean vector and covariance matrix completely determine the joint distribution. If $X\sim\mathcal N(\mu,\Sigma)$, every linear combination $a'X$ is Normal with mean $a'\mu$ and variance $a'\Sigma a$. Conditional means are linear functions of observed components, and conditional variances do not depend on the realised value. These properties make Gaussian state-space and Kalman-filter calculations tractable. They are useful modelling assumptions, not universal facts about macroeconomic shocks or financial returns.
+
+For a matrix of random quantities, the **matrix-Normal** notation separates dependence across rows from dependence across columns. Writing $E\sim\mathcal{MN}(0,U,V)$ means equivalently $\operatorname{vec}(E)\sim\mathcal N(0,V\otimes U)$: $U$ describes covariance across rows and $V$ covariance across columns. This is a compact way to express the Gaussian errors of a multivariate regression or VAR. The **Wishart** distribution is the matrix analogue of a chi-square law, arising from sums of outer products of Gaussian vectors; its support is the set of positive-definite matrices. The inverse-Wishart is consequently a convenient, though sometimes restrictive, prior for a covariance matrix. These families are prominent in conjugate Bayesian VARs because they preserve analytical tractability.
 
 Conditional expectation turns joint variation into a prediction. If $Y$ is next quarter’s inflation and $\mathcal I_t$ contains today’s indicators, $E[Y\mid\mathcal I_t]$ is the forecast that minimises expected squared forecast error among all functions of $\mathcal I_t$. The forecast error $Y-E[Y\mid\mathcal I_t]$ is orthogonal to every variable known at date $t$. The law of total variance separates uncertainty into
 
@@ -560,7 +587,7 @@ The parent distribution need not be Normal. Expenditures may be skewed, defaults
 
 Time series are not i.i.d., so the theorem cannot simply be invoked. Stationarity, ergodicity, and sufficiently weak dependence replace independence in time-series LLNs and CLTs. Persistent data contain less independent information than equally many independent observations, which is why naive standard errors are too small in serially correlated settings.
 
-### From population restrictions to estimators
+### From population restrictions to estimators {#sec-gmm}
 
 The LLN becomes an estimation method once a model supplies a population restriction. Suppose a parameter $\theta_0$ is characterised by
 
@@ -579,6 +606,14 @@ Q_T(\theta)=\bar g_T(\theta)'W_T\bar g_T(\theta),
 $$
 
 where the positive-definite weight matrix $W_T$ decides how discrepancies are scaled and combined. The efficient choice weights moments by their precision and correlation. The extra restrictions become testable: if a model cannot make them jointly small even in a large sample, the problem may lie in the instrument validity, the specification, or the maintained stochastic assumptions. GMM is the common language behind instrumental variables, many Euler-equation estimates, and numerous DSGE estimators.
+
+An **instrument** makes this logic concrete when a regressor is correlated with an omitted disturbance. In $Y_t=\beta X_t+u_t$, OLS needs $E[X_tu_t]=0$. If it fails, seek a variable $Z_t$ that moves $X_t$ but has no direct relation with $u_t$: relevance requires $\operatorname{Cov}(Z_t,X_t)\neq0$, and exclusion requires $E[Z_tu_t]=0$. The identifying moment is then $E[Z_t(Y_t-\beta X_t)]=0$. With one endogenous regressor and one instrument, its sample analogue solves
+
+$$
+\hat\beta_{IV}=\frac{\sum_tZ_tY_t}{\sum_tZ_tX_t}.
+$$
+
+With several instruments, two-stage least squares first projects the endogenous regressor onto the instrument space and then regresses $Y$ on that predicted component. A weak instrument barely moves $X$, making the denominator or first stage unstable; an irrelevant or invalid instrument cannot be rescued by a sophisticated estimator. These are identification questions before they are computational ones.
 
 ### Convergence is a language for increasingly informative samples
 
@@ -764,6 +799,42 @@ The first row says that an expansion remains an expansion next quarter with prob
 
 ![The left panel represents the transition probabilities of a two-regime Markov chain. The right panel starts from expansion and shows how uncertainty about the future regime evolves by repeated multiplication of the transition matrix.](../figures/mathematics/markov-regime-process.png){#fig-markov-process}
 
+### Time shifts, innovations, and the Wold representation {#sec-lag-operator-foundations}
+
+Time-series algebra becomes shorter when a shift is treated as an operator. The **lag operator** $L$ acts as $LX_t=X_{t-1}$, so $L^jX_t=X_{t-j}$. First differencing is $(1-L)X_t=X_t-X_{t-1}$; seasonal differencing at period $s$ is $(1-L^s)X_t$. An AR(2), for example, can be written
+
+$$
+(1-\phi_1L-\phi_2L^2)X_t=\varepsilon_t.
+$$
+
+The polynomial on the left describes feedback from past values. Its roots determine whether that feedback dies out, just as eigenvalues determine stability for a matrix system. This notation becomes especially useful when an ARMA model is written as $\phi(L)X_t=\theta(L)\varepsilon_t$.
+
+An **innovation** is the part of a variable that could not have been forecast from the information available one period earlier. Formally, $\varepsilon_t=X_t-E[X_t\mid\mathcal F_{t-1}]$ has conditional mean zero and is a martingale difference sequence. For a covariance-stationary purely nondeterministic process, the Wold representation states that it can be written
+
+$$
+X_t=\mu+\sum_{j=0}^{\infty}\psi_j\varepsilon_{t-j},
+\qquad \psi_0=1,
+\qquad \sum_j\psi_j^2<\infty.
+$$
+
+The coefficients $\psi_j$ are **impulse responses**: they tell us how a one-unit innovation today affects the variable after $j$ periods. The $h$-step forecast error is the sum of the future innovations that remain unknown at date $t$, weighted by the same coefficients. This representation supplies the common foundation for ARMA forecasts, VAR moving-average representations, impulse-response functions, and forecast-error variance decompositions.
+
+### States, observations, and filtering {#sec-state-space-foundations}
+
+Some economically important variables are not directly observed: potential output, a business-cycle factor, a regime, or time-varying coefficients. A **state-space model** distinguishes a latent state from the data that measure it,
+
+$$
+s_t=F_ts_{t-1}+G_t\eta_t,
+\qquad
+y_t=H_ts_t+\varepsilon_t,
+$$
+
+where $\eta_t$ moves the hidden state and $\varepsilon_t$ is measurement error. The transition equation describes propagation; the measurement equation says how the state appears in the observed series. Both can be multivariate and time-varying.
+
+![A state-space model separates the unobserved state’s transition from the observation equation. Filtering uses the observations available at a date, whereas smoothing can revise historical states after later data arrive.](../figures/mathematics/state-space-filtering-diagram.png){#fig-state-space}
+
+With linear Gaussian equations, the Kalman filter alternates a prediction step with an update step. It propagates the previous conditional mean and covariance through the transition equation, compares the predicted observation to the new data, and adjusts the state estimate by a gain that is larger when the observation is precise and smaller when it is noisy. The Kalman smoother then uses the full sample to estimate past states. This distinction matters for real-time output-gap estimates, dynamic factors, missing observations, and time-varying-parameter VARs: an ex post smoothed estimate may use information that was unavailable at the date being described.
+
 ## Bayesian inference: uncertainty about parameters as well as data {#sec-bayes-foundations}
 
 Return to the recession alarm. Suppose recessions occur with prior probability .05, the alarm sounds in .80 of recessions, and it sounds spuriously in .10 of non-recessions. On hearing an alarm, the relevant probability is
@@ -791,6 +862,8 @@ For example, a prior centred near a persistent but stable AR coefficient can pre
 ![A prior density and a likelihood combine into a posterior. The posterior is obtained by multiplying the two functions and then normalising the result to integrate to one.](../figures/mathematics/bayesian-update.png){#fig-bayesian-update}
 
 Bayesian credible intervals have a direct conditional interpretation: given the model, prior, and data, the posterior assigns a stated probability to the interval. This differs from a frequentist confidence interval, whose coverage is evaluated across repeated samples. Neither interpretation is unconditional truth. The former depends on the model and prior; the latter depends on the sampling model and calibration of the procedure. The later Bayesian VAR chapter develops computation and prior choice in the setting where this distinction is most useful (@sec-bvar).
+
+When the posterior cannot be integrated analytically, **Monte Carlo** methods approximate posterior expectations with simulated draws. Markov Chain Monte Carlo constructs an artificial Markov chain whose stationary distribution is the posterior. After the chain has reached that distribution, averages of $g(\theta^{(s)})$ approximate $E[g(\theta)\mid y]$. Consecutive draws are generally dependent, so a long chain is not automatically a large amount of information: mixing, convergence across starting points, and effective sample size matter. The simulation index is not calendar time; it is a computational device for exploring an otherwise intractable probability distribution.
 
 ## Signals and Fourier analysis: another coordinate system for time series {#sec-signal-fourier-foundations}
 

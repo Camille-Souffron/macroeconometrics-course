@@ -213,6 +213,29 @@ def constrained_optimisation():
     plt.close(fig)
 
 
+def state_space_diagram():
+    fig, ax = plt.subplots(figsize=(10.6, 3.8))
+    ax.axis("off")
+    ax.set(xlim=(0, 1), ylim=(0, 1))
+    boxes = [
+        (.08, .54, .24, .23, BLUE, r"latent state $s_{t-1}$"),
+        (.40, .54, .24, .23, PURPLE, r"latent state $s_t$"),
+        (.72, .17, .20, .23, RED, r"observed data $y_t$"),
+    ]
+    for left, bottom, width, height, color, label in boxes:
+        rect = plt.Rectangle((left, bottom), width, height, facecolor=color, alpha=.14, edgecolor=color, lw=2)
+        ax.add_patch(rect)
+        ax.text(left + width / 2, bottom + height / 2, label, ha="center", va="center", fontsize=15, color=color)
+    ax.annotate("", xy=(.39, .655), xytext=(.33, .655), arrowprops={"arrowstyle": "->", "lw": 2})
+    ax.text(.36, .78, r"$F$ and process shock $\eta_t$", ha="center", fontsize=10.5)
+    ax.annotate("", xy=(.82, .41), xytext=(.57, .53), arrowprops={"arrowstyle": "->", "lw": 2})
+    ax.text(.73, .53, r"$H$ and measurement error $\varepsilon_t$", ha="center", fontsize=10.5)
+    ax.text(.50, .10, "Filtering infers the current unobserved state from observations available today; smoothing may use later observations.", ha="center", fontsize=12)
+    fig.tight_layout()
+    fig.savefig(FIGURES / "state-space-filtering-diagram.png", dpi=180, bbox_inches="tight")
+    plt.close(fig)
+
+
 def determinant_and_invertibility():
     transforms = [
         (np.array([[1.35, .35], [.25, .85]]), "non-zero determinant: area survives", BLUE),
@@ -587,6 +610,7 @@ if __name__ == "__main__":
     elimination_steps()
     jacobian_linearisation()
     constrained_optimisation()
+    state_space_diagram()
     determinant_and_invertibility()
     systems_geometry()
     stability_portraits()

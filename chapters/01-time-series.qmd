@@ -15,6 +15,8 @@ Estimating any of the models in this course requires enough observations, so the
 
 ::: {.callout-note title="Time series vs. stochastic process"}
 $x_t$ is treated as the **realization of a random variable** $X_t$, defined for every $t \in \mathbb{Z}$; $(X_t)_{t \in \mathbb{Z}}$ is the **stochastic process**, and $\{x_t, t = 1, \ldots, T\}$ is one **trajectory** of it. In practice the realization and the random variable are usually denoted the same way ($x_t$ or $X_t$ indifferently), and "time series" and "stochastic process" are used interchangeably. What distinguishes time-series data from cross-sectional data is that observations are *ordered in time*: what happens today is linked to what happened before.
+
+For the underlying probability language, information sets, white noise, and ergodicity, see the mathematical foundations chapter (@sec-stochastic-processes-foundations).
 :::
 
 Equivalently: if history could be rerun $M$ times, each run would produce a different sample path $x_1^{(m)}, \ldots, x_T^{(m)}$, $m = 1, \ldots, M$. In practice only one such path is ever observed. Our (very ambitious) objective is to find the process $(X_t)$ that best generated the single observed path $x_t$.
@@ -41,6 +43,8 @@ $$
 $$
 
 which is why working in logs is the default choice for macro series that grow multiplicatively (@sec-ts-logs).
+
+The approximation linking a log difference to a proportional growth rate follows from Taylor’s expansion and is recalled in @sec-functions-transformations.
 
 ![Classical decomposition of a time series into trend, cyclical, and noise components, and combinations thereof.](../figures/ts/classical-decomposition.png){#fig-classical-decomposition}
 

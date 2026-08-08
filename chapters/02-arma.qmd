@@ -40,6 +40,8 @@ AR, MA, and ARMA models are finite-order approximations of this BLF. The connect
 
 ### The lag operator
 
+The operator notation used below is introduced from first principles in @sec-lag-operator-foundations; it is the algebraic counterpart of shifting a series one date into the past.
+
 The **lag operator** $L$ shifts a series one period into the past, $LX_t = X_{t-1}$, and more generally $L^k X_t = X_{t-k}$. It lets us write temporal dependence algebraically - e.g. $(1-L)X_t = X_t - X_{t-1}$ is the first-difference operator, and $(1 - \phi L)X_t = \varepsilon_t$ is an AR(1) process. Instead of writing $X_t = \phi X_{t-1} + \varepsilon_t$ explicitly, we can manipulate entire lag structures symbolically, just as with ordinary polynomials.
 
 A **lag polynomial** of order $p$ with real coefficients $\{\psi_i\}$ is $P(L) = \sum_{i=0}^p \psi_i L^i$, applied to a process as $P(L)X_t = \sum_{i=0}^p \psi_i X_{t-i}$. In this notation, an MA($q$) process is $X_t = \mu + \theta(L)\varepsilon_t$ with $\theta(L) = 1 - \theta_1 L - \cdots - \theta_q L^q$, and an AR($p$) process is $\phi(L)X_t = \mu + \varepsilon_t$ with $\phi(L) = 1 - \phi_1 L - \cdots - \phi_p L^p$.
@@ -277,7 +279,7 @@ For AR(1), $X_t = \phi X_{t-1} + \varepsilon_t$: the one-step-ahead forecast is 
 For AR(2), $X_t = \phi_1 X_{t-1} + \phi_2 X_{t-2} + \varepsilon_t$: $\hat X_T(1) = \phi_1 X_T + \phi_2 X_{T-1}$, $\hat X_T(2) = \phi_1 \hat X_T(1) + \phi_2 X_T$, $\hat X_T(3) = \phi_1 \hat X_T(2) + \phi_2 \hat X_T(1)$, and so on: each new forecast uses the previous *forecasts* once the horizon exceeds the available observed history.
 :::
 
-For a general ARMA($p,q$), the optimal predictor (in the minimum-MSE sense) is the conditional expectation $\hat X_T(h) = E[X_{T+h} \mid \mathcal{I}_T]$. The one-step-ahead forecast is
+For a general ARMA($p,q$), the optimal predictor (in the minimum-MSE sense) is the conditional expectation $\hat X_T(h) = E[X_{T+h} \mid \mathcal{I}_T]$. The projection interpretation of conditional expectation and the innovation representation are developed in @sec-joint-distributions and @sec-lag-operator-foundations. The one-step-ahead forecast is
 
 $$
 \hat X_T(1) = \hat\mu + \sum_{i=1}^p \hat\phi_i X_{T-i+1} + \sum_{j=1}^q \hat\theta_j \hat\varepsilon_{T-j+1},

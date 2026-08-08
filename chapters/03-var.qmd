@@ -74,6 +74,8 @@ $$ {#eq-companion-form}
 
 with $F$ the **companion matrix**.
 
+The stacking operation, matrix dimensions, and eigenvalue criterion used here are reviewed in @sec-matrices-transformations and @sec-eigenvalues-stability.
+
 ::: {.callout-important title="Stability condition"}
 A VAR($p$) is **stable** (equivalently, weakly stationary) if and only if all eigenvalues of $F$ lie strictly inside the unit circle. Equivalently, writing the lag polynomial $A(z) = I_k - A_1 z - A_2 z^2 - \cdots - A_p z^p$, the VAR is stable if and only if $\det A(z) \ne 0$ for all $|z| \le 1$.
 :::
@@ -87,6 +89,8 @@ y_t = \mu + \sum_{h=0}^{\infty} \Phi_h u_{t-h}, \qquad \Phi_0 = I_k, \qquad \Phi
 $$ {#eq-vma-representation}
 
 A stable VAR($p$) is a parametric structure whose solution is this representation; the $\{\Phi_h\}$ describe how shocks propagate dynamically through the system, and are the basis for the impulse response functions and variance decompositions developed in @sec-irf and @sec-fevd.
+
+The general innovation and moving-average logic behind this representation is developed in @sec-lag-operator-foundations.
 
 ### How many variables to include?
 
@@ -133,6 +137,8 @@ $$
 $$
 
 the correct multivariate analogue of the scalar OLS variance formula $\mathrm{Var}(\hat\beta) = \sigma^2 (X'X)^{-1}$, with the scalar $\sigma^2$ replaced by the matrix $\Sigma_u$.
+
+The notation $\operatorname{vec}(\cdot)$ and the Kronecker-product identity are introduced in @sec-decompositions.
 
 ::: {.callout-important title="Why OLS is efficient here: the link to SUR and Zellner"}
 VAR innovations are typically correlated *across* equations (contemporaneous cross-equation correlation), so a VAR looks superficially like a **seemingly unrelated regressions (SUR)** system,

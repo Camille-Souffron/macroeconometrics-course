@@ -16,6 +16,8 @@ $$ {#eq-bayes-theorem}
 
 $p(\theta)$ is the **prior** - what is believed about $\theta$ before seeing the data (theory, stylized facts, regularization, prior empirical results); $p(Y\mid\theta)$ is the **likelihood** - exactly the same object used in MLE, the probability of the observed data given a parameter value; $p(\theta\mid Y)$ is the **posterior** - the updated belief about $\theta$ after seeing the data, and the entire object of Bayesian inference.
 
+The conditioning logic, prior-to-posterior update, and distinction from frequentist intervals are introduced in @sec-bayes-foundations.
+
 Three conceptual shifts relative to frequentism follow directly. Uncertainty about $\theta$ is *probabilistic*, not a statement about hypothetically repeated sampling. The posterior is a full *distribution* over $\theta$, not a point estimate plus a standard error. And as $T \to \infty$, the prior is washed out by the data - the posterior converges to the MLE (the Bernstein-von Mises theorem) - but with *small* $T$, exactly the macro case, the prior genuinely matters.
 
 ::: {.callout-tip title="Worked example: AR(1) with a prior"}
@@ -79,6 +81,8 @@ and the denominator - the marginal likelihood, or normalizing constant - is intr
 
 The standard solution is **Markov Chain Monte Carlo (MCMC)**: rather than computing the posterior analytically, draw samples $\{\theta^{(s)}\}_{s=1}^S$ from $p(\theta\mid Y)$ and use sample averages as estimators, $E[g(\theta)\mid Y] \approx \frac{1}{S}\sum_s g(\theta^{(s)})$. This works for essentially any posterior, however non-Gaussian the likelihood or nonlinear the model.
 
+The basic idea of an artificial Markov chain with the posterior as stationary distribution is reviewed in @sec-bayes-foundations.
+
 ### The Gibbs sampler
 
 If sampling from the *joint* posterior $p(\theta_1,\theta_2,\ldots\mid Y)$ is hard, sampling iteratively from the **full conditionals** $p(\theta_j \mid \theta_{-j}, Y)$ is often tractable instead - the idea behind the **Gibbs sampler**, the workhorse algorithm in macro Bayesian work. Initialize $\theta^{(0)}$; for $s=1,\ldots,S$, draw $\theta_1^{(s)} \sim p(\theta_1\mid\theta_2^{(s-1)},\theta_3^{(s-1)},\ldots,Y)$, then $\theta_2^{(s)}\sim p(\theta_2\mid\theta_1^{(s)},\theta_3^{(s-1)},\ldots,Y)$, and so on through all blocks; discard the first $S_0$ draws as **burn-in** and use $\{\theta^{(s)}\}_{s=S_0+1}^S$ for inference. The chain $\{\theta^{(s)}\}$ has $p(\theta\mid Y)$ as its stationary distribution (a detailed-balance argument), so after convergence the draws are approximately i.i.d. samples from the posterior.
@@ -103,6 +107,8 @@ The Bayesian answer to catastrophic VAR over-parameterization - sometimes litera
 
 ::: {.callout-important title="The general Bayesian VAR setup"}
 In matrix form, $Y = XB + E$, $E \sim \mathcal{MN}(0, T, \Sigma)$, with $Y$ the $T \times k$ matrix of observations, $X$ the $T \times (kp+1)$ matrix of regressors (lags plus a constant), $B$ the $(kp+1) \times k$ coefficient matrix to be estimated, and $\Sigma$ the $k \times k$ error covariance. The prior $p(B,\Sigma)$ encodes what is known before the data; the likelihood $p(Y\mid B,\Sigma)$ is Gaussian, the same object as in OLS/MLE; the posterior is $p(B,\Sigma\mid Y) \propto p(Y\mid B,\Sigma)\,p(B,\Sigma)$. Posterior inference then proceeds via the posterior mean of $B$ and $\Sigma$ as point estimates; simulated forward draws $(B^{(s)},\Sigma^{(s)})$ for the posterior predictive forecast distribution; and, for each draw $B^{(s)}$, a computed IRF$^{(s)}$, whose spread across draws gives credible bands.
+
+The matrix-Normal notation, vectorisation, and Kronecker covariance structure are reviewed in @sec-joint-distributions and @sec-decompositions.
 :::
 
 ### Prior 1: the Minnesota prior
@@ -142,6 +148,8 @@ Every VAR discussed so far assumes constant coefficients $B$ and constant $\Sigm
 ### TVP-VAR as a state-space model, in Bayesian form
 
 Following Cogley and Sargent [-@CogleySargent2001; -@CogleySargent2005] and Primiceri [-@Primiceri2005], the **observation equation** is the VAR itself, $y_t = X_t'\beta_t + u_t$, $u_t \sim \mathcal{N}(0,\Sigma_t)$, and the **state equation** is a random walk in the coefficients, $\beta_t = \beta_{t-1} + \eta_t$, $\eta_t \sim \mathcal{N}(0,Q)$: $\beta_t$ drifts gradually rather than jumping abruptly as it would in a TAR-type model, with $Q$ governing how fast the coefficients are allowed to move. $\Sigma_t$ is the time-varying error covariance - the stochastic-volatility component. The full system is a linear-Gaussian state-space model, estimated by the Kalman filter and smoother (or, in genuinely nonlinear extensions, a particle filter). In the Bayesian implementation, a prior on $Q$ (typically inverse-Wishart) controls how much $\beta_t$ is allowed to move; a Gibbs sampler draws the entire path $\{\beta_t\}_{t=1}^T$ jointly, using the Carter-Kohn forward-backward algorithm, and then draws $Q$, $\Sigma_t$, and any remaining parameters conditionally.
+
+For the distinction between latent state, observation equation, filtering, and smoothing, see @sec-state-space-foundations.
 
 ![A TVP-VAR coefficient (here, the inflation-to-output link) drifting gradually over four decades: the constant-parameter OLS estimate (dashed red) is a poor summary of a relationship that strengthens through the 1970s, peaks around the mid-1980s, and weakens sharply after the Great Moderation (1984).](../figures/bvar/tvp-var-coefficient-drift.png){#fig-tvp-coefficients}
 

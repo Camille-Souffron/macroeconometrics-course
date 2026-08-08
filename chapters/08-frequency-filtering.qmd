@@ -2,7 +2,7 @@
 
 The preceding chapters describe persistence in the **time domain**: an ACF asks how strongly $X_t$ is related to $X_{t-h}$, and an ARMA model describes how a shock propagates through successive dates. The frequency domain asks the same question from another angle: *how is the variance of a stationary series distributed across fast and slow oscillations?* This perspective is indispensable when the empirical question itself is stated in terms of trend, business cycle, seasonal fluctuation, or financial cycle.
 
-It also disciplines the language of filtering. A filter is not a black box which discovers “the” cycle. It is a rule that assigns different weights to movements of different periodicities. Once this rule is explicit, its economic content and its limits become visible.
+Filtering requires the same precision. A filter assigns weights to movements of different periodicities, and those weights determine the object that emerges from the data. Once the rule is explicit, its economic content and its limits can be assessed.
 
 ## From time to frequency {#sec-frequency-intuition}
 
@@ -17,6 +17,8 @@ A spectral peak near a period of 24 quarters says that the series contains unusu
 :::
 
 ### Fourier representation and the spectrum
+
+The basic Fourier construction, its link to stationarity, and its time-domain interpretation are introduced in @sec-signal-fourier-foundations.
 
 For a covariance-stationary process with autocovariance $\gamma(h)$, the **spectral density** is its Fourier transform,
 
@@ -171,6 +173,8 @@ A two-sided linear time-invariant filter is
 $$
 Y_t=B(L)X_t=\sum_{j=-\infty}^{\infty}b_jX_{t-j}.
 $$ {#eq-linear-filter}
+
+The lag-operator and convolution representation behind this equation are recalled in @sec-lag-operator-foundations.
 
 Its transfer function is $B(e^{-i\omega})=\sum_jb_je^{-i\omega j}$. Provided the coefficients are square-summable,
 
