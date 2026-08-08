@@ -54,29 +54,99 @@ $$
 I(\omega_j)=\frac{1}{2\pi T}\left|\sum_{t=1}^{T}(X_t-\bar X)e^{-i\omega_jt}\right|^2.
 $$ {#eq-periodogram}
 
-It is a natural sample analogue of the spectrum, but a crucial warning is often missed: at an individual frequency, $I(\omega_j)$ is **not consistent** for $f_X(\omega_j)$. Increasing $T$ gives more Fourier ordinates, not a less variable ordinate. A usable non-parametric estimator therefore averages neighbouring ordinates (a **smoothed periodogram**) or smooths the sample autocovariances before transforming them. The smoothing bandwidth is a bias--variance choice: a narrow window preserves narrow features but is noisy; a wide window is stable but can erase them.
+It is a natural sample analogue of the spectrum, but a crucial warning is often missed: at an individual frequency, $I(\omega_j)$ is **not consistent** for $f_X(\omega_j)$. Increasing $T$ gives more Fourier ordinates, not a less variable ordinate. A usable non-parametric estimator therefore averages neighbouring ordinates (a **smoothed periodogram**) or smooths the sample autocovariances before transforming them. The smoothing bandwidth is a bias–variance choice: a narrow window preserves narrow features but is noisy; a wide window is stable but can erase them.
 
 Leakage is the finite-sample companion of this problem. The sample contains a truncated portion of the process; a component that does not fit an integer number of cycles into the sample spills power into nearby frequencies. Tapers (Bartlett, Hanning, etc.) soften the artificial discontinuity at the sample boundaries, reducing leakage at the cost of resolution. A spectral graph without a stated detrending, taper, and smoothing choice is therefore not fully reproducible.
+
+### A spectral fact about business cycles: a peak near ten years? {#sec-spectral-peaks}
+
+The usual 6–32-quarter definition of the business cycle is a useful convention, but it is not an empirical law. Beaudry, Galizia, and Portier [@BeaudryGaliziaPortier2020] ask a deliberately simple question: after isolating the low-frequency trend problem, do *cyclically sensitive* U.S. variables contain an unusually large amount of variance at a particular period? Their answer is a robust local peak around 32–50 quarters (roughly 8–12.5 years) for labour-market utilisation, unemployment, investment relative to GDP, and financial-risk measures.
+
+![Spectral densities of U.S. employment, unemployment, and investment relative to GDP in Beaudry, Galizia, and Portier (2020, Figure 3). The shaded range is 32–50 quarters. The black curve uses the level series; the grey curves remove only movements with periods above 100–200 quarters. The persistence of the local hump under those alternatives is the substantive point. Source figure reproduced from the supplied PDF; extraction script: `code/python/extract_paper_figures.py`.](../figures/frequency/beaudry-galizia-portier-spectra.png){#fig-bgp-empirical-spectra}
+
+The methodological lesson is at least as important as the peak itself. Their online appendix constructs the Schuster periodogram, evaluates the DFT on a fine grid by **zero-padding** to 1,024 points, and smooths it with a Hamming window of width 13 [@BeaudryGaliziaPortier2020]. Zero-padding makes a long-period graph easier to read because it fills in the frequency grid; it does **not** create extra observations or turn an inconsistent raw periodogram into a precise estimator. The appendix then varies the smoothing window, padding, detrending rule, and covariance-based estimator. This is the right standard for a claim about a peak: show that it survives defensible estimation choices, and report uncertainty rather than selecting a single attractive graph.
+
+::: {.callout-important title="A local peak is the relevant claim"}
+All persistent macro series have much low-frequency power. The distinctive claim is not that there is variance at 40 quarters, but that the spectrum rises and then falls locally around that region, relative to nearby periods and to a benchmark such as an AR(1). A monotone spectrum in period has the familiar “Granger shape” of a persistent shock-driven process; a hump suggests a preferred recurrent timescale. The latter is suggestive evidence for endogenous propagation, not proof of a deterministic clock.
+:::
+
+### What the usual DSGE benchmark misses {#sec-dsge-spectral-test}
+
+This perspective gives a sharp model diagnostic. A model should not merely match volatility, correlations, or an impulse response at a few horizons: it should allocate variance over frequencies in a way that resembles the data. Beaudry, Galizia, and Portier simulate six benchmark DSGE specifications and compare the spectrum of hours: a basic RBC model, an augmented RBC model, the Smets–Wouters New Keynesian model, and three financial-frictions models, including the Bernanke–Gertler–Gilchrist financial accelerator.
+
+![Spectra of hours implied by six benchmark DSGE models in Beaudry, Galizia, and Portier (2020, Figure 4). None has an isolated local maximum in the highlighted 32–50-quarter region; their spectral densities mainly rise with the period, as a persistent-shock process does. The comparison is based on 10,000 simulations of 270 quarters in the source paper. Source figure reproduced from the supplied PDF; extraction script: `code/python/extract_paper_figures.py`.](../figures/frequency/beaudry-galizia-portier-dsge-spectra.png){#fig-bgp-dsge-spectra}
+
+The conclusion must be read at the right level. Figure @fig-bgp-dsge-spectra does **not** prove that every RBC, NK, or financial-accelerator model is unable to generate a spectral hump. It shows that the standard calibrated or estimated versions in that comparison do not reproduce this fact: their internal propagation is too weak, so persistence largely inherits the monotone spectrum of their exogenous shocks. In the authors' account, stronger endogenous feedback, including demand complementarities interacting with financial conditions, can instead produce damped or stochastic limit-cycle behaviour. For teaching purposes, the key distinction is simple: *persistent shocks* can make a series slow; *complex internal roots close to the unit circle* can make it oscillate around a preferred period.
+
+For an AR(2), this distinction is already visible without a full DSGE model. Complex roots yield a spectrum with a potential interior maximum. In the parameterization
+
+$$
+X_t=\phi_1X_{t-1}+\phi_2X_{t-2}+\varepsilon_t,
+$$
+
+the spectrum is $f_X(\omega)=\sigma_\varepsilon^2/[2\pi|1-\phi_1e^{-i\omega}-\phi_2e^{-2i\omega}|^2]$. A positive, slowly decaying AR(1) instead concentrates power progressively toward long periods. Thus a spectral comparison asks a model to match more than “persistence”: it asks whether its propagation mechanism has the right *shape*.
+
+### Financial cycles: an application with an even lower frequency
+
+The same logic guards against defining a financial cycle by a filter before examining the data. Strohsal, Proaño, and Wolters [@StrohsalProanoWolters2019] estimate univariate and multivariate spectra parametrically, rather than imposing a band in advance. They find that the U.S. and U.K. financial-cycle indicators have a dominant period close to 15 years in their post-1985 sample, longer than a conventional business cycle, while the evidence is much weaker for Germany. Their result is deliberately conditional on country, measure, and sample split: “the financial cycle” is an empirical proposition to test, not a universal 8–32-year filter setting.
+
+For long financial cycles, a parametric spectrum can be particularly useful because a finite sample contains few complete low-frequency oscillations. If an invertible ARMA model is adequate,
+
+$$
+X_t=\frac{\theta(L)}{\phi(L)}\varepsilon_t
+\quad\Longrightarrow\quad
+f_X(\omega)=\frac{\sigma_\varepsilon^2}{2\pi}
+\frac{|\theta(e^{-i\omega})|^2}{|\phi(e^{-i\omega})|^2}.
+$$ {#eq-arma-spectrum}
+
+Estimating the ARMA coefficients pools information across frequencies and supplies a smooth spectrum, but moves the risk to specification error. The practical complement is transparent non-parametric evidence, sensitivity to the sample, and confidence intervals or bootstrap tests, as in the supplied papers.
 
 ::: {.callout-important title="Before estimating a spectrum"}
 The standard stationary spectrum is a property of an $I(0)$ process. A level series with a unit root has an enormous and sample-dependent mass near frequency zero; a trend can masquerade as a low-frequency cycle. First decide whether the economic object is a level, a growth rate, a detrended series, or a filtered component. The transformation is part of the estimand, not cosmetic pre-processing.
 :::
 
-### Cross-spectra: co-movement by frequency
+### Cross-spectrum, coherence, and phase: co-movement by frequency {#sec-cross-spectrum}
 
-For two stationary series, the cross-spectrum is
+For two jointly stationary series, define the cross-covariance $\gamma_{XY}(h)=\mathrm{Cov}(X_{t+h},Y_t)$. Its Fourier transform, the **cross-spectrum**, is complex-valued:
 
 $$
-f_{XY}(\omega)=\frac{1}{2\pi}\sum_h \gamma_{XY}(h)e^{-i\omega h}.
-$$
+f_{XY}(\omega)=\frac{1}{2\pi}\sum_h\gamma_{XY}(h)e^{-i\omega h}
+=c_{XY}(\omega)-iq_{XY}(\omega).
+$$ {#eq-cross-spectrum}
+
+The real part $c_{XY}$ is the **co-spectrum**, the in-phase part of co-movement; the imaginary part $q_{XY}$ is the **quadrature spectrum**, the quarter-cycle-shifted part. The cross-spectrum is therefore richer than a correlation coefficient: it can say that two variables are related only at medium frequencies, or move together but with one systematically delayed.
 
 Its squared coherence,
 
 $$
 \mathcal C_{XY}(\omega)=\frac{|f_{XY}(\omega)|^2}{f_X(\omega)f_Y(\omega)}\in[0,1],
+$$ {#eq-coherence}
+
+is the frequency-specific analogue of $R^2$. It equals one under a perfect linear relation at that frequency, and zero if there is no linear relation there. The phase $\vartheta_{XY}(\omega)=\arg f_{XY}(\omega)$ can be converted into an approximate timing difference, $\vartheta_{XY}(\omega)/\omega$, measured in observations. The sign depends on the convention used for $f_{XY}$, so it must always be stated; more fundamentally, a phase is meaningful only where coherence is materially different from zero.
+
+::: {.callout-warning title="High coherence is neither causality nor a common shock"}
+Coherence records stable linear co-movement at a frequency. It cannot tell whether $X$ causes $Y$, $Y$ causes $X$, both react to a third shock, or a common filter manufactured the relation. It is especially vulnerable to pre-filtering: applying the same narrow band-pass filter to two unrelated persistent series can make their filtered paths look compellingly similar. Granger's original work connects cross-spectra to predictability, not structural causation [@Granger1969].
+:::
+
+### Spectral regression: a frequency-specific distributed lag
+
+Suppose the relation of interest is a stable linear distributed lag,
+
+$$
+Y_t=B(L)X_t+u_t,\qquad \mathrm{Cov}(u_t,X_{t-h})=0\ \forall h.
 $$
 
-is the frequency-specific analogue of $R^2$: it measures linear co-movement at a given frequency, not overall correlation. The argument (phase) of $f_{XY}$ measures lead--lag at that frequency. This is useful, for example, when output and credit move together at medium frequencies but not at business-cycle frequencies. It is not a substitute for a structural restriction; indeed, Granger’s original paper links cross-spectra to predictability, not to structural causality [@Granger1969].
+At each frequency, the **spectral-regression coefficient** is
+
+$$
+\beta_{Y\leftarrow X}(\omega)=\frac{f_{YX}(\omega)}{f_X(\omega)}=B(e^{-i\omega}).
+$$ {#eq-spectral-regression}
+
+It is generally complex. Its modulus is the frequency-specific gain (how strongly an oscillation in $X$ is transmitted to $Y$); its argument is the phase delay. Equation @eq-spectral-regression is the frequency-domain counterpart of estimating all distributed-lag coefficients at once. It is most useful when paired with coherence: a large estimated gain in a band where $X$ has almost no power, or where coherence is near zero, is numerically unstable and economically uninformative.
+
+![A reproducible illustration using U.S. business-sector hours and the Baa minus 10-year Treasury spread, quarterly 1954Q1 onward. The top panel normalises each estimated spectrum to compare *shape*, not units. The lower panel reports squared coherence and the modulus of the spectral-regression coefficient (rescaled solely for display and masked when coherence is below 0.20). Both series have substantial spectral mass and strong linear co-movement near the 32–50-quarter band, but this descriptive fact does not establish the direction of causality. Data: FRED HOANBS and BAA10YM; estimation: zero-padded DFT with a 13-point Hamming smoother; code: `code/python/make_frequency_figures.py`.](../figures/frequency/hours-spread-cross-spectrum.png){#fig-hours-spread-cross-spectrum}
+
+This simple example mirrors the economic intuition in Beaudry, Galizia, and Portier's appendix, where the risk spread is counter-cyclical and coherence with hours is largest around 38 quarters. It also illustrates why the cross-spectrum is more informative than an unconditional correlation: the relationship is concentrated in a particular range of periodicities. Strohsal, Proaño, and Wolters [@StrohsalProanoWolters2019] take the next step with a multivariate parametric model, reporting coherence and frequency-specific Granger-causality measures for U.S. and U.K. financial-cycle indices. In a VAR, this is the frequency-domain version of asking whether a lagged variable improves prediction at short, business-cycle, or financial-cycle horizons separately.
 
 ## Linear filters as frequency-dependent weights {#sec-linear-filters}
 
@@ -122,7 +192,7 @@ G_T(\omega)=\frac{1}{1+16\lambda\sin^4(\omega/2)},\qquad
 G_C(\omega)=\frac{16\lambda\sin^4(\omega/2)}{1+16\lambda\sin^4(\omega/2)}.
 $$ {#eq-hp-gain}
 
-HP is consequently a smooth high-pass filter, not a literal 6--32-quarter band-pass filter. The conventional quarterly value $\lambda=1600$ encodes a particular cut-off, and changing data frequency requires changing $\lambda$ [@RavnUhlig2002]. The rule is transparent in @eq-hp-gain; it is not universally economically justified.
+HP is consequently a smooth high-pass filter, not a literal 6–32-quarter band-pass filter. The conventional quarterly value $\lambda=1600$ encodes a particular cut-off, and changing data frequency requires changing $\lambda$ [@RavnUhlig2002]. The rule is transparent in @eq-hp-gain; it is not universally economically justified.
 
 ### Ideal filters and feasible approximations
 
@@ -134,7 +204,7 @@ Baxter and King [@BaxterKing1999] approximate it with a finite, symmetric moving
 The most policy-relevant dates are often the latest ones, exactly where two-sided filters are least reliable. A historical decomposition using the full sample is **ex post**: it can use information that was unavailable at the date in question. A real-time assessment must use one-sided filters, real-time data vintages, or explicitly show revisions. The disagreement in @fig-endpoint-revisions is not a numerical accident; it follows from the use of future data in the HP trend.
 :::
 
-![The same real-GDP history produces different estimated cyclical components under HP, the Hamilton h-step regression, and a 6--32-quarter band-pass approximation. The comparison is deliberately empirical rather than a contest with a unique winner: each line answers a different filtering question. Data: U.S. real GDP (GDPC1), FRED; code and data download are reproducible in `code/python/make_frequency_figures.py`.](../figures/frequency/us-gdp-filter-comparison.png){#fig-gdp-filter-comparison}
+![The same real-GDP history produces different estimated cyclical components under HP, the Hamilton h-step regression, and a 6–32-quarter band-pass approximation. The comparison is deliberately empirical rather than a contest with a unique winner: each line answers a different filtering question. Data: U.S. real GDP (GDPC1), FRED; code and data download are reproducible in `code/python/make_frequency_figures.py`.](../figures/frequency/us-gdp-filter-comparison.png){#fig-gdp-filter-comparison}
 
 ![A pseudo-real-time exercise: truncating the sample in 2019Q4 changes the HP estimate of the immediately preceding cycle. Later observations alter the estimate of the earlier state of the economy, demonstrating why endpoint uncertainty should be reported rather than hidden. Data: FRED GDPC1.](../figures/frequency/hp-endpoint-revisions.png){#fig-endpoint-revisions}
 
@@ -142,7 +212,7 @@ The most policy-relevant dates are often the latest ones, exactly where two-side
 
 For a serious spectral or filtering exercise, the following order avoids the most common mistakes:
 
-1. **State the economic object first.** Is the question about long-run growth, short-run demand slack, seasonal variation, or a financial cycle? Choose the data frequency accordingly; a 6--32-quarter business-cycle band is not meaningful for annual data.
+1. **State the economic object first.** Is the question about long-run growth, short-run demand slack, seasonal variation, or a financial cycle? Choose the data frequency accordingly; a 6–32-quarter business-cycle band is not meaningful for annual data.
 2. **Document the transformation.** Plot levels and transformed data; deal with seasonal adjustment, breaks, and stationarity before interpreting low-frequency power.
 3. **Estimate rather than merely plot.** Report the sample period, detrending, taper, and smoothing bandwidth. Check whether apparent peaks survive reasonable choices.
 4. **Translate a filter into its gain and phase.** Report its cut-offs, order, and the observations lost or revised at the endpoints. Compare credible alternatives if the conclusion depends on the extraction rule.

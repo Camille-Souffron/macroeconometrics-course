@@ -17,6 +17,7 @@ from scipy import signal
 ROOT = Path(__file__).resolve().parents[2]
 FIGURES = ROOT / "figures" / "frequency"
 DATA = ROOT / "data" / "us_real_gdp_fred.csv"
+HOURS_SPREAD_DATA = ROOT / "data" / "us_hours_baa_spread_fred.csv"
 FIGURES.mkdir(parents=True, exist_ok=True)
 
 plt.style.use("seaborn-v0_8-whitegrid")
@@ -51,6 +52,23 @@ def periodogram(x):
     """One-sided periodogram with frequency in cycles per quarter."""
     freq, power = signal.periodogram(x - np.mean(x), scaling="density")
     return freq[1:], power[1:]
+
+
+def smoothed_cross_spectrum(x, y, nfft=1024, width=13):
+    """Hamming-smoothed auto- and cross-spectra, as in the supplied appendix."""
+    x, y = np.asarray(x) - np.mean(x), np.asarray(y) - np.mean(y)
+    x_fft, y_fft = np.fft.rfft(x, n=nfft), np.fft.rfft(y, n=nfft)
+    scale = 2 * np.pi * len(x)
+    kernel = np.hamming(width)
+    kernel /= kernel.sum()
+    smooth = lambda z: np.convolve(z, kernel, mode="same")
+    s_xx = smooth(np.abs(x_fft) ** 2 / scale)
+    s_yy = smooth(np.abs(y_fft) ** 2 / scale)
+    s_yx = smooth(y_fft * np.conj(x_fft) / scale)
+    frequency = np.fft.rfftfreq(nfft, d=1)
+    coherence = np.clip(np.abs(s_yx) ** 2 / (s_xx * s_yy), 0, 1)
+    beta = s_yx / s_xx
+    return frequency[1:], s_xx[1:], s_yy[1:], s_yx[1:], coherence[1:], beta[1:]
 
 
 def make_spectrum_and_gain():
@@ -146,7 +164,60 @@ def make_endpoint_revisions():
     plt.close(fig)
 
 
+def make_hours_spread_cross_spectrum():
+    """Empirical cross-spectrum: hours and the Baa minus Treasury spread."""
+    ids = ["HOANBS", "BAA10YM"]
+    frames = []
+    for series_id in ids:
+        url = f"https://fred.stlouisfed.org/graph/fredgraph.csv?id={series_id}"
+        with urlopen(url, timeout=30) as response:
+            frame = pd.read_csv(response, parse_dates=["observation_date"])
+        frames.append(frame.rename(columns={"observation_date": "date", series_id: series_id}))
+    hours, spread = frames
+    # The credit spread is monthly. Averaging it within each quarter matches the
+    # quarterly hours observation without inventing intra-quarter precision.
+    spread = spread.set_index("date").resample("QS").mean().reset_index()
+    data = hours.merge(spread, on="date", how="inner").dropna()
+    data = data[data.date >= "1954-01-01"].reset_index(drop=True)
+    data.to_csv(HOURS_SPREAD_DATA, index=False)
+    time = np.arange(len(data))
+    log_hours = 100 * np.log(data.HOANBS.to_numpy())
+    # A linear trend is removed only to estimate a stationary second-order object;
+    # the chapter contrasts this choice with the paper's high-pass robustness checks.
+    hours_residual = log_hours - np.polyval(np.polyfit(time, log_hours, 1), time)
+    spread_residual = data.BAA10YM.to_numpy() - data.BAA10YM.mean()
+    frequency, s_h, s_s, s_sh, coherence, beta = smoothed_cross_spectrum(hours_residual, spread_residual)
+    period = 1 / frequency
+    keep = (period >= 4) & (period <= 80)
+    order = np.argsort(period[keep])
+    p = period[keep][order]
+    s_h, s_s = s_h[keep][order], s_s[keep][order]
+    coherence, beta = coherence[keep][order], beta[keep][order]
+    # Unit-area spectra make their *shape* comparable despite different units.
+    s_h /= np.trapezoid(s_h, p)
+    s_s /= np.trapezoid(s_s, p)
+
+    fig, axes = plt.subplots(2, 1, figsize=(11, 6.6), sharex=True)
+    for ax in axes:
+        ax.axvspan(32, 50, color="#d9d9d9", alpha=0.65, zorder=0)
+        ax.set_xlim(4, 80)
+    axes[0].plot(p, s_h, color=BLUE, lw=2, label="detrended business-sector hours")
+    axes[0].plot(p, s_s, color=RED, lw=2, label="Baa minus 10-year Treasury spread")
+    axes[0].set(title="Frequency content: labour utilisation and financial stress", ylabel="Normalised spectral density")
+    axes[0].legend(frameon=True, fontsize=9)
+    axes[1].plot(p, coherence, color="#542788", lw=2, label="squared coherence")
+    beta_abs = np.abs(beta)
+    beta_abs[coherence < .20] = np.nan
+    axes[1].plot(p, beta_abs / np.nanmax(beta_abs), color=GOLD, lw=1.7, label="spectral-regression gain (scaled; coherence ≥ 0.20)")
+    axes[1].set(ylim=(0, 1.05), xlabel="Period (quarters)", ylabel="Coherence / scaled gain")
+    axes[1].legend(frameon=True, fontsize=9, loc="upper right")
+    fig.tight_layout()
+    fig.savefig(FIGURES / "hours-spread-cross-spectrum.png", dpi=180, bbox_inches="tight")
+    plt.close(fig)
+
+
 if __name__ == "__main__":
     make_spectrum_and_gain()
     make_gdp_filters()
     make_endpoint_revisions()
+    make_hours_spread_cross_spectrum()
