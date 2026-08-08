@@ -658,9 +658,11 @@ X=U\,D\,V',
 <h2 class="anchored" data-anchor-id="sec-probability-foundations">Probability: describing uncertainty before observing data</h2>
 <section id="a-gamble-an-event-and-a-random-variable" class="level3">
 <h3 class="anchored" data-anchor-id="a-gamble-an-event-and-a-random-variable">A gamble, an event, and a random variable</h3>
-<p>Consider tomorrow’s policy rate. Before tomorrow arrives, several outcomes are possible. The set of all complete possible outcomes is the <strong>sample space</strong> <span class="math inline">\(\Omega\)</span>. An <strong>event</strong> is a collection of outcomes, such as “inflation exceeds the target.” Probability assigns a number between zero and one to each event in a way that respects disjoint addition.</p>
-<p>The formal object is a probability space <span class="math inline">\((\Omega,\mathcal F,\mathbb P)\)</span>. The collection <span class="math inline">\(\mathcal F\)</span> is a <strong>sigma-algebra</strong>, a set of events closed under complements and countable unions. Its job is modest but essential: it rules out ill-posed sets for which a coherent probability could not be assigned. A <strong>random variable</strong> <span class="math inline">\(X:\Omega\to\mathbb R\)</span> is a measurable numerical description of an outcome. “Measurable” means that statements such as <span class="math inline">\(X\leq a\)</span> are legitimate events in <span class="math inline">\(\mathcal F\)</span>.</p>
-<p>This small dose of measure theory is the foundation, not an obstacle course. It makes the following objects precise: conditional expectation, likelihoods, stochastic processes, and convergence in probability. In most applied work, the central question is simpler: which probability law plausibly generated the variable we observe?</p>
+<p>Imagine that the next FOMC decision can be a cut, no change, or a hike. Before the meeting, there is a list of possible outcomes and a judgement about their relative plausibility. After the meeting, exactly one outcome is observed. Probability is the language that keeps those two statements separate.</p>
+<p>The complete list of possibilities is the <strong>sample space</strong> <span class="math inline">\(\Omega\)</span>. An <strong>event</strong> is a question whose answer can be yes or no: “there is a hike,” “inflation exceeds target,” or “a recession begins within four quarters.” If <span class="math inline">\(\Omega=\{\text{cut},\text{hold},\text{hike}\}\)</span>, the event “no change or hike” is the subset <span class="math inline">\(\{\text{hold},\text{hike}\}\)</span>. A probability measure <span class="math inline">\(\mathbb P\)</span> assigns a number between zero and one to such events. It assigns zero to the impossible event, one to the entire sample space, and adds probabilities across mutually exclusive events.</p>
+<p>The formal object is a probability space <span class="math inline">\((\Omega,\mathcal F,\mathbb P)\)</span>. The notation is compact, but each component has a distinct role. <span class="math inline">\(\Omega\)</span> says what could happen; <span class="math inline">\(\mathcal F\)</span> says which questions are meaningful; <span class="math inline">\(\mathbb P\)</span> quantifies their probability. The collection <span class="math inline">\(\mathcal F\)</span> is a <strong>sigma-algebra</strong>: it contains the whole space, and whenever it contains an event it also contains its complement and any countable union of admissible events. These closure properties are the bookkeeping required to say consistently “not <span class="math inline">\(A\)</span>,” “<span class="math inline">\(A\)</span> or <span class="math inline">\(B\)</span>,” and “one of an infinite sequence of events occurs.”</p>
+<p>Why introduce this apparatus when a coin toss seems to need none? With finitely many outcomes, one can assign probabilities one by one. Macroeconometric models routinely use continuous shocks, infinite histories, conditional distributions, and limits of estimators. For a continuously distributed shock, each exact value has probability zero while an interval has positive probability. One needs a rule that continues to assign sensible probabilities after taking complements, limits, and countable combinations. Measure theory provides precisely that rule. It removes ambiguities before they infect expectations or convergence arguments; it does not add economic content to a model.</p>
+<p>A <strong>random variable</strong> <span class="math inline">\(X:\Omega\to\mathbb R\)</span> turns an outcome into a number. The FOMC outcome itself may be categorical, while <span class="math inline">\(X\)</span> could record the policy-rate change in basis points. “Measurable” means that for every threshold <span class="math inline">\(a\)</span>, the question <span class="math inline">\(\{X\leq a\}\)</span> belongs to <span class="math inline">\(\mathcal F\)</span>. Put less formally, the variable is defined finely enough that probabilities of economically meaningful statements can be evaluated. A random vector, a time series, and a likelihood are all extensions of this same idea.</p>
 <p>Probability obeys three rules. It assigns zero to the impossible event and one to the whole sample space; it is non-negative; and it adds over mutually exclusive events. From these rules follow familiar identities:</p>
 <p><span class="math display">\[
 \Pr(A^c)=1-\Pr(A),\qquad
@@ -670,11 +672,17 @@ X=U\,D\,V',
 </section>
 <section id="distribution-expectation-variance-and-conditioning" class="level3">
 <h3 class="anchored" data-anchor-id="distribution-expectation-variance-and-conditioning">Distribution, expectation, variance, and conditioning</h3>
-<p>A distribution tells us how probability is allocated. For a discrete variable, <span class="math inline">\(Pr(X=x)\)</span> can be positive. For a continuous variable with density <span class="math inline">\(f_X\)</span>, individual points have probability zero and intervals have probability</p>
+<p>Suppose one wants to describe quarterly inflation before it is released. Giving only a mean forecast, say two percent, is incomplete. A forecast can be centered at two percent and yet be very precise, highly uncertain, asymmetric, or exposed to rare but severe outcomes. A <strong>distribution</strong> records how probability is allocated across possible values.</p>
+<p>For a discrete variable, <span class="math inline">\(\Pr(X=x)\)</span> can be positive. A default indicator has mass at zero and one; a count of bank failures has mass at the non-negative integers. For a continuous variable with density <span class="math inline">\(f_X\)</span>, individual points have probability zero and intervals have probability</p>
 <p><span class="math display">\[
 \Pr(a\leq X\leq b)=\int_a^b f_X(x)\,dx.
 \]</span></p>
-<p>The expectation is a probability-weighted average, <span class="math inline">\(E[X]=\sum_xxp(x)\)</span> or <span class="math inline">\(E[X]=\int xf_X(x)dx\)</span>. It need not be an outcome that will occur; it is the centre of a probability law. Variance <span class="math inline">\(\mathrm{Var}(X)=E[(X-E[X])^2]\)</span> measures dispersion. Covariance <span class="math inline">\(\mathrm{Cov}(X,Y)\)</span> records joint linear variation, and correlation rescales it to lie between minus one and one.</p>
+<p>The expectation is a probability-weighted average, <span class="math inline">\(E[X]=\sum_xxp(x)\)</span> or <span class="math inline">\(E[X]=\int xf_X(x)dx\)</span>. It need not be an outcome that will occur. A lottery paying zero with probability one half and two with probability one half has expectation one, although it never pays one. The expectation is instead the centre of a probability law and the long-run average under suitable repetition.</p>
+<p>Variance answers a different question: how far are draws spread around that centre? It is</p>
+<p><span class="math display">\[
+\operatorname{Var}(X)=E[(X-E[X])^2]=E[X^2]-E[X]^2.
+\]</span></p>
+<p>Squaring stops positive and negative deviations from cancelling and gives larger deviations more weight. Covariance, <span class="math inline">\(\operatorname{Cov}(X,Y)=E[(X-E[X])(Y-E[Y])]\)</span>, records joint linear variation. Correlation divides covariance by the two standard deviations, making it unit-free and bounded between minus one and one. Zero correlation is not independence except in special families such as the jointly Normal distribution.</p>
 <p>Variance has a concrete unit. If GDP growth is measured in percentage points, its variance is measured in squared percentage points, which is hard to read. The <strong>standard deviation</strong> <span class="math inline">\(\sigma=\sqrt{\mathrm{Var}(X)}\)</span> returns to the original unit. A standard deviation of two percentage points means that a typical draw lies on a scale of two percentage points around the mean. It does not mean that every draw lies in that interval, nor that a large realization is impossible.</p>
 <p>Four summaries are especially useful when a distribution is not fully specified:</p>
 <p><span class="math display">\[
@@ -685,7 +693,8 @@ X=U\,D\,V',
 \text{kurtosis:}&amp;\quad E[(X-\mu)^4]/\sigma^4.
 \end{aligned}
 \]</span></p>
-<p>The first moment locates a distribution; the second records its spread; the third records asymmetry; the fourth records the weight in its tails and centre. A right-skewed income distribution has rare large values that pull its mean above its median. A heavy-tailed return distribution makes extreme observations more common than a Normal approximation predicts. Moments are summaries, not a substitute for plotting the distribution itself.</p>
+<p>The first moment locates a distribution; the second records its spread; the third records asymmetry; the fourth records tail weight relative to the variance. The distinction between variance and kurtosis deserves care. Variance says how wide a distribution is on average. Kurtosis asks, after putting distributions on the same variance scale, whether probability is relatively concentrated near the centre and in the far tails rather than in the shoulders. Two return distributions can both have variance one, while one produces substantially more observations beyond two standard deviations. Variance cannot see that difference.</p>
+<p>Skewness is equally concrete. Household income is usually right-skewed: most observations lie below a long upper tail, so a small number of high incomes pull the mean above the median. The median describes the household at the fiftieth percentile; the mean allocates equal weight to every euro and is pulled toward the tail. Neither is intrinsically the “right” summary. The choice depends on whether the question concerns a typical household, total resources, or inequality.</p>
 <div id="fig-distribution-moments" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-distribution-moments-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -696,11 +705,22 @@ Figure&nbsp;8: The first four moments answer distinct questions. Location and di
 </figcaption>
 </figure>
 </div>
+<div id="fig-income-skewness-kurtosis" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-income-skewness-kurtosis-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figures/mathematics/income-skewness-kurtosis.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-income-skewness-kurtosis-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9: The left panel shows why the mean can exceed the median in a right-skewed income distribution. The right panel holds variance fixed and isolates the role of kurtosis: a heavy-tailed law makes large standardized moves more likely.
+</figcaption>
+</figure>
+</div>
 </section>
 <section id="elementary-probability-laws-begin-with-economic-situations" class="level3">
 <h3 class="anchored" data-anchor-id="elementary-probability-laws-begin-with-economic-situations">Elementary probability laws begin with economic situations</h3>
-<p>The <strong>Bernoulli</strong> law describes one yes-or-no event: a firm defaults, a respondent is employed, a recession occurs. If <span class="math inline">\(X\sim\mathrm{Bernoulli}(p)\)</span>, then <span class="math inline">\(\Pr(X=1)=p\)</span>, <span class="math inline">\(E[X]=p\)</span>, and <span class="math inline">\(\mathrm{Var}(X)=p(1-p)\)</span>. The <strong>Binomial</strong> law counts successes in <span class="math inline">\(n\)</span> independent Bernoulli trials. It is appropriate for a fixed number of opportunities, such as defaults in a homogeneous portfolio under a simple benchmark.</p>
-<p>The <strong>Poisson</strong> law counts events in a fixed interval when events arrive independently at a constant average rate: insurance claims per month or rare operational failures. Its defining feature is <span class="math inline">\(E[X]=\mathrm{Var}(X)=\lambda\)</span>. The equality is often empirically restrictive: extra dispersion signals heterogeneity, contagion, or omitted dynamics.</p>
+<p>The <strong>Bernoulli</strong> law begins with the simplest uncertainty: one event either occurs or does not. Let <span class="math inline">\(X=1\)</span> if a firm defaults over the next year and <span class="math inline">\(X=0\)</span> otherwise. If the default probability is <span class="math inline">\(p\)</span>, then <span class="math inline">\(X\sim\mathrm{Bernoulli}(p)\)</span>, <span class="math inline">\(\Pr(X=1)=p\)</span>, <span class="math inline">\(E[X]=p\)</span>, and <span class="math inline">\(\operatorname{Var}(X)=p(1-p)\)</span>. The mean is a probability because averaging many zeroes and ones estimates the event frequency. The variance is largest at <span class="math inline">\(p=.5\)</span>, where the outcome is most uncertain, and vanishes when the event is certain.</p>
+<p>The <strong>Binomial</strong> law counts successes in <span class="math inline">\(n\)</span> independent Bernoulli trials. It is appropriate for a fixed number of opportunities, such as defaults in a homogeneous portfolio under a simple benchmark. If <span class="math inline">\(N\sim\operatorname{Binomial}(n,p)\)</span>, then <span class="math inline">\(E[N]=np\)</span> and <span class="math inline">\(\operatorname{Var}(N)=np(1-p)\)</span>. The word “independent” is doing heavy work here: common macro shocks make portfolio defaults move together, generally giving more dispersion than a Binomial benchmark.</p>
+<p>The <strong>Poisson</strong> law starts from a different question: not a fixed number of trials, but arrivals over time. It counts events in a fixed interval when they arrive independently at a constant average rate: insurance claims per month or rare operational failures. Its defining feature is <span class="math inline">\(E[X]=\operatorname{Var}(X)=\lambda\)</span>. The equality is often empirically restrictive: extra dispersion signals heterogeneity, contagion, seasonality, or omitted dynamics.</p>
 <p>The <strong>Exponential</strong> law describes a waiting time until the next Poisson arrival. With rate <span class="math inline">\(\lambda\)</span>, its density is <span class="math inline">\(f(x)=\lambda e^{-\lambda x}\)</span> for <span class="math inline">\(x\geq0\)</span>, mean <span class="math inline">\(1/\lambda\)</span>, and survival probability <span class="math inline">\(\Pr(X&gt;x)=e^{-\lambda x}\)</span>. Its memoryless property,</p>
 <p><span class="math display">\[
 \Pr(X&gt;s+t\mid X&gt;s)=\Pr(X&gt;t),
@@ -712,12 +732,12 @@ Figure&nbsp;8: The first four moments answer distinct questions. Location and di
 <img src="../figures/mathematics/basic-distributions.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-basic-distributions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;9: Discrete laws assign probability to countable outcomes; the Exponential law assigns density over waiting times. The graphs show why a density’s height is not itself a probability: probability is an area under the curve.
+Figure&nbsp;10: Discrete laws assign probability to countable outcomes; the Exponential law assigns density over waiting times. The graphs show why a density’s height is not itself a probability: probability is an area under the curve.
 </figcaption>
 </figure>
 </div>
 <p>The Normal law deserves special care. It is symmetric, determined by mean and variance, and mathematically convenient. It is not a default description of all economic uncertainty. It arises exactly in some models and approximately for properly aggregated quantities through the CLT. Counts, waiting times, bounded probabilities, and heavy-tailed financial returns often call for other laws.</p>
-<p>Conditional probability updates a description after information arrives. If <span class="math inline">\(B\)</span> has positive probability, <span class="math inline">\(\Pr(A\mid B)=\Pr(A\cap B)/\Pr(B)\)</span>. Conditional expectation <span class="math inline">\(E[X\mid\mathcal I]\)</span> is the best mean-square prediction of <span class="math inline">\(X\)</span> using the information set <span class="math inline">\(\mathcal I\)</span>. The law of iterated expectations,</p>
+<p>Conditional probability updates a description after information arrives. Suppose an analyst asks for the probability of a recession, but then observes a financial-stress indicator. The relevant object is no longer the unconditional <span class="math inline">\(\Pr(\text{recession})\)</span>, but <span class="math inline">\(\Pr(\text{recession}\mid\text{stress})\)</span>. If <span class="math inline">\(B\)</span> has positive probability, <span class="math inline">\(\Pr(A\mid B)=\Pr(A\cap B)/\Pr(B)\)</span>. Conditional expectation <span class="math inline">\(E[X\mid\mathcal I]\)</span> is the best mean-square prediction of <span class="math inline">\(X\)</span> using the information set <span class="math inline">\(\mathcal I\)</span>. It is itself a random variable: the forecast changes when the information set changes. The law of iterated expectations,</p>
 <p><span class="math display">\[
 E\big[E(X\mid\mathcal I)\big]=E[X],
 \]</span></p>
@@ -726,7 +746,7 @@ E\big[E(X\mid\mathcal I)\big]=E[X],
 <p><span class="math display">\[
 \Pr(A\mid B)=\frac{\Pr(B\mid A)\Pr(A)}{\Pr(B)}.
 \]</span></p>
-<p>The same identity later updates a prior on a parameter after observing data. The law of total probability, <span class="math inline">\(\Pr(B)=\sum_j\Pr(B\mid A_j)\Pr(A_j)\)</span> for a partition <span class="math inline">\((A_j)\)</span>, supplies its denominator. The algebra is elementary; the difficulty in applications lies in choosing the events, the model, and the relevant information set.</p>
+<p>The same identity later updates a prior on a parameter after observing data. The law of total probability, <span class="math inline">\(\Pr(B)=\sum_j\Pr(B\mid A_j)\Pr(A_j)\)</span> for a partition <span class="math inline">\((A_j)\)</span>, supplies its denominator. Consider a recession alarm that rings in 80 percent of recessions but also in 10 percent of non-recessions. If the prior probability of recession is 5 percent, an alarm raises the recession probability, but not to 80 percent: the false alarms among the much larger set of non-recessions matter. Bayes’ rule forces the base rate into the calculation. The algebra is elementary; the difficult part in applications lies in choosing the events, the model, and the relevant information set.</p>
 </section>
 <section id="sec-probability-versus-statistics" class="level3">
 <h3 class="anchored" data-anchor-id="sec-probability-versus-statistics">Probability is not statistics</h3>
@@ -735,23 +755,23 @@ E\big[E(X\mid\mathcal I)\big]=E[X],
 </section>
 <section id="sec-lln-clt" class="level3">
 <h3 class="anchored" data-anchor-id="sec-lln-clt">Why averages become reliable: LLN and CLT</h3>
-<p>Suppose <span class="math inline">\(X_1,\ldots,X_n\)</span> are independent draws with finite mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2\)</span>. The <strong>law of large numbers</strong> says</p>
+<p>Take a sample of household expenditures and calculate its average. Repeating the survey with another random sample does not give exactly the same number, but a larger well-designed sample should make the average less sensitive to the particular households selected. The <strong>law of large numbers</strong> formalises this intuition. If <span class="math inline">\(X_1,\ldots,X_n\)</span> are independent draws with finite mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2\)</span>, then</p>
 <p><span class="math display">\[
 \bar X_n=\frac1n\sum_{i=1}^nX_i\xrightarrow{p}\mu.
 \]</span></p>
-<p>It justifies replacing a population moment by a sample moment. The statement is about convergence in probability, not exact equality in a finite sample.</p>
-<p>The <strong>central limit theorem</strong> adds the shape of the remaining uncertainty:</p>
+<p>It justifies replacing a population moment by a sample moment. The statement is about convergence in probability, not exact equality in a finite sample. It does not promise that every larger sample is closer than the preceding one, and it does not tell us how much uncertainty remains at a given <span class="math inline">\(n\)</span>.</p>
+<p>The <strong>central limit theorem</strong> adds the shape and scale of the remaining uncertainty:</p>
 <p><span class="math display">\[
 \frac{\sqrt n(\bar X_n-\mu)}{\sigma}\xrightarrow{d}\mathcal N(0,1).
 \]</span></p>
-<p>The parent distribution need not be Normal. Averages of many finite-variance contributions become approximately Normal after centring and scaling. This is why Normal approximations are so widespread in econometrics.</p>
+<p>The parent distribution need not be Normal. Expenditures may be skewed, defaults may be binary, and firm sizes may be highly unequal. Averages of many finite-variance contributions become approximately Normal after centring and scaling. The factor <span class="math inline">\(\sqrt n\)</span> is essential: doubling the sample does not halve standard error; it reduces it by a factor <span class="math inline">\(\sqrt2\)</span>. This is why Normal approximations are so widespread in econometrics.</p>
 <div id="fig-lln-clt" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-lln-clt-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="../figures/mathematics/lln-clt-simulation.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-lln-clt-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;10: The left panel follows an average of skewed exponential draws as the sample grows. The right panel shows that the centred, scaled means are already close to a Normal curve at a moderate sample size.
+Figure&nbsp;11: The left panel follows an average of skewed exponential draws as the sample grows. The right panel shows that the centred, scaled means are already close to a Normal curve at a moderate sample size.
 </figcaption>
 </figure>
 </div>
@@ -759,12 +779,13 @@ Figure&nbsp;10: The left panel follows an average of skewed exponential draws as
 </section>
 <section id="convergence-is-a-language-for-increasingly-informative-samples" class="level3">
 <h3 class="anchored" data-anchor-id="convergence-is-a-language-for-increasingly-informative-samples">Convergence is a language for increasingly informative samples</h3>
-<p>Asymptotics do not say that a finite sample is infinite. They provide a controlled approximation by describing what happens along a sequence of larger samples. Three forms of convergence recur throughout econometrics:</p>
+<p>Asymptotics do not say that a finite sample is infinite. They provide a controlled approximation by describing what happens along a sequence of larger samples. Different questions require different forms of convergence.</p>
 <ul>
-<li><span class="math inline">\(X_n\xrightarrow{p}X\)</span>, <strong>convergence in probability</strong>: for any fixed tolerance, the probability of being farther away than that tolerance tends to zero. Consistency is this property with <span class="math inline">\(X=\theta_0\)</span>.</li>
-<li><span class="math inline">\(X_n\xrightarrow{d}X\)</span>, <strong>convergence in distribution</strong>: the distribution functions converge at continuity points. The CLT is of this kind. It permits approximation of quantiles and rejection probabilities, but does not say that the realised values become close path by path.</li>
-<li><span class="math inline">\(X_n\xrightarrow{a.s.}X\)</span>, <strong>almost sure convergence</strong>: with probability one, a realized sequence eventually approaches <span class="math inline">\(X\)</span>. It is stronger than convergence in probability and is a natural formalization of a long-run average settling down along one path.</li>
+<li><p><span class="math inline">\(X_n\xrightarrow{p}X\)</span>, <strong>convergence in probability</strong>, means that for every fixed tolerance <span class="math inline">\(\varepsilon&gt;0\)</span>, <span class="math inline">\(\Pr(|X_n-X|&gt;\varepsilon)\to0\)</span>. The estimate need not be close in every imaginable sample, but the fraction of samples in which it is noticeably wrong vanishes. Consistency is this property with <span class="math inline">\(X=\theta_0\)</span>. The LLN is the central example.</p></li>
+<li><p><span class="math inline">\(X_n\xrightarrow{d}X\)</span>, <strong>convergence in distribution</strong>, means that the cumulative distribution functions converge at continuity points. The CLT is of this kind. It permits approximation of quantiles, confidence intervals, and rejection probabilities, but does not say that realised values become close path by path. A useful warning is <span class="math inline">\(Z_n\sim\mathcal N(0,1)\)</span> for every <span class="math inline">\(n\)</span>: then <span class="math inline">\(Z_n\xrightarrow{d}Z\)</span> for <span class="math inline">\(Z\sim\mathcal N(0,1)\)</span>, even though there is no reason for <span class="math inline">\(Z_n-Z\)</span> to shrink.</p></li>
+<li><p><span class="math inline">\(X_n\xrightarrow{a.s.}X\)</span>, <strong>almost sure convergence</strong>, means that with probability one a realised sequence eventually approaches <span class="math inline">\(X\)</span>. It is stronger than convergence in probability and is a natural formalisation of a long-run average settling down along one path. The strong LLN gives this result under stronger conditions.</p></li>
 </ul>
+<p>There is a hierarchy: almost sure convergence implies convergence in probability; convergence in probability implies convergence in distribution. The reverse implications generally fail. The distinction matters because an estimator can be consistent while its scaled error has a non-degenerate limiting distribution. Thus <span class="math inline">\(\bar X_n\xrightarrow{p}\mu\)</span>, but <span class="math inline">\(\sqrt n(\bar X_n-\mu)\)</span> does not converge to zero; it has an approximately Normal distribution.</p>
 <p>Two results make these statements usable. The <strong>continuous mapping theorem</strong> says that if <span class="math inline">\(X_n\to X\)</span> and <span class="math inline">\(g\)</span> is continuous, then <span class="math inline">\(g(X_n)\to g(X)\)</span>. <strong>Slutsky’s theorem</strong> says that a consistent estimated nuisance quantity can replace its population counterpart in a limiting distribution: if <span class="math inline">\(X_n\xrightarrow{d}X\)</span> and <span class="math inline">\(Y_n\xrightarrow{p}c\)</span>, then <span class="math inline">\(X_nY_n\xrightarrow{d}cX\)</span>. Studentising a mean by an estimated standard deviation is the familiar example.</p>
 <p>The <strong>delta method</strong> linearises a smooth transformation. If <span class="math inline">\(\sqrt n(\hat\theta-\theta_0)\xrightarrow{d}\mathcal N(0,V)\)</span> and <span class="math inline">\(g\)</span> is differentiable, then</p>
 <p><span id="eq-delta-method"><span class="math display">\[
@@ -819,19 +840,30 @@ Figure&nbsp;10: The left panel follows an average of skewed exponential draws as
 <img src="../figures/mathematics/sampling-distributions.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sampling-distributions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;11: Sampling distributions reflect different inferential problems. Estimating a scale gives the heavier tails of Student’s <span class="math inline">\(t\)</span>; squaring and comparing independent Gaussian components produces chi-square and <span class="math inline">\(F\)</span> laws.
+Figure&nbsp;12: Sampling distributions reflect different inferential problems. Estimating a scale gives the heavier tails of Student’s <span class="math inline">\(t\)</span>; squaring and comparing independent Gaussian components produces chi-square and <span class="math inline">\(F\)</span> laws.
 </figcaption>
 </figure>
 </div>
 </section>
 <section id="estimation-confidence-intervals-and-tests" class="level3">
 <h3 class="anchored" data-anchor-id="estimation-confidence-intervals-and-tests">Estimation, confidence intervals, and tests</h3>
-<p>The likelihood <span class="math inline">\(L(\theta;y)\)</span> is the model’s density or mass for the observed data, viewed as a function of <span class="math inline">\(\theta\)</span>. Maximum likelihood chooses <span class="math inline">\(\hat\theta\)</span> that makes the observed sample most probable under the maintained model. Under regularity conditions,</p>
+<p>Suppose a regression reports an estimate of .4 for the elasticity of employment with respect to output. The number alone does not tell us whether another random sample would have produced .39, .1, or minus .2. Inference starts by representing that sample-to-sample variation. The likelihood <span class="math inline">\(L(\theta;y)\)</span> is the model’s density or mass for the observed data, viewed as a function of <span class="math inline">\(\theta\)</span>. Maximum likelihood chooses <span class="math inline">\(\hat\theta\)</span> that makes the observed sample most probable under the maintained model. Under regularity conditions,</p>
 <p><span class="math display">\[
 \sqrt T(\hat\theta-\theta_0)\xrightarrow{d}\mathcal N\big(0,\mathcal I(\theta_0)^{-1}\big),
 \]</span></p>
 <p>where <span class="math inline">\(\mathcal I\)</span> is information. This asymptotic statement supplies standard errors, confidence intervals, Wald tests, score tests, and likelihood-ratio tests.</p>
-<p>A 95 percent confidence interval is a procedure which covers the fixed true parameter in 95 percent of repeated samples under the model. A <span class="math inline">\(p\)</span>-value is the probability, under a specified null hypothesis, of a statistic at least as incompatible with that null as the realized one. Neither is the probability that the parameter or hypothesis itself is true.</p>
+<p>A 95 percent confidence interval is a procedure which covers the fixed true parameter in 95 percent of repeated samples under the model. The parameter does not move from sample to sample in the frequentist interpretation; the interval does. If the entire exercise were repeated many times, about 95 percent of constructed intervals would contain the same fixed truth. For one realised interval, the parameter is either in it or not. This is a statement about the procedure’s long-run calibration, not a probability assigned to the parameter.</p>
+<div id="fig-confidence-intervals" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-confidence-intervals-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figures/mathematics/confidence-interval-repeated-sampling.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-confidence-intervals-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;13: Each horizontal line is a confidence interval constructed from an independent sample drawn from the same population. The vertical line is the fixed true mean. A calibrated 95 percent procedure misses occasionally, as it must.
+</figcaption>
+</figure>
+</div>
+<p>A <span class="math inline">\(p\)</span>-value is different again: under a specified null hypothesis, it is the probability of a statistic at least as incompatible with that null as the realised one. It is not the probability that the null is true, and a large <span class="math inline">\(p\)</span>-value is not evidence that two values are exactly equal. It says that the observed discrepancy is not unusual relative to the null and the maintained sampling model.</p>
 </section>
 <section id="sec-ols-assumptions" class="level3">
 <h3 class="anchored" data-anchor-id="sec-ols-assumptions">OLS as an inferential model, not only a minimisation problem</h3>
@@ -911,19 +943,19 @@ y=X\beta+u,\qquad X=(x_1',\ldots,x_T')'.
 </section>
 <section id="confidence-intervals-and-tests-are-constructed-from-a-reference-distribution" class="level3">
 <h3 class="anchored" data-anchor-id="confidence-intervals-and-tests-are-constructed-from-a-reference-distribution">Confidence intervals and tests are constructed from a reference distribution</h3>
-<p>To test <span class="math inline">\(H_0:\beta_j=\beta_{j,0}\)</span> against a two-sided alternative <span class="math inline">\(H_1:\beta_j\neq\beta_{j,0}\)</span>, first choose a statistic that would be near zero if <span class="math inline">\(H_0\)</span> were true,</p>
+<p>Suppose the question is whether a policy coefficient differs from zero. The null hypothesis <span class="math inline">\(H_0:\beta_j=0\)</span> is a benchmark used to construct a reference distribution; the alternative <span class="math inline">\(H_1:\beta_j\neq0\)</span> says that values away from zero are admissible. A test does not begin by reading the estimate and then inventing a rule favourable to it. It begins with a discrepancy statistic that would be near zero if <span class="math inline">\(H_0\)</span> were true,</p>
 <p><span class="math display">\[
 t=\frac{\hat\beta_j-\beta_{j,0}}{\mathrm{se}(\hat\beta_j)}.
 \]</span></p>
-<p>Under the null and the maintained assumptions, this statistic has either an exact Student distribution in the Gaussian finite-sample model or an approximately Normal distribution asymptotically. A significance level <span class="math inline">\(\alpha\)</span>, often .05, is chosen <em>before</em> seeing the statistic. The rejection region is selected so that <span class="math inline">\(\Pr(\text{reject }H_0\mid H_0)\leq\alpha\)</span>. This is the <strong>Type I error</strong> or false-alarm probability.</p>
-<p>If <span class="math inline">\(H_1\)</span> is true, failure to reject is a <strong>Type II error</strong>. Its probability is <span class="math inline">\(\beta\)</span>; power is <span class="math inline">\(1-\beta\)</span>. Power rises with sample size, signal size, regressor variation, and lower noise. A non-significant estimate can mean “no economically relevant effect,” but it can also mean that the data are too imprecise to distinguish the effect from zero. Report the interval, not only the star.</p>
+<p>Under the null and the maintained assumptions, this statistic has either an exact Student distribution in the Gaussian finite-sample model or an approximately Normal distribution asymptotically. For a two-sided five-percent test, the null distribution’s outer 2.5 percent on each side become rejection regions. A significance level <span class="math inline">\(\alpha=.05\)</span> is chosen before seeing the statistic, so the procedure satisfies <span class="math inline">\(\Pr(\text{reject }H_0\mid H_0)\leq.05\)</span>. This is the <strong>Type I error</strong> or false-alarm probability. The phrase “five percent significant” refers to this long-run false-alarm control; it does not mean there is a 95 percent probability that the estimate is non-zero.</p>
+<p>If <span class="math inline">\(H_1\)</span> is true, failure to reject is a <strong>Type II error</strong>. Its probability is <span class="math inline">\(\beta\)</span>; power is <span class="math inline">\(1-\beta\)</span>. The two distributions overlap because samples are noisy. Moving the critical value outward lowers false alarms but enlarges the region in which an actual effect is missed. Power rises with sample size, signal size, regressor variation, and lower noise. A non-significant estimate can mean “no economically relevant effect,” but it can also mean that the data are too imprecise to distinguish the effect from zero. Report the interval, not only the star.</p>
 <div id="fig-hypothesis-testing" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-hypothesis-testing-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="../figures/mathematics/hypothesis-testing-errors.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-hypothesis-testing-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;12: A significance test compares the realised statistic with a distribution implied by the null. Choosing a five-percent rejection region controls the false-alarm probability, while the overlap with an alternative distribution determines the chance of missing an existing effect.
+Figure&nbsp;14: The left panel fixes the two rejection tails of a two-sided five-percent test under the null. The right panel makes the trade-off visible: overlap between a null and an alternative sampling distribution creates both false alarms and missed effects.
 </figcaption>
 </figure>
 </div>
@@ -931,70 +963,110 @@ Figure&nbsp;12: A significance test compares the realised statistic with a distr
 <p><span class="math display">\[
 \hat\beta_j\pm c_{1-\alpha/2}\,\mathrm{se}(\hat\beta_j),
 \]</span></p>
-<p>contains exactly the parameter values not rejected by the corresponding two-sided test. Its width is an estimand-relevant measure of precision. Statistical significance is therefore not effect size, economic importance, or model validity.</p>
+<p>contains exactly the parameter values not rejected by the corresponding two-sided test. The equivalence is useful: if a 95 percent interval excludes zero, the corresponding two-sided five-percent test rejects zero. Its width is an estimand-relevant measure of precision. An elasticity estimated at .02 with a narrow interval can be highly significant and economically negligible; an elasticity estimated at .5 with a wide interval may be economically important but statistically unresolved. Statistical significance is therefore not effect size, economic importance, or model validity.</p>
 </section>
 </section>
 <section id="sec-stochastic-processes-foundations" class="level2">
 <h2 class="anchored" data-anchor-id="sec-stochastic-processes-foundations">Stochastic processes: probability arranged through time</h2>
-<p>A stochastic process <span class="math inline">\((X_t)_{t\in\mathbb Z}\)</span> is a sequence of random variables indexed by time. The observed series <span class="math inline">\(x_1,\ldots,x_T\)</span> is one path. This distinction matters: the model assigns probability to many possible histories, while economics gives us only one.</p>
-<p>For a weakly stationary process, <span class="math inline">\(E[X_t]=\mu\)</span> is constant and <span class="math inline">\(\mathrm{Cov}(X_t,X_{t-h})=\gamma(h)\)</span> depends only on the lag. The process may be highly persistent without being non-stationary. An AR(1),</p>
+<p>A cross-section asks what differs across households at one date. A macroeconomic series asks what may happen next after a particular past has occurred. A <strong>stochastic process</strong> <span class="math inline">\((X_t)_{t\in\mathbb Z}\)</span> is a sequence of random variables indexed by time. The observed series <span class="math inline">\(x_1,\ldots,x_T\)</span> is one path drawn from a model that assigns probability to many possible histories. This distinction matters because the same process can generate a quiet path, a volatile path, or a path that resembles a crisis.</p>
+<p>The <strong>information set</strong> at date <span class="math inline">\(t\)</span>, often denoted <span class="math inline">\(\mathcal F_t\)</span>, collects the events and variables observed by then. Dynamics are statements about conditional distributions such as <span class="math inline">\(p(X_{t+1}\mid\mathcal F_t)\)</span>, not only unconditional distributions. For a weakly stationary process, <span class="math inline">\(E[X_t]=\mu\)</span> is constant and <span class="math inline">\(\operatorname{Cov}(X_t,X_{t-h})=\gamma(h)\)</span> depends only on the lag. Its unconditional probabilistic environment does not drift over time, even though each realised observation does. The process may be highly persistent without being non-stationary.</p>
+<p>An AR(1),</p>
 <p><span class="math display">\[
 X_t=\phi X_{t-1}+\varepsilon_t,
 \]</span></p>
-<p>is stationary for <span class="math inline">\(|\phi|&lt;1\)</span>: shocks fade at rate <span class="math inline">\(\phi^h\)</span>. A random walk has <span class="math inline">\(phi=1\)</span>; shocks never fade, variance accumulates, and the level has no fixed unconditional distribution.</p>
+<p>is stationary for <span class="math inline">\(|\phi|&lt;1\)</span>: shocks fade at rate <span class="math inline">\(\phi^h\)</span>. A random walk has <span class="math inline">\(\phi=1\)</span>; shocks never fade, variance accumulates, and the level has no fixed unconditional distribution. The algebra makes the contrast transparent. Iterating the AR(1) gives <span class="math inline">\(X_t=\phi^hX_{t-h}+\sum_{j=0}^{h-1}\phi^j\varepsilon_{t-j}\)</span>; the weight on a distant initial condition vanishes only when <span class="math inline">\(|\phi|&lt;1\)</span>. A random walk instead sums every past innovation with weight one.</p>
 <div id="fig-stationary-random-walk" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-stationary-random-walk-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="../figures/mathematics/stationary-ar-versus-random-walk.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-stationary-random-walk-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;13: The same innovations drive both paths. The stationary AR(1) forgets them gradually; the random walk retains every past innovation in its level.
+Figure&nbsp;15: The same innovations drive both paths. The stationary AR(1) forgets them gradually; the random walk retains every past innovation in its level.
 </figcaption>
 </figure>
 </div>
 <p>The economic distinction is substantial. A temporary demand shock in a stable system eventually disappears. A shock to a random-walk component permanently changes the forecast level. A unit-root test is therefore not a ritual preliminary: it asks which sort of persistence is compatible with the data, and thus which transformations and inferential approximations are defensible. The time-series chapter returns to these distinctions in detail (<a href="01-time-series.html" class="quarto-xref"><span>1&nbsp; Introduction to Time Series</span></a>).</p>
+<p>Some processes have a useful economy of memory. A <strong>Markov process</strong> satisfies</p>
+<p><span class="math display">\[
+\Pr(X_{t+1}\in A\mid X_t,X_{t-1},\ldots)=\Pr(X_{t+1}\in A\mid X_t)
+\]</span></p>
+<p>for every admissible future event <span class="math inline">\(A\)</span>. Conditional on the present state, earlier history adds no predictive information about the next state. This does not mean the past is irrelevant: it shaped the present state. It means that the present state is a sufficient summary of the past for one-step prediction.</p>
+<p>For a two-regime business-cycle model, let <span class="math inline">\(X_t\)</span> be expansion or recession and let the transition matrix be</p>
+<p><span class="math display">\[
+P=
+\begin{pmatrix}
+.92&amp;.08\\
+.35&amp;.65
+\end{pmatrix}.
+\]</span></p>
+<p>The first row says that an expansion remains an expansion next quarter with probability .92; the second says that a recession persists with probability .65. If <span class="math inline">\(\pi_t\)</span> is the row vector of probabilities over the two regimes today, then <span class="math inline">\(\pi_{t+1}=\pi_tP\)</span>. Repeated multiplication produces multi-step forecasts and, when it exists, a stationary distribution satisfying <span class="math inline">\(\pi=\pi P\)</span>. Markov chains underlie regime-switching models, hidden Markov filters, and many state-space algorithms.</p>
+<div id="fig-markov-process" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-markov-process-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figures/mathematics/markov-regime-process.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-markov-process-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;16: The left panel represents the transition probabilities of a two-regime Markov chain. The right panel starts from expansion and shows how uncertainty about the future regime evolves by repeated multiplication of the transition matrix.
+</figcaption>
+</figure>
+</div>
 </section>
 <section id="sec-bayes-foundations" class="level2">
 <h2 class="anchored" data-anchor-id="sec-bayes-foundations">Bayesian inference: uncertainty about parameters as well as data</h2>
+<p>Return to the recession alarm. Suppose recessions occur with prior probability .05, the alarm sounds in .80 of recessions, and it sounds spuriously in .10 of non-recessions. On hearing an alarm, the relevant probability is</p>
+<p><span class="math display">\[
+\Pr(\text{recession}\mid\text{alarm})
+=\frac{.80\times.05}{.80\times.05+.10\times.95}
+\approx .296.
+\]</span></p>
+<p>The alarm is informative: the probability rises from 5 to almost 30 percent. It is not conclusive, because non-recessions are far more common and some produce false alarms. This small calculation contains the logic of Bayesian inference: begin with a prior probability, ask how compatible the observed evidence is with each competing explanation, and renormalise.</p>
 <p>Frequentist inference treats <span class="math inline">\(\theta\)</span> as fixed and data as random. Bayesian inference represents prior uncertainty about <span class="math inline">\(\theta\)</span> with a density <span class="math inline">\(p(\theta)\)</span>, then updates it with the likelihood <span class="math inline">\(p(y\mid\theta)\)</span>:</p>
 <p><span id="eq-bayes-rule"><span class="math display">\[
 p(\theta\mid y)=\frac{p(y\mid\theta)p(\theta)}{p(y)},
 \qquad
 p(y)=\int p(y\mid\theta)p(\theta)\,d\theta.
 \tag{7}\]</span></span></p>
-<p>The denominator is a normalising constant. The content of Bayes’ rule is proportionality: posterior <span class="math inline">\(\propto\)</span> likelihood <span class="math inline">\(\times\)</span> prior. The prior matters most when data are sparse or weakly informative. It need not be “subjective” in a casual sense: it can encode parameter restrictions, historical evidence, regularisation, or a disciplined belief that a large VAR should not have implausibly large coefficients.</p>
+<p>The denominator is the probability of the observed data under all parameter values; it makes the posterior integrate to one. The content of Bayes’ rule is proportionality: posterior <span class="math inline">\(\propto\)</span> likelihood <span class="math inline">\(\times\)</span> prior. If the likelihood is sharp, the data dominate; if it is flat or the sample is short, the prior remains influential. This is not a defect hidden by notation but a transparent feature of the calculation.</p>
+<p>For example, a prior centred near a persistent but stable AR coefficient can prevent a short sample from assigning implausibly high posterior weight to explosive values merely because of a few unusual observations. A prior need not be “subjective” in a casual sense: it can encode parameter restrictions, historical evidence, regularisation, or a disciplined belief that a large VAR should not have implausibly large coefficients. It should nevertheless be reported and its influence examined, particularly when the data are weak.</p>
 <div id="fig-bayesian-update" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-bayesian-update-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="../figures/mathematics/bayesian-update.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-bayesian-update-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;14: A prior density and a likelihood combine into a posterior. The graph does not show a compromise by convention; it shows multiplication of two probability statements, followed by normalisation.
+Figure&nbsp;17: A prior density and a likelihood combine into a posterior. The posterior is obtained by multiplying the two functions and then normalising the result to integrate to one.
 </figcaption>
 </figure>
 </div>
-<p>Bayesian credible intervals have a direct conditional interpretation: given the model, prior, and data, the posterior assigns a stated probability to the interval. Their validity therefore depends on the model and prior. The later Bayesian VAR chapter develops computation and prior choice in the setting where this distinction is most useful (<a href="07-bvar.html" class="quarto-xref"><span>8&nbsp; Bayesian Estimation: Foundations and Applications to VARs</span></a>).</p>
+<p>Bayesian credible intervals have a direct conditional interpretation: given the model, prior, and data, the posterior assigns a stated probability to the interval. This differs from a frequentist confidence interval, whose coverage is evaluated across repeated samples. Neither interpretation is unconditional truth. The former depends on the model and prior; the latter depends on the sampling model and calibration of the procedure. The later Bayesian VAR chapter develops computation and prior choice in the setting where this distinction is most useful (<a href="07-bvar.html" class="quarto-xref"><span>8&nbsp; Bayesian Estimation: Foundations and Applications to VARs</span></a>).</p>
 </section>
 <section id="sec-signal-fourier-foundations" class="level2">
 <h2 class="anchored" data-anchor-id="sec-signal-fourier-foundations">Signals and Fourier analysis: another coordinate system for time series</h2>
-<p>Suppose a measured series contains a slow movement, a seasonal rhythm, a business-cycle fluctuation, and noise. Looking only at dates mixes these components together. Fourier analysis changes coordinates: instead of asking how a series moves at date <span class="math inline">\(t\)</span>, it asks how much of its variation is associated with each periodicity.</p>
-<p>The building blocks are sines and cosines. Euler’s identity <span class="math inline">\(e^{i\omega t}=\cos(\omega t)+i\sin(\omega t)\)</span> packages both in one complex exponential. For <span class="math inline">\(T\)</span> observations, the discrete Fourier transform is</p>
+<p>Consider a monthly industrial-production series. A graph in calendar time may contain an expansion, a seasonal pattern, a six-year cycle, and irregular measurement noise all at once. If the purpose is to identify recurring periodicities, dates are not always the most revealing coordinates. Fourier analysis asks a different question: rather than describing the value at date <span class="math inline">\(t\)</span>, how much of the observed variation is associated with movements that repeat every two, seven, or twenty-four observations?</p>
+<p>The building blocks are sines and cosines. A sinusoid with angular frequency <span class="math inline">\(\omega\)</span> completes one full cycle after <span class="math inline">\(2\pi/\omega\)</span> observations. Low frequency means a long period and slow movement; high frequency means a short period and rapid alternation. A phase shift moves the crest in time without changing the frequency. The central mathematical fact is that, on a finite equally spaced grid, these waves provide a coordinate system: a sufficiently rich sum of sinusoidal components can reconstruct the observed series.</p>
+<p>Euler’s identity <span class="math inline">\(e^{i\omega t}=\cos(\omega t)+i\sin(\omega t)\)</span> packages sine and cosine in one complex exponential. The complex notation is convenient, not mystical. Its modulus measures amplitude and its argument records phase. For <span class="math inline">\(T\)</span> observations, the discrete Fourier transform is</p>
 <p><span class="math display">\[
 \widetilde X(\omega_j)=\sum_{t=0}^{T-1}x_t e^{-i\omega_jt},
 \qquad \omega_j=\frac{2\pi j}{T}.
 \]</span></p>
-<p>Its squared modulus gives the periodogram. Large values indicate that a sinusoidal component of that frequency helps describe the observed path. Sampling imposes a hard limit: with observations one period apart, frequencies above the Nyquist frequency cannot be separately recovered. A monthly rhythm cannot be learned from quarterly observations.</p>
+<p>The inverse transform reconstructs the data from these frequency coordinates. The squared modulus <span class="math inline">\(|\widetilde X(\omega_j)|^2\)</span>, after normalisation, gives the <strong>periodogram</strong>. A large value indicates that a sinusoidal component of that frequency helps describe the observed path. It is evidence about regular variation in the sample, not proof of a literal clock inside the economy.</p>
+<p>Sampling imposes a hard limit. With observations one period apart, frequencies above the <strong>Nyquist frequency</strong> cannot be separately recovered: a component that oscillates too quickly can masquerade as a slower one, a phenomenon called aliasing. Quarterly data cannot identify a monthly rhythm; annual data cannot distinguish seasonal patterns. Finite samples also blur nearby frequencies, which is why periodograms are often smoothed and interpreted alongside economic knowledge.</p>
 <div id="fig-fourier-foundations" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-fourier-foundations-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="../figures/mathematics/fourier-time-and-frequency.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fourier-foundations-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;15: A simulated series combines rhythms of 7 and 24 observations with noise. The time path hides their separate roles; the periodogram makes both periodicities visible.
+Figure&nbsp;18: The top panel starts with two elementary rhythms. Their noisy sum in the middle panel is harder to read in calendar time; the periodogram below recovers peaks at their periods.
 </figcaption>
 </figure>
 </div>
-<p>For a weakly stationary process, the Fourier transform of the autocovariance is the spectral density, and its integral is variance. A linear filter multiplies that spectrum by its squared gain. This unifies ARMA dynamics, signal extraction, seasonal adjustment, and cycle filters. The frequency-domain chapter develops estimation, cross-spectra, coherence, and the economic interpretation of filtering (<a href="08-frequency-filtering.html" class="quarto-xref"><span>3&nbsp; Frequency-Domain Analysis and Filtering</span></a>).</p>
+<p>For a weakly stationary process, the Fourier transform of the autocovariance is the <strong>spectral density</strong>,</p>
+<p><span class="math display">\[
+f_X(\omega)=\frac{1}{2\pi}\sum_{h=-\infty}^{\infty}\gamma(h)e^{-i\omega h}.
+\]</span></p>
+<p>It allocates the variance of the process over frequencies: integrating the spectral density over all frequencies returns <span class="math inline">\(\gamma(0)=\operatorname{Var}(X_t)\)</span>. A persistent process places relatively more power at low frequencies; a seasonal process produces peaks at its seasonal frequency and harmonics. This statement requires weak stationarity because a spectrum describes a stable allocation of variance across time. A deterministic trend or unit root must be modelled or removed with care before assigning a stationary spectrum to the level series.</p>
+<p>A linear filter changes the amplitude of each frequency by its <strong>gain</strong> and shifts its timing by its <strong>phase</strong>. This unifies ARMA dynamics, signal extraction, seasonal adjustment, and cycle filters. The frequency-domain chapter develops estimation, cross-spectra, coherence, and the economic interpretation of filtering (<a href="08-frequency-filtering.html" class="quarto-xref"><span>3&nbsp; Frequency-Domain Analysis and Filtering</span></a>).</p>
 </section>
 <section id="summary-a-map-for-the-rest-of-the-course" class="level2">
 <h2 class="anchored" data-anchor-id="summary-a-map-for-the-rest-of-the-course">Summary: a map for the rest of the course</h2>
@@ -1743,277 +1815,353 @@ Vaart, Aad W. van der. 1998. <em>Asymptotic Statistics</em>. Cambridge Universit
 <span id="cb1-246"><a href="#cb1-246" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-247"><a href="#cb1-247" aria-hidden="true" tabindex="-1"></a><span class="fu">### A gamble, an event, and a random variable</span></span>
 <span id="cb1-248"><a href="#cb1-248" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-249"><a href="#cb1-249" aria-hidden="true" tabindex="-1"></a>Consider tomorrow’s policy rate. Before tomorrow arrives, several outcomes are possible. The set of all complete possible outcomes is the **sample space** $\Omega$. An **event** is a collection of outcomes, such as “inflation exceeds the target.” Probability assigns a number between zero and one to each event in a way that respects disjoint addition.</span>
+<span id="cb1-249"><a href="#cb1-249" aria-hidden="true" tabindex="-1"></a>Imagine that the next FOMC decision can be a cut, no change, or a hike. Before the meeting, there is a list of possible outcomes and a judgement about their relative plausibility. After the meeting, exactly one outcome is observed. Probability is the language that keeps those two statements separate.</span>
 <span id="cb1-250"><a href="#cb1-250" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-251"><a href="#cb1-251" aria-hidden="true" tabindex="-1"></a>The formal object is a probability space $(\Omega,\mathcal F,\mathbb P)$. The collection $\mathcal F$ is a **sigma-algebra**, a set of events closed under complements and countable unions. Its job is modest but essential: it rules out ill-posed sets for which a coherent probability could not be assigned. A **random variable** $X:\Omega\to\mathbb R$ is a measurable numerical description of an outcome. “Measurable” means that statements such as $X\leq a$ are legitimate events in $\mathcal F$.</span>
+<span id="cb1-251"><a href="#cb1-251" aria-hidden="true" tabindex="-1"></a>The complete list of possibilities is the **sample space** $\Omega$. An **event** is a question whose answer can be yes or no: “there is a hike,” “inflation exceeds target,” or “a recession begins within four quarters.” If $\Omega=<span class="sc">\{</span>\text{cut},\text{hold},\text{hike}<span class="sc">\}</span>$, the event “no change or hike” is the subset $<span class="sc">\{</span>\text{hold},\text{hike}<span class="sc">\}</span>$. A probability measure $\mathbb P$ assigns a number between zero and one to such events. It assigns zero to the impossible event, one to the entire sample space, and adds probabilities across mutually exclusive events.</span>
 <span id="cb1-252"><a href="#cb1-252" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-253"><a href="#cb1-253" aria-hidden="true" tabindex="-1"></a>This small dose of measure theory is the foundation, not an obstacle course. It makes the following objects precise: conditional expectation, likelihoods, stochastic processes, and convergence in probability. In most applied work, the central question is simpler: which probability law plausibly generated the variable we observe?</span>
+<span id="cb1-253"><a href="#cb1-253" aria-hidden="true" tabindex="-1"></a>The formal object is a probability space $(\Omega,\mathcal F,\mathbb P)$. The notation is compact, but each component has a distinct role. $\Omega$ says what could happen; $\mathcal F$ says which questions are meaningful; $\mathbb P$ quantifies their probability. The collection $\mathcal F$ is a **sigma-algebra**: it contains the whole space, and whenever it contains an event it also contains its complement and any countable union of admissible events. These closure properties are the bookkeeping required to say consistently “not $A$,” “$A$ or $B$,” and “one of an infinite sequence of events occurs.”</span>
 <span id="cb1-254"><a href="#cb1-254" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-255"><a href="#cb1-255" aria-hidden="true" tabindex="-1"></a>Probability obeys three rules. It assigns zero to the impossible event and one to the whole sample space; it is non-negative; and it adds over mutually exclusive events. From these rules follow familiar identities:</span>
+<span id="cb1-255"><a href="#cb1-255" aria-hidden="true" tabindex="-1"></a>Why introduce this apparatus when a coin toss seems to need none? With finitely many outcomes, one can assign probabilities one by one. Macroeconometric models routinely use continuous shocks, infinite histories, conditional distributions, and limits of estimators. For a continuously distributed shock, each exact value has probability zero while an interval has positive probability. One needs a rule that continues to assign sensible probabilities after taking complements, limits, and countable combinations. Measure theory provides precisely that rule. It removes ambiguities before they infect expectations or convergence arguments; it does not add economic content to a model.</span>
 <span id="cb1-256"><a href="#cb1-256" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-257"><a href="#cb1-257" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-258"><a href="#cb1-258" aria-hidden="true" tabindex="-1"></a>\Pr(A^c)=1-\Pr(A),\qquad</span>
-<span id="cb1-259"><a href="#cb1-259" aria-hidden="true" tabindex="-1"></a>\Pr(A\cup B)=\Pr(A)+\Pr(B)-\Pr(A\cap B).</span>
-<span id="cb1-260"><a href="#cb1-260" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-261"><a href="#cb1-261" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-262"><a href="#cb1-262" aria-hidden="true" tabindex="-1"></a>The subtraction prevents double-counting outcomes which belong to both events. Events are **independent** when $\Pr(A\cap B)=\Pr(A)\Pr(B)$. Independence is a statement about the full joint probability law, not merely zero correlation. It is much stronger than “no linear relationship.”</span>
-<span id="cb1-263"><a href="#cb1-263" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-264"><a href="#cb1-264" aria-hidden="true" tabindex="-1"></a><span class="fu">### Distribution, expectation, variance, and conditioning</span></span>
+<span id="cb1-257"><a href="#cb1-257" aria-hidden="true" tabindex="-1"></a>A **random variable** $X:\Omega\to\mathbb R$ turns an outcome into a number. The FOMC outcome itself may be categorical, while $X$ could record the policy-rate change in basis points. “Measurable” means that for every threshold $a$, the question $<span class="sc">\{</span>X\leq a<span class="sc">\}</span>$ belongs to $\mathcal F$. Put less formally, the variable is defined finely enough that probabilities of economically meaningful statements can be evaluated. A random vector, a time series, and a likelihood are all extensions of this same idea.</span>
+<span id="cb1-258"><a href="#cb1-258" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-259"><a href="#cb1-259" aria-hidden="true" tabindex="-1"></a>Probability obeys three rules. It assigns zero to the impossible event and one to the whole sample space; it is non-negative; and it adds over mutually exclusive events. From these rules follow familiar identities:</span>
+<span id="cb1-260"><a href="#cb1-260" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-261"><a href="#cb1-261" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-262"><a href="#cb1-262" aria-hidden="true" tabindex="-1"></a>\Pr(A^c)=1-\Pr(A),\qquad</span>
+<span id="cb1-263"><a href="#cb1-263" aria-hidden="true" tabindex="-1"></a>\Pr(A\cup B)=\Pr(A)+\Pr(B)-\Pr(A\cap B).</span>
+<span id="cb1-264"><a href="#cb1-264" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb1-265"><a href="#cb1-265" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-266"><a href="#cb1-266" aria-hidden="true" tabindex="-1"></a>A distribution tells us how probability is allocated. For a discrete variable, $Pr(X=x)$ can be positive. For a continuous variable with density $f_X$, individual points have probability zero and intervals have probability</span>
+<span id="cb1-266"><a href="#cb1-266" aria-hidden="true" tabindex="-1"></a>The subtraction prevents double-counting outcomes which belong to both events. Events are **independent** when $\Pr(A\cap B)=\Pr(A)\Pr(B)$. Independence is a statement about the full joint probability law, not merely zero correlation. It is much stronger than “no linear relationship.”</span>
 <span id="cb1-267"><a href="#cb1-267" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-268"><a href="#cb1-268" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-269"><a href="#cb1-269" aria-hidden="true" tabindex="-1"></a>\Pr(a\leq X\leq b)=\int_a^b f_X(x)\,dx.</span>
-<span id="cb1-270"><a href="#cb1-270" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-268"><a href="#cb1-268" aria-hidden="true" tabindex="-1"></a><span class="fu">### Distribution, expectation, variance, and conditioning</span></span>
+<span id="cb1-269"><a href="#cb1-269" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-270"><a href="#cb1-270" aria-hidden="true" tabindex="-1"></a>Suppose one wants to describe quarterly inflation before it is released. Giving only a mean forecast, say two percent, is incomplete. A forecast can be centered at two percent and yet be very precise, highly uncertain, asymmetric, or exposed to rare but severe outcomes. A **distribution** records how probability is allocated across possible values.</span>
 <span id="cb1-271"><a href="#cb1-271" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-272"><a href="#cb1-272" aria-hidden="true" tabindex="-1"></a>The expectation is a probability-weighted average, $E<span class="co">[</span><span class="ot">X</span><span class="co">]</span>=\sum_xxp(x)$ or $E<span class="co">[</span><span class="ot">X</span><span class="co">]</span>=\int xf_X(x)dx$. It need not be an outcome that will occur; it is the centre of a probability law. Variance $\mathrm{Var}(X)=E<span class="co">[</span><span class="ot">(X-E[X])^2</span><span class="co">]</span>$ measures dispersion. Covariance $\mathrm{Cov}(X,Y)$ records joint linear variation, and correlation rescales it to lie between minus one and one.</span>
+<span id="cb1-272"><a href="#cb1-272" aria-hidden="true" tabindex="-1"></a>For a discrete variable, $\Pr(X=x)$ can be positive. A default indicator has mass at zero and one; a count of bank failures has mass at the non-negative integers. For a continuous variable with density $f_X$, individual points have probability zero and intervals have probability</span>
 <span id="cb1-273"><a href="#cb1-273" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-274"><a href="#cb1-274" aria-hidden="true" tabindex="-1"></a>Variance has a concrete unit. If GDP growth is measured in percentage points, its variance is measured in squared percentage points, which is hard to read. The **standard deviation** $\sigma=\sqrt{\mathrm{Var}(X)}$ returns to the original unit. A standard deviation of two percentage points means that a typical draw lies on a scale of two percentage points around the mean. It does not mean that every draw lies in that interval, nor that a large realization is impossible.</span>
-<span id="cb1-275"><a href="#cb1-275" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-276"><a href="#cb1-276" aria-hidden="true" tabindex="-1"></a>Four summaries are especially useful when a distribution is not fully specified:</span>
+<span id="cb1-274"><a href="#cb1-274" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-275"><a href="#cb1-275" aria-hidden="true" tabindex="-1"></a>\Pr(a\leq X\leq b)=\int_a^b f_X(x)\,dx.</span>
+<span id="cb1-276"><a href="#cb1-276" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb1-277"><a href="#cb1-277" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-278"><a href="#cb1-278" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-279"><a href="#cb1-279" aria-hidden="true" tabindex="-1"></a>\begin{aligned}</span>
-<span id="cb1-280"><a href="#cb1-280" aria-hidden="true" tabindex="-1"></a>\text{mean:}&amp;\quad \mu=E<span class="co">[</span><span class="ot">X</span><span class="co">]</span>,<span class="sc">\\</span></span>
-<span id="cb1-281"><a href="#cb1-281" aria-hidden="true" tabindex="-1"></a>\text{variance:}&amp;\quad \sigma^2=E<span class="co">[</span><span class="ot">(X-\mu)^2</span><span class="co">]</span>,<span class="sc">\\</span></span>
-<span id="cb1-282"><a href="#cb1-282" aria-hidden="true" tabindex="-1"></a>\text{skewness:}&amp;\quad E<span class="co">[</span><span class="ot">(X-\mu)^3</span><span class="co">]</span>/\sigma^3,<span class="sc">\\</span></span>
-<span id="cb1-283"><a href="#cb1-283" aria-hidden="true" tabindex="-1"></a>\text{kurtosis:}&amp;\quad E<span class="co">[</span><span class="ot">(X-\mu)^4</span><span class="co">]</span>/\sigma^4.</span>
-<span id="cb1-284"><a href="#cb1-284" aria-hidden="true" tabindex="-1"></a>\end{aligned}</span>
-<span id="cb1-285"><a href="#cb1-285" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-286"><a href="#cb1-286" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-287"><a href="#cb1-287" aria-hidden="true" tabindex="-1"></a>The first moment locates a distribution; the second records its spread; the third records asymmetry; the fourth records the weight in its tails and centre. A right-skewed income distribution has rare large values that pull its mean above its median. A heavy-tailed return distribution makes extreme observations more common than a Normal approximation predicts. Moments are summaries, not a substitute for plotting the distribution itself.</span>
-<span id="cb1-288"><a href="#cb1-288" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-289"><a href="#cb1-289" aria-hidden="true" tabindex="-1"></a><span class="al">![The first four moments answer distinct questions. Location and dispersion can change while symmetry remains; two distributions can have the same first two moments yet differ sharply in asymmetry or tail risk.](../figures/mathematics/distribution-four-moments.png)</span>{#fig-distribution-moments}</span>
-<span id="cb1-290"><a href="#cb1-290" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-291"><a href="#cb1-291" aria-hidden="true" tabindex="-1"></a><span class="fu">### Elementary probability laws begin with economic situations</span></span>
-<span id="cb1-292"><a href="#cb1-292" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-293"><a href="#cb1-293" aria-hidden="true" tabindex="-1"></a>The **Bernoulli** law describes one yes-or-no event: a firm defaults, a respondent is employed, a recession occurs. If $X\sim\mathrm{Bernoulli}(p)$, then $\Pr(X=1)=p$, $E[X]=p$, and $\mathrm{Var}(X)=p(1-p)$. The **Binomial** law counts successes in $n$ independent Bernoulli trials. It is appropriate for a fixed number of opportunities, such as defaults in a homogeneous portfolio under a simple benchmark.</span>
-<span id="cb1-294"><a href="#cb1-294" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-295"><a href="#cb1-295" aria-hidden="true" tabindex="-1"></a>The **Poisson** law counts events in a fixed interval when events arrive independently at a constant average rate: insurance claims per month or rare operational failures. Its defining feature is $E<span class="co">[</span><span class="ot">X</span><span class="co">]</span>=\mathrm{Var}(X)=\lambda$. The equality is often empirically restrictive: extra dispersion signals heterogeneity, contagion, or omitted dynamics.</span>
-<span id="cb1-296"><a href="#cb1-296" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-297"><a href="#cb1-297" aria-hidden="true" tabindex="-1"></a>The **Exponential** law describes a waiting time until the next Poisson arrival. With rate $\lambda$, its density is $f(x)=\lambda e^{-\lambda x}$ for $x\geq0$, mean $1/\lambda$, and survival probability $\Pr(X&gt;x)=e^{-\lambda x}$. Its memoryless property,</span>
-<span id="cb1-298"><a href="#cb1-298" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-278"><a href="#cb1-278" aria-hidden="true" tabindex="-1"></a>The expectation is a probability-weighted average, $E<span class="co">[</span><span class="ot">X</span><span class="co">]</span>=\sum_xxp(x)$ or $E<span class="co">[</span><span class="ot">X</span><span class="co">]</span>=\int xf_X(x)dx$. It need not be an outcome that will occur. A lottery paying zero with probability one half and two with probability one half has expectation one, although it never pays one. The expectation is instead the centre of a probability law and the long-run average under suitable repetition.</span>
+<span id="cb1-279"><a href="#cb1-279" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-280"><a href="#cb1-280" aria-hidden="true" tabindex="-1"></a>Variance answers a different question: how far are draws spread around that centre? It is</span>
+<span id="cb1-281"><a href="#cb1-281" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-282"><a href="#cb1-282" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-283"><a href="#cb1-283" aria-hidden="true" tabindex="-1"></a>\operatorname{Var}(X)=E<span class="co">[</span><span class="ot">(X-E[X])^2</span><span class="co">]</span>=E<span class="co">[</span><span class="ot">X^2</span><span class="co">]</span>-E<span class="co">[</span><span class="ot">X</span><span class="co">]</span>^2.</span>
+<span id="cb1-284"><a href="#cb1-284" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-285"><a href="#cb1-285" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-286"><a href="#cb1-286" aria-hidden="true" tabindex="-1"></a>Squaring stops positive and negative deviations from cancelling and gives larger deviations more weight. Covariance, $\operatorname{Cov}(X,Y)=E<span class="co">[</span><span class="ot">(X-E[X])(Y-E[Y])</span><span class="co">]</span>$, records joint linear variation. Correlation divides covariance by the two standard deviations, making it unit-free and bounded between minus one and one. Zero correlation is not independence except in special families such as the jointly Normal distribution.</span>
+<span id="cb1-287"><a href="#cb1-287" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-288"><a href="#cb1-288" aria-hidden="true" tabindex="-1"></a>Variance has a concrete unit. If GDP growth is measured in percentage points, its variance is measured in squared percentage points, which is hard to read. The **standard deviation** $\sigma=\sqrt{\mathrm{Var}(X)}$ returns to the original unit. A standard deviation of two percentage points means that a typical draw lies on a scale of two percentage points around the mean. It does not mean that every draw lies in that interval, nor that a large realization is impossible.</span>
+<span id="cb1-289"><a href="#cb1-289" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-290"><a href="#cb1-290" aria-hidden="true" tabindex="-1"></a>Four summaries are especially useful when a distribution is not fully specified:</span>
+<span id="cb1-291"><a href="#cb1-291" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-292"><a href="#cb1-292" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-293"><a href="#cb1-293" aria-hidden="true" tabindex="-1"></a>\begin{aligned}</span>
+<span id="cb1-294"><a href="#cb1-294" aria-hidden="true" tabindex="-1"></a>\text{mean:}&amp;\quad \mu=E<span class="co">[</span><span class="ot">X</span><span class="co">]</span>,<span class="sc">\\</span></span>
+<span id="cb1-295"><a href="#cb1-295" aria-hidden="true" tabindex="-1"></a>\text{variance:}&amp;\quad \sigma^2=E<span class="co">[</span><span class="ot">(X-\mu)^2</span><span class="co">]</span>,<span class="sc">\\</span></span>
+<span id="cb1-296"><a href="#cb1-296" aria-hidden="true" tabindex="-1"></a>\text{skewness:}&amp;\quad E<span class="co">[</span><span class="ot">(X-\mu)^3</span><span class="co">]</span>/\sigma^3,<span class="sc">\\</span></span>
+<span id="cb1-297"><a href="#cb1-297" aria-hidden="true" tabindex="-1"></a>\text{kurtosis:}&amp;\quad E<span class="co">[</span><span class="ot">(X-\mu)^4</span><span class="co">]</span>/\sigma^4.</span>
+<span id="cb1-298"><a href="#cb1-298" aria-hidden="true" tabindex="-1"></a>\end{aligned}</span>
 <span id="cb1-299"><a href="#cb1-299" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-300"><a href="#cb1-300" aria-hidden="true" tabindex="-1"></a>\Pr(X&gt;s+t\mid X&gt;s)=\Pr(X&gt;t),</span>
-<span id="cb1-301"><a href="#cb1-301" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-300"><a href="#cb1-300" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-301"><a href="#cb1-301" aria-hidden="true" tabindex="-1"></a>The first moment locates a distribution; the second records its spread; the third records asymmetry; the fourth records tail weight relative to the variance. The distinction between variance and kurtosis deserves care. Variance says how wide a distribution is on average. Kurtosis asks, after putting distributions on the same variance scale, whether probability is relatively concentrated near the centre and in the far tails rather than in the shoulders. Two return distributions can both have variance one, while one produces substantially more observations beyond two standard deviations. Variance cannot see that difference.</span>
 <span id="cb1-302"><a href="#cb1-302" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-303"><a href="#cb1-303" aria-hidden="true" tabindex="-1"></a>means that surviving until today does not change the expected remaining wait. That is plausible for a constant-hazard benchmark, but not for unemployment duration, firm failure, or credit distress when duration changes the hazard.</span>
+<span id="cb1-303"><a href="#cb1-303" aria-hidden="true" tabindex="-1"></a>Skewness is equally concrete. Household income is usually right-skewed: most observations lie below a long upper tail, so a small number of high incomes pull the mean above the median. The median describes the household at the fiftieth percentile; the mean allocates equal weight to every euro and is pulled toward the tail. Neither is intrinsically the “right” summary. The choice depends on whether the question concerns a typical household, total resources, or inequality.</span>
 <span id="cb1-304"><a href="#cb1-304" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-305"><a href="#cb1-305" aria-hidden="true" tabindex="-1"></a><span class="al">![Discrete laws assign probability to countable outcomes; the Exponential law assigns density over waiting times. The graphs show why a density’s height is not itself a probability: probability is an area under the curve.](../figures/mathematics/basic-distributions.png)</span>{#fig-basic-distributions}</span>
+<span id="cb1-305"><a href="#cb1-305" aria-hidden="true" tabindex="-1"></a><span class="al">![The first four moments answer distinct questions. Location and dispersion can change while symmetry remains; two distributions can have the same first two moments yet differ sharply in asymmetry or tail risk.](../figures/mathematics/distribution-four-moments.png)</span>{#fig-distribution-moments}</span>
 <span id="cb1-306"><a href="#cb1-306" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-307"><a href="#cb1-307" aria-hidden="true" tabindex="-1"></a>The Normal law deserves special care. It is symmetric, determined by mean and variance, and mathematically convenient. It is not a default description of all economic uncertainty. It arises exactly in some models and approximately for properly aggregated quantities through the CLT. Counts, waiting times, bounded probabilities, and heavy-tailed financial returns often call for other laws.</span>
+<span id="cb1-307"><a href="#cb1-307" aria-hidden="true" tabindex="-1"></a><span class="al">![The left panel shows why the mean can exceed the median in a right-skewed income distribution. The right panel holds variance fixed and isolates the role of kurtosis: a heavy-tailed law makes large standardized moves more likely.](../figures/mathematics/income-skewness-kurtosis.png)</span>{#fig-income-skewness-kurtosis}</span>
 <span id="cb1-308"><a href="#cb1-308" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-309"><a href="#cb1-309" aria-hidden="true" tabindex="-1"></a>Conditional probability updates a description after information arrives. If $B$ has positive probability, $\Pr(A\mid B)=\Pr(A\cap B)/\Pr(B)$. Conditional expectation $E<span class="co">[</span><span class="ot">X\mid\mathcal I</span><span class="co">]</span>$ is the best mean-square prediction of $X$ using the information set $\mathcal I$. The law of iterated expectations,</span>
+<span id="cb1-309"><a href="#cb1-309" aria-hidden="true" tabindex="-1"></a><span class="fu">### Elementary probability laws begin with economic situations</span></span>
 <span id="cb1-310"><a href="#cb1-310" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-311"><a href="#cb1-311" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-312"><a href="#cb1-312" aria-hidden="true" tabindex="-1"></a>E\big<span class="co">[</span><span class="ot">E(X\mid\mathcal I)\big</span><span class="co">]</span>=E<span class="co">[</span><span class="ot">X</span><span class="co">]</span>,</span>
-<span id="cb1-313"><a href="#cb1-313" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-311"><a href="#cb1-311" aria-hidden="true" tabindex="-1"></a>The **Bernoulli** law begins with the simplest uncertainty: one event either occurs or does not. Let $X=1$ if a firm defaults over the next year and $X=0$ otherwise. If the default probability is $p$, then $X\sim\mathrm{Bernoulli}(p)$, $\Pr(X=1)=p$, $E<span class="co">[</span><span class="ot">X</span><span class="co">]</span>=p$, and $\operatorname{Var}(X)=p(1-p)$. The mean is a probability because averaging many zeroes and ones estimates the event frequency. The variance is largest at $p=.5$, where the outcome is most uncertain, and vanishes when the event is certain.</span>
+<span id="cb1-312"><a href="#cb1-312" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-313"><a href="#cb1-313" aria-hidden="true" tabindex="-1"></a>The **Binomial** law counts successes in $n$ independent Bernoulli trials. It is appropriate for a fixed number of opportunities, such as defaults in a homogeneous portfolio under a simple benchmark. If $N\sim\operatorname{Binomial}(n,p)$, then $E<span class="co">[</span><span class="ot">N</span><span class="co">]</span>=np$ and $\operatorname{Var}(N)=np(1-p)$. The word “independent” is doing heavy work here: common macro shocks make portfolio defaults move together, generally giving more dispersion than a Binomial benchmark.</span>
 <span id="cb1-314"><a href="#cb1-314" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-315"><a href="#cb1-315" aria-hidden="true" tabindex="-1"></a>is the logic behind forecasts, regressions, and filtering.</span>
+<span id="cb1-315"><a href="#cb1-315" aria-hidden="true" tabindex="-1"></a>The **Poisson** law starts from a different question: not a fixed number of trials, but arrivals over time. It counts events in a fixed interval when they arrive independently at a constant average rate: insurance claims per month or rare operational failures. Its defining feature is $E<span class="co">[</span><span class="ot">X</span><span class="co">]</span>=\operatorname{Var}(X)=\lambda$. The equality is often empirically restrictive: extra dispersion signals heterogeneity, contagion, seasonality, or omitted dynamics.</span>
 <span id="cb1-316"><a href="#cb1-316" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-317"><a href="#cb1-317" aria-hidden="true" tabindex="-1"></a>Bayes’ rule already follows from the definition of conditioning:</span>
+<span id="cb1-317"><a href="#cb1-317" aria-hidden="true" tabindex="-1"></a>The **Exponential** law describes a waiting time until the next Poisson arrival. With rate $\lambda$, its density is $f(x)=\lambda e^{-\lambda x}$ for $x\geq0$, mean $1/\lambda$, and survival probability $\Pr(X&gt;x)=e^{-\lambda x}$. Its memoryless property,</span>
 <span id="cb1-318"><a href="#cb1-318" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-319"><a href="#cb1-319" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-320"><a href="#cb1-320" aria-hidden="true" tabindex="-1"></a>\Pr(A\mid B)=\frac{\Pr(B\mid A)\Pr(A)}{\Pr(B)}.</span>
+<span id="cb1-320"><a href="#cb1-320" aria-hidden="true" tabindex="-1"></a>\Pr(X&gt;s+t\mid X&gt;s)=\Pr(X&gt;t),</span>
 <span id="cb1-321"><a href="#cb1-321" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb1-322"><a href="#cb1-322" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-323"><a href="#cb1-323" aria-hidden="true" tabindex="-1"></a>The same identity later updates a prior on a parameter after observing data. The law of total probability, $\Pr(B)=\sum_j\Pr(B\mid A_j)\Pr(A_j)$ for a partition $(A_j)$, supplies its denominator. The algebra is elementary; the difficulty in applications lies in choosing the events, the model, and the relevant information set.</span>
+<span id="cb1-323"><a href="#cb1-323" aria-hidden="true" tabindex="-1"></a>means that surviving until today does not change the expected remaining wait. That is plausible for a constant-hazard benchmark, but not for unemployment duration, firm failure, or credit distress when duration changes the hazard.</span>
 <span id="cb1-324"><a href="#cb1-324" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-325"><a href="#cb1-325" aria-hidden="true" tabindex="-1"></a><span class="fu">### Probability is not statistics {#sec-probability-versus-statistics}</span></span>
+<span id="cb1-325"><a href="#cb1-325" aria-hidden="true" tabindex="-1"></a><span class="al">![Discrete laws assign probability to countable outcomes; the Exponential law assigns density over waiting times. The graphs show why a density’s height is not itself a probability: probability is an area under the curve.](../figures/mathematics/basic-distributions.png)</span>{#fig-basic-distributions}</span>
 <span id="cb1-326"><a href="#cb1-326" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-327"><a href="#cb1-327" aria-hidden="true" tabindex="-1"></a>**Probability** starts with a model and derives the behaviour of possible data. If $Y_t=\beta X_t+\varepsilon_t$ and the distribution of $(X_t,\varepsilon_t)$ is known, probability describes the distribution of $Y_t$. **Statistics** starts with one realized sample $(y_1,\ldots,y_T)$ and asks what can be learned about the unknown distribution, parameter, or model that generated it.</span>
+<span id="cb1-327"><a href="#cb1-327" aria-hidden="true" tabindex="-1"></a>The Normal law deserves special care. It is symmetric, determined by mean and variance, and mathematically convenient. It is not a default description of all economic uncertainty. It arises exactly in some models and approximately for properly aggregated quantities through the CLT. Counts, waiting times, bounded probabilities, and heavy-tailed financial returns often call for other laws.</span>
 <span id="cb1-328"><a href="#cb1-328" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-329"><a href="#cb1-329" aria-hidden="true" tabindex="-1"></a>A **statistical model** is a family of distributions $<span class="sc">\{</span>P_\theta:\theta\in\Theta<span class="sc">\}</span>$. The parameter $\theta$ indexes possible data-generating mechanisms: an AR coefficient, a variance, a regression slope, a VAR matrix, or an entire latent state path. Data do not reveal $\theta$ directly. An estimator $\hat\theta(Y_1,\ldots,Y_T)$ is itself random before the sample is drawn. Its sampling distribution is the bridge between an estimate and an inference claim.</span>
+<span id="cb1-329"><a href="#cb1-329" aria-hidden="true" tabindex="-1"></a>Conditional probability updates a description after information arrives. Suppose an analyst asks for the probability of a recession, but then observes a financial-stress indicator. The relevant object is no longer the unconditional $\Pr(\text{recession})$, but $\Pr(\text{recession}\mid\text{stress})$. If $B$ has positive probability, $\Pr(A\mid B)=\Pr(A\cap B)/\Pr(B)$. Conditional expectation $E<span class="co">[</span><span class="ot">X\mid\mathcal I</span><span class="co">]</span>$ is the best mean-square prediction of $X$ using the information set $\mathcal I$. It is itself a random variable: the forecast changes when the information set changes. The law of iterated expectations,</span>
 <span id="cb1-330"><a href="#cb1-330" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-331"><a href="#cb1-331" aria-hidden="true" tabindex="-1"></a><span class="fu">### Why averages become reliable: LLN and CLT {#sec-lln-clt}</span></span>
-<span id="cb1-332"><a href="#cb1-332" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-333"><a href="#cb1-333" aria-hidden="true" tabindex="-1"></a>Suppose $X_1,\ldots,X_n$ are independent draws with finite mean $\mu$ and variance $\sigma^2$. The **law of large numbers** says</span>
+<span id="cb1-331"><a href="#cb1-331" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-332"><a href="#cb1-332" aria-hidden="true" tabindex="-1"></a>E\big<span class="co">[</span><span class="ot">E(X\mid\mathcal I)\big</span><span class="co">]</span>=E<span class="co">[</span><span class="ot">X</span><span class="co">]</span>,</span>
+<span id="cb1-333"><a href="#cb1-333" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb1-334"><a href="#cb1-334" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-335"><a href="#cb1-335" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-336"><a href="#cb1-336" aria-hidden="true" tabindex="-1"></a>\bar X_n=\frac1n\sum_{i=1}^nX_i\xrightarrow{p}\mu.</span>
-<span id="cb1-337"><a href="#cb1-337" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-335"><a href="#cb1-335" aria-hidden="true" tabindex="-1"></a>is the logic behind forecasts, regressions, and filtering.</span>
+<span id="cb1-336"><a href="#cb1-336" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-337"><a href="#cb1-337" aria-hidden="true" tabindex="-1"></a>Bayes’ rule already follows from the definition of conditioning:</span>
 <span id="cb1-338"><a href="#cb1-338" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-339"><a href="#cb1-339" aria-hidden="true" tabindex="-1"></a>It justifies replacing a population moment by a sample moment. The statement is about convergence in probability, not exact equality in a finite sample.</span>
-<span id="cb1-340"><a href="#cb1-340" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-341"><a href="#cb1-341" aria-hidden="true" tabindex="-1"></a>The **central limit theorem** adds the shape of the remaining uncertainty:</span>
+<span id="cb1-339"><a href="#cb1-339" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-340"><a href="#cb1-340" aria-hidden="true" tabindex="-1"></a>\Pr(A\mid B)=\frac{\Pr(B\mid A)\Pr(A)}{\Pr(B)}.</span>
+<span id="cb1-341"><a href="#cb1-341" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb1-342"><a href="#cb1-342" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-343"><a href="#cb1-343" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-344"><a href="#cb1-344" aria-hidden="true" tabindex="-1"></a>\frac{\sqrt n(\bar X_n-\mu)}{\sigma}\xrightarrow{d}\mathcal N(0,1).</span>
-<span id="cb1-345"><a href="#cb1-345" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-343"><a href="#cb1-343" aria-hidden="true" tabindex="-1"></a>The same identity later updates a prior on a parameter after observing data. The law of total probability, $\Pr(B)=\sum_j\Pr(B\mid A_j)\Pr(A_j)$ for a partition $(A_j)$, supplies its denominator. Consider a recession alarm that rings in 80 percent of recessions but also in 10 percent of non-recessions. If the prior probability of recession is 5 percent, an alarm raises the recession probability, but not to 80 percent: the false alarms among the much larger set of non-recessions matter. Bayes’ rule forces the base rate into the calculation. The algebra is elementary; the difficult part in applications lies in choosing the events, the model, and the relevant information set.</span>
+<span id="cb1-344"><a href="#cb1-344" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-345"><a href="#cb1-345" aria-hidden="true" tabindex="-1"></a><span class="fu">### Probability is not statistics {#sec-probability-versus-statistics}</span></span>
 <span id="cb1-346"><a href="#cb1-346" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-347"><a href="#cb1-347" aria-hidden="true" tabindex="-1"></a>The parent distribution need not be Normal. Averages of many finite-variance contributions become approximately Normal after centring and scaling. This is why Normal approximations are so widespread in econometrics.</span>
+<span id="cb1-347"><a href="#cb1-347" aria-hidden="true" tabindex="-1"></a>**Probability** starts with a model and derives the behaviour of possible data. If $Y_t=\beta X_t+\varepsilon_t$ and the distribution of $(X_t,\varepsilon_t)$ is known, probability describes the distribution of $Y_t$. **Statistics** starts with one realized sample $(y_1,\ldots,y_T)$ and asks what can be learned about the unknown distribution, parameter, or model that generated it.</span>
 <span id="cb1-348"><a href="#cb1-348" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-349"><a href="#cb1-349" aria-hidden="true" tabindex="-1"></a><span class="al">![The left panel follows an average of skewed exponential draws as the sample grows. The right panel shows that the centred, scaled means are already close to a Normal curve at a moderate sample size.](../figures/mathematics/lln-clt-simulation.png)</span>{#fig-lln-clt}</span>
+<span id="cb1-349"><a href="#cb1-349" aria-hidden="true" tabindex="-1"></a>A **statistical model** is a family of distributions $<span class="sc">\{</span>P_\theta:\theta\in\Theta<span class="sc">\}</span>$. The parameter $\theta$ indexes possible data-generating mechanisms: an AR coefficient, a variance, a regression slope, a VAR matrix, or an entire latent state path. Data do not reveal $\theta$ directly. An estimator $\hat\theta(Y_1,\ldots,Y_T)$ is itself random before the sample is drawn. Its sampling distribution is the bridge between an estimate and an inference claim.</span>
 <span id="cb1-350"><a href="#cb1-350" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-351"><a href="#cb1-351" aria-hidden="true" tabindex="-1"></a>Time series are not i.i.d., so the theorem cannot simply be invoked. Stationarity, ergodicity, and sufficiently weak dependence replace independence in time-series LLNs and CLTs. Persistent data contain less independent information than equally many independent observations, which is why naive standard errors are too small in serially correlated settings.</span>
+<span id="cb1-351"><a href="#cb1-351" aria-hidden="true" tabindex="-1"></a><span class="fu">### Why averages become reliable: LLN and CLT {#sec-lln-clt}</span></span>
 <span id="cb1-352"><a href="#cb1-352" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-353"><a href="#cb1-353" aria-hidden="true" tabindex="-1"></a><span class="fu">### Convergence is a language for increasingly informative samples</span></span>
+<span id="cb1-353"><a href="#cb1-353" aria-hidden="true" tabindex="-1"></a>Take a sample of household expenditures and calculate its average. Repeating the survey with another random sample does not give exactly the same number, but a larger well-designed sample should make the average less sensitive to the particular households selected. The **law of large numbers** formalises this intuition. If $X_1,\ldots,X_n$ are independent draws with finite mean $\mu$ and variance $\sigma^2$, then</span>
 <span id="cb1-354"><a href="#cb1-354" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-355"><a href="#cb1-355" aria-hidden="true" tabindex="-1"></a>Asymptotics do not say that a finite sample is infinite. They provide a controlled approximation by describing what happens along a sequence of larger samples. Three forms of convergence recur throughout econometrics:</span>
-<span id="cb1-356"><a href="#cb1-356" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-357"><a href="#cb1-357" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$X_n\xrightarrow{p}X$, **convergence in probability**: for any fixed tolerance, the probability of being farther away than that tolerance tends to zero. Consistency is this property with $X=\theta_0$.</span>
-<span id="cb1-358"><a href="#cb1-358" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$X_n\xrightarrow{d}X$, **convergence in distribution**: the distribution functions converge at continuity points. The CLT is of this kind. It permits approximation of quantiles and rejection probabilities, but does not say that the realised values become close path by path.</span>
-<span id="cb1-359"><a href="#cb1-359" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$X_n\xrightarrow{a.s.}X$, **almost sure convergence**: with probability one, a realized sequence eventually approaches $X$. It is stronger than convergence in probability and is a natural formalization of a long-run average settling down along one path.</span>
+<span id="cb1-355"><a href="#cb1-355" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-356"><a href="#cb1-356" aria-hidden="true" tabindex="-1"></a>\bar X_n=\frac1n\sum_{i=1}^nX_i\xrightarrow{p}\mu.</span>
+<span id="cb1-357"><a href="#cb1-357" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-358"><a href="#cb1-358" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-359"><a href="#cb1-359" aria-hidden="true" tabindex="-1"></a>It justifies replacing a population moment by a sample moment. The statement is about convergence in probability, not exact equality in a finite sample. It does not promise that every larger sample is closer than the preceding one, and it does not tell us how much uncertainty remains at a given $n$.</span>
 <span id="cb1-360"><a href="#cb1-360" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-361"><a href="#cb1-361" aria-hidden="true" tabindex="-1"></a>Two results make these statements usable. The **continuous mapping theorem** says that if $X_n\to X$ and $g$ is continuous, then $g(X_n)\to g(X)$. **Slutsky’s theorem** says that a consistent estimated nuisance quantity can replace its population counterpart in a limiting distribution: if $X_n\xrightarrow{d}X$ and $Y_n\xrightarrow{p}c$, then $X_nY_n\xrightarrow{d}cX$. Studentising a mean by an estimated standard deviation is the familiar example.</span>
+<span id="cb1-361"><a href="#cb1-361" aria-hidden="true" tabindex="-1"></a>The **central limit theorem** adds the shape and scale of the remaining uncertainty:</span>
 <span id="cb1-362"><a href="#cb1-362" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-363"><a href="#cb1-363" aria-hidden="true" tabindex="-1"></a>The **delta method** linearises a smooth transformation. If $\sqrt n(\hat\theta-\theta_0)\xrightarrow{d}\mathcal N(0,V)$ and $g$ is differentiable, then</span>
-<span id="cb1-364"><a href="#cb1-364" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-363"><a href="#cb1-363" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-364"><a href="#cb1-364" aria-hidden="true" tabindex="-1"></a>\frac{\sqrt n(\bar X_n-\mu)}{\sigma}\xrightarrow{d}\mathcal N(0,1).</span>
 <span id="cb1-365"><a href="#cb1-365" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-366"><a href="#cb1-366" aria-hidden="true" tabindex="-1"></a>\sqrt n\big(g(\hat\theta)-g(\theta_0)\big)</span>
-<span id="cb1-367"><a href="#cb1-367" aria-hidden="true" tabindex="-1"></a>\xrightarrow{d}\mathcal N\big(0,\nabla g(\theta_0)'V\nabla g(\theta_0)\big).</span>
-<span id="cb1-368"><a href="#cb1-368" aria-hidden="true" tabindex="-1"></a>$$ {#eq-delta-method}</span>
-<span id="cb1-369"><a href="#cb1-369" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-370"><a href="#cb1-370" aria-hidden="true" tabindex="-1"></a>For a scalar $g$, this is the familiar rule $\mathrm{Var}(g(\hat\theta))\approx<span class="co">[</span><span class="ot">g'(\theta_0)</span><span class="co">]</span>^2\mathrm{Var}(\hat\theta)$. It produces standard errors for elasticities, ratios, correlations, long-run multipliers, and impulse-response transformations. The approximation can fail near a boundary, a kink, or a weakly identified denominator; differentiability is doing real work.</span>
-<span id="cb1-371"><a href="#cb1-371" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-372"><a href="#cb1-372" aria-hidden="true" tabindex="-1"></a><span class="fu">### Why Normal, Student, chi-square, and Fisher distributions appear {#sec-sampling-distributions}</span></span>
-<span id="cb1-373"><a href="#cb1-373" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-374"><a href="#cb1-374" aria-hidden="true" tabindex="-1"></a>These distributions are not an arbitrary taxonomy. They arise from different unknown pieces of a model.</span>
-<span id="cb1-375"><a href="#cb1-375" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-376"><a href="#cb1-376" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Distribution <span class="pp">|</span> What it standardizes <span class="pp">|</span> Typical econometric appearance <span class="pp">|</span></span>
-<span id="cb1-377"><a href="#cb1-377" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>-<span class="pp">|</span>-<span class="pp">|</span>-<span class="pp">|</span></span>
-<span id="cb1-378"><a href="#cb1-378" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Normal <span class="pp">|</span> A mean with known scale, or a large-sample estimator <span class="pp">|</span> asymptotic $z$ statistic <span class="pp">|</span></span>
-<span id="cb1-379"><a href="#cb1-379" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Student $t$ <span class="pp">|</span> A mean or coefficient with estimated scale <span class="pp">|</span> finite-sample regression test under Gaussian errors <span class="pp">|</span></span>
-<span id="cb1-380"><a href="#cb1-380" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Chi-square <span class="pp">|</span> A sum of squared standardized Normal quantities <span class="pp">|</span> variance test, Wald test, likelihood-ratio limit <span class="pp">|</span></span>
-<span id="cb1-381"><a href="#cb1-381" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Fisher $F$ <span class="pp">|</span> A ratio of two independent scaled chi-square variables <span class="pp">|</span> joint restriction test, comparison of residual variances <span class="pp">|</span></span>
+<span id="cb1-366"><a href="#cb1-366" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-367"><a href="#cb1-367" aria-hidden="true" tabindex="-1"></a>The parent distribution need not be Normal. Expenditures may be skewed, defaults may be binary, and firm sizes may be highly unequal. Averages of many finite-variance contributions become approximately Normal after centring and scaling. The factor $\sqrt n$ is essential: doubling the sample does not halve standard error; it reduces it by a factor $\sqrt2$. This is why Normal approximations are so widespread in econometrics.</span>
+<span id="cb1-368"><a href="#cb1-368" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-369"><a href="#cb1-369" aria-hidden="true" tabindex="-1"></a><span class="al">![The left panel follows an average of skewed exponential draws as the sample grows. The right panel shows that the centred, scaled means are already close to a Normal curve at a moderate sample size.](../figures/mathematics/lln-clt-simulation.png)</span>{#fig-lln-clt}</span>
+<span id="cb1-370"><a href="#cb1-370" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-371"><a href="#cb1-371" aria-hidden="true" tabindex="-1"></a>Time series are not i.i.d., so the theorem cannot simply be invoked. Stationarity, ergodicity, and sufficiently weak dependence replace independence in time-series LLNs and CLTs. Persistent data contain less independent information than equally many independent observations, which is why naive standard errors are too small in serially correlated settings.</span>
+<span id="cb1-372"><a href="#cb1-372" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-373"><a href="#cb1-373" aria-hidden="true" tabindex="-1"></a><span class="fu">### Convergence is a language for increasingly informative samples</span></span>
+<span id="cb1-374"><a href="#cb1-374" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-375"><a href="#cb1-375" aria-hidden="true" tabindex="-1"></a>Asymptotics do not say that a finite sample is infinite. They provide a controlled approximation by describing what happens along a sequence of larger samples. Different questions require different forms of convergence.</span>
+<span id="cb1-376"><a href="#cb1-376" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-377"><a href="#cb1-377" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$X_n\xrightarrow{p}X$, **convergence in probability**, means that for every fixed tolerance $\varepsilon&gt;0$, $\Pr(|X_n-X|&gt;\varepsilon)\to0$. The estimate need not be close in every imaginable sample, but the fraction of samples in which it is noticeably wrong vanishes. Consistency is this property with $X=\theta_0$. The LLN is the central example.</span>
+<span id="cb1-378"><a href="#cb1-378" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-379"><a href="#cb1-379" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$X_n\xrightarrow{d}X$, **convergence in distribution**, means that the cumulative distribution functions converge at continuity points. The CLT is of this kind. It permits approximation of quantiles, confidence intervals, and rejection probabilities, but does not say that realised values become close path by path. A useful warning is $Z_n\sim\mathcal N(0,1)$ for every $n$: then $Z_n\xrightarrow{d}Z$ for $Z\sim\mathcal N(0,1)$, even though there is no reason for $Z_n-Z$ to shrink.</span>
+<span id="cb1-380"><a href="#cb1-380" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-381"><a href="#cb1-381" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$X_n\xrightarrow{a.s.}X$, **almost sure convergence**, means that with probability one a realised sequence eventually approaches $X$. It is stronger than convergence in probability and is a natural formalisation of a long-run average settling down along one path. The strong LLN gives this result under stronger conditions.</span>
 <span id="cb1-382"><a href="#cb1-382" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-383"><a href="#cb1-383" aria-hidden="true" tabindex="-1"></a>The Student distribution has heavier tails than the Normal because estimating a scale introduces uncertainty. The chi-square is non-negative because it is built from squares. The $F$ distribution is non-negative and right-skewed because it compares two sources of variation. In large samples, many tests become asymptotically Normal or chi-square even when finite-sample exact distributions are unavailable.</span>
+<span id="cb1-383"><a href="#cb1-383" aria-hidden="true" tabindex="-1"></a>There is a hierarchy: almost sure convergence implies convergence in probability; convergence in probability implies convergence in distribution. The reverse implications generally fail. The distinction matters because an estimator can be consistent while its scaled error has a non-degenerate limiting distribution. Thus $\bar X_n\xrightarrow{p}\mu$, but $\sqrt n(\bar X_n-\mu)$ does not converge to zero; it has an approximately Normal distribution.</span>
 <span id="cb1-384"><a href="#cb1-384" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-385"><a href="#cb1-385" aria-hidden="true" tabindex="-1"></a><span class="al">![Sampling distributions reflect different inferential problems. Estimating a scale gives the heavier tails of Student’s $t$; squaring and comparing independent Gaussian components produces chi-square and $F$ laws.](../figures/mathematics/sampling-distributions.png)</span>{#fig-sampling-distributions}</span>
+<span id="cb1-385"><a href="#cb1-385" aria-hidden="true" tabindex="-1"></a>Two results make these statements usable. The **continuous mapping theorem** says that if $X_n\to X$ and $g$ is continuous, then $g(X_n)\to g(X)$. **Slutsky’s theorem** says that a consistent estimated nuisance quantity can replace its population counterpart in a limiting distribution: if $X_n\xrightarrow{d}X$ and $Y_n\xrightarrow{p}c$, then $X_nY_n\xrightarrow{d}cX$. Studentising a mean by an estimated standard deviation is the familiar example.</span>
 <span id="cb1-386"><a href="#cb1-386" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-387"><a href="#cb1-387" aria-hidden="true" tabindex="-1"></a><span class="fu">### Estimation, confidence intervals, and tests</span></span>
+<span id="cb1-387"><a href="#cb1-387" aria-hidden="true" tabindex="-1"></a>The **delta method** linearises a smooth transformation. If $\sqrt n(\hat\theta-\theta_0)\xrightarrow{d}\mathcal N(0,V)$ and $g$ is differentiable, then</span>
 <span id="cb1-388"><a href="#cb1-388" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-389"><a href="#cb1-389" aria-hidden="true" tabindex="-1"></a>The likelihood $L(\theta;y)$ is the model’s density or mass for the observed data, viewed as a function of $\theta$. Maximum likelihood chooses $\hat\theta$ that makes the observed sample most probable under the maintained model. Under regularity conditions,</span>
-<span id="cb1-390"><a href="#cb1-390" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-391"><a href="#cb1-391" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-392"><a href="#cb1-392" aria-hidden="true" tabindex="-1"></a>\sqrt T(\hat\theta-\theta_0)\xrightarrow{d}\mathcal N\big(0,\mathcal I(\theta_0)^{-1}\big),</span>
-<span id="cb1-393"><a href="#cb1-393" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-394"><a href="#cb1-394" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-395"><a href="#cb1-395" aria-hidden="true" tabindex="-1"></a>where $\mathcal I$ is information. This asymptotic statement supplies standard errors, confidence intervals, Wald tests, score tests, and likelihood-ratio tests.</span>
-<span id="cb1-396"><a href="#cb1-396" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-397"><a href="#cb1-397" aria-hidden="true" tabindex="-1"></a>A 95 percent confidence interval is a procedure which covers the fixed true parameter in 95 percent of repeated samples under the model. A $p$-value is the probability, under a specified null hypothesis, of a statistic at least as incompatible with that null as the realized one. Neither is the probability that the parameter or hypothesis itself is true.</span>
-<span id="cb1-398"><a href="#cb1-398" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-399"><a href="#cb1-399" aria-hidden="true" tabindex="-1"></a><span class="fu">### OLS as an inferential model, not only a minimisation problem {#sec-ols-assumptions}</span></span>
-<span id="cb1-400"><a href="#cb1-400" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-401"><a href="#cb1-401" aria-hidden="true" tabindex="-1"></a>The projection in @eq-ols-projection exists with few assumptions. Interpreting $\hat\beta$ as evidence about an economic relation requires more. Write the linear model as</span>
-<span id="cb1-402"><a href="#cb1-402" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-403"><a href="#cb1-403" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-404"><a href="#cb1-404" aria-hidden="true" tabindex="-1"></a>y=X\beta+u,\qquad X=(x_1',\ldots,x_T')'.</span>
-<span id="cb1-405"><a href="#cb1-405" aria-hidden="true" tabindex="-1"></a>$$ {#eq-ols-model}</span>
+<span id="cb1-389"><a href="#cb1-389" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-390"><a href="#cb1-390" aria-hidden="true" tabindex="-1"></a>\sqrt n\big(g(\hat\theta)-g(\theta_0)\big)</span>
+<span id="cb1-391"><a href="#cb1-391" aria-hidden="true" tabindex="-1"></a>\xrightarrow{d}\mathcal N\big(0,\nabla g(\theta_0)'V\nabla g(\theta_0)\big).</span>
+<span id="cb1-392"><a href="#cb1-392" aria-hidden="true" tabindex="-1"></a>$$ {#eq-delta-method}</span>
+<span id="cb1-393"><a href="#cb1-393" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-394"><a href="#cb1-394" aria-hidden="true" tabindex="-1"></a>For a scalar $g$, this is the familiar rule $\mathrm{Var}(g(\hat\theta))\approx<span class="co">[</span><span class="ot">g'(\theta_0)</span><span class="co">]</span>^2\mathrm{Var}(\hat\theta)$. It produces standard errors for elasticities, ratios, correlations, long-run multipliers, and impulse-response transformations. The approximation can fail near a boundary, a kink, or a weakly identified denominator; differentiability is doing real work.</span>
+<span id="cb1-395"><a href="#cb1-395" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-396"><a href="#cb1-396" aria-hidden="true" tabindex="-1"></a><span class="fu">### Why Normal, Student, chi-square, and Fisher distributions appear {#sec-sampling-distributions}</span></span>
+<span id="cb1-397"><a href="#cb1-397" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-398"><a href="#cb1-398" aria-hidden="true" tabindex="-1"></a>These distributions are not an arbitrary taxonomy. They arise from different unknown pieces of a model.</span>
+<span id="cb1-399"><a href="#cb1-399" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-400"><a href="#cb1-400" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Distribution <span class="pp">|</span> What it standardizes <span class="pp">|</span> Typical econometric appearance <span class="pp">|</span></span>
+<span id="cb1-401"><a href="#cb1-401" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>-<span class="pp">|</span>-<span class="pp">|</span>-<span class="pp">|</span></span>
+<span id="cb1-402"><a href="#cb1-402" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Normal <span class="pp">|</span> A mean with known scale, or a large-sample estimator <span class="pp">|</span> asymptotic $z$ statistic <span class="pp">|</span></span>
+<span id="cb1-403"><a href="#cb1-403" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Student $t$ <span class="pp">|</span> A mean or coefficient with estimated scale <span class="pp">|</span> finite-sample regression test under Gaussian errors <span class="pp">|</span></span>
+<span id="cb1-404"><a href="#cb1-404" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Chi-square <span class="pp">|</span> A sum of squared standardized Normal quantities <span class="pp">|</span> variance test, Wald test, likelihood-ratio limit <span class="pp">|</span></span>
+<span id="cb1-405"><a href="#cb1-405" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Fisher $F$ <span class="pp">|</span> A ratio of two independent scaled chi-square variables <span class="pp">|</span> joint restriction test, comparison of residual variances <span class="pp">|</span></span>
 <span id="cb1-406"><a href="#cb1-406" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-407"><a href="#cb1-407" aria-hidden="true" tabindex="-1"></a>Here “linear” means linear in the unknown coefficients, not necessarily linear in observed variables: $y=\beta_0+\beta_1x+\beta_2x^2+u$ is linear in $\beta$. The usual assumptions can be separated by what they buy us.</span>
+<span id="cb1-407"><a href="#cb1-407" aria-hidden="true" tabindex="-1"></a>The Student distribution has heavier tails than the Normal because estimating a scale introduces uncertainty. The chi-square is non-negative because it is built from squares. The $F$ distribution is non-negative and right-skewed because it compares two sources of variation. In large samples, many tests become asymptotically Normal or chi-square even when finite-sample exact distributions are unavailable.</span>
 <span id="cb1-408"><a href="#cb1-408" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-409"><a href="#cb1-409" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Assumption <span class="pp">|</span> Technical statement <span class="pp">|</span> Economic reading <span class="pp">|</span> If relaxed <span class="pp">|</span></span>
-<span id="cb1-410"><a href="#cb1-410" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>-<span class="pp">|</span>-<span class="pp">|</span>-<span class="pp">|</span>-<span class="pp">|</span></span>
-<span id="cb1-411"><a href="#cb1-411" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Correct conditional mean <span class="pp">|</span> $E<span class="co">[</span><span class="ot">u\mid X</span><span class="co">]</span>=0$ <span class="pp">|</span> regressors contain no systematically omitted force moving $y$ <span class="pp">|</span> omitted variables, simultaneity, selection, or measurement error can bias and invalidate consistency <span class="pp">|</span></span>
-<span id="cb1-412"><a href="#cb1-412" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> No exact collinearity <span class="pp">|</span> $X'X$ invertible <span class="pp">|</span> the sample contains independent variation in each regressor <span class="pp">|</span> coefficients are not separately identified <span class="pp">|</span></span>
-<span id="cb1-413"><a href="#cb1-413" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Finite, well-behaved moments <span class="pp">|</span> $E<span class="sc">\|</span>x_tu_t<span class="sc">\|</span>^2&lt;\infty$ <span class="pp">|</span> no observation dominates the sample permanently <span class="pp">|</span> LLN and CLT can fail or converge slowly <span class="pp">|</span></span>
-<span id="cb1-414"><a href="#cb1-414" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Homoskedasticity <span class="pp">|</span> $\mathrm{Var}(u\mid X)=\sigma^2I$ <span class="pp">|</span> conditional uncertainty is constant and uncorrelated across observations <span class="pp">|</span> OLS remains conditionally unbiased under exogeneity, but classical standard errors and efficiency fail <span class="pp">|</span></span>
-<span id="cb1-415"><a href="#cb1-415" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Independent observations <span class="pp">|</span> observations are independent conditional on $X$ <span class="pp">|</span> one observation gives no residual information about another <span class="pp">|</span> serial, spatial, or cluster dependence requires adapted inference <span class="pp">|</span></span>
-<span id="cb1-416"><a href="#cb1-416" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Normal errors, when invoked <span class="pp">|</span> $u\mid X\sim\mathcal N(0,\sigma^2I)$ <span class="pp">|</span> a fully specified finite-sample error law <span class="pp">|</span> not needed for OLS consistency; exact small-sample $t$ and $F$ results no longer follow <span class="pp">|</span></span>
-<span id="cb1-417"><a href="#cb1-417" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-418"><a href="#cb1-418" aria-hidden="true" tabindex="-1"></a>The first two assumptions govern identification. Homoskedasticity and Normality do not repair endogeneity. Conversely, a non-Normal but exogenous, sufficiently regular error can still support large-sample inference. This hierarchy prevents a common mistake: treating a normality test as if it validated a causal regression.</span>
-<span id="cb1-419"><a href="#cb1-419" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-420"><a href="#cb1-420" aria-hidden="true" tabindex="-1"></a>Substituting @eq-ols-model into the OLS formula gives the estimator’s basic decomposition,</span>
-<span id="cb1-421"><a href="#cb1-421" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-422"><a href="#cb1-422" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-423"><a href="#cb1-423" aria-hidden="true" tabindex="-1"></a>\hat\beta-\beta=(X'X)^{-1}X'u.</span>
-<span id="cb1-424"><a href="#cb1-424" aria-hidden="true" tabindex="-1"></a>$$ {#eq-ols-error-decomposition}</span>
-<span id="cb1-425"><a href="#cb1-425" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-426"><a href="#cb1-426" aria-hidden="true" tabindex="-1"></a>Conditional mean zero implies $E<span class="co">[</span><span class="ot">\hat\beta\mid X</span><span class="co">]</span>=\beta$. Under spherical errors, its conditional variance is</span>
-<span id="cb1-427"><a href="#cb1-427" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-428"><a href="#cb1-428" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-429"><a href="#cb1-429" aria-hidden="true" tabindex="-1"></a>\mathrm{Var}(\hat\beta\mid X)=\sigma^2(X'X)^{-1}.</span>
-<span id="cb1-430"><a href="#cb1-430" aria-hidden="true" tabindex="-1"></a>$$ {#eq-ols-variance}</span>
-<span id="cb1-431"><a href="#cb1-431" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-432"><a href="#cb1-432" aria-hidden="true" tabindex="-1"></a>The Gauss–Markov theorem says that among linear unbiased estimators, OLS has the smallest variance under these spherical-error assumptions. With heteroskedasticity, the correct asymptotic covariance takes the sandwich form,</span>
-<span id="cb1-433"><a href="#cb1-433" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-434"><a href="#cb1-434" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-435"><a href="#cb1-435" aria-hidden="true" tabindex="-1"></a>(X'X)^{-1}\left(\sum_{t=1}^T x_tx_t'\hat u_t^2\right)(X'X)^{-1},</span>
-<span id="cb1-436"><a href="#cb1-436" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-437"><a href="#cb1-437" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-438"><a href="#cb1-438" aria-hidden="true" tabindex="-1"></a>up to the relevant $T$ scaling. HAC estimators extend this middle term to serially correlated residuals. Clustered estimators allow arbitrary dependence within a cluster. These corrections address the uncertainty calculation, not the bias caused by $E<span class="co">[</span><span class="ot">u\mid X</span><span class="co">]</span>\neq0$.</span>
-<span id="cb1-439"><a href="#cb1-439" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-440"><a href="#cb1-440" aria-hidden="true" tabindex="-1"></a><span class="fu">### Confidence intervals and tests are constructed from a reference distribution</span></span>
-<span id="cb1-441"><a href="#cb1-441" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-442"><a href="#cb1-442" aria-hidden="true" tabindex="-1"></a>To test $H_0:\beta_j=\beta_{j,0}$ against a two-sided alternative $H_1:\beta_j\neq\beta_{j,0}$, first choose a statistic that would be near zero if $H_0$ were true,</span>
-<span id="cb1-443"><a href="#cb1-443" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-444"><a href="#cb1-444" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-445"><a href="#cb1-445" aria-hidden="true" tabindex="-1"></a>t=\frac{\hat\beta_j-\beta_{j,0}}{\mathrm{se}(\hat\beta_j)}.</span>
-<span id="cb1-446"><a href="#cb1-446" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-409"><a href="#cb1-409" aria-hidden="true" tabindex="-1"></a><span class="al">![Sampling distributions reflect different inferential problems. Estimating a scale gives the heavier tails of Student’s $t$; squaring and comparing independent Gaussian components produces chi-square and $F$ laws.](../figures/mathematics/sampling-distributions.png)</span>{#fig-sampling-distributions}</span>
+<span id="cb1-410"><a href="#cb1-410" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-411"><a href="#cb1-411" aria-hidden="true" tabindex="-1"></a><span class="fu">### Estimation, confidence intervals, and tests</span></span>
+<span id="cb1-412"><a href="#cb1-412" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-413"><a href="#cb1-413" aria-hidden="true" tabindex="-1"></a>Suppose a regression reports an estimate of .4 for the elasticity of employment with respect to output. The number alone does not tell us whether another random sample would have produced .39, .1, or minus .2. Inference starts by representing that sample-to-sample variation. The likelihood $L(\theta;y)$ is the model’s density or mass for the observed data, viewed as a function of $\theta$. Maximum likelihood chooses $\hat\theta$ that makes the observed sample most probable under the maintained model. Under regularity conditions,</span>
+<span id="cb1-414"><a href="#cb1-414" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-415"><a href="#cb1-415" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-416"><a href="#cb1-416" aria-hidden="true" tabindex="-1"></a>\sqrt T(\hat\theta-\theta_0)\xrightarrow{d}\mathcal N\big(0,\mathcal I(\theta_0)^{-1}\big),</span>
+<span id="cb1-417"><a href="#cb1-417" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-418"><a href="#cb1-418" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-419"><a href="#cb1-419" aria-hidden="true" tabindex="-1"></a>where $\mathcal I$ is information. This asymptotic statement supplies standard errors, confidence intervals, Wald tests, score tests, and likelihood-ratio tests.</span>
+<span id="cb1-420"><a href="#cb1-420" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-421"><a href="#cb1-421" aria-hidden="true" tabindex="-1"></a>A 95 percent confidence interval is a procedure which covers the fixed true parameter in 95 percent of repeated samples under the model. The parameter does not move from sample to sample in the frequentist interpretation; the interval does. If the entire exercise were repeated many times, about 95 percent of constructed intervals would contain the same fixed truth. For one realised interval, the parameter is either in it or not. This is a statement about the procedure’s long-run calibration, not a probability assigned to the parameter.</span>
+<span id="cb1-422"><a href="#cb1-422" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-423"><a href="#cb1-423" aria-hidden="true" tabindex="-1"></a><span class="al">![Each horizontal line is a confidence interval constructed from an independent sample drawn from the same population. The vertical line is the fixed true mean. A calibrated 95 percent procedure misses occasionally, as it must.](../figures/mathematics/confidence-interval-repeated-sampling.png)</span>{#fig-confidence-intervals}</span>
+<span id="cb1-424"><a href="#cb1-424" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-425"><a href="#cb1-425" aria-hidden="true" tabindex="-1"></a>A $p$-value is different again: under a specified null hypothesis, it is the probability of a statistic at least as incompatible with that null as the realised one. It is not the probability that the null is true, and a large $p$-value is not evidence that two values are exactly equal. It says that the observed discrepancy is not unusual relative to the null and the maintained sampling model.</span>
+<span id="cb1-426"><a href="#cb1-426" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-427"><a href="#cb1-427" aria-hidden="true" tabindex="-1"></a><span class="fu">### OLS as an inferential model, not only a minimisation problem {#sec-ols-assumptions}</span></span>
+<span id="cb1-428"><a href="#cb1-428" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-429"><a href="#cb1-429" aria-hidden="true" tabindex="-1"></a>The projection in @eq-ols-projection exists with few assumptions. Interpreting $\hat\beta$ as evidence about an economic relation requires more. Write the linear model as</span>
+<span id="cb1-430"><a href="#cb1-430" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-431"><a href="#cb1-431" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-432"><a href="#cb1-432" aria-hidden="true" tabindex="-1"></a>y=X\beta+u,\qquad X=(x_1',\ldots,x_T')'.</span>
+<span id="cb1-433"><a href="#cb1-433" aria-hidden="true" tabindex="-1"></a>$$ {#eq-ols-model}</span>
+<span id="cb1-434"><a href="#cb1-434" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-435"><a href="#cb1-435" aria-hidden="true" tabindex="-1"></a>Here “linear” means linear in the unknown coefficients, not necessarily linear in observed variables: $y=\beta_0+\beta_1x+\beta_2x^2+u$ is linear in $\beta$. The usual assumptions can be separated by what they buy us.</span>
+<span id="cb1-436"><a href="#cb1-436" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-437"><a href="#cb1-437" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Assumption <span class="pp">|</span> Technical statement <span class="pp">|</span> Economic reading <span class="pp">|</span> If relaxed <span class="pp">|</span></span>
+<span id="cb1-438"><a href="#cb1-438" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>-<span class="pp">|</span>-<span class="pp">|</span>-<span class="pp">|</span>-<span class="pp">|</span></span>
+<span id="cb1-439"><a href="#cb1-439" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Correct conditional mean <span class="pp">|</span> $E<span class="co">[</span><span class="ot">u\mid X</span><span class="co">]</span>=0$ <span class="pp">|</span> regressors contain no systematically omitted force moving $y$ <span class="pp">|</span> omitted variables, simultaneity, selection, or measurement error can bias and invalidate consistency <span class="pp">|</span></span>
+<span id="cb1-440"><a href="#cb1-440" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> No exact collinearity <span class="pp">|</span> $X'X$ invertible <span class="pp">|</span> the sample contains independent variation in each regressor <span class="pp">|</span> coefficients are not separately identified <span class="pp">|</span></span>
+<span id="cb1-441"><a href="#cb1-441" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Finite, well-behaved moments <span class="pp">|</span> $E<span class="sc">\|</span>x_tu_t<span class="sc">\|</span>^2&lt;\infty$ <span class="pp">|</span> no observation dominates the sample permanently <span class="pp">|</span> LLN and CLT can fail or converge slowly <span class="pp">|</span></span>
+<span id="cb1-442"><a href="#cb1-442" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Homoskedasticity <span class="pp">|</span> $\mathrm{Var}(u\mid X)=\sigma^2I$ <span class="pp">|</span> conditional uncertainty is constant and uncorrelated across observations <span class="pp">|</span> OLS remains conditionally unbiased under exogeneity, but classical standard errors and efficiency fail <span class="pp">|</span></span>
+<span id="cb1-443"><a href="#cb1-443" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Independent observations <span class="pp">|</span> observations are independent conditional on $X$ <span class="pp">|</span> one observation gives no residual information about another <span class="pp">|</span> serial, spatial, or cluster dependence requires adapted inference <span class="pp">|</span></span>
+<span id="cb1-444"><a href="#cb1-444" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Normal errors, when invoked <span class="pp">|</span> $u\mid X\sim\mathcal N(0,\sigma^2I)$ <span class="pp">|</span> a fully specified finite-sample error law <span class="pp">|</span> not needed for OLS consistency; exact small-sample $t$ and $F$ results no longer follow <span class="pp">|</span></span>
+<span id="cb1-445"><a href="#cb1-445" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-446"><a href="#cb1-446" aria-hidden="true" tabindex="-1"></a>The first two assumptions govern identification. Homoskedasticity and Normality do not repair endogeneity. Conversely, a non-Normal but exogenous, sufficiently regular error can still support large-sample inference. This hierarchy prevents a common mistake: treating a normality test as if it validated a causal regression.</span>
 <span id="cb1-447"><a href="#cb1-447" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-448"><a href="#cb1-448" aria-hidden="true" tabindex="-1"></a>Under the null and the maintained assumptions, this statistic has either an exact Student distribution in the Gaussian finite-sample model or an approximately Normal distribution asymptotically. A significance level $\alpha$, often .05, is chosen *before* seeing the statistic. The rejection region is selected so that $\Pr(\text{reject }H_0\mid H_0)\leq\alpha$. This is the **Type I error** or false-alarm probability.</span>
+<span id="cb1-448"><a href="#cb1-448" aria-hidden="true" tabindex="-1"></a>Substituting @eq-ols-model into the OLS formula gives the estimator’s basic decomposition,</span>
 <span id="cb1-449"><a href="#cb1-449" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-450"><a href="#cb1-450" aria-hidden="true" tabindex="-1"></a>If $H_1$ is true, failure to reject is a **Type II error**. Its probability is $\beta$; power is $1-\beta$. Power rises with sample size, signal size, regressor variation, and lower noise. A non-significant estimate can mean “no economically relevant effect,” but it can also mean that the data are too imprecise to distinguish the effect from zero. Report the interval, not only the star.</span>
-<span id="cb1-451"><a href="#cb1-451" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-452"><a href="#cb1-452" aria-hidden="true" tabindex="-1"></a><span class="al">![A significance test compares the realised statistic with a distribution implied by the null. Choosing a five-percent rejection region controls the false-alarm probability, while the overlap with an alternative distribution determines the chance of missing an existing effect.](../figures/mathematics/hypothesis-testing-errors.png)</span>{#fig-hypothesis-testing}</span>
+<span id="cb1-450"><a href="#cb1-450" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-451"><a href="#cb1-451" aria-hidden="true" tabindex="-1"></a>\hat\beta-\beta=(X'X)^{-1}X'u.</span>
+<span id="cb1-452"><a href="#cb1-452" aria-hidden="true" tabindex="-1"></a>$$ {#eq-ols-error-decomposition}</span>
 <span id="cb1-453"><a href="#cb1-453" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-454"><a href="#cb1-454" aria-hidden="true" tabindex="-1"></a>A two-sided $(1-\alpha)$ confidence interval,</span>
+<span id="cb1-454"><a href="#cb1-454" aria-hidden="true" tabindex="-1"></a>Conditional mean zero implies $E<span class="co">[</span><span class="ot">\hat\beta\mid X</span><span class="co">]</span>=\beta$. Under spherical errors, its conditional variance is</span>
 <span id="cb1-455"><a href="#cb1-455" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-456"><a href="#cb1-456" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-457"><a href="#cb1-457" aria-hidden="true" tabindex="-1"></a>\hat\beta_j\pm c_{1-\alpha/2}\,\mathrm{se}(\hat\beta_j),</span>
-<span id="cb1-458"><a href="#cb1-458" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-457"><a href="#cb1-457" aria-hidden="true" tabindex="-1"></a>\mathrm{Var}(\hat\beta\mid X)=\sigma^2(X'X)^{-1}.</span>
+<span id="cb1-458"><a href="#cb1-458" aria-hidden="true" tabindex="-1"></a>$$ {#eq-ols-variance}</span>
 <span id="cb1-459"><a href="#cb1-459" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-460"><a href="#cb1-460" aria-hidden="true" tabindex="-1"></a>contains exactly the parameter values not rejected by the corresponding two-sided test. Its width is an estimand-relevant measure of precision. Statistical significance is therefore not effect size, economic importance, or model validity.</span>
+<span id="cb1-460"><a href="#cb1-460" aria-hidden="true" tabindex="-1"></a>The Gauss–Markov theorem says that among linear unbiased estimators, OLS has the smallest variance under these spherical-error assumptions. With heteroskedasticity, the correct asymptotic covariance takes the sandwich form,</span>
 <span id="cb1-461"><a href="#cb1-461" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-462"><a href="#cb1-462" aria-hidden="true" tabindex="-1"></a><span class="fu">## Stochastic processes: probability arranged through time {#sec-stochastic-processes-foundations}</span></span>
-<span id="cb1-463"><a href="#cb1-463" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-464"><a href="#cb1-464" aria-hidden="true" tabindex="-1"></a>A stochastic process $(X_t)_{t\in\mathbb Z}$ is a sequence of random variables indexed by time. The observed series $x_1,\ldots,x_T$ is one path. This distinction matters: the model assigns probability to many possible histories, while economics gives us only one.</span>
+<span id="cb1-462"><a href="#cb1-462" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-463"><a href="#cb1-463" aria-hidden="true" tabindex="-1"></a>(X'X)^{-1}\left(\sum_{t=1}^T x_tx_t'\hat u_t^2\right)(X'X)^{-1},</span>
+<span id="cb1-464"><a href="#cb1-464" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb1-465"><a href="#cb1-465" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-466"><a href="#cb1-466" aria-hidden="true" tabindex="-1"></a>For a weakly stationary process, $E<span class="co">[</span><span class="ot">X_t</span><span class="co">]</span>=\mu$ is constant and $\mathrm{Cov}(X_t,X_{t-h})=\gamma(h)$ depends only on the lag. The process may be highly persistent without being non-stationary. An AR(1),</span>
+<span id="cb1-466"><a href="#cb1-466" aria-hidden="true" tabindex="-1"></a>up to the relevant $T$ scaling. HAC estimators extend this middle term to serially correlated residuals. Clustered estimators allow arbitrary dependence within a cluster. These corrections address the uncertainty calculation, not the bias caused by $E<span class="co">[</span><span class="ot">u\mid X</span><span class="co">]</span>\neq0$.</span>
 <span id="cb1-467"><a href="#cb1-467" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-468"><a href="#cb1-468" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-469"><a href="#cb1-469" aria-hidden="true" tabindex="-1"></a>X_t=\phi X_{t-1}+\varepsilon_t,</span>
-<span id="cb1-470"><a href="#cb1-470" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-468"><a href="#cb1-468" aria-hidden="true" tabindex="-1"></a><span class="fu">### Confidence intervals and tests are constructed from a reference distribution</span></span>
+<span id="cb1-469"><a href="#cb1-469" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-470"><a href="#cb1-470" aria-hidden="true" tabindex="-1"></a>Suppose the question is whether a policy coefficient differs from zero. The null hypothesis $H_0:\beta_j=0$ is a benchmark used to construct a reference distribution; the alternative $H_1:\beta_j\neq0$ says that values away from zero are admissible. A test does not begin by reading the estimate and then inventing a rule favourable to it. It begins with a discrepancy statistic that would be near zero if $H_0$ were true,</span>
 <span id="cb1-471"><a href="#cb1-471" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-472"><a href="#cb1-472" aria-hidden="true" tabindex="-1"></a>is stationary for $|\phi|&lt;1$: shocks fade at rate $\phi^h$. A random walk has $phi=1$; shocks never fade, variance accumulates, and the level has no fixed unconditional distribution.</span>
-<span id="cb1-473"><a href="#cb1-473" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-474"><a href="#cb1-474" aria-hidden="true" tabindex="-1"></a><span class="al">![The same innovations drive both paths. The stationary AR(1) forgets them gradually; the random walk retains every past innovation in its level.](../figures/mathematics/stationary-ar-versus-random-walk.png)</span>{#fig-stationary-random-walk}</span>
+<span id="cb1-472"><a href="#cb1-472" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-473"><a href="#cb1-473" aria-hidden="true" tabindex="-1"></a>t=\frac{\hat\beta_j-\beta_{j,0}}{\mathrm{se}(\hat\beta_j)}.</span>
+<span id="cb1-474"><a href="#cb1-474" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb1-475"><a href="#cb1-475" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-476"><a href="#cb1-476" aria-hidden="true" tabindex="-1"></a>The economic distinction is substantial. A temporary demand shock in a stable system eventually disappears. A shock to a random-walk component permanently changes the forecast level. A unit-root test is therefore not a ritual preliminary: it asks which sort of persistence is compatible with the data, and thus which transformations and inferential approximations are defensible. The time-series chapter returns to these distinctions in detail (@sec-time-series).</span>
+<span id="cb1-476"><a href="#cb1-476" aria-hidden="true" tabindex="-1"></a>Under the null and the maintained assumptions, this statistic has either an exact Student distribution in the Gaussian finite-sample model or an approximately Normal distribution asymptotically. For a two-sided five-percent test, the null distribution’s outer 2.5 percent on each side become rejection regions. A significance level $\alpha=.05$ is chosen before seeing the statistic, so the procedure satisfies $\Pr(\text{reject }H_0\mid H_0)\leq.05$. This is the **Type I error** or false-alarm probability. The phrase “five percent significant” refers to this long-run false-alarm control; it does not mean there is a 95 percent probability that the estimate is non-zero.</span>
 <span id="cb1-477"><a href="#cb1-477" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-478"><a href="#cb1-478" aria-hidden="true" tabindex="-1"></a><span class="fu">## Bayesian inference: uncertainty about parameters as well as data {#sec-bayes-foundations}</span></span>
+<span id="cb1-478"><a href="#cb1-478" aria-hidden="true" tabindex="-1"></a>If $H_1$ is true, failure to reject is a **Type II error**. Its probability is $\beta$; power is $1-\beta$. The two distributions overlap because samples are noisy. Moving the critical value outward lowers false alarms but enlarges the region in which an actual effect is missed. Power rises with sample size, signal size, regressor variation, and lower noise. A non-significant estimate can mean “no economically relevant effect,” but it can also mean that the data are too imprecise to distinguish the effect from zero. Report the interval, not only the star.</span>
 <span id="cb1-479"><a href="#cb1-479" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-480"><a href="#cb1-480" aria-hidden="true" tabindex="-1"></a>Frequentist inference treats $\theta$ as fixed and data as random. Bayesian inference represents prior uncertainty about $\theta$ with a density $p(\theta)$, then updates it with the likelihood $p(y\mid\theta)$:</span>
+<span id="cb1-480"><a href="#cb1-480" aria-hidden="true" tabindex="-1"></a><span class="al">![The left panel fixes the two rejection tails of a two-sided five-percent test under the null. The right panel makes the trade-off visible: overlap between a null and an alternative sampling distribution creates both false alarms and missed effects.](../figures/mathematics/hypothesis-testing-errors.png)</span>{#fig-hypothesis-testing}</span>
 <span id="cb1-481"><a href="#cb1-481" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-482"><a href="#cb1-482" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-483"><a href="#cb1-483" aria-hidden="true" tabindex="-1"></a>p(\theta\mid y)=\frac{p(y\mid\theta)p(\theta)}{p(y)},</span>
-<span id="cb1-484"><a href="#cb1-484" aria-hidden="true" tabindex="-1"></a>\qquad</span>
-<span id="cb1-485"><a href="#cb1-485" aria-hidden="true" tabindex="-1"></a>p(y)=\int p(y\mid\theta)p(\theta)\,d\theta.</span>
-<span id="cb1-486"><a href="#cb1-486" aria-hidden="true" tabindex="-1"></a>$$ {#eq-bayes-rule}</span>
+<span id="cb1-482"><a href="#cb1-482" aria-hidden="true" tabindex="-1"></a>A two-sided $(1-\alpha)$ confidence interval,</span>
+<span id="cb1-483"><a href="#cb1-483" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-484"><a href="#cb1-484" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-485"><a href="#cb1-485" aria-hidden="true" tabindex="-1"></a>\hat\beta_j\pm c_{1-\alpha/2}\,\mathrm{se}(\hat\beta_j),</span>
+<span id="cb1-486"><a href="#cb1-486" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb1-487"><a href="#cb1-487" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-488"><a href="#cb1-488" aria-hidden="true" tabindex="-1"></a>The denominator is a normalising constant. The content of Bayes’ rule is proportionality: posterior $\propto$ likelihood $\times$ prior. The prior matters most when data are sparse or weakly informative. It need not be “subjective” in a casual sense: it can encode parameter restrictions, historical evidence, regularisation, or a disciplined belief that a large VAR should not have implausibly large coefficients.</span>
+<span id="cb1-488"><a href="#cb1-488" aria-hidden="true" tabindex="-1"></a>contains exactly the parameter values not rejected by the corresponding two-sided test. The equivalence is useful: if a 95 percent interval excludes zero, the corresponding two-sided five-percent test rejects zero. Its width is an estimand-relevant measure of precision. An elasticity estimated at .02 with a narrow interval can be highly significant and economically negligible; an elasticity estimated at .5 with a wide interval may be economically important but statistically unresolved. Statistical significance is therefore not effect size, economic importance, or model validity.</span>
 <span id="cb1-489"><a href="#cb1-489" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-490"><a href="#cb1-490" aria-hidden="true" tabindex="-1"></a><span class="al">![A prior density and a likelihood combine into a posterior. The graph does not show a compromise by convention; it shows multiplication of two probability statements, followed by normalisation.](../figures/mathematics/bayesian-update.png)</span>{#fig-bayesian-update}</span>
+<span id="cb1-490"><a href="#cb1-490" aria-hidden="true" tabindex="-1"></a><span class="fu">## Stochastic processes: probability arranged through time {#sec-stochastic-processes-foundations}</span></span>
 <span id="cb1-491"><a href="#cb1-491" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-492"><a href="#cb1-492" aria-hidden="true" tabindex="-1"></a>Bayesian credible intervals have a direct conditional interpretation: given the model, prior, and data, the posterior assigns a stated probability to the interval. Their validity therefore depends on the model and prior. The later Bayesian VAR chapter develops computation and prior choice in the setting where this distinction is most useful (@sec-bvar).</span>
+<span id="cb1-492"><a href="#cb1-492" aria-hidden="true" tabindex="-1"></a>A cross-section asks what differs across households at one date. A macroeconomic series asks what may happen next after a particular past has occurred. A **stochastic process** $(X_t)_{t\in\mathbb Z}$ is a sequence of random variables indexed by time. The observed series $x_1,\ldots,x_T$ is one path drawn from a model that assigns probability to many possible histories. This distinction matters because the same process can generate a quiet path, a volatile path, or a path that resembles a crisis.</span>
 <span id="cb1-493"><a href="#cb1-493" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-494"><a href="#cb1-494" aria-hidden="true" tabindex="-1"></a><span class="fu">## Signals and Fourier analysis: another coordinate system for time series {#sec-signal-fourier-foundations}</span></span>
+<span id="cb1-494"><a href="#cb1-494" aria-hidden="true" tabindex="-1"></a>The **information set** at date $t$, often denoted $\mathcal F_t$, collects the events and variables observed by then. Dynamics are statements about conditional distributions such as $p(X_{t+1}\mid\mathcal F_t)$, not only unconditional distributions. For a weakly stationary process, $E<span class="co">[</span><span class="ot">X_t</span><span class="co">]</span>=\mu$ is constant and $\operatorname{Cov}(X_t,X_{t-h})=\gamma(h)$ depends only on the lag. Its unconditional probabilistic environment does not drift over time, even though each realised observation does. The process may be highly persistent without being non-stationary.</span>
 <span id="cb1-495"><a href="#cb1-495" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-496"><a href="#cb1-496" aria-hidden="true" tabindex="-1"></a>Suppose a measured series contains a slow movement, a seasonal rhythm, a business-cycle fluctuation, and noise. Looking only at dates mixes these components together. Fourier analysis changes coordinates: instead of asking how a series moves at date $t$, it asks how much of its variation is associated with each periodicity.</span>
+<span id="cb1-496"><a href="#cb1-496" aria-hidden="true" tabindex="-1"></a>An AR(1),</span>
 <span id="cb1-497"><a href="#cb1-497" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-498"><a href="#cb1-498" aria-hidden="true" tabindex="-1"></a>The building blocks are sines and cosines. Euler’s identity $e^{i\omega t}=\cos(\omega t)+i\sin(\omega t)$ packages both in one complex exponential. For $T$ observations, the discrete Fourier transform is</span>
-<span id="cb1-499"><a href="#cb1-499" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-498"><a href="#cb1-498" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-499"><a href="#cb1-499" aria-hidden="true" tabindex="-1"></a>X_t=\phi X_{t-1}+\varepsilon_t,</span>
 <span id="cb1-500"><a href="#cb1-500" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-501"><a href="#cb1-501" aria-hidden="true" tabindex="-1"></a>\widetilde X(\omega_j)=\sum_{t=0}^{T-1}x_t e^{-i\omega_jt},</span>
-<span id="cb1-502"><a href="#cb1-502" aria-hidden="true" tabindex="-1"></a>\qquad \omega_j=\frac{2\pi j}{T}.</span>
-<span id="cb1-503"><a href="#cb1-503" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-504"><a href="#cb1-504" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-505"><a href="#cb1-505" aria-hidden="true" tabindex="-1"></a>Its squared modulus gives the periodogram. Large values indicate that a sinusoidal component of that frequency helps describe the observed path. Sampling imposes a hard limit: with observations one period apart, frequencies above the Nyquist frequency cannot be separately recovered. A monthly rhythm cannot be learned from quarterly observations.</span>
-<span id="cb1-506"><a href="#cb1-506" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-507"><a href="#cb1-507" aria-hidden="true" tabindex="-1"></a><span class="al">![A simulated series combines rhythms of 7 and 24 observations with noise. The time path hides their separate roles; the periodogram makes both periodicities visible.](../figures/mathematics/fourier-time-and-frequency.png)</span>{#fig-fourier-foundations}</span>
-<span id="cb1-508"><a href="#cb1-508" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-509"><a href="#cb1-509" aria-hidden="true" tabindex="-1"></a>For a weakly stationary process, the Fourier transform of the autocovariance is the spectral density, and its integral is variance. A linear filter multiplies that spectrum by its squared gain. This unifies ARMA dynamics, signal extraction, seasonal adjustment, and cycle filters. The frequency-domain chapter develops estimation, cross-spectra, coherence, and the economic interpretation of filtering (@sec-frequency-filtering).</span>
-<span id="cb1-510"><a href="#cb1-510" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-511"><a href="#cb1-511" aria-hidden="true" tabindex="-1"></a><span class="fu">## Summary: a map for the rest of the course</span></span>
-<span id="cb1-512"><a href="#cb1-512" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-513"><a href="#cb1-513" aria-hidden="true" tabindex="-1"></a>Matrices organise simultaneous variables and dynamic feedback. Their eigenvalues determine whether local dynamics decay, oscillate, or explode. Probability describes possible data under a model; statistics uses one realised sample to learn about the unknown model; asymptotic theory makes that learning quantifiable. Stochastic processes add temporal dependence, so stationarity and unit roots become questions about what can be inferred from one history. Fourier analysis offers a second coordinate system in which persistence is described by frequency rather than lag.</span>
-<span id="cb1-514"><a href="#cb1-514" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-515"><a href="#cb1-515" aria-hidden="true" tabindex="-1"></a>The purpose of these tools is disciplined interpretation. Algebra tells us what a model can do; probability tells us what it implies before data; statistics tells us how uncertain an empirical conclusion remains after data.</span>
-<span id="cb1-516"><a href="#cb1-516" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-517"><a href="#cb1-517" aria-hidden="true" tabindex="-1"></a><span class="fu">## Further reading</span></span>
-<span id="cb1-518"><a href="#cb1-518" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-519"><a href="#cb1-519" aria-hidden="true" tabindex="-1"></a>For linear algebra, Strang <span class="co">[</span><span class="ot">@Strang2016</span><span class="co">]</span> is exceptionally clear on geometry, eigenvalues, and decompositions. Casella and Berger <span class="co">[</span><span class="ot">@CasellaBerger2002</span><span class="co">]</span> provide a rigorous introduction to probability and statistical inference; van der Vaart <span class="co">[</span><span class="ot">@vanDerVaart1998</span><span class="co">]</span> develops asymptotic statistics. Hamilton <span class="co">[</span><span class="ot">@Hamilton1994</span><span class="co">]</span> connects these foundations to time-series econometrics.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb1-501"><a href="#cb1-501" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-502"><a href="#cb1-502" aria-hidden="true" tabindex="-1"></a>is stationary for $|\phi|&lt;1$: shocks fade at rate $\phi^h$. A random walk has $\phi=1$; shocks never fade, variance accumulates, and the level has no fixed unconditional distribution. The algebra makes the contrast transparent. Iterating the AR(1) gives $X_t=\phi^hX_{t-h}+\sum_{j=0}^{h-1}\phi^j\varepsilon_{t-j}$; the weight on a distant initial condition vanishes only when $|\phi|&lt;1$. A random walk instead sums every past innovation with weight one.</span>
+<span id="cb1-503"><a href="#cb1-503" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-504"><a href="#cb1-504" aria-hidden="true" tabindex="-1"></a><span class="al">![The same innovations drive both paths. The stationary AR(1) forgets them gradually; the random walk retains every past innovation in its level.](../figures/mathematics/stationary-ar-versus-random-walk.png)</span>{#fig-stationary-random-walk}</span>
+<span id="cb1-505"><a href="#cb1-505" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-506"><a href="#cb1-506" aria-hidden="true" tabindex="-1"></a>The economic distinction is substantial. A temporary demand shock in a stable system eventually disappears. A shock to a random-walk component permanently changes the forecast level. A unit-root test is therefore not a ritual preliminary: it asks which sort of persistence is compatible with the data, and thus which transformations and inferential approximations are defensible. The time-series chapter returns to these distinctions in detail (@sec-time-series).</span>
+<span id="cb1-507"><a href="#cb1-507" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-508"><a href="#cb1-508" aria-hidden="true" tabindex="-1"></a>Some processes have a useful economy of memory. A **Markov process** satisfies</span>
+<span id="cb1-509"><a href="#cb1-509" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-510"><a href="#cb1-510" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-511"><a href="#cb1-511" aria-hidden="true" tabindex="-1"></a>\Pr(X_{t+1}\in A\mid X_t,X_{t-1},\ldots)=\Pr(X_{t+1}\in A\mid X_t)</span>
+<span id="cb1-512"><a href="#cb1-512" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-513"><a href="#cb1-513" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-514"><a href="#cb1-514" aria-hidden="true" tabindex="-1"></a>for every admissible future event $A$. Conditional on the present state, earlier history adds no predictive information about the next state. This does not mean the past is irrelevant: it shaped the present state. It means that the present state is a sufficient summary of the past for one-step prediction.</span>
+<span id="cb1-515"><a href="#cb1-515" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-516"><a href="#cb1-516" aria-hidden="true" tabindex="-1"></a>For a two-regime business-cycle model, let $X_t$ be expansion or recession and let the transition matrix be</span>
+<span id="cb1-517"><a href="#cb1-517" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-518"><a href="#cb1-518" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-519"><a href="#cb1-519" aria-hidden="true" tabindex="-1"></a>P=</span>
+<span id="cb1-520"><a href="#cb1-520" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
+<span id="cb1-521"><a href="#cb1-521" aria-hidden="true" tabindex="-1"></a>.92&amp;.08<span class="sc">\\</span></span>
+<span id="cb1-522"><a href="#cb1-522" aria-hidden="true" tabindex="-1"></a>.35&amp;.65</span>
+<span id="cb1-523"><a href="#cb1-523" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}.</span>
+<span id="cb1-524"><a href="#cb1-524" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-525"><a href="#cb1-525" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-526"><a href="#cb1-526" aria-hidden="true" tabindex="-1"></a>The first row says that an expansion remains an expansion next quarter with probability .92; the second says that a recession persists with probability .65. If $\pi_t$ is the row vector of probabilities over the two regimes today, then $\pi_{t+1}=\pi_tP$. Repeated multiplication produces multi-step forecasts and, when it exists, a stationary distribution satisfying $\pi=\pi P$. Markov chains underlie regime-switching models, hidden Markov filters, and many state-space algorithms.</span>
+<span id="cb1-527"><a href="#cb1-527" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-528"><a href="#cb1-528" aria-hidden="true" tabindex="-1"></a><span class="al">![The left panel represents the transition probabilities of a two-regime Markov chain. The right panel starts from expansion and shows how uncertainty about the future regime evolves by repeated multiplication of the transition matrix.](../figures/mathematics/markov-regime-process.png)</span>{#fig-markov-process}</span>
+<span id="cb1-529"><a href="#cb1-529" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-530"><a href="#cb1-530" aria-hidden="true" tabindex="-1"></a><span class="fu">## Bayesian inference: uncertainty about parameters as well as data {#sec-bayes-foundations}</span></span>
+<span id="cb1-531"><a href="#cb1-531" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-532"><a href="#cb1-532" aria-hidden="true" tabindex="-1"></a>Return to the recession alarm. Suppose recessions occur with prior probability .05, the alarm sounds in .80 of recessions, and it sounds spuriously in .10 of non-recessions. On hearing an alarm, the relevant probability is</span>
+<span id="cb1-533"><a href="#cb1-533" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-534"><a href="#cb1-534" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-535"><a href="#cb1-535" aria-hidden="true" tabindex="-1"></a>\Pr(\text{recession}\mid\text{alarm})</span>
+<span id="cb1-536"><a href="#cb1-536" aria-hidden="true" tabindex="-1"></a>=\frac{.80\times.05}{.80\times.05+.10\times.95}</span>
+<span id="cb1-537"><a href="#cb1-537" aria-hidden="true" tabindex="-1"></a>\approx .296.</span>
+<span id="cb1-538"><a href="#cb1-538" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-539"><a href="#cb1-539" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-540"><a href="#cb1-540" aria-hidden="true" tabindex="-1"></a>The alarm is informative: the probability rises from 5 to almost 30 percent. It is not conclusive, because non-recessions are far more common and some produce false alarms. This small calculation contains the logic of Bayesian inference: begin with a prior probability, ask how compatible the observed evidence is with each competing explanation, and renormalise.</span>
+<span id="cb1-541"><a href="#cb1-541" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-542"><a href="#cb1-542" aria-hidden="true" tabindex="-1"></a>Frequentist inference treats $\theta$ as fixed and data as random. Bayesian inference represents prior uncertainty about $\theta$ with a density $p(\theta)$, then updates it with the likelihood $p(y\mid\theta)$:</span>
+<span id="cb1-543"><a href="#cb1-543" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-544"><a href="#cb1-544" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-545"><a href="#cb1-545" aria-hidden="true" tabindex="-1"></a>p(\theta\mid y)=\frac{p(y\mid\theta)p(\theta)}{p(y)},</span>
+<span id="cb1-546"><a href="#cb1-546" aria-hidden="true" tabindex="-1"></a>\qquad</span>
+<span id="cb1-547"><a href="#cb1-547" aria-hidden="true" tabindex="-1"></a>p(y)=\int p(y\mid\theta)p(\theta)\,d\theta.</span>
+<span id="cb1-548"><a href="#cb1-548" aria-hidden="true" tabindex="-1"></a>$$ {#eq-bayes-rule}</span>
+<span id="cb1-549"><a href="#cb1-549" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-550"><a href="#cb1-550" aria-hidden="true" tabindex="-1"></a>The denominator is the probability of the observed data under all parameter values; it makes the posterior integrate to one. The content of Bayes’ rule is proportionality: posterior $\propto$ likelihood $\times$ prior. If the likelihood is sharp, the data dominate; if it is flat or the sample is short, the prior remains influential. This is not a defect hidden by notation but a transparent feature of the calculation.</span>
+<span id="cb1-551"><a href="#cb1-551" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-552"><a href="#cb1-552" aria-hidden="true" tabindex="-1"></a>For example, a prior centred near a persistent but stable AR coefficient can prevent a short sample from assigning implausibly high posterior weight to explosive values merely because of a few unusual observations. A prior need not be “subjective” in a casual sense: it can encode parameter restrictions, historical evidence, regularisation, or a disciplined belief that a large VAR should not have implausibly large coefficients. It should nevertheless be reported and its influence examined, particularly when the data are weak.</span>
+<span id="cb1-553"><a href="#cb1-553" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-554"><a href="#cb1-554" aria-hidden="true" tabindex="-1"></a><span class="al">![A prior density and a likelihood combine into a posterior. The posterior is obtained by multiplying the two functions and then normalising the result to integrate to one.](../figures/mathematics/bayesian-update.png)</span>{#fig-bayesian-update}</span>
+<span id="cb1-555"><a href="#cb1-555" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-556"><a href="#cb1-556" aria-hidden="true" tabindex="-1"></a>Bayesian credible intervals have a direct conditional interpretation: given the model, prior, and data, the posterior assigns a stated probability to the interval. This differs from a frequentist confidence interval, whose coverage is evaluated across repeated samples. Neither interpretation is unconditional truth. The former depends on the model and prior; the latter depends on the sampling model and calibration of the procedure. The later Bayesian VAR chapter develops computation and prior choice in the setting where this distinction is most useful (@sec-bvar).</span>
+<span id="cb1-557"><a href="#cb1-557" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-558"><a href="#cb1-558" aria-hidden="true" tabindex="-1"></a><span class="fu">## Signals and Fourier analysis: another coordinate system for time series {#sec-signal-fourier-foundations}</span></span>
+<span id="cb1-559"><a href="#cb1-559" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-560"><a href="#cb1-560" aria-hidden="true" tabindex="-1"></a>Consider a monthly industrial-production series. A graph in calendar time may contain an expansion, a seasonal pattern, a six-year cycle, and irregular measurement noise all at once. If the purpose is to identify recurring periodicities, dates are not always the most revealing coordinates. Fourier analysis asks a different question: rather than describing the value at date $t$, how much of the observed variation is associated with movements that repeat every two, seven, or twenty-four observations?</span>
+<span id="cb1-561"><a href="#cb1-561" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-562"><a href="#cb1-562" aria-hidden="true" tabindex="-1"></a>The building blocks are sines and cosines. A sinusoid with angular frequency $\omega$ completes one full cycle after $2\pi/\omega$ observations. Low frequency means a long period and slow movement; high frequency means a short period and rapid alternation. A phase shift moves the crest in time without changing the frequency. The central mathematical fact is that, on a finite equally spaced grid, these waves provide a coordinate system: a sufficiently rich sum of sinusoidal components can reconstruct the observed series.</span>
+<span id="cb1-563"><a href="#cb1-563" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-564"><a href="#cb1-564" aria-hidden="true" tabindex="-1"></a>Euler’s identity $e^{i\omega t}=\cos(\omega t)+i\sin(\omega t)$ packages sine and cosine in one complex exponential. The complex notation is convenient, not mystical. Its modulus measures amplitude and its argument records phase. For $T$ observations, the discrete Fourier transform is</span>
+<span id="cb1-565"><a href="#cb1-565" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-566"><a href="#cb1-566" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-567"><a href="#cb1-567" aria-hidden="true" tabindex="-1"></a>\widetilde X(\omega_j)=\sum_{t=0}^{T-1}x_t e^{-i\omega_jt},</span>
+<span id="cb1-568"><a href="#cb1-568" aria-hidden="true" tabindex="-1"></a>\qquad \omega_j=\frac{2\pi j}{T}.</span>
+<span id="cb1-569"><a href="#cb1-569" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-570"><a href="#cb1-570" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-571"><a href="#cb1-571" aria-hidden="true" tabindex="-1"></a>The inverse transform reconstructs the data from these frequency coordinates. The squared modulus $|\widetilde X(\omega_j)|^2$, after normalisation, gives the **periodogram**. A large value indicates that a sinusoidal component of that frequency helps describe the observed path. It is evidence about regular variation in the sample, not proof of a literal clock inside the economy.</span>
+<span id="cb1-572"><a href="#cb1-572" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-573"><a href="#cb1-573" aria-hidden="true" tabindex="-1"></a>Sampling imposes a hard limit. With observations one period apart, frequencies above the **Nyquist frequency** cannot be separately recovered: a component that oscillates too quickly can masquerade as a slower one, a phenomenon called aliasing. Quarterly data cannot identify a monthly rhythm; annual data cannot distinguish seasonal patterns. Finite samples also blur nearby frequencies, which is why periodograms are often smoothed and interpreted alongside economic knowledge.</span>
+<span id="cb1-574"><a href="#cb1-574" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-575"><a href="#cb1-575" aria-hidden="true" tabindex="-1"></a><span class="al">![The top panel starts with two elementary rhythms. Their noisy sum in the middle panel is harder to read in calendar time; the periodogram below recovers peaks at their periods.](../figures/mathematics/fourier-time-and-frequency.png)</span>{#fig-fourier-foundations}</span>
+<span id="cb1-576"><a href="#cb1-576" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-577"><a href="#cb1-577" aria-hidden="true" tabindex="-1"></a>For a weakly stationary process, the Fourier transform of the autocovariance is the **spectral density**,</span>
+<span id="cb1-578"><a href="#cb1-578" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-579"><a href="#cb1-579" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-580"><a href="#cb1-580" aria-hidden="true" tabindex="-1"></a>f_X(\omega)=\frac{1}{2\pi}\sum_{h=-\infty}^{\infty}\gamma(h)e^{-i\omega h}.</span>
+<span id="cb1-581"><a href="#cb1-581" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-582"><a href="#cb1-582" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-583"><a href="#cb1-583" aria-hidden="true" tabindex="-1"></a>It allocates the variance of the process over frequencies: integrating the spectral density over all frequencies returns $\gamma(0)=\operatorname{Var}(X_t)$. A persistent process places relatively more power at low frequencies; a seasonal process produces peaks at its seasonal frequency and harmonics. This statement requires weak stationarity because a spectrum describes a stable allocation of variance across time. A deterministic trend or unit root must be modelled or removed with care before assigning a stationary spectrum to the level series.</span>
+<span id="cb1-584"><a href="#cb1-584" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-585"><a href="#cb1-585" aria-hidden="true" tabindex="-1"></a>A linear filter changes the amplitude of each frequency by its **gain** and shifts its timing by its **phase**. This unifies ARMA dynamics, signal extraction, seasonal adjustment, and cycle filters. The frequency-domain chapter develops estimation, cross-spectra, coherence, and the economic interpretation of filtering (@sec-frequency-filtering).</span>
+<span id="cb1-586"><a href="#cb1-586" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-587"><a href="#cb1-587" aria-hidden="true" tabindex="-1"></a><span class="fu">## Summary: a map for the rest of the course</span></span>
+<span id="cb1-588"><a href="#cb1-588" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-589"><a href="#cb1-589" aria-hidden="true" tabindex="-1"></a>Matrices organise simultaneous variables and dynamic feedback. Their eigenvalues determine whether local dynamics decay, oscillate, or explode. Probability describes possible data under a model; statistics uses one realised sample to learn about the unknown model; asymptotic theory makes that learning quantifiable. Stochastic processes add temporal dependence, so stationarity and unit roots become questions about what can be inferred from one history. Fourier analysis offers a second coordinate system in which persistence is described by frequency rather than lag.</span>
+<span id="cb1-590"><a href="#cb1-590" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-591"><a href="#cb1-591" aria-hidden="true" tabindex="-1"></a>The purpose of these tools is disciplined interpretation. Algebra tells us what a model can do; probability tells us what it implies before data; statistics tells us how uncertain an empirical conclusion remains after data.</span>
+<span id="cb1-592"><a href="#cb1-592" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-593"><a href="#cb1-593" aria-hidden="true" tabindex="-1"></a><span class="fu">## Further reading</span></span>
+<span id="cb1-594"><a href="#cb1-594" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-595"><a href="#cb1-595" aria-hidden="true" tabindex="-1"></a>For linear algebra, Strang <span class="co">[</span><span class="ot">@Strang2016</span><span class="co">]</span> is exceptionally clear on geometry, eigenvalues, and decompositions. Casella and Berger <span class="co">[</span><span class="ot">@CasellaBerger2002</span><span class="co">]</span> provide a rigorous introduction to probability and statistical inference; van der Vaart <span class="co">[</span><span class="ot">@vanDerVaart1998</span><span class="co">]</span> develops asymptotic statistics. Hamilton <span class="co">[</span><span class="ot">@Hamilton1994</span><span class="co">]</span> connects these foundations to time-series econometrics.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 <footer class="footer">
