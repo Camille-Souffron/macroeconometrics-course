@@ -4,7 +4,7 @@ project:
 
 book:
   title: "Macroeconometrics"
-  subtitle: "Lecture Notes — M2 EPOG JM"
+  subtitle: "Lecture Notes - M2 EPOG JM"
   author: "Camille Souffron"
   date: last-modified
   search: true
@@ -43,6 +43,10 @@ book:
     - part: "Foundations"
       chapters:
         - chapters/01-time-series.qmd
+
+    - part: "Univariate Linear Models"
+      chapters:
+        - chapters/02-arma.qmd
 
     - references.qmd
 

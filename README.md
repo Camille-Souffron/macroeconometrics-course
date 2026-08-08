@@ -1,4 +1,4 @@
-# Macroeconometrics — Course Notes
+# Macroeconometrics - Course Notes
 
 Online course notes for a graduate macroeconometrics course (M2 EPOG JM), built with [Quarto](https://quarto.org) as a book and published to GitHub Pages.
 
