@@ -53,6 +53,10 @@ book:
         - chapters/03-var.qmd
         - chapters/04-svar-identification.qmd
 
+    - part: "Cointegration and Multivariate Extensions"
+      chapters:
+        - chapters/05-cointegration-dfm.qmd
+
     - part: "Nonlinear and Time-Varying Models"
       chapters:
         - chapters/06-nonlinear.qmd
