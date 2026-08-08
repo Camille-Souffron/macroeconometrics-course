@@ -55,6 +55,10 @@ book:
       chapters:
         - chapters/06-nonlinear.qmd
 
+    - part: "Distributional Forecasting and Tail Risk"
+      chapters:
+        - chapters/09-growth-at-risk.qmd
+
     - part: "Bayesian Methods"
       chapters:
         - chapters/07-bvar.qmd
