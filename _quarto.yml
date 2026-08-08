@@ -1,0 +1,71 @@
+project:
+  type: book
+  output-dir: _book
+
+book:
+  title: "Macroeconometrics"
+  subtitle: "Lecture Notes — M2 EPOG JM"
+  author: "Camille Souffron"
+  date: last-modified
+  search: true
+  repo-url: https://github.com/Camille-Souffron/macroeconometrics-course
+  repo-actions: [edit, issue]
+  page-footer:
+    left: "Camille Souffron, Ecole Normale Supérieure & Paris School of Economics"
+    right: "Built with Quarto"
+  navbar:
+    background: light
+  sidebar:
+    style: docked
+    collapse-level: 1
+
+  # Full planned architecture (see COURSE_BUILD_SPEC.md Phase C). Only
+  # chapters that have actually been converted are wired in below; the rest
+  # are added one at a time as their source lecture is converted, per the
+  # spec's "small validated change, not a large speculative rewrite" rule.
+  #
+  #   - part: "Foundations"
+  #       chapters/01-time-series.qmd            (source: 01_TS)          [converted]
+  #   - part: "Univariate Linear Models"
+  #       chapters/02-arma.qmd                   (source: 03_ARMA)
+  #   - part: "Vector Autoregressions"
+  #       chapters/03-var.qmd                    (source: 04_VAR)
+  #       chapters/04-svar-identification.qmd    (source: 05_Structural_VAR_Identification)
+  #   - part: "Cointegration and Multivariate Extensions"
+  #       chapters/05-cointegration-dfm.qmd       (source: 07_Cointegration_DFM)
+  #   - part: "Nonlinear and Time-Varying Models"
+  #       chapters/06-nonlinear.qmd               (source: 06_Nonlinear_specifications)
+  #   - part: "Bayesian Methods"
+  #       chapters/07-bvar.qmd                    (source: 09_BAYES)
+  chapters:
+    - index.qmd
+
+    - part: "Foundations"
+      chapters:
+        - chapters/01-time-series.qmd
+
+    - references.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme:
+      - cosmo
+      - styles/custom.scss
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    number-depth: 2
+    code-fold: true
+    code-tools: true
+    fig-cap-location: bottom
+    tbl-cap-location: top
+    link-external-icon: true
+    link-external-newwindow: true
+    mainfont: "Georgia, 'Times New Roman', serif"
+
+execute:
+  freeze: auto
+  echo: true
+  warning: false

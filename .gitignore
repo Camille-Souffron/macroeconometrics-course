@@ -1,0 +1,14 @@
+/.quarto/
+/_book/
+
+.DS_Store
+Thumbs.db
+
+*.swp
+*~
+
+.Rproj.user/
+.Rhistory
+.RData
+
+**/*.quarto_ipynb

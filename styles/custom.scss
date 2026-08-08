@@ -1,0 +1,21 @@
+/*-- scss:defaults --*/
+
+$body-color: #1a1a1a;
+$link-color: #1d4e89;
+$presentation-font-size-root: 18px;
+
+/*-- scss:rules --*/
+
+.content {
+  max-width: 900px;
+}
+
+.callout {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+table {
+  margin-left: auto;
+  margin-right: auto;
+}

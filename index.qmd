@@ -1,0 +1,34 @@
+# Preface {.unnumbered}
+
+Camille Souffron
+Ecole Normale Supérieure & Paris School of Economics
+[camille.souffron@ens.psl.eu](mailto:camille.souffron@ens.psl.eu)
+
+## About this course
+
+These notes support a graduate course in macroeconometrics (M2 EPOG JM). They cover the analysis of univariate and multivariate time series, from stationarity and ARMA processes to vector autoregressions, structural identification, cointegration, nonlinear specifications, and Bayesian estimation.
+
+The notes are adapted from the accompanying lecture slides, reorganized as a continuous text for autonomous reading rather than oral presentation. The original slide decks remain available in the repository under `source/slides/` for reference.
+
+## Course contents
+
+- **Foundations** — univariate time series, stochastic processes, stationarity, and the transformations used to achieve it.
+- **Univariate linear models** — lag polynomials, AR, MA, and ARMA processes: identification, estimation, selection, and forecasting.
+- **Vector autoregressions** — reduced-form VARs, estimation, Granger causality, forecasting, impulse responses, and forecast error variance decomposition; structural VARs and identification (short-run, long-run, and sign restrictions, narrative approaches, external instruments).
+- **Cointegration and multivariate extensions** — panel VAR, cointegration, VECM, dynamic factor models (DFM), and FAVAR.
+- **Nonlinear and time-varying models** — threshold (TAR) and smooth-transition (STAR) models, Markov-switching regimes, time-varying parameters, and local projections.
+- **Bayesian methods** — Bayesian VARs, priors, computation, and time-varying Bayesian VARs.
+
+## How to use these notes
+
+**Mathematical notation.** Notation follows the source lectures as closely as possible; where the slides used inconsistent notation across lectures, the discrepancy is noted explicitly rather than silently resolved. See the [Notation](#sec-notation) conventions introduced in each chapter on first use.
+
+**Code.** Code examples (mainly R) are shown in fenced blocks for illustration. Substantial scripts live under `code/` in the repository and are not all reproduced inline.
+
+**Exercises.** Where the source material contains exercises or homework, they are collected in dedicated sections and marked accordingly.
+
+**References.** Citations follow standard author-year format and resolve against the bibliography in [References](references.qmd). Where the original slides cite a source only in prose (without a formal bibliography), the reference is kept as narrative text rather than invented as a formal citation.
+
+## Contents
+
+Use the sidebar or the search bar to navigate between chapters.
