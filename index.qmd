@@ -21,7 +21,7 @@ The notes are adapted from the accompanying lecture slides, reorganized as a con
 
 ## How to use these notes
 
-**Mathematical notation.** Notation follows the source lectures as closely as possible; where the slides used inconsistent notation across lectures, the discrepancy is noted explicitly rather than silently resolved. See the [Notation](#sec-notation) conventions introduced in each chapter on first use.
+**Mathematical notation.** Notation follows the source lectures as closely as possible and is introduced at first use within each chapter. One deliberate shift runs through the whole book: the univariate chapters (time series, ARMA) write a scalar process as $X_t$, following those lectures' own convention; from the vector autoregression chapters onward, a $k$-vector of jointly modeled variables is written $y_t$, again following the source convention for that part of the course. This is not an inconsistency to be resolved - it is the standard notational shift from a scalar to a vector process - but it is worth knowing about in advance. Two other conventions are held fixed throughout: $u_t$ always denotes a reduced-form (possibly correlated across equations) innovation, while $\varepsilon_t$ always denotes an orthogonal, structural, or white-noise shock; and $\Phi_h$ always denotes reduced-form moving-average coefficients at horizon $h$, while $\Psi_h$ denotes their structural counterpart. Where the slides used genuinely inconsistent notation for the same object within a single lecture, the discrepancy is flagged explicitly in the text rather than silently resolved.
 
 **Code.** Code examples (mainly R) are shown in fenced blocks for illustration. Substantial scripts live under `code/` in the repository and are not all reproduced inline.
 

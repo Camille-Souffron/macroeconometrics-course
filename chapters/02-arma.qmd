@@ -349,4 +349,4 @@ The next chapters extend this univariate machinery in three directions that this
 
 ## Further reading
 
-For next week's session, see Nishi [-@Nishi2021], "A VAR Analysis for the Growth Regime and Demand Formation Patterns of the Japanese Economy" - assigned as preparatory reading for the VAR chapter that follows.
+As preparatory reading for the VAR chapter that follows, see Nishi [-@Nishi2021], "A VAR Analysis for the Growth Regime and Demand Formation Patterns of the Japanese Economy."
