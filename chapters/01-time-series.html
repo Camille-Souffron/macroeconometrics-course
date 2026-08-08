@@ -90,7 +90,7 @@ div.csl-indent {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../references.html" rel="next">
+<link href="../chapters/02-arma.html" rel="next">
 <link href="../index.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -219,6 +219,23 @@ window.Quarto = {
 </li>
       </ul>
   </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text">Univariate Linear Models</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/02-arma.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">AR, MA, and ARMA Processes</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../references.html" class="sidebar-item-text sidebar-link">
@@ -296,7 +313,7 @@ window.Quarto = {
 </header>
 
 
-<p>A time series is the basic object of this course: a single, ordered trajectory of a random process, observed once. Before we can build models on top of it — AR, MA, ARMA, VAR, and their structural and nonlinear extensions in later chapters — we need to be precise about what kind of object we are modeling, and about the regularity conditions that make statistical inference from a single trajectory possible at all. This chapter introduces time series as realizations of stochastic processes, defines dependence and stationarity, and shows how nonstationary series are diagnosed and transformed into a form that later chapters can build on.</p>
+<p>A time series is the basic object of this course: a single, ordered trajectory of a random process, observed once. Before we can build models on top of it - AR, MA, ARMA, VAR, and their structural and nonlinear extensions in later chapters - we need to be precise about what kind of object we are modeling, and about the regularity conditions that make statistical inference from a single trajectory possible at all. This chapter introduces time series as realizations of stochastic processes, defines dependence and stationarity, and shows how nonstationary series are diagnosed and transformed into a form that later chapters can build on.</p>
 <section id="sec-ts-definition" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="sec-ts-definition"><span class="header-section-number">1.1</span> What is a time series?</h2>
 <p>A <strong>univariate time series</strong> is a set of observations <span class="math inline">\(x_t\)</span> of a real variable <span class="math inline">\(x\)</span>, observed at time <span class="math inline">\(t\)</span>, <span class="math inline">\(t = 1, \ldots, T\)</span>. In macroeconomics, examples include quarterly GDP, annual GDP per capita, quarterly aggregate consumption, monthly industrial production, or a monthly business survey; more broadly, examples range from annual road-traffic accident counts to daily COVID case counts to weekly shop sales.</p>
@@ -320,7 +337,7 @@ window.Quarto = {
 </div>
 </div>
 <p>Equivalently: if history could be rerun <span class="math inline">\(M\)</span> times, each run would produce a different sample path <span class="math inline">\(x_1^{(m)}, \ldots, x_T^{(m)}\)</span>, <span class="math inline">\(m = 1, \ldots, M\)</span>. In practice only one such path is ever observed. Our (very ambitious) objective is to find the process <span class="math inline">\((X_t)\)</span> that best generated the single observed path <span class="math inline">\(x_t\)</span>.</p>
-<p>Once a process has been specified, estimated, and validated, it can be used for <strong>forecasting</strong> and for <strong>assessing the impact of shocks</strong>. We write <span class="math inline">\(\hat X_T(h)\)</span> for the <strong>predictor</strong> of <span class="math inline">\(X_{T+h}\)</span> built from information available at <span class="math inline">\(T\)</span>. Since it is a measurable function of random variables, <span class="math inline">\(\hat X_T(h)\)</span> is itself a random variable with its own distribution — which must be characterized, e.g.&nbsp;to quantify macro risks around a forecast.</p>
+<p>Once a process has been specified, estimated, and validated, it can be used for <strong>forecasting</strong> and for <strong>assessing the impact of shocks</strong>. We write <span class="math inline">\(\hat X_T(h)\)</span> for the <strong>predictor</strong> of <span class="math inline">\(X_{T+h}\)</span> built from information available at <span class="math inline">\(T\)</span>. Since it is a measurable function of random variables, <span class="math inline">\(\hat X_T(h)\)</span> is itself a random variable with its own distribution - which must be characterized, e.g.&nbsp;to quantify macro risks around a forecast.</p>
 <section id="the-additive-and-multiplicative-decomposition" class="level3">
 <h3 class="anchored" data-anchor-id="the-additive-and-multiplicative-decomposition">The additive and multiplicative decomposition</h3>
 <p>A simple starting model of a time series combines deterministic components (trend and seasonality) with a stochastic remainder that carries no exploitable pattern. The <strong>additive model</strong> writes</p>
@@ -378,7 +395,7 @@ Figure&nbsp;1.2: Classical decomposition of a time series into trend, cyclical, 
 \tag{1.3}\]</span></span></p>
 </div>
 </div>
-<p>Under covariance stationarity (<a href="#sec-stationarity" class="quarto-xref"><span>Section 1.3</span></a>), <span class="math inline">\(\gamma(k)\)</span> depends only on the lag <span class="math inline">\(k\)</span>, not on <span class="math inline">\(t\)</span> itself — this is what makes the ACF a well-defined function of <span class="math inline">\(k\)</span> alone rather than of <span class="math inline">\((t, k)\)</span>.</p>
+<p>Under covariance stationarity (<a href="#sec-stationarity" class="quarto-xref"><span>Section 1.3</span></a>), <span class="math inline">\(\gamma(k)\)</span> depends only on the lag <span class="math inline">\(k\)</span>, not on <span class="math inline">\(t\)</span> itself - this is what makes the ACF a well-defined function of <span class="math inline">\(k\)</span> alone rather than of <span class="math inline">\((t, k)\)</span>.</p>
 <section id="estimating-the-acf-from-a-finite-sample" class="level3">
 <h3 class="anchored" data-anchor-id="estimating-the-acf-from-a-finite-sample">Estimating the ACF from a finite sample</h3>
 <p>With a single finite trajectory, the theoretical moments above must be estimated. The mean is estimated by the sample mean,</p>
@@ -389,7 +406,7 @@ Figure&nbsp;1.2: Classical decomposition of a time series into trend, cyclical, 
 <p><span id="eq-empirical-acvf"><span class="math display">\[
 \hat \gamma(k) = \frac{1}{T} \sum_{t=1}^{T-k} (X_t - \bar X_T)(X_{t+k} - \bar X_T).
 \tag{1.4}\]</span></span></p>
-<p>The divisor <span class="math inline">\(1/T\)</span> (the Bartlett estimator) guarantees that the sample ACVF matrix is positive semi-definite; the unbiased alternative divides by <span class="math inline">\(1/(T-k)\)</span> instead. Both are consistent estimators, but this course uses <span class="math inline">\(1/T\)</span> throughout — the same convention as R’s <code>acf()</code>.</p>
+<p>The divisor <span class="math inline">\(1/T\)</span> (the Bartlett estimator) guarantees that the sample ACVF matrix is positive semi-definite; the unbiased alternative divides by <span class="math inline">\(1/(T-k)\)</span> instead. Both are consistent estimators, but this course uses <span class="math inline">\(1/T\)</span> throughout - the same convention as R’s <code>acf()</code>.</p>
 <p>The <strong>empirical autocorrelation function</strong> is then</p>
 <p><span id="eq-empirical-acf"><span class="math display">\[
 \hat \rho(k) = \frac{\hat \gamma(k)}{\hat \sigma_{X_t}\hat \sigma_{X_{t+k}}}.
@@ -409,7 +426,7 @@ Figure&nbsp;1.3: Log of German GDP and its empirical ACF: persistence decays onl
 </section>
 <section id="sec-stationarity" class="level2" data-number="1.3">
 <h2 data-number="1.3" class="anchored" data-anchor-id="sec-stationarity"><span class="header-section-number">1.3</span> Stationarity</h2>
-<p>Non-independence across <span class="math inline">\((X_t)\)</span> raises an immediate question: if the variables are dependent, can they still be identically distributed? Since only <em>one</em> trajectory of <span class="math inline">\((X_t)_{t \in \mathbb{Z}}\)</span> is ever observed — one realization of nature — statistics on that single path is only possible if the process satisfies some regularity across time. That regularity is <strong>stationarity</strong>.</p>
+<p>Non-independence across <span class="math inline">\((X_t)\)</span> raises an immediate question: if the variables are dependent, can they still be identically distributed? Since only <em>one</em> trajectory of <span class="math inline">\((X_t)_{t \in \mathbb{Z}}\)</span> is ever observed - one realization of nature - statistics on that single path is only possible if the process satisfies some regularity across time. That regularity is <strong>stationarity</strong>.</p>
 <section id="strong-and-weak-stationarity" class="level3">
 <h3 class="anchored" data-anchor-id="strong-and-weak-stationarity">Strong and weak stationarity</h3>
 <div class="callout callout-style-default callout-note callout-titled" title="Definition: strong stationarity">
@@ -422,7 +439,7 @@ Figure&nbsp;1.3: Log of German GDP and its empirical ACF: persistence decays onl
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>A process <span class="math inline">\((X_t)_{t \in \mathbb{Z}}\)</span> is <strong>strongly stationary</strong> if, for all <span class="math inline">\(t_1, \ldots, t_n \in \mathbb{Z}\)</span>, all <span class="math inline">\(k \in \mathbb{Z}\)</span>, and all <span class="math inline">\(n = 1, 2, \ldots\)</span>, the distribution of <span class="math inline">\((X_{t_1}, \ldots, X_{t_n})\)</span> equals the distribution of <span class="math inline">\((X_{t_1+k}, \ldots, X_{t_n+k})\)</span> — i.e.&nbsp;all finite-dimensional distributions are time-invariant.</p>
+<p>A process <span class="math inline">\((X_t)_{t \in \mathbb{Z}}\)</span> is <strong>strongly stationary</strong> if, for all <span class="math inline">\(t_1, \ldots, t_n \in \mathbb{Z}\)</span>, all <span class="math inline">\(k \in \mathbb{Z}\)</span>, and all <span class="math inline">\(n = 1, 2, \ldots\)</span>, the distribution of <span class="math inline">\((X_{t_1}, \ldots, X_{t_n})\)</span> equals the distribution of <span class="math inline">\((X_{t_1+k}, \ldots, X_{t_n+k})\)</span> - i.e.&nbsp;all finite-dimensional distributions are time-invariant.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled" title="Definition: weak stationarity">
@@ -510,13 +527,13 @@ Figure&nbsp;1.5: Empirical ACF of a white noise process: no significant autocorr
 <p><span id="eq-random-walk"><span class="math display">\[
 X_t = \mu + X_{t-1} + \varepsilon_t, \qquad t &gt; 0,
 \tag{1.6}\]</span></span></p>
-<p>then <span class="math inline">\((X_t)\)</span> is a <strong>random walk</strong> — with drift if <span class="math inline">\(\mu \ne 0\)</span>, without drift if <span class="math inline">\(\mu = 0\)</span>. In both cases it is non-stationary, since</p>
+<p>then <span class="math inline">\((X_t)\)</span> is a <strong>random walk</strong> - with drift if <span class="math inline">\(\mu \ne 0\)</span>, without drift if <span class="math inline">\(\mu = 0\)</span>. In both cases it is non-stationary, since</p>
 <p><span class="math display">\[
 X_t = X_0 + \mu t + \sum_{s=1}^{t} \varepsilon_s,
 \qquad
 \mathbb{V}(X_t) = \mathbb{V}(X_0) + t\sigma^2.
 \]</span></p>
-<p>If <span class="math inline">\(\mu = 0\)</span>, <span class="math inline">\((X_t)\)</span> is stationary in expectation but not in variance. If <span class="math inline">\(\mu \ne 0\)</span>, <span class="math inline">\(E(X_t) = E(X_0) + \mu t\)</span> and <span class="math inline">\(\mathbb{V}(X_t) = t\sigma^2\)</span>. This is fundamentally different from a process that is <strong>stationary around a deterministic trend</strong>, <span class="math inline">\(X_t = a + bt + Y_t\)</span> with <span class="math inline">\((Y_t)\)</span> stationary — the distinction developed in <a href="#sec-ts-transformations" class="quarto-xref"><span>Section 1.5</span></a>.</p>
+<p>If <span class="math inline">\(\mu = 0\)</span>, <span class="math inline">\((X_t)\)</span> is stationary in expectation but not in variance. If <span class="math inline">\(\mu \ne 0\)</span>, <span class="math inline">\(E(X_t) = E(X_0) + \mu t\)</span> and <span class="math inline">\(\mathbb{V}(X_t) = t\sigma^2\)</span>. This is fundamentally different from a process that is <strong>stationary around a deterministic trend</strong>, <span class="math inline">\(X_t = a + bt + Y_t\)</span> with <span class="math inline">\((Y_t)\)</span> stationary - the distinction developed in <a href="#sec-ts-transformations" class="quarto-xref"><span>Section 1.5</span></a>.</p>
 </div>
 </div>
 <div id="fig-random-walk-acf" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -559,7 +576,7 @@ Figure&nbsp;1.8: White noise, a random walk without drift, and a random walk wit
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>For the AR(1) with unit root <span class="math inline">\(\phi = 1\)</span>, <span class="math inline">\(X_t = X_{t-1} + \varepsilon_t = X_0 + \sum_{j=1}^t \varepsilon_j\)</span>. Even though <span class="math inline">\(E[\varepsilon_t] = 0\)</span> (so <span class="math inline">\(E[X_t] = E[X_0]\)</span>, with no drift in mean) and <span class="math inline">\(\tfrac{1}{t}\sum_{j=1}^t \varepsilon_j \xrightarrow{p} 0\)</span> by the law of large numbers, the <em>level</em> <span class="math inline">\(\sum_{j=1}^t \varepsilon_j\)</span> is <span class="math inline">\(O_p(\sqrt t)\)</span>: fluctuations accumulate even as their average vanishes. This is the “drunkard’s walk” intuition — each step is centered on zero, but the position wanders without bound because <span class="math inline">\(\mathrm{Var}(X_t) = t\sigma^2\)</span> grows without bound.</p>
+<p>For the AR(1) with unit root <span class="math inline">\(\phi = 1\)</span>, <span class="math inline">\(X_t = X_{t-1} + \varepsilon_t = X_0 + \sum_{j=1}^t \varepsilon_j\)</span>. Even though <span class="math inline">\(E[\varepsilon_t] = 0\)</span> (so <span class="math inline">\(E[X_t] = E[X_0]\)</span>, with no drift in mean) and <span class="math inline">\(\tfrac{1}{t}\sum_{j=1}^t \varepsilon_j \xrightarrow{p} 0\)</span> by the law of large numbers, the <em>level</em> <span class="math inline">\(\sum_{j=1}^t \varepsilon_j\)</span> is <span class="math inline">\(O_p(\sqrt t)\)</span>: fluctuations accumulate even as their average vanishes. This is the “drunkard’s walk” intuition - each step is centered on zero, but the position wanders without bound because <span class="math inline">\(\mathrm{Var}(X_t) = t\sigma^2\)</span> grows without bound.</p>
 </div>
 </div>
 </section>
@@ -568,10 +585,10 @@ Figure&nbsp;1.8: White noise, a random walk without drift, and a random walk wit
 <p>Stationarity is not a technical nicety; it is what makes inference from a single observed path meaningful at all:</p>
 <ul>
 <li><strong>Ergodicity / identification from one path.</strong> With time-invariant moments, sample averages from a <em>single</em> trajectory can consistently estimate population moments.</li>
-<li><strong>Valid inference.</strong> LLN/CLT-type results require that mean, variance, and covariances do not drift, so that e.g.&nbsp;<span class="math inline">\(Z'Z/T \to Q\)</span> — the condition under which OLS/MLE are consistent and asymptotically normal.</li>
-<li><strong>Stable dependence.</strong> A fixed ACF/PACF makes the structure of persistence time-invariant; combined with Wold’s theorem (<a href="#sec-wold" class="quarto-xref"><span>Section 1.6</span></a>), this motivates linear representations with innovations — AR, MA, ARMA models, developed in the next chapter.</li>
+<li><strong>Valid inference.</strong> LLN/CLT-type results require that mean, variance, and covariances do not drift, so that e.g.&nbsp;<span class="math inline">\(Z'Z/T \to Q\)</span> - the condition under which OLS/MLE are consistent and asymptotically normal.</li>
+<li><strong>Stable dependence.</strong> A fixed ACF/PACF makes the structure of persistence time-invariant; combined with Wold’s theorem (<a href="#sec-wold" class="quarto-xref"><span>Section 1.6</span></a>), this motivates linear representations with innovations - AR, MA, ARMA models, developed in the next chapter.</li>
 <li><strong>Forecastability.</strong> If parameters and shock variances are constant over time, models estimated on the past remain informative about the future.</li>
-<li><strong>In practice</strong>, if the data are not stationary, the working series is <em>transformed</em> — logged, detrended, differenced — until it is (<a href="#sec-ts-transformations" class="quarto-xref"><span>Section 1.5</span></a>).</li>
+<li><strong>In practice</strong>, if the data are not stationary, the working series is <em>transformed</em> - logged, detrended, differenced - until it is (<a href="#sec-ts-transformations" class="quarto-xref"><span>Section 1.5</span></a>).</li>
 </ul>
 <p>Stationarity is a modeling assumption that underlies inference beyond time-series analysis narrowly defined: without it there is no constant <span class="math inline">\(E(X_t)\)</span> to estimate, no stable parameter to report, and no valid distribution to attach to an estimator. Consider a simple time-series regression,</p>
 <p><span class="math display">\[
@@ -597,7 +614,7 @@ y_t = a + b x_t + c x_{t-1} + \varepsilon_t = z_t' \beta + \varepsilon_t, \qquad
 </div>
 <div class="callout-body-container callout-body">
 <p>Weak stationarity fixes <span class="math inline">\(E(X_t) = \mu\)</span>, <span class="math inline">\(\mathrm{Var}(X_t) = \sigma^2\)</span>, and <span class="math inline">\(\mathrm{Cov}(X_t, X_{t-h}) = \gamma(h)\)</span> across time. <strong>Ergodicity</strong> is the separate property that time averages reproduce ensemble averages, <span class="math inline">\(\frac{1}{T}\sum_{t=1}^T X_t \xrightarrow{a.s.} E[X_t]\)</span>.</p>
-<p>Ergodicity is defined <em>within</em> the class of stationary processes — it is not implied by stationarity alone.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> Stationarity plus <strong>weak dependence</strong> (mixing, or <span class="math inline">\(\sum_h |\gamma(h)| &lt; \infty\)</span>) does imply ergodicity, and ergodicity in turn guarantees consistency of empirical moments, <span class="math inline">\(\bar X_T \xrightarrow{P} \mu\)</span>, <span class="math inline">\(\hat\gamma(h) \xrightarrow{P} \gamma(h)\)</span>, <span class="math inline">\(\hat\rho(h) \xrightarrow{P} \rho(h)\)</span>. In a regression <span class="math inline">\(y_t = z_t'\beta + \varepsilon_t\)</span>, ergodicity of <span class="math inline">\((z_t)\)</span> and <span class="math inline">\((\varepsilon_t)\)</span> gives <span class="math inline">\(\frac{Z'\varepsilon}{T}\xrightarrow{P} 0\)</span> alongside <span class="math inline">\(\frac{Z'Z}{T}\xrightarrow{P} Q\)</span>, so that OLS is consistent. In short: we <em>assume</em> stationarity and <em>require</em> ergodicity so that inference from one observed path is valid as <span class="math inline">\(T \to \infty\)</span>.</p>
+<p>Ergodicity is defined <em>within</em> the class of stationary processes - it is not implied by stationarity alone.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> Stationarity plus <strong>weak dependence</strong> (mixing, or <span class="math inline">\(\sum_h |\gamma(h)| &lt; \infty\)</span>) does imply ergodicity, and ergodicity in turn guarantees consistency of empirical moments, <span class="math inline">\(\bar X_T \xrightarrow{P} \mu\)</span>, <span class="math inline">\(\hat\gamma(h) \xrightarrow{P} \gamma(h)\)</span>, <span class="math inline">\(\hat\rho(h) \xrightarrow{P} \rho(h)\)</span>. In a regression <span class="math inline">\(y_t = z_t'\beta + \varepsilon_t\)</span>, ergodicity of <span class="math inline">\((z_t)\)</span> and <span class="math inline">\((\varepsilon_t)\)</span> gives <span class="math inline">\(\frac{Z'\varepsilon}{T}\xrightarrow{P} 0\)</span> alongside <span class="math inline">\(\frac{Z'Z}{T}\xrightarrow{P} Q\)</span>, so that OLS is consistent. In short: we <em>assume</em> stationarity and <em>require</em> ergodicity so that inference from one observed path is valid as <span class="math inline">\(T \to \infty\)</span>.</p>
 </div>
 </div>
 </section>
@@ -612,7 +629,9 @@ y_t = a + b x_t + c x_{t-1} + \varepsilon_t = z_t' \beta + \varepsilon_t, \qquad
 <p><span class="math display">\[
 \hat \gamma(h) = \frac{1}{T} \sum_{t=h+1}^T (X_t - \bar X_T)(X_{t-h} - \bar X_T)
 \]</span></p>
-<p>— which should not be estimated at lags <span class="math inline">\(h\)</span> too large relative to <span class="math inline">\(T\)</span> — and the sample autocorrelation <span class="math inline">\(\hat\rho(h) = \hat\gamma(h)/\hat\gamma(0)\)</span>.</p>
+<ul>
+<li>which should not be estimated at lags <span class="math inline">\(h\)</span> too large relative to <span class="math inline">\(T\)</span> - and the sample autocorrelation <span class="math inline">\(\hat\rho(h) = \hat\gamma(h)/\hat\gamma(0)\)</span>.</li>
+</ul>
 <p>When <span class="math inline">\((X_t)\)</span> is stationary, all of these estimators are consistent as <span class="math inline">\(T \to \infty\)</span>: <span class="math inline">\(\hat m \xrightarrow{P} m\)</span>, <span class="math inline">\(\hat\gamma(h) \xrightarrow{P} \gamma(h)\)</span>, <span class="math inline">\(\hat\rho(h) \xrightarrow{P} \rho(h)\)</span>. The sample mean is moreover asymptotically Gaussian,</p>
 <p><span class="math display">\[
 \sqrt{T}(\hat m - m) \xrightarrow{d} \mathcal{N}\!\left(0, \sum_{h \in \mathbb{Z}} \gamma(h)\right),
@@ -624,9 +643,9 @@ y_t = a + b x_t + c x_{t-1} + \varepsilon_t = z_t' \beta + \varepsilon_t, \qquad
 <h2 data-number="1.4" class="anchored" data-anchor-id="sec-unit-root-tests"><span class="header-section-number">1.4</span> Diagnosing nonstationarity</h2>
 <p>Nonstationarity can arise from several distinct sources, and distinguishing between them matters for how the series should be transformed:</p>
 <ul>
-<li><strong>Deterministic trends</strong>: predictable changes in mean, <span class="math inline">\(X_t = a + bt + Y_t\)</span> with <span class="math inline">\(Y_t\)</span> stationary — e.g.&nbsp;long-run GDP growth.</li>
+<li><strong>Deterministic trends</strong>: predictable changes in mean, <span class="math inline">\(X_t = a + bt + Y_t\)</span> with <span class="math inline">\(Y_t\)</span> stationary - e.g.&nbsp;long-run GDP growth.</li>
 <li><strong>Seasonality</strong>: <span class="math inline">\(E(X_t)\)</span> changes periodically; typically removed by seasonal differencing, <span class="math inline">\(X_t - X_{t-S}\)</span>.</li>
-<li><strong>Stochastic trends</strong>: accumulation of random shocks, <span class="math inline">\(X_t = X_{t-1} + \varepsilon_t\)</span> — e.g.&nbsp;asset prices, productivity innovations.</li>
+<li><strong>Stochastic trends</strong>: accumulation of random shocks, <span class="math inline">\(X_t = X_{t-1} + \varepsilon_t\)</span> - e.g.&nbsp;asset prices, productivity innovations.</li>
 <li><strong>Structural breaks</strong>: discrete changes in mean, variance (heteroskedasticity), or dynamics (regime-dependence).</li>
 </ul>
 <div class="callout callout-style-default callout-warning callout-titled" title="A cautionary example: the Great Moderation">
@@ -639,7 +658,7 @@ y_t = a + b x_t + c x_{t-1} + \varepsilon_t = z_t' \beta + \varepsilon_t, \qquad
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The mid-1980s decline in U.S. macroeconomic volatility (the “Great Moderation”) is often attributed to changes in monetary policy or inventory behavior. Romer <span class="citation" data-cites="Romer1986">(<a href="../references.html#ref-Romer1986" role="doc-biblioref">1986</a>)</span> argues this reading is largely an artifact of how the data were constructed and measured, not a genuine change in the underlying process — a reminder that visual and even formal diagnostics of nonstationarity are only as good as the data feeding them. Tools for this diagnosis include visual inspection, the ACF, and formal unit-root tests (ADF, KPSS, and others, below).</p>
+<p>The mid-1980s decline in U.S. macroeconomic volatility (the “Great Moderation”) is often attributed to changes in monetary policy or inventory behavior. Romer <span class="citation" data-cites="Romer1986">(<a href="../references.html#ref-Romer1986" role="doc-biblioref">1986</a>)</span> argues this reading is largely an artifact of how the data were constructed and measured, not a genuine change in the underlying process - a reminder that visual and even formal diagnostics of nonstationarity are only as good as the data feeding them. Tools for this diagnosis include visual inspection, the ACF, and formal unit-root tests (ADF, KPSS, and others, below).</p>
 </div>
 </div>
 <section id="trend-stationary-vs.-difference-stationary-processes" class="level3">
@@ -659,14 +678,14 @@ y_t = a + b x_t + c x_{t-1} + \varepsilon_t = z_t' \beta + \varepsilon_t, \qquad
 <img src="../figures/ts/european-gdps-levels.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-european-gdp-levels-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1.9: Real GDP levels for four European countries (1960–2015+): all four display persistent upward drift rather than fluctuation around a fixed mean.
+Figure&nbsp;1.9: Real GDP levels for four European countries (1960-2015+): all four display persistent upward drift rather than fluctuation around a fixed mean.
 </figcaption>
 </figure>
 </div>
 </section>
 <section id="unit-root-and-structural-break-tests" class="level3">
 <h3 class="anchored" data-anchor-id="unit-root-and-structural-break-tests">Unit-root and structural-break tests</h3>
-<p>Formally, the question is whether nonstationarity stems from a <strong>stochastic trend</strong> (unit root — does the series tend to return to a fixed mean/trend after a shock?) or a <strong>deterministic trend</strong> (drift/linear trend — do shocks accumulate permanently?). The choice of a constant vs.&nbsp;a constant-plus-trend in the test equation should match the data pattern: a series fluctuating around a fixed mean needs only a constant; one growing/declining linearly needs a trend as well.</p>
+<p>Formally, the question is whether nonstationarity stems from a <strong>stochastic trend</strong> (unit root - does the series tend to return to a fixed mean/trend after a shock?) or a <strong>deterministic trend</strong> (drift/linear trend - do shocks accumulate permanently?). The choice of a constant vs.&nbsp;a constant-plus-trend in the test equation should match the data pattern: a series fluctuating around a fixed mean needs only a constant; one growing/declining linearly needs a trend as well.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Unit-root tests">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -678,12 +697,12 @@ Figure&nbsp;1.9: Real GDP levels for four European countries (1960–2015+): all
 </div>
 <div class="callout-body-container callout-body">
 <ol type="1">
-<li><strong>ADF (Augmented Dickey–Fuller).</strong> Classical regression-based test, <span class="math display">\[
+<li><strong>ADF (Augmented Dickey-Fuller).</strong> Classical regression-based test, <span class="math display">\[
 \Delta X_t = \alpha + \beta t + (\phi - 1) X_{t-1} + \sum_{i=1}^{p}\delta_i \Delta X_{t-i} + \varepsilon_t,
 \]</span> with <span class="math inline">\(H_0\)</span>: unit root (<span class="math inline">\((\phi-1)=0\)</span>, nonstationary) against <span class="math inline">\(H_1\)</span>: stationary (<span class="math inline">\((\phi-1)&lt;0\)</span>).</li>
-<li><strong>PP (Phillips–Perron).</strong> Same null as ADF, with a nonparametric correction for serial correlation via the long-run variance instead of augmenting lags.</li>
-<li><strong>DF-GLS (Elliott–Rothenberg–Stock).</strong> A more powerful variant that detrends the series first, then applies the DF test.</li>
-<li><strong>KPSS (Kwiatkowski–Phillips–Schmidt–Shin).</strong> The <em>opposite</em> null: <span class="math inline">\(H_0\)</span> is stationarity (around a mean or a trend), <span class="math inline">\(H_1\)</span> is a unit root.</li>
+<li><strong>PP (Phillips-Perron).</strong> Same null as ADF, with a nonparametric correction for serial correlation via the long-run variance instead of augmenting lags.</li>
+<li><strong>DF-GLS (Elliott-Rothenberg-Stock).</strong> A more powerful variant that detrends the series first, then applies the DF test.</li>
+<li><strong>KPSS (Kwiatkowski-Phillips-Schmidt-Shin).</strong> The <em>opposite</em> null: <span class="math inline">\(H_0\)</span> is stationarity (around a mean or a trend), <span class="math inline">\(H_1\)</span> is a unit root.</li>
 </ol>
 <p><strong>Rule of thumb:</strong> rejecting ADF/PP/DF-GLS points to stationarity; rejecting KPSS points to nonstationarity. Combining ADF and KPSS gives a more robust diagnosis than either alone.</p>
 </div>
@@ -698,13 +717,13 @@ Figure&nbsp;1.9: Real GDP levels for four European countries (1960–2015+): all
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>ADF, PP, and KPSS systematically conclude “unit root” when the series is actually <strong>stationary around a shifted mean or a broken trend</strong> — a critical caveat for applied work. Three tests address this directly:</p>
+<p>ADF, PP, and KPSS systematically conclude “unit root” when the series is actually <strong>stationary around a shifted mean or a broken trend</strong> - a critical caveat for applied work. Three tests address this directly:</p>
 <ol type="1">
 <li><strong>Chow <span class="citation" data-cites="Chow1960">(<a href="../references.html#ref-Chow1960" role="doc-biblioref">1960</a>)</span>.</strong> Requires a <em>known</em> break date <span class="math inline">\(T_b\)</span>; splits the sample and tests equality of regression coefficients across sub-samples via an <span class="math inline">\(F\)</span>-statistic.</li>
-<li><strong>Perron <span class="citation" data-cites="Perron1989">(<a href="../references.html#ref-Perron1989" role="doc-biblioref">1989</a>)</span>.</strong> Also requires a known <span class="math inline">\(T_b\)</span>; a modified ADF including a shift dummy (level or trend), with <span class="math inline">\(H_0\)</span>: unit root with break vs.&nbsp;<span class="math inline">\(H_1\)</span>: stationary with break — avoiding Chow’s confounding of a mean/trend shift with a stochastic trend.</li>
-<li><strong>Zivot–Andrews <span class="citation" data-cites="ZivotAndrews1992">(<a href="../references.html#ref-ZivotAndrews1992" role="doc-biblioref">1992</a>)</span>.</strong> Handles an <em>unknown</em> <span class="math inline">\(T_b\)</span> by running a Perron-type ADF at every candidate break date and selecting <span class="math inline">\(T_b\)</span> as the date that minimizes the unit-root <span class="math inline">\(t\)</span>-statistic; critical values are adjusted for this data-mining.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></li>
+<li><strong>Perron <span class="citation" data-cites="Perron1989">(<a href="../references.html#ref-Perron1989" role="doc-biblioref">1989</a>)</span>.</strong> Also requires a known <span class="math inline">\(T_b\)</span>; a modified ADF including a shift dummy (level or trend), with <span class="math inline">\(H_0\)</span>: unit root with break vs.&nbsp;<span class="math inline">\(H_1\)</span>: stationary with break - avoiding Chow’s confounding of a mean/trend shift with a stochastic trend.</li>
+<li><strong>Zivot-Andrews <span class="citation" data-cites="ZivotAndrews1992">(<a href="../references.html#ref-ZivotAndrews1992" role="doc-biblioref">1992</a>)</span>.</strong> Handles an <em>unknown</em> <span class="math inline">\(T_b\)</span> by running a Perron-type ADF at every candidate break date and selecting <span class="math inline">\(T_b\)</span> as the date that minimizes the unit-root <span class="math inline">\(t\)</span>-statistic; critical values are adjusted for this data-mining.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></li>
 </ol>
-<p><strong>Practical rule:</strong> inspect the series visually for level shifts or trend changes (crises, policy regime changes, wars); if a break is suspected, apply Zivot–Andrews <em>before</em> concluding the series is <span class="math inline">\(I(1)\)</span> — it may appear integrated purely because of an unmodeled break.</p>
+<p><strong>Practical rule:</strong> inspect the series visually for level shifts or trend changes (crises, policy regime changes, wars); if a break is suspected, apply Zivot-Andrews <em>before</em> concluding the series is <span class="math inline">\(I(1)\)</span> - it may appear integrated purely because of an unmodeled break.</p>
 </div>
 </div>
 <div id="fig-structural-break" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -713,7 +732,7 @@ Figure&nbsp;1.9: Real GDP levels for four European countries (1960–2015+): all
 <img src="../figures/ts/structural-break-vs-stochastic-trend.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-structural-break-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1.10: Structural break vs.&nbsp;stochastic trend, illustrated with a Perron-type ADF test with a known break date. Left: a genuine deterministic break at <span class="math inline">\(T_b = 85\)</span> (test statistic <span class="math inline">\(-5.751\)</span> against a 5% critical value of about <span class="math inline">\(-5.08\)</span>) — the unit-root null is rejected, so the series is trend-stationary around a broken deterministic trend. Right: a genuine stochastic trend, with a candidate break at <span class="math inline">\(T_b = 75\)</span> (test statistic <span class="math inline">\(-3.320\)</span>, not below the critical value) — the unit-root null is not rejected, so the apparent break does not remove the stochastic trend. A deterministic break can mimic a unit root, and a genuine stochastic trend can mimic a break.
+Figure&nbsp;1.10: Structural break vs.&nbsp;stochastic trend, illustrated with a Perron-type ADF test with a known break date. Left: a genuine deterministic break at <span class="math inline">\(T_b = 85\)</span> (test statistic <span class="math inline">\(-5.751\)</span> against a 5% critical value of about <span class="math inline">\(-5.08\)</span>) - the unit-root null is rejected, so the series is trend-stationary around a broken deterministic trend. Right: a genuine stochastic trend, with a candidate break at <span class="math inline">\(T_b = 75\)</span> (test statistic <span class="math inline">\(-3.320\)</span>, not below the critical value) - the unit-root null is not rejected, so the apparent break does not remove the stochastic trend. A deterministic break can mimic a unit root, and a genuine stochastic trend can mimic a break.
 </figcaption>
 </figure>
 </div>
@@ -723,22 +742,22 @@ Figure&nbsp;1.10: Structural break vs.&nbsp;stochastic trend, illustrated with a
 <h2 data-number="1.5" class="anchored" data-anchor-id="sec-ts-transformations"><span class="header-section-number">1.5</span> Achieving stationarity: transformations and filtering</h2>
 <p>Once nonstationarity is detected, four transformations are used, alone or in combination, to stabilize a series:</p>
 <ol type="1">
-<li><strong>Logarithm</strong> — removes exponential growth and stabilizes variance.</li>
-<li><strong>Detrending (OLS)</strong> — removes deterministic trend components.</li>
-<li><strong>Differencing</strong> — removes stochastic trends (unit roots).</li>
-<li><strong>Filtering</strong> — removes specific frequency bands (e.g.&nbsp;HP, BK, CF filters).</li>
+<li><strong>Logarithm</strong> - removes exponential growth and stabilizes variance.</li>
+<li><strong>Detrending (OLS)</strong> - removes deterministic trend components.</li>
+<li><strong>Differencing</strong> - removes stochastic trends (unit roots).</li>
+<li><strong>Filtering</strong> - removes specific frequency bands (e.g.&nbsp;HP, BK, CF filters).</li>
 </ol>
 <p>The corresponding empirical workflow is: (i) visual inspection to guess the type of trend; (ii) unit-root tests; (iii) apply the appropriate transformation; (iv) test the residual for stationarity (ACF tail decay, formal tests).</p>
 <section id="removing-seasonality" class="level3">
 <h3 class="anchored" data-anchor-id="removing-seasonality">Removing seasonality</h3>
 <p>Two approaches address a recurring seasonal pattern <span class="math inline">\(s_t\)</span>, so that the residual series has constant mean and time-invariant covariance:</p>
-<div class="callout callout-style-default callout-note callout-titled" title="(a) Deterministic seasonality — regression on seasonal dummies">
+<div class="callout callout-style-default callout-note callout-titled" title="(a) Deterministic seasonality - regression on seasonal dummies">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Deterministic seasonality — regression on seasonal dummies
+<span class="screen-reader-only">Note</span>Deterministic seasonality - regression on seasonal dummies
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -747,17 +766,17 @@ X_t = \alpha + \sum_{m=1}^{S-1}\beta_m D_{m,t} + u_t, \qquad D_{m,t} = 1 \text{ 
 \]</span> the fitted part <span class="math inline">\(\hat\alpha + \sum \hat\beta_m D_{m,t}\)</span> captures seasonality, and the deseasonalized series is <span class="math inline">\(X_t^* = X_t - (\hat\alpha + \sum_{m=1}^{S-1}\hat\beta_m D_{m,t})\)</span>. This works well when the seasonal pattern is stable over time.</p>
 </div>
 </div>
-<div class="callout callout-style-default callout-note callout-titled" title="(b) Stochastic or time-varying seasonality — seasonal differencing">
+<div class="callout callout-style-default callout-note callout-titled" title="(b) Stochastic or time-varying seasonality - seasonal differencing">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Stochastic or time-varying seasonality — seasonal differencing
+<span class="screen-reader-only">Note</span>Stochastic or time-varying seasonality - seasonal differencing
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>If the seasonal effect’s strength changes slowly, <span class="math inline">\(\Delta_S X_t = X_t - X_{t-S}\)</span> removes it directly — e.g.&nbsp;<span class="math inline">\(\Delta_{12}X_t\)</span> for monthly data removes yearly periodicity. Since <span class="math inline">\(E[X_t - X_{t-S}] = s_t - s_{t-S} = 0\)</span>, the mean becomes constant. This is the standard approach in SARIMA models, and it preserves short-run dynamics.</p>
+<p>If the seasonal effect’s strength changes slowly, <span class="math inline">\(\Delta_S X_t = X_t - X_{t-S}\)</span> removes it directly - e.g.&nbsp;<span class="math inline">\(\Delta_{12}X_t\)</span> for monthly data removes yearly periodicity. Since <span class="math inline">\(E[X_t - X_{t-S}] = s_t - s_{t-S} = 0\)</span>, the mean becomes constant. This is the standard approach in SARIMA models, and it preserves short-run dynamics.</p>
 </div>
 </div>
 </section>
@@ -777,7 +796,7 @@ Figure&nbsp;1.11: European GDPs in logarithm: the exponential growth of <a href=
 </section>
 <section id="second-transformation-deviations-from-a-deterministic-trend" class="level3">
 <h3 class="anchored" data-anchor-id="second-transformation-deviations-from-a-deterministic-trend">Second transformation: deviations from a deterministic trend</h3>
-<p>The idea is to remove the deterministic trend of <span class="math inline">\(\log(x_t)\)</span>, estimated by OLS — linearly, <span class="math display">\[
+<p>The idea is to remove the deterministic trend of <span class="math inline">\(\log(x_t)\)</span>, estimated by OLS - linearly, <span class="math display">\[
 x_t^{*} = \log(x_t) - \hat{\beta}_0 - \hat{\beta}_1 t,
 \]</span> or quadratically, <span class="math display">\[
 x_t^{*} = \log(x_t) - \hat{\beta}_0 - \hat{\beta}_1 t - \hat{\beta}_2 t^2.
@@ -803,7 +822,7 @@ Table&nbsp;1.1: OLS trend estimates, log German GDP
 <td>Linear</td>
 <td style="text-align: right;">13.78</td>
 <td style="text-align: right;">0.005</td>
-<td style="text-align: right;">—</td>
+<td style="text-align: right;">-</td>
 </tr>
 <tr class="even">
 <td>Quadratic</td>
@@ -863,7 +882,7 @@ Figure&nbsp;1.14: Detrended log German GDP and its ACF, quadratic detrending.
 <section id="centering-vs.-differencing" class="level3">
 <h3 class="anchored" data-anchor-id="centering-vs.-differencing">Centering vs.&nbsp;differencing</h3>
 <p>It is worth being precise about what each transformation does to the mean, since the two are easy to conflate:</p>
-<p><strong>Trend-stationary</strong>, <span class="math inline">\(X_t = a + bt + Y_t\)</span> with <span class="math inline">\(E[Y_t] = 0\)</span>, <span class="math inline">\(Y_t \sim I(0)\)</span>: <em>detrending</em> gives <span class="math inline">\(Y_t\)</span>, stationary and centered on 0; <em>differencing</em> gives <span class="math inline">\(\Delta X_t = b + \Delta Y_t\)</span> with <span class="math inline">\(E[\Delta X_t] = b\)</span> — <strong>not</strong> centered (unless <span class="math inline">\(b=0\)</span>), since GDP growth is centered above zero precisely because there is long-run growth in levels.</p>
+<p><strong>Trend-stationary</strong>, <span class="math inline">\(X_t = a + bt + Y_t\)</span> with <span class="math inline">\(E[Y_t] = 0\)</span>, <span class="math inline">\(Y_t \sim I(0)\)</span>: <em>detrending</em> gives <span class="math inline">\(Y_t\)</span>, stationary and centered on 0; <em>differencing</em> gives <span class="math inline">\(\Delta X_t = b + \Delta Y_t\)</span> with <span class="math inline">\(E[\Delta X_t] = b\)</span> - <strong>not</strong> centered (unless <span class="math inline">\(b=0\)</span>), since GDP growth is centered above zero precisely because there is long-run growth in levels.</p>
 <p><strong>Difference-stationary (random walk) with drift <span class="math inline">\(\mu\)</span></strong>, <span class="math inline">\(X_t = \mu + X_{t-1} + \varepsilon_t\)</span>: <em>differencing</em> gives <span class="math inline">\(\Delta X_t = \mu + \varepsilon_t\)</span>, stationary but not centered unless <span class="math inline">\(\mu = 0\)</span>; without drift, <span class="math inline">\(\Delta X_t = \varepsilon_t\)</span> is centered on 0.</p>
 <p>In short: for a TS series, detrending centers on 0 while differencing leaves mean <span class="math inline">\(b\)</span>; for a DS (random-walk) series, differencing leaves mean <span class="math inline">\(\mu\)</span> (often <span class="math inline">\(&gt;0\)</span> in macro data), centered only if <span class="math inline">\(\mu = 0\)</span>.</p>
 <div class="callout callout-style-default callout-important callout-titled" title="Rule of thumb">
@@ -892,7 +911,7 @@ x_t^* = x_t - \hat a - \hat b\, t &amp; \Rightarrow \text{trend-stationary (TS)}
 <p><span class="math display">\[
 X_t = T_t + C_t + \varepsilon_t,
 \]</span></p>
-<p>with <span class="math inline">\(T_t\)</span> the slow, low-frequency long-run trend, <span class="math inline">\(C_t\)</span> the medium-frequency business cycle, and <span class="math inline">\(\varepsilon_t\)</span> high-frequency noise. Which component to remove depends on the question: forecasting calls for removing the nonstationary trend; cyclical analysis calls for removing both the high- and low-frequency components. But <strong>what counts as “trend” and what counts as “business cycle” is not given by the data</strong> — it is an assumption built into the choice of filter.</p>
+<p>with <span class="math inline">\(T_t\)</span> the slow, low-frequency long-run trend, <span class="math inline">\(C_t\)</span> the medium-frequency business cycle, and <span class="math inline">\(\varepsilon_t\)</span> high-frequency noise. Which component to remove depends on the question: forecasting calls for removing the nonstationary trend; cyclical analysis calls for removing both the high- and low-frequency components. But <strong>what counts as “trend” and what counts as “business cycle” is not given by the data</strong> - it is an assumption built into the choice of filter.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Main filtering methods">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -903,11 +922,11 @@ X_t = T_t + C_t + \varepsilon_t,
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>Hodrick–Prescott (HP) filter.</strong> Penalizes variability in the trend, <span class="math display">\[
+<p><strong>Hodrick-Prescott (HP) filter.</strong> Penalizes variability in the trend, <span class="math display">\[
 \min_T \sum_t (X_t - T_t)^2 + \lambda \sum_t (\Delta^2 T_t)^2,
 \]</span> with <span class="math inline">\(\lambda\)</span> controlling smoothness (<span class="math inline">\(\lambda = 1600\)</span> for quarterly data), giving <span class="math inline">\(X_t = T_t + C_t\)</span> with <span class="math inline">\(C_t\)</span> stationary.</p>
-<p><strong>Baxter–King (BK) filter.</strong> A band-pass filter isolating cycles of 6–32 quarters, implemented as a symmetric moving average — which introduces edge loss, and suppresses genuine cyclicality if the endogenous dynamics actually operate beyond 32 quarters (e.g.&nbsp;medium-run capacity utilization, or longer financial cycles in credit volumes and leverage, à la Borio at the BIS).</p>
-<p><strong>Christiano–Fitzgerald (CF) filter.</strong> Similar band-pass logic to BK, optimized for finite samples, with less edge distortion.</p>
+<p><strong>Baxter-King (BK) filter.</strong> A band-pass filter isolating cycles of 6-32 quarters, implemented as a symmetric moving average - which introduces edge loss, and suppresses genuine cyclicality if the endogenous dynamics actually operate beyond 32 quarters (e.g.&nbsp;medium-run capacity utilization, or longer financial cycles in credit volumes and leverage, à la Borio at the BIS).</p>
+<p><strong>Christiano-Fitzgerald (CF) filter.</strong> Similar band-pass logic to BK, optimized for finite samples, with less edge distortion.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-warning callout-titled" title="Detrending and filtering are not neutral">
@@ -920,7 +939,7 @@ X_t = T_t + C_t + \varepsilon_t,
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The HP filter can mistake a long slump for a fall in potential output, pulling the estimated “trend” down until the economy appears to be back at full employment. In the Great Depression, this misreads a sustained demand shortfall as lower potential output — the filter absorbs the depression into the trend, erasing genuine cyclical slack (Hamilton <span class="citation" data-cites="Hamilton2018">(<a href="../references.html#ref-Hamilton2018" role="doc-biblioref">2018</a>)</span>, “Why You Should Never Use the Hodrick-Prescott Filter”). Detrending methods are usually discretionary and parametric, with a direct impact on what counts as trend versus cycle.</p>
+<p>The HP filter can mistake a long slump for a fall in potential output, pulling the estimated “trend” down until the economy appears to be back at full employment. In the Great Depression, this misreads a sustained demand shortfall as lower potential output - the filter absorbs the depression into the trend, erasing genuine cyclical slack (Hamilton <span class="citation" data-cites="Hamilton2018">(<a href="../references.html#ref-Hamilton2018" role="doc-biblioref">2018</a>)</span>, “Why You Should Never Use the Hodrick-Prescott Filter”). Detrending methods are usually discretionary and parametric, with a direct impact on what counts as trend versus cycle.</p>
 </div>
 </div>
 <div id="fig-hp-filter-critique" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -929,7 +948,7 @@ X_t = T_t + C_t + \varepsilon_t,
 <img src="../figures/ts/hp-filter-great-depression-hamilton2018.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-hp-filter-critique-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1.15: Actual vs.&nbsp;HP-filtered log U.S. GDP, 1919–1939: the filter reads the Great Depression partly as a decline in potential output rather than purely a shortfall in demand.
+Figure&nbsp;1.15: Actual vs.&nbsp;HP-filtered log U.S. GDP, 1919-1939: the filter reads the Great Depression partly as a decline in potential output rather than purely a shortfall in demand.
 </figcaption>
 </figure>
 </div>
@@ -947,7 +966,7 @@ Figure&nbsp;1.16: Spectral density of NFCI leverage (levels, unfiltered), with c
 </section>
 <section id="summary-of-transformations" class="level3">
 <h3 class="anchored" data-anchor-id="summary-of-transformations">Summary of transformations</h3>
-<p>Log-transforming stabilizes variance; detrending removes deterministic growth; differencing removes stochastic trends. But filtering is never neutral — it defines what counts as “trend” and what counts as “cycle,” and misuse can distort macroeconomic interpretation.</p>
+<p>Log-transforming stabilizes variance; detrending removes deterministic growth; differencing removes stochastic trends. But filtering is never neutral - it defines what counts as “trend” and what counts as “cycle,” and misuse can distort macroeconomic interpretation.</p>
 </section>
 </section>
 <section id="sec-wold" class="level2" data-number="1.6">
@@ -967,8 +986,8 @@ X_t = X_t^{(d)} + X_t^{(s)}, \qquad X_t^{(s)} = \sum_{j=0}^{\infty} \psi_j \vare
 \tag{1.8}\]</span></span> where <span class="math inline">\(X_t^{(d)}\)</span> is a <strong>deterministic</strong> (perfectly linearly predictable) component and <span class="math inline">\(X_t^{(s)}\)</span> is the <strong>purely nondeterministic</strong> (stochastic) component, driven by uncorrelated innovations <span class="math inline">\(\varepsilon_t \sim WN(0, \sigma^2)\)</span> with <span class="math inline">\(\sum_j \psi_j^2 &lt; \infty\)</span>.</p>
 </div>
 </div>
-<p>The Wold representation describes the <em>best linear predictor</em> of <span class="math inline">\(X_t\)</span> from its own past, and it guarantees that any stationary process can be approximated, in mean-square sense, by a linear process — which is exactly what motivates using linear <strong>AR, MA, and ARMA models</strong>, the subject of the next chapter. Wold’s theorem does <em>not</em> imply that all stationary processes are truly linear (e.g.&nbsp;GARCH processes, or nonlinear Markov chains); only that their second-order structure is linearizable, and thus admits a linear representation.</p>
-<p>This has a direct implication for prediction: stationarity ensures that all unconditional moments of <span class="math inline">\(X_{T+h}\)</span>, for any horizon <span class="math inline">\(h &gt; 0\)</span>, can be estimated from <span class="math inline">\((X_1, \ldots, X_T)\)</span>. A first, simple non-conditional predictor is the sample mean, <span class="math inline">\(\hat X_{T+h} = \bar X_T = \frac{1}{T}\sum_{t=1}^T X_t\)</span> — but this naive predictor is <em>constant</em> across all horizons <span class="math inline">\(h\)</span>, ignoring any dynamics in the series (<a href="#fig-naive-forecast" class="quarto-xref">Figure&nbsp;<span>1.17</span></a>). Capturing those dynamics is exactly what dynamic linear models (AR, MA, ARMA) are for.</p>
+<p>The Wold representation describes the <em>best linear predictor</em> of <span class="math inline">\(X_t\)</span> from its own past, and it guarantees that any stationary process can be approximated, in mean-square sense, by a linear process - which is exactly what motivates using linear <strong>AR, MA, and ARMA models</strong>, the subject of the next chapter. Wold’s theorem does <em>not</em> imply that all stationary processes are truly linear (e.g.&nbsp;GARCH processes, or nonlinear Markov chains); only that their second-order structure is linearizable, and thus admits a linear representation.</p>
+<p>This has a direct implication for prediction: stationarity ensures that all unconditional moments of <span class="math inline">\(X_{T+h}\)</span>, for any horizon <span class="math inline">\(h &gt; 0\)</span>, can be estimated from <span class="math inline">\((X_1, \ldots, X_T)\)</span>. A first, simple non-conditional predictor is the sample mean, <span class="math inline">\(\hat X_{T+h} = \bar X_T = \frac{1}{T}\sum_{t=1}^T X_t\)</span> - but this naive predictor is <em>constant</em> across all horizons <span class="math inline">\(h\)</span>, ignoring any dynamics in the series (<a href="#fig-naive-forecast" class="quarto-xref">Figure&nbsp;<span>1.17</span></a>). Capturing those dynamics is exactly what dynamic linear models (AR, MA, ARMA) are for.</p>
 <div id="fig-naive-forecast" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-naive-forecast-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -981,18 +1000,18 @@ Figure&nbsp;1.17: A constant (“naive”) forecast compared against an actual p
 </div>
 <section id="a-historical-note-on-stationarity-and-linearity" class="level3">
 <h3 class="anchored" data-anchor-id="a-historical-note-on-stationarity-and-linearity">A historical note on stationarity and linearity</h3>
-<p>Up to the end of the 1970s, time-series analysis largely assumed a stationary, linear setup. Nelson and Plosser <span class="citation" data-cites="NelsonPlosser1982">(<a href="../references.html#ref-NelsonPlosser1982" role="doc-biblioref">1982</a>)</span> applied Dickey–Fuller tests and showed that most macroeconomic and financial time series are in fact non-stationary, which meant that statistical inference built on an assumption of stationarity was invalid for these series. More recently, linearity tests and new model classes have emerged — structural-change and threshold models, stochastic-volatility models — motivated in part by the observation that prices, interest rates, and other financial series are often nonlinear. The nonstationarity issue is now widely acknowledged, but it is still frequently addressed within an otherwise linear, univariate framework; nonlinear models are the subject of a later chapter.</p>
+<p>Up to the end of the 1970s, time-series analysis largely assumed a stationary, linear setup. Nelson and Plosser <span class="citation" data-cites="NelsonPlosser1982">(<a href="../references.html#ref-NelsonPlosser1982" role="doc-biblioref">1982</a>)</span> applied Dickey-Fuller tests and showed that most macroeconomic and financial time series are in fact non-stationary, which meant that statistical inference built on an assumption of stationarity was invalid for these series. More recently, linearity tests and new model classes have emerged - structural-change and threshold models, stochastic-volatility models - motivated in part by the observation that prices, interest rates, and other financial series are often nonlinear. The nonstationarity issue is now widely acknowledged, but it is still frequently addressed within an otherwise linear, univariate framework; nonlinear models are the subject of a later chapter.</p>
 </section>
 </section>
 <section id="summary" class="level2" data-number="1.7">
 <h2 data-number="1.7" class="anchored" data-anchor-id="summary"><span class="header-section-number">1.7</span> Summary</h2>
-<p>A time series is one observed realization of a stochastic process, so its dependence structure requires assumptions on stability before any statistics can be done on it. <strong>Stationarity</strong> — constant mean, variance, and covariance — is necessary for estimation, inference, and forecasting.</p>
-<p>Nonstationarity may stem from deterministic trends, stochastic trends (unit roots), seasonality, or structural breaks. To achieve stationarity: take logs to stabilize variance; check the ACF visually and test formally for unit roots; then detrend to remove a deterministic trend, difference to remove a stochastic trend, or filter to separate frequency components (trend vs.&nbsp;cycle) — keeping in mind that filtering is never neutral, since the choice of filter defines what counts as trend and what counts as cycle.</p>
-<p>Once a series is stationary, Wold’s theorem guarantees it can be represented as a linear combination of past shocks — the foundation for the AR, MA, and ARMA models developed next.</p>
+<p>A time series is one observed realization of a stochastic process, so its dependence structure requires assumptions on stability before any statistics can be done on it. <strong>Stationarity</strong> - constant mean, variance, and covariance - is necessary for estimation, inference, and forecasting.</p>
+<p>Nonstationarity may stem from deterministic trends, stochastic trends (unit roots), seasonality, or structural breaks. To achieve stationarity: take logs to stabilize variance; check the ACF visually and test formally for unit roots; then detrend to remove a deterministic trend, difference to remove a stochastic trend, or filter to separate frequency components (trend vs.&nbsp;cycle) - keeping in mind that filtering is never neutral, since the choice of filter defines what counts as trend and what counts as cycle.</p>
+<p>Once a series is stationary, Wold’s theorem guarantees it can be represented as a linear combination of past shocks - the foundation for the AR, MA, and ARMA models developed next.</p>
 </section>
 <section id="further-reading" class="level2" data-number="1.8">
 <h2 data-number="1.8" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">1.8</span> Further reading</h2>
-<p>Hamilton <span class="citation" data-cites="Hamilton1994">(<a href="../references.html#ref-Hamilton1994" role="doc-biblioref">1994</a>)</span>, Lütkepohl <span class="citation" data-cites="Lutkepohl2005">(<a href="../references.html#ref-Lutkepohl2005" role="doc-biblioref">2005</a>)</span>, and Brockwell and Davis <span class="citation" data-cites="BrockwellDavis2002 BrockwellDavis2006">(<a href="../references.html#ref-BrockwellDavis2002" role="doc-biblioref">2002</a>, <a href="../references.html#ref-BrockwellDavis2006" role="doc-biblioref">2006</a>)</span> cover time-series analysis in depth, though — as emphasized in the source lectures — none of them alone covers this course’s full scope, nor shows how time series methods are used to estimate structural macroeconomic models.</p>
+<p>Hamilton <span class="citation" data-cites="Hamilton1994">(<a href="../references.html#ref-Hamilton1994" role="doc-biblioref">1994</a>)</span>, Lütkepohl <span class="citation" data-cites="Lutkepohl2005">(<a href="../references.html#ref-Lutkepohl2005" role="doc-biblioref">2005</a>)</span>, and Brockwell and Davis <span class="citation" data-cites="BrockwellDavis2002 BrockwellDavis2006">(<a href="../references.html#ref-BrockwellDavis2002" role="doc-biblioref">2002</a>, <a href="../references.html#ref-BrockwellDavis2006" role="doc-biblioref">2006</a>)</span> cover time-series analysis in depth, though - as emphasized in the source lectures - none of them alone covers this course’s full scope, nor shows how time series methods are used to estimate structural macroeconomic models.</p>
 
 
 <!-- -->
@@ -1507,14 +1526,14 @@ Zivot, Eric, and Donald W. K. Andrews. 1992. <span>“Further Evidence on the Gr
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../references.html" class="pagination-link" aria-label="References">
-        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../chapters/02-arma.html" class="pagination-link" aria-label="AR, MA, and ARMA Processes">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">AR, MA, and ARMA Processes</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Introduction to Time Series {#sec-time-series}</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>A time series is the basic object of this course: a single, ordered trajectory of a random process, observed once. Before we can build models on top of it — AR, MA, ARMA, VAR, and their structural and nonlinear extensions in later chapters — we need to be precise about what kind of object we are modeling, and about the regularity conditions that make statistical inference from a single trajectory possible at all. This chapter introduces time series as realizations of stochastic processes, defines dependence and stationarity, and shows how nonstationary series are diagnosed and transformed into a form that later chapters can build on.</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>A time series is the basic object of this course: a single, ordered trajectory of a random process, observed once. Before we can build models on top of it - AR, MA, ARMA, VAR, and their structural and nonlinear extensions in later chapters - we need to be precise about what kind of object we are modeling, and about the regularity conditions that make statistical inference from a single trajectory possible at all. This chapter introduces time series as realizations of stochastic processes, defines dependence and stationarity, and shows how nonstationary series are diagnosed and transformed into a form that later chapters can build on.</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">## What is a time series? {#sec-ts-definition}</span></span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
@@ -1533,7 +1552,7 @@ Zivot, Eric, and Donald W. K. Andrews. 1992. <span>“Further Evidence on the Gr
 <span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>Equivalently: if history could be rerun $M$ times, each run would produce a different sample path $x_1^{(m)}, \ldots, x_T^{(m)}$, $m = 1, \ldots, M$. In practice only one such path is ever observed. Our (very ambitious) objective is to find the process $(X_t)$ that best generated the single observed path $x_t$.</span>
 <span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>Once a process has been specified, estimated, and validated, it can be used for **forecasting** and for **assessing the impact of shocks**. We write $\hat X_T(h)$ for the **predictor** of $X_{T+h}$ built from information available at $T$. Since it is a measurable function of random variables, $\hat X_T(h)$ is itself a random variable with its own distribution — which must be characterized, e.g. to quantify macro risks around a forecast.</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>Once a process has been specified, estimated, and validated, it can be used for **forecasting** and for **assessing the impact of shocks**. We write $\hat X_T(h)$ for the **predictor** of $X_{T+h}$ built from information available at $T$. Since it is a measurable function of random variables, $\hat X_T(h)$ is itself a random variable with its own distribution - which must be characterized, e.g. to quantify macro risks around a forecast.</span>
 <span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="fu">### The additive and multiplicative decomposition</span></span>
 <span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
@@ -1576,7 +1595,7 @@ Zivot, Eric, and Donald W. K. Andrews. 1992. <span>“Further Evidence on the Gr
 <span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>$$ {#eq-acf}</span>
 <span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a>Under covariance stationarity (@sec-stationarity), $\gamma(k)$ depends only on the lag $k$, not on $t$ itself — this is what makes the ACF a well-defined function of $k$ alone rather than of $(t, k)$.</span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a>Under covariance stationarity (@sec-stationarity), $\gamma(k)$ depends only on the lag $k$, not on $t$ itself - this is what makes the ACF a well-defined function of $k$ alone rather than of $(t, k)$.</span>
 <span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a><span class="fu">### Estimating the ACF from a finite sample</span></span>
 <span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a></span>
@@ -1592,7 +1611,7 @@ Zivot, Eric, and Donald W. K. Andrews. 1992. <span>“Further Evidence on the Gr
 <span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a>\hat \gamma(k) = \frac{1}{T} \sum_{t=1}^{T-k} (X_t - \bar X_T)(X_{t+k} - \bar X_T).</span>
 <span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a>$$ {#eq-empirical-acvf}</span>
 <span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a>The divisor $1/T$ (the Bartlett estimator) guarantees that the sample ACVF matrix is positive semi-definite; the unbiased alternative divides by $1/(T-k)$ instead. Both are consistent estimators, but this course uses $1/T$ throughout — the same convention as R's <span class="in">`acf()`</span>.</span>
+<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a>The divisor $1/T$ (the Bartlett estimator) guarantees that the sample ACVF matrix is positive semi-definite; the unbiased alternative divides by $1/(T-k)$ instead. Both are consistent estimators, but this course uses $1/T$ throughout - the same convention as R's <span class="in">`acf()`</span>.</span>
 <span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a>The **empirical autocorrelation function** is then</span>
 <span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a></span>
@@ -1606,12 +1625,12 @@ Zivot, Eric, and Donald W. K. Andrews. 1992. <span>“Further Evidence on the Gr
 <span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a><span class="fu">## Stationarity {#sec-stationarity}</span></span>
 <span id="cb1-94"><a href="#cb1-94" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a>Non-independence across $(X_t)$ raises an immediate question: if the variables are dependent, can they still be identically distributed? Since only *one* trajectory of $(X_t)_{t \in \mathbb{Z}}$ is ever observed — one realization of nature — statistics on that single path is only possible if the process satisfies some regularity across time. That regularity is **stationarity**.</span>
+<span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a>Non-independence across $(X_t)$ raises an immediate question: if the variables are dependent, can they still be identically distributed? Since only *one* trajectory of $(X_t)_{t \in \mathbb{Z}}$ is ever observed - one realization of nature - statistics on that single path is only possible if the process satisfies some regularity across time. That regularity is **stationarity**.</span>
 <span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-97"><a href="#cb1-97" aria-hidden="true" tabindex="-1"></a><span class="fu">### Strong and weak stationarity</span></span>
 <span id="cb1-98"><a href="#cb1-98" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-99"><a href="#cb1-99" aria-hidden="true" tabindex="-1"></a>::: {.callout-note title="Definition: strong stationarity"}</span>
-<span id="cb1-100"><a href="#cb1-100" aria-hidden="true" tabindex="-1"></a>A process $(X_t)_{t \in \mathbb{Z}}$ is **strongly stationary** if, for all $t_1, \ldots, t_n \in \mathbb{Z}$, all $k \in \mathbb{Z}$, and all $n = 1, 2, \ldots$, the distribution of $(X_{t_1}, \ldots, X_{t_n})$ equals the distribution of $(X_{t_1+k}, \ldots, X_{t_n+k})$ — i.e. all finite-dimensional distributions are time-invariant.</span>
+<span id="cb1-100"><a href="#cb1-100" aria-hidden="true" tabindex="-1"></a>A process $(X_t)_{t \in \mathbb{Z}}$ is **strongly stationary** if, for all $t_1, \ldots, t_n \in \mathbb{Z}$, all $k \in \mathbb{Z}$, and all $n = 1, 2, \ldots$, the distribution of $(X_{t_1}, \ldots, X_{t_n})$ equals the distribution of $(X_{t_1+k}, \ldots, X_{t_n+k})$ - i.e. all finite-dimensional distributions are time-invariant.</span>
 <span id="cb1-101"><a href="#cb1-101" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb1-102"><a href="#cb1-102" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-103"><a href="#cb1-103" aria-hidden="true" tabindex="-1"></a>::: {.callout-note title="Definition: weak stationarity"}</span>
@@ -1650,7 +1669,7 @@ Zivot, Eric, and Donald W. K. Andrews. 1992. <span>“Further Evidence on the Gr
 <span id="cb1-136"><a href="#cb1-136" aria-hidden="true" tabindex="-1"></a>X_t = \mu + X_{t-1} + \varepsilon_t, \qquad t &gt; 0,</span>
 <span id="cb1-137"><a href="#cb1-137" aria-hidden="true" tabindex="-1"></a>$$ {#eq-random-walk}</span>
 <span id="cb1-138"><a href="#cb1-138" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-139"><a href="#cb1-139" aria-hidden="true" tabindex="-1"></a>then $(X_t)$ is a **random walk** — with drift if $\mu \ne 0$, without drift if $\mu = 0$. In both cases it is non-stationary, since</span>
+<span id="cb1-139"><a href="#cb1-139" aria-hidden="true" tabindex="-1"></a>then $(X_t)$ is a **random walk** - with drift if $\mu \ne 0$, without drift if $\mu = 0$. In both cases it is non-stationary, since</span>
 <span id="cb1-140"><a href="#cb1-140" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-141"><a href="#cb1-141" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb1-142"><a href="#cb1-142" aria-hidden="true" tabindex="-1"></a>X_t = X_0 + \mu t + \sum_{s=1}^{t} \varepsilon_s,</span>
@@ -1658,7 +1677,7 @@ Zivot, Eric, and Donald W. K. Andrews. 1992. <span>“Further Evidence on the Gr
 <span id="cb1-144"><a href="#cb1-144" aria-hidden="true" tabindex="-1"></a>\mathbb{V}(X_t) = \mathbb{V}(X_0) + t\sigma^2.</span>
 <span id="cb1-145"><a href="#cb1-145" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb1-146"><a href="#cb1-146" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-147"><a href="#cb1-147" aria-hidden="true" tabindex="-1"></a>If $\mu = 0$, $(X_t)$ is stationary in expectation but not in variance. If $\mu \ne 0$, $E(X_t) = E(X_0) + \mu t$ and $\mathbb{V}(X_t) = t\sigma^2$. This is fundamentally different from a process that is **stationary around a deterministic trend**, $X_t = a + bt + Y_t$ with $(Y_t)$ stationary — the distinction developed in @sec-ts-transformations.</span>
+<span id="cb1-147"><a href="#cb1-147" aria-hidden="true" tabindex="-1"></a>If $\mu = 0$, $(X_t)$ is stationary in expectation but not in variance. If $\mu \ne 0$, $E(X_t) = E(X_0) + \mu t$ and $\mathbb{V}(X_t) = t\sigma^2$. This is fundamentally different from a process that is **stationary around a deterministic trend**, $X_t = a + bt + Y_t$ with $(Y_t)$ stationary - the distinction developed in @sec-ts-transformations.</span>
 <span id="cb1-148"><a href="#cb1-148" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb1-149"><a href="#cb1-149" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-150"><a href="#cb1-150" aria-hidden="true" tabindex="-1"></a><span class="al">![Empirical ACF of a random walk: persistence decays only very slowly, in contrast with @fig-white-noise-acf.](../figures/ts/random-walk-acf.png)</span>{#fig-random-walk-acf}</span>
@@ -1668,7 +1687,7 @@ Zivot, Eric, and Donald W. K. Andrews. 1992. <span>“Further Evidence on the Gr
 <span id="cb1-154"><a href="#cb1-154" aria-hidden="true" tabindex="-1"></a><span class="al">![White noise, a random walk without drift, and a random walk with drift, simulated on a common scale: the white noise fluctuates around a fixed level, while both random walks wander without bound.](../figures/ts/white-noise-vs-random-walk-comparison.png)</span>{#fig-wn-rw-comparison}</span>
 <span id="cb1-155"><a href="#cb1-155" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-156"><a href="#cb1-156" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip title="Why a random walk does not converge, even with mean-zero shocks"}</span>
-<span id="cb1-157"><a href="#cb1-157" aria-hidden="true" tabindex="-1"></a>For the AR(1) with unit root $\phi = 1$, $X_t = X_{t-1} + \varepsilon_t = X_0 + \sum_{j=1}^t \varepsilon_j$. Even though $E<span class="co">[</span><span class="ot">\varepsilon_t</span><span class="co">]</span> = 0$ (so $E<span class="co">[</span><span class="ot">X_t</span><span class="co">]</span> = E<span class="co">[</span><span class="ot">X_0</span><span class="co">]</span>$, with no drift in mean) and $\tfrac{1}{t}\sum_{j=1}^t \varepsilon_j \xrightarrow{p} 0$ by the law of large numbers, the *level* $\sum_{j=1}^t \varepsilon_j$ is $O_p(\sqrt t)$: fluctuations accumulate even as their average vanishes. This is the "drunkard's walk" intuition — each step is centered on zero, but the position wanders without bound because $\mathrm{Var}(X_t) = t\sigma^2$ grows without bound.</span>
+<span id="cb1-157"><a href="#cb1-157" aria-hidden="true" tabindex="-1"></a>For the AR(1) with unit root $\phi = 1$, $X_t = X_{t-1} + \varepsilon_t = X_0 + \sum_{j=1}^t \varepsilon_j$. Even though $E<span class="co">[</span><span class="ot">\varepsilon_t</span><span class="co">]</span> = 0$ (so $E<span class="co">[</span><span class="ot">X_t</span><span class="co">]</span> = E<span class="co">[</span><span class="ot">X_0</span><span class="co">]</span>$, with no drift in mean) and $\tfrac{1}{t}\sum_{j=1}^t \varepsilon_j \xrightarrow{p} 0$ by the law of large numbers, the *level* $\sum_{j=1}^t \varepsilon_j$ is $O_p(\sqrt t)$: fluctuations accumulate even as their average vanishes. This is the "drunkard's walk" intuition - each step is centered on zero, but the position wanders without bound because $\mathrm{Var}(X_t) = t\sigma^2$ grows without bound.</span>
 <span id="cb1-158"><a href="#cb1-158" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb1-159"><a href="#cb1-159" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-160"><a href="#cb1-160" aria-hidden="true" tabindex="-1"></a><span class="fu">### Why stationarity matters {#sec-why-stationarity}</span></span>
@@ -1676,10 +1695,10 @@ Zivot, Eric, and Donald W. K. Andrews. 1992. <span>“Further Evidence on the Gr
 <span id="cb1-162"><a href="#cb1-162" aria-hidden="true" tabindex="-1"></a>Stationarity is not a technical nicety; it is what makes inference from a single observed path meaningful at all:</span>
 <span id="cb1-163"><a href="#cb1-163" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-164"><a href="#cb1-164" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Ergodicity / identification from one path.** With time-invariant moments, sample averages from a *single* trajectory can consistently estimate population moments.</span>
-<span id="cb1-165"><a href="#cb1-165" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Valid inference.** LLN/CLT-type results require that mean, variance, and covariances do not drift, so that e.g. $Z'Z/T \to Q$ — the condition under which OLS/MLE are consistent and asymptotically normal.</span>
-<span id="cb1-166"><a href="#cb1-166" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Stable dependence.** A fixed ACF/PACF makes the structure of persistence time-invariant; combined with Wold's theorem (@sec-wold), this motivates linear representations with innovations — AR, MA, ARMA models, developed in the next chapter.</span>
+<span id="cb1-165"><a href="#cb1-165" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Valid inference.** LLN/CLT-type results require that mean, variance, and covariances do not drift, so that e.g. $Z'Z/T \to Q$ - the condition under which OLS/MLE are consistent and asymptotically normal.</span>
+<span id="cb1-166"><a href="#cb1-166" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Stable dependence.** A fixed ACF/PACF makes the structure of persistence time-invariant; combined with Wold's theorem (@sec-wold), this motivates linear representations with innovations - AR, MA, ARMA models, developed in the next chapter.</span>
 <span id="cb1-167"><a href="#cb1-167" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Forecastability.** If parameters and shock variances are constant over time, models estimated on the past remain informative about the future.</span>
-<span id="cb1-168"><a href="#cb1-168" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**In practice**, if the data are not stationary, the working series is *transformed* — logged, detrended, differenced — until it is (@sec-ts-transformations).</span>
+<span id="cb1-168"><a href="#cb1-168" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**In practice**, if the data are not stationary, the working series is *transformed* - logged, detrended, differenced - until it is (@sec-ts-transformations).</span>
 <span id="cb1-169"><a href="#cb1-169" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-170"><a href="#cb1-170" aria-hidden="true" tabindex="-1"></a>Stationarity is a modeling assumption that underlies inference beyond time-series analysis narrowly defined: without it there is no constant $E(X_t)$ to estimate, no stable parameter to report, and no valid distribution to attach to an estimator. Consider a simple time-series regression,</span>
 <span id="cb1-171"><a href="#cb1-171" aria-hidden="true" tabindex="-1"></a></span>
@@ -1702,7 +1721,7 @@ Zivot, Eric, and Donald W. K. Andrews. 1992. <span>“Further Evidence on the Gr
 <span id="cb1-188"><a href="#cb1-188" aria-hidden="true" tabindex="-1"></a>::: {.callout-important title="Stationarity vs. ergodicity"}</span>
 <span id="cb1-189"><a href="#cb1-189" aria-hidden="true" tabindex="-1"></a>Weak stationarity fixes $E(X_t) = \mu$, $\mathrm{Var}(X_t) = \sigma^2$, and $\mathrm{Cov}(X_t, X_{t-h}) = \gamma(h)$ across time. **Ergodicity** is the separate property that time averages reproduce ensemble averages, $\frac{1}{T}\sum_{t=1}^T X_t \xrightarrow{a.s.} E<span class="co">[</span><span class="ot">X_t</span><span class="co">]</span>$.</span>
 <span id="cb1-190"><a href="#cb1-190" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-191"><a href="#cb1-191" aria-hidden="true" tabindex="-1"></a>Ergodicity is defined *within* the class of stationary processes — it is not implied by stationarity alone.[^ergodic-counterexample] Stationarity plus **weak dependence** (mixing, or $\sum_h |\gamma(h)| &lt; \infty$) does imply ergodicity, and ergodicity in turn guarantees consistency of empirical moments, $\bar X_T \xrightarrow{P} \mu$, $\hat\gamma(h) \xrightarrow{P} \gamma(h)$, $\hat\rho(h) \xrightarrow{P} \rho(h)$. In a regression $y_t = z_t'\beta + \varepsilon_t$, ergodicity of $(z_t)$ and $(\varepsilon_t)$ gives $\frac{Z'\varepsilon}{T}\xrightarrow{P} 0$ alongside $\frac{Z'Z}{T}\xrightarrow{P} Q$, so that OLS is consistent. In short: we *assume* stationarity and *require* ergodicity so that inference from one observed path is valid as $T \to \infty$.</span>
+<span id="cb1-191"><a href="#cb1-191" aria-hidden="true" tabindex="-1"></a>Ergodicity is defined *within* the class of stationary processes - it is not implied by stationarity alone.[^ergodic-counterexample] Stationarity plus **weak dependence** (mixing, or $\sum_h |\gamma(h)| &lt; \infty$) does imply ergodicity, and ergodicity in turn guarantees consistency of empirical moments, $\bar X_T \xrightarrow{P} \mu$, $\hat\gamma(h) \xrightarrow{P} \gamma(h)$, $\hat\rho(h) \xrightarrow{P} \rho(h)$. In a regression $y_t = z_t'\beta + \varepsilon_t$, ergodicity of $(z_t)$ and $(\varepsilon_t)$ gives $\frac{Z'\varepsilon}{T}\xrightarrow{P} 0$ alongside $\frac{Z'Z}{T}\xrightarrow{P} Q$, so that OLS is consistent. In short: we *assume* stationarity and *require* ergodicity so that inference from one observed path is valid as $T \to \infty$.</span>
 <span id="cb1-192"><a href="#cb1-192" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb1-193"><a href="#cb1-193" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-194"><a href="#cb1-194" aria-hidden="true" tabindex="-1"></a><span class="ot">[^ergodic-counterexample]: </span>Counter-example: let $Z \sim \mathrm{Bernoulli}(1/2)$ be drawn once and fixed, and set $X_t = Z$ for all $t$. This process is stationary ($E<span class="co">[</span><span class="ot">X_t</span><span class="co">]</span> = 1/2$, $\gamma(h) = 1/4$ for all $h$), yet its time average equals $Z \ne 1/2$ almost surely: stationary but not ergodic.</span>
@@ -1723,7 +1742,7 @@ Zivot, Eric, and Donald W. K. Andrews. 1992. <span>“Further Evidence on the Gr
 <span id="cb1-209"><a href="#cb1-209" aria-hidden="true" tabindex="-1"></a>\hat \gamma(h) = \frac{1}{T} \sum_{t=h+1}^T (X_t - \bar X_T)(X_{t-h} - \bar X_T)</span>
 <span id="cb1-210"><a href="#cb1-210" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb1-211"><a href="#cb1-211" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-212"><a href="#cb1-212" aria-hidden="true" tabindex="-1"></a>— which should not be estimated at lags $h$ too large relative to $T$ — and the sample autocorrelation $\hat\rho(h) = \hat\gamma(h)/\hat\gamma(0)$.</span>
+<span id="cb1-212"><a href="#cb1-212" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>which should not be estimated at lags $h$ too large relative to $T$ - and the sample autocorrelation $\hat\rho(h) = \hat\gamma(h)/\hat\gamma(0)$.</span>
 <span id="cb1-213"><a href="#cb1-213" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-214"><a href="#cb1-214" aria-hidden="true" tabindex="-1"></a>When $(X_t)$ is stationary, all of these estimators are consistent as $T \to \infty$: $\hat m \xrightarrow{P} m$, $\hat\gamma(h) \xrightarrow{P} \gamma(h)$, $\hat\rho(h) \xrightarrow{P} \rho(h)$. The sample mean is moreover asymptotically Gaussian,</span>
 <span id="cb1-215"><a href="#cb1-215" aria-hidden="true" tabindex="-1"></a></span>
@@ -1737,13 +1756,13 @@ Zivot, Eric, and Donald W. K. Andrews. 1992. <span>“Further Evidence on the Gr
 <span id="cb1-223"><a href="#cb1-223" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-224"><a href="#cb1-224" aria-hidden="true" tabindex="-1"></a>Nonstationarity can arise from several distinct sources, and distinguishing between them matters for how the series should be transformed:</span>
 <span id="cb1-225"><a href="#cb1-225" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-226"><a href="#cb1-226" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Deterministic trends**: predictable changes in mean, $X_t = a + bt + Y_t$ with $Y_t$ stationary — e.g. long-run GDP growth.</span>
+<span id="cb1-226"><a href="#cb1-226" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Deterministic trends**: predictable changes in mean, $X_t = a + bt + Y_t$ with $Y_t$ stationary - e.g. long-run GDP growth.</span>
 <span id="cb1-227"><a href="#cb1-227" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Seasonality**: $E(X_t)$ changes periodically; typically removed by seasonal differencing, $X_t - X_{t-S}$.</span>
-<span id="cb1-228"><a href="#cb1-228" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Stochastic trends**: accumulation of random shocks, $X_t = X_{t-1} + \varepsilon_t$ — e.g. asset prices, productivity innovations.</span>
+<span id="cb1-228"><a href="#cb1-228" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Stochastic trends**: accumulation of random shocks, $X_t = X_{t-1} + \varepsilon_t$ - e.g. asset prices, productivity innovations.</span>
 <span id="cb1-229"><a href="#cb1-229" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Structural breaks**: discrete changes in mean, variance (heteroskedasticity), or dynamics (regime-dependence).</span>
 <span id="cb1-230"><a href="#cb1-230" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-231"><a href="#cb1-231" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning title="A cautionary example: the Great Moderation"}</span>
-<span id="cb1-232"><a href="#cb1-232" aria-hidden="true" tabindex="-1"></a>The mid-1980s decline in U.S. macroeconomic volatility (the "Great Moderation") is often attributed to changes in monetary policy or inventory behavior. Romer <span class="co">[</span><span class="ot">-@Romer1986</span><span class="co">]</span> argues this reading is largely an artifact of how the data were constructed and measured, not a genuine change in the underlying process — a reminder that visual and even formal diagnostics of nonstationarity are only as good as the data feeding them. Tools for this diagnosis include visual inspection, the ACF, and formal unit-root tests (ADF, KPSS, and others, below).</span>
+<span id="cb1-232"><a href="#cb1-232" aria-hidden="true" tabindex="-1"></a>The mid-1980s decline in U.S. macroeconomic volatility (the "Great Moderation") is often attributed to changes in monetary policy or inventory behavior. Romer <span class="co">[</span><span class="ot">-@Romer1986</span><span class="co">]</span> argues this reading is largely an artifact of how the data were constructed and measured, not a genuine change in the underlying process - a reminder that visual and even formal diagnostics of nonstationarity are only as good as the data feeding them. Tools for this diagnosis include visual inspection, the ACF, and formal unit-root tests (ADF, KPSS, and others, below).</span>
 <span id="cb1-233"><a href="#cb1-233" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb1-234"><a href="#cb1-234" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-235"><a href="#cb1-235" aria-hidden="true" tabindex="-1"></a><span class="fu">### Trend-stationary vs. difference-stationary processes</span></span>
@@ -1762,47 +1781,47 @@ Zivot, Eric, and Donald W. K. Andrews. 1992. <span>“Further Evidence on the Gr
 <span id="cb1-248"><a href="#cb1-248" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-249"><a href="#cb1-249" aria-hidden="true" tabindex="-1"></a>a stochastic trend (unit root), where *differencing* rather than detrending yields a stationary process. The economic interpretation differs sharply: in a TS process shocks are **transitory** and the series reverts to its deterministic trend; in a DS process shocks are **permanent** and shift the level forever. Consequently the two require different stationarizing transformations (detrending vs. differencing), and testing for a unit root is how one decides which applies.</span>
 <span id="cb1-250"><a href="#cb1-250" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-251"><a href="#cb1-251" aria-hidden="true" tabindex="-1"></a><span class="al">![Real GDP levels for four European countries (1960–2015+): all four display persistent upward drift rather than fluctuation around a fixed mean.](../figures/ts/european-gdps-levels.png)</span>{#fig-european-gdp-levels}</span>
+<span id="cb1-251"><a href="#cb1-251" aria-hidden="true" tabindex="-1"></a><span class="al">![Real GDP levels for four European countries (1960-2015+): all four display persistent upward drift rather than fluctuation around a fixed mean.](../figures/ts/european-gdps-levels.png)</span>{#fig-european-gdp-levels}</span>
 <span id="cb1-252"><a href="#cb1-252" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-253"><a href="#cb1-253" aria-hidden="true" tabindex="-1"></a><span class="fu">### Unit-root and structural-break tests</span></span>
 <span id="cb1-254"><a href="#cb1-254" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-255"><a href="#cb1-255" aria-hidden="true" tabindex="-1"></a>Formally, the question is whether nonstationarity stems from a **stochastic trend** (unit root — does the series tend to return to a fixed mean/trend after a shock?) or a **deterministic trend** (drift/linear trend — do shocks accumulate permanently?). The choice of a constant vs. a constant-plus-trend in the test equation should match the data pattern: a series fluctuating around a fixed mean needs only a constant; one growing/declining linearly needs a trend as well.</span>
+<span id="cb1-255"><a href="#cb1-255" aria-hidden="true" tabindex="-1"></a>Formally, the question is whether nonstationarity stems from a **stochastic trend** (unit root - does the series tend to return to a fixed mean/trend after a shock?) or a **deterministic trend** (drift/linear trend - do shocks accumulate permanently?). The choice of a constant vs. a constant-plus-trend in the test equation should match the data pattern: a series fluctuating around a fixed mean needs only a constant; one growing/declining linearly needs a trend as well.</span>
 <span id="cb1-256"><a href="#cb1-256" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-257"><a href="#cb1-257" aria-hidden="true" tabindex="-1"></a>::: {.callout-note title="Unit-root tests"}</span>
-<span id="cb1-258"><a href="#cb1-258" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**ADF (Augmented Dickey–Fuller).** Classical regression-based test,</span>
+<span id="cb1-258"><a href="#cb1-258" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**ADF (Augmented Dickey-Fuller).** Classical regression-based test,</span>
 <span id="cb1-259"><a href="#cb1-259" aria-hidden="true" tabindex="-1"></a>   $$</span>
 <span id="cb1-260"><a href="#cb1-260" aria-hidden="true" tabindex="-1"></a>   \Delta X_t = \alpha + \beta t + (\phi - 1) X_{t-1} + \sum_{i=1}^{p}\delta_i \Delta X_{t-i} + \varepsilon_t,</span>
 <span id="cb1-261"><a href="#cb1-261" aria-hidden="true" tabindex="-1"></a>   $$</span>
 <span id="cb1-262"><a href="#cb1-262" aria-hidden="true" tabindex="-1"></a>   with $H_0$: unit root ($(\phi-1)=0$, nonstationary) against $H_1$: stationary ($(\phi-1)&lt;0$).</span>
-<span id="cb1-263"><a href="#cb1-263" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**PP (Phillips–Perron).** Same null as ADF, with a nonparametric correction for serial correlation via the long-run variance instead of augmenting lags.</span>
-<span id="cb1-264"><a href="#cb1-264" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**DF-GLS (Elliott–Rothenberg–Stock).** A more powerful variant that detrends the series first, then applies the DF test.</span>
-<span id="cb1-265"><a href="#cb1-265" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**KPSS (Kwiatkowski–Phillips–Schmidt–Shin).** The *opposite* null: $H_0$ is stationarity (around a mean or a trend), $H_1$ is a unit root.</span>
+<span id="cb1-263"><a href="#cb1-263" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**PP (Phillips-Perron).** Same null as ADF, with a nonparametric correction for serial correlation via the long-run variance instead of augmenting lags.</span>
+<span id="cb1-264"><a href="#cb1-264" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**DF-GLS (Elliott-Rothenberg-Stock).** A more powerful variant that detrends the series first, then applies the DF test.</span>
+<span id="cb1-265"><a href="#cb1-265" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**KPSS (Kwiatkowski-Phillips-Schmidt-Shin).** The *opposite* null: $H_0$ is stationarity (around a mean or a trend), $H_1$ is a unit root.</span>
 <span id="cb1-266"><a href="#cb1-266" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-267"><a href="#cb1-267" aria-hidden="true" tabindex="-1"></a>**Rule of thumb:** rejecting ADF/PP/DF-GLS points to stationarity; rejecting KPSS points to nonstationarity. Combining ADF and KPSS gives a more robust diagnosis than either alone.</span>
 <span id="cb1-268"><a href="#cb1-268" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb1-269"><a href="#cb1-269" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-270"><a href="#cb1-270" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning title="Unit-root tests have near-zero power against structural breaks"}</span>
-<span id="cb1-271"><a href="#cb1-271" aria-hidden="true" tabindex="-1"></a>ADF, PP, and KPSS systematically conclude "unit root" when the series is actually **stationary around a shifted mean or a broken trend** — a critical caveat for applied work. Three tests address this directly:</span>
+<span id="cb1-271"><a href="#cb1-271" aria-hidden="true" tabindex="-1"></a>ADF, PP, and KPSS systematically conclude "unit root" when the series is actually **stationary around a shifted mean or a broken trend** - a critical caveat for applied work. Three tests address this directly:</span>
 <span id="cb1-272"><a href="#cb1-272" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-273"><a href="#cb1-273" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Chow [-@Chow1960].** Requires a *known* break date $T_b$; splits the sample and tests equality of regression coefficients across sub-samples via an $F$-statistic.</span>
-<span id="cb1-274"><a href="#cb1-274" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Perron [-@Perron1989].** Also requires a known $T_b$; a modified ADF including a shift dummy (level or trend), with $H_0$: unit root with break vs. $H_1$: stationary with break — avoiding Chow's confounding of a mean/trend shift with a stochastic trend.</span>
-<span id="cb1-275"><a href="#cb1-275" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Zivot–Andrews [-@ZivotAndrews1992].** Handles an *unknown* $T_b$ by running a Perron-type ADF at every candidate break date and selecting $T_b$ as the date that minimizes the unit-root $t$-statistic; critical values are adjusted for this data-mining.<span class="ot">[^bai-perron]</span></span>
+<span id="cb1-274"><a href="#cb1-274" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Perron [-@Perron1989].** Also requires a known $T_b$; a modified ADF including a shift dummy (level or trend), with $H_0$: unit root with break vs. $H_1$: stationary with break - avoiding Chow's confounding of a mean/trend shift with a stochastic trend.</span>
+<span id="cb1-275"><a href="#cb1-275" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Zivot-Andrews [-@ZivotAndrews1992].** Handles an *unknown* $T_b$ by running a Perron-type ADF at every candidate break date and selecting $T_b$ as the date that minimizes the unit-root $t$-statistic; critical values are adjusted for this data-mining.<span class="ot">[^bai-perron]</span></span>
 <span id="cb1-276"><a href="#cb1-276" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-277"><a href="#cb1-277" aria-hidden="true" tabindex="-1"></a>**Practical rule:** inspect the series visually for level shifts or trend changes (crises, policy regime changes, wars); if a break is suspected, apply Zivot–Andrews *before* concluding the series is $I(1)$ — it may appear integrated purely because of an unmodeled break.</span>
+<span id="cb1-277"><a href="#cb1-277" aria-hidden="true" tabindex="-1"></a>**Practical rule:** inspect the series visually for level shifts or trend changes (crises, policy regime changes, wars); if a break is suspected, apply Zivot-Andrews *before* concluding the series is $I(1)$ - it may appear integrated purely because of an unmodeled break.</span>
 <span id="cb1-278"><a href="#cb1-278" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb1-279"><a href="#cb1-279" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-280"><a href="#cb1-280" aria-hidden="true" tabindex="-1"></a><span class="ot">[^bai-perron]: </span>Bai and Perron <span class="co">[</span><span class="ot">-@BaiPerron1998</span><span class="co">]</span> extend this to *multiple* unknown breaks.</span>
 <span id="cb1-281"><a href="#cb1-281" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-282"><a href="#cb1-282" aria-hidden="true" tabindex="-1"></a><span class="al">![Structural break vs. stochastic trend, illustrated with a Perron-type ADF test with a known break date. Left: a genuine deterministic break at $T_b = 85$ (test statistic $-5.751$ against a 5% critical value of about $-5.08$) — the unit-root null is rejected, so the series is trend-stationary around a broken deterministic trend. Right: a genuine stochastic trend, with a candidate break at $T_b = 75$ (test statistic $-3.320$, not below the critical value) — the unit-root null is not rejected, so the apparent break does not remove the stochastic trend. A deterministic break can mimic a unit root, and a genuine stochastic trend can mimic a break.](../figures/ts/structural-break-vs-stochastic-trend.png)</span>{#fig-structural-break}</span>
+<span id="cb1-282"><a href="#cb1-282" aria-hidden="true" tabindex="-1"></a><span class="al">![Structural break vs. stochastic trend, illustrated with a Perron-type ADF test with a known break date. Left: a genuine deterministic break at $T_b = 85$ (test statistic $-5.751$ against a 5% critical value of about $-5.08$) - the unit-root null is rejected, so the series is trend-stationary around a broken deterministic trend. Right: a genuine stochastic trend, with a candidate break at $T_b = 75$ (test statistic $-3.320$, not below the critical value) - the unit-root null is not rejected, so the apparent break does not remove the stochastic trend. A deterministic break can mimic a unit root, and a genuine stochastic trend can mimic a break.](../figures/ts/structural-break-vs-stochastic-trend.png)</span>{#fig-structural-break}</span>
 <span id="cb1-283"><a href="#cb1-283" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-284"><a href="#cb1-284" aria-hidden="true" tabindex="-1"></a><span class="fu">## Achieving stationarity: transformations and filtering {#sec-ts-transformations}</span></span>
 <span id="cb1-285"><a href="#cb1-285" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-286"><a href="#cb1-286" aria-hidden="true" tabindex="-1"></a>Once nonstationarity is detected, four transformations are used, alone or in combination, to stabilize a series:</span>
 <span id="cb1-287"><a href="#cb1-287" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-288"><a href="#cb1-288" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Logarithm** — removes exponential growth and stabilizes variance.</span>
-<span id="cb1-289"><a href="#cb1-289" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Detrending (OLS)** — removes deterministic trend components.</span>
-<span id="cb1-290"><a href="#cb1-290" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Differencing** — removes stochastic trends (unit roots).</span>
-<span id="cb1-291"><a href="#cb1-291" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Filtering** — removes specific frequency bands (e.g. HP, BK, CF filters).</span>
+<span id="cb1-288"><a href="#cb1-288" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Logarithm** - removes exponential growth and stabilizes variance.</span>
+<span id="cb1-289"><a href="#cb1-289" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Detrending (OLS)** - removes deterministic trend components.</span>
+<span id="cb1-290"><a href="#cb1-290" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Differencing** - removes stochastic trends (unit roots).</span>
+<span id="cb1-291"><a href="#cb1-291" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Filtering** - removes specific frequency bands (e.g. HP, BK, CF filters).</span>
 <span id="cb1-292"><a href="#cb1-292" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-293"><a href="#cb1-293" aria-hidden="true" tabindex="-1"></a>The corresponding empirical workflow is: (i) visual inspection to guess the type of trend; (ii) unit-root tests; (iii) apply the appropriate transformation; (iv) test the residual for stationarity (ACF tail decay, formal tests).</span>
 <span id="cb1-294"><a href="#cb1-294" aria-hidden="true" tabindex="-1"></a></span>
@@ -1810,7 +1829,7 @@ Zivot, Eric, and Donald W. K. Andrews. 1992. <span>“Further Evidence on the Gr
 <span id="cb1-296"><a href="#cb1-296" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-297"><a href="#cb1-297" aria-hidden="true" tabindex="-1"></a>Two approaches address a recurring seasonal pattern $s_t$, so that the residual series has constant mean and time-invariant covariance:</span>
 <span id="cb1-298"><a href="#cb1-298" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-299"><a href="#cb1-299" aria-hidden="true" tabindex="-1"></a>::: {.callout-note title="(a) Deterministic seasonality — regression on seasonal dummies"}</span>
+<span id="cb1-299"><a href="#cb1-299" aria-hidden="true" tabindex="-1"></a>::: {.callout-note title="(a) Deterministic seasonality - regression on seasonal dummies"}</span>
 <span id="cb1-300"><a href="#cb1-300" aria-hidden="true" tabindex="-1"></a>Assuming a fixed, repeating seasonal pattern,</span>
 <span id="cb1-301"><a href="#cb1-301" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb1-302"><a href="#cb1-302" aria-hidden="true" tabindex="-1"></a>X_t = \alpha + \sum_{m=1}^{S-1}\beta_m D_{m,t} + u_t, \qquad D_{m,t} = 1 \text{ if period } m,\ 0 \text{ otherwise},</span>
@@ -1818,8 +1837,8 @@ Zivot, Eric, and Donald W. K. Andrews. 1992. <span>“Further Evidence on the Gr
 <span id="cb1-304"><a href="#cb1-304" aria-hidden="true" tabindex="-1"></a>the fitted part $\hat\alpha + \sum \hat\beta_m D_{m,t}$ captures seasonality, and the deseasonalized series is $X_t^* = X_t - (\hat\alpha + \sum_{m=1}^{S-1}\hat\beta_m D_{m,t})$. This works well when the seasonal pattern is stable over time.</span>
 <span id="cb1-305"><a href="#cb1-305" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb1-306"><a href="#cb1-306" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-307"><a href="#cb1-307" aria-hidden="true" tabindex="-1"></a>::: {.callout-note title="(b) Stochastic or time-varying seasonality — seasonal differencing"}</span>
-<span id="cb1-308"><a href="#cb1-308" aria-hidden="true" tabindex="-1"></a>If the seasonal effect's strength changes slowly, $\Delta_S X_t = X_t - X_{t-S}$ removes it directly — e.g. $\Delta_{12}X_t$ for monthly data removes yearly periodicity. Since $E<span class="co">[</span><span class="ot">X_t - X_{t-S}</span><span class="co">]</span> = s_t - s_{t-S} = 0$, the mean becomes constant. This is the standard approach in SARIMA models, and it preserves short-run dynamics.</span>
+<span id="cb1-307"><a href="#cb1-307" aria-hidden="true" tabindex="-1"></a>::: {.callout-note title="(b) Stochastic or time-varying seasonality - seasonal differencing"}</span>
+<span id="cb1-308"><a href="#cb1-308" aria-hidden="true" tabindex="-1"></a>If the seasonal effect's strength changes slowly, $\Delta_S X_t = X_t - X_{t-S}$ removes it directly - e.g. $\Delta_{12}X_t$ for monthly data removes yearly periodicity. Since $E<span class="co">[</span><span class="ot">X_t - X_{t-S}</span><span class="co">]</span> = s_t - s_{t-S} = 0$, the mean becomes constant. This is the standard approach in SARIMA models, and it preserves short-run dynamics.</span>
 <span id="cb1-309"><a href="#cb1-309" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb1-310"><a href="#cb1-310" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-311"><a href="#cb1-311" aria-hidden="true" tabindex="-1"></a><span class="fu">### First transformation: the logarithm {#sec-ts-logs}</span></span>
@@ -1830,7 +1849,7 @@ Zivot, Eric, and Donald W. K. Andrews. 1992. <span>“Further Evidence on the Gr
 <span id="cb1-316"><a href="#cb1-316" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-317"><a href="#cb1-317" aria-hidden="true" tabindex="-1"></a><span class="fu">### Second transformation: deviations from a deterministic trend</span></span>
 <span id="cb1-318"><a href="#cb1-318" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-319"><a href="#cb1-319" aria-hidden="true" tabindex="-1"></a>The idea is to remove the deterministic trend of $\log(x_t)$, estimated by OLS — linearly,</span>
+<span id="cb1-319"><a href="#cb1-319" aria-hidden="true" tabindex="-1"></a>The idea is to remove the deterministic trend of $\log(x_t)$, estimated by OLS - linearly,</span>
 <span id="cb1-320"><a href="#cb1-320" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb1-321"><a href="#cb1-321" aria-hidden="true" tabindex="-1"></a>x_t^{*} = \log(x_t) - \hat{\beta}_0 - \hat{\beta}_1 t,</span>
 <span id="cb1-322"><a href="#cb1-322" aria-hidden="true" tabindex="-1"></a>$$</span>
@@ -1842,8 +1861,8 @@ Zivot, Eric, and Donald W. K. Andrews. 1992. <span>“Further Evidence on the Gr
 <span id="cb1-328"><a href="#cb1-328" aria-hidden="true" tabindex="-1"></a>For German GDP, the two fits give:</span>
 <span id="cb1-329"><a href="#cb1-329" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-330"><a href="#cb1-330" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Trend <span class="pp">|</span> $\hat{\beta}_0$ <span class="pp">|</span> $\hat{\beta}_1$ <span class="pp">|</span> $\hat{\beta}_2$ <span class="pp">|</span></span>
-<span id="cb1-331"><a href="#cb1-331" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---:|---:|---:|</span></span>
-<span id="cb1-332"><a href="#cb1-332" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Linear <span class="pp">|</span> 13.78 <span class="pp">|</span> 0.005 <span class="pp">|</span> — <span class="pp">|</span></span>
+<span id="cb1-331"><a href="#cb1-331" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>-<span class="pp">|</span>-:<span class="pp">|</span>-:<span class="pp">|</span>-:<span class="pp">|</span></span>
+<span id="cb1-332"><a href="#cb1-332" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Linear <span class="pp">|</span> 13.78 <span class="pp">|</span> 0.005 <span class="pp">|</span> - <span class="pp">|</span></span>
 <span id="cb1-333"><a href="#cb1-333" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Quadratic <span class="pp">|</span> 13.62 <span class="pp">|</span> 0.010 <span class="pp">|</span> −0.00002 <span class="pp">|</span></span>
 <span id="cb1-334"><a href="#cb1-334" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-335"><a href="#cb1-335" aria-hidden="true" tabindex="-1"></a>: OLS trend estimates, log German GDP {#tbl-german-gdp-trend}</span>
@@ -1875,7 +1894,7 @@ Zivot, Eric, and Donald W. K. Andrews. 1992. <span>“Further Evidence on the Gr
 <span id="cb1-361"><a href="#cb1-361" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-362"><a href="#cb1-362" aria-hidden="true" tabindex="-1"></a>It is worth being precise about what each transformation does to the mean, since the two are easy to conflate:</span>
 <span id="cb1-363"><a href="#cb1-363" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-364"><a href="#cb1-364" aria-hidden="true" tabindex="-1"></a>**Trend-stationary**, $X_t = a + bt + Y_t$ with $E[Y_t] = 0$, $Y_t \sim I(0)$: *detrending* gives $Y_t$, stationary and centered on 0; *differencing* gives $\Delta X_t = b + \Delta Y_t$ with $E[\Delta X_t] = b$ — **not** centered (unless $b=0$), since GDP growth is centered above zero precisely because there is long-run growth in levels.</span>
+<span id="cb1-364"><a href="#cb1-364" aria-hidden="true" tabindex="-1"></a>**Trend-stationary**, $X_t = a + bt + Y_t$ with $E[Y_t] = 0$, $Y_t \sim I(0)$: *detrending* gives $Y_t$, stationary and centered on 0; *differencing* gives $\Delta X_t = b + \Delta Y_t$ with $E[\Delta X_t] = b$ - **not** centered (unless $b=0$), since GDP growth is centered above zero precisely because there is long-run growth in levels.</span>
 <span id="cb1-365"><a href="#cb1-365" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-366"><a href="#cb1-366" aria-hidden="true" tabindex="-1"></a>**Difference-stationary (random walk) with drift $\mu$**, $X_t = \mu + X_{t-1} + \varepsilon_t$: *differencing* gives $\Delta X_t = \mu + \varepsilon_t$, stationary but not centered unless $\mu = 0$; without drift, $\Delta X_t = \varepsilon_t$ is centered on 0.</span>
 <span id="cb1-367"><a href="#cb1-367" aria-hidden="true" tabindex="-1"></a></span>
@@ -1900,25 +1919,25 @@ Zivot, Eric, and Donald W. K. Andrews. 1992. <span>“Further Evidence on the Gr
 <span id="cb1-386"><a href="#cb1-386" aria-hidden="true" tabindex="-1"></a>X_t = T_t + C_t + \varepsilon_t,</span>
 <span id="cb1-387"><a href="#cb1-387" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb1-388"><a href="#cb1-388" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-389"><a href="#cb1-389" aria-hidden="true" tabindex="-1"></a>with $T_t$ the slow, low-frequency long-run trend, $C_t$ the medium-frequency business cycle, and $\varepsilon_t$ high-frequency noise. Which component to remove depends on the question: forecasting calls for removing the nonstationary trend; cyclical analysis calls for removing both the high- and low-frequency components. But **what counts as "trend" and what counts as "business cycle" is not given by the data** — it is an assumption built into the choice of filter.</span>
+<span id="cb1-389"><a href="#cb1-389" aria-hidden="true" tabindex="-1"></a>with $T_t$ the slow, low-frequency long-run trend, $C_t$ the medium-frequency business cycle, and $\varepsilon_t$ high-frequency noise. Which component to remove depends on the question: forecasting calls for removing the nonstationary trend; cyclical analysis calls for removing both the high- and low-frequency components. But **what counts as "trend" and what counts as "business cycle" is not given by the data** - it is an assumption built into the choice of filter.</span>
 <span id="cb1-390"><a href="#cb1-390" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-391"><a href="#cb1-391" aria-hidden="true" tabindex="-1"></a>::: {.callout-note title="Main filtering methods"}</span>
-<span id="cb1-392"><a href="#cb1-392" aria-hidden="true" tabindex="-1"></a>**Hodrick–Prescott (HP) filter.** Penalizes variability in the trend,</span>
+<span id="cb1-392"><a href="#cb1-392" aria-hidden="true" tabindex="-1"></a>**Hodrick-Prescott (HP) filter.** Penalizes variability in the trend,</span>
 <span id="cb1-393"><a href="#cb1-393" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb1-394"><a href="#cb1-394" aria-hidden="true" tabindex="-1"></a>\min_T \sum_t (X_t - T_t)^2 + \lambda \sum_t (\Delta^2 T_t)^2,</span>
 <span id="cb1-395"><a href="#cb1-395" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb1-396"><a href="#cb1-396" aria-hidden="true" tabindex="-1"></a>with $\lambda$ controlling smoothness ($\lambda = 1600$ for quarterly data), giving $X_t = T_t + C_t$ with $C_t$ stationary.</span>
 <span id="cb1-397"><a href="#cb1-397" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-398"><a href="#cb1-398" aria-hidden="true" tabindex="-1"></a>**Baxter–King (BK) filter.** A band-pass filter isolating cycles of 6–32 quarters, implemented as a symmetric moving average — which introduces edge loss, and suppresses genuine cyclicality if the endogenous dynamics actually operate beyond 32 quarters (e.g. medium-run capacity utilization, or longer financial cycles in credit volumes and leverage, à la Borio at the BIS).</span>
+<span id="cb1-398"><a href="#cb1-398" aria-hidden="true" tabindex="-1"></a>**Baxter-King (BK) filter.** A band-pass filter isolating cycles of 6-32 quarters, implemented as a symmetric moving average - which introduces edge loss, and suppresses genuine cyclicality if the endogenous dynamics actually operate beyond 32 quarters (e.g. medium-run capacity utilization, or longer financial cycles in credit volumes and leverage, à la Borio at the BIS).</span>
 <span id="cb1-399"><a href="#cb1-399" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-400"><a href="#cb1-400" aria-hidden="true" tabindex="-1"></a>**Christiano–Fitzgerald (CF) filter.** Similar band-pass logic to BK, optimized for finite samples, with less edge distortion.</span>
+<span id="cb1-400"><a href="#cb1-400" aria-hidden="true" tabindex="-1"></a>**Christiano-Fitzgerald (CF) filter.** Similar band-pass logic to BK, optimized for finite samples, with less edge distortion.</span>
 <span id="cb1-401"><a href="#cb1-401" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb1-402"><a href="#cb1-402" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-403"><a href="#cb1-403" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning title="Detrending and filtering are not neutral"}</span>
-<span id="cb1-404"><a href="#cb1-404" aria-hidden="true" tabindex="-1"></a>The HP filter can mistake a long slump for a fall in potential output, pulling the estimated "trend" down until the economy appears to be back at full employment. In the Great Depression, this misreads a sustained demand shortfall as lower potential output — the filter absorbs the depression into the trend, erasing genuine cyclical slack (Hamilton <span class="co">[</span><span class="ot">-@Hamilton2018</span><span class="co">]</span>, "Why You Should Never Use the Hodrick-Prescott Filter"). Detrending methods are usually discretionary and parametric, with a direct impact on what counts as trend versus cycle.</span>
+<span id="cb1-404"><a href="#cb1-404" aria-hidden="true" tabindex="-1"></a>The HP filter can mistake a long slump for a fall in potential output, pulling the estimated "trend" down until the economy appears to be back at full employment. In the Great Depression, this misreads a sustained demand shortfall as lower potential output - the filter absorbs the depression into the trend, erasing genuine cyclical slack (Hamilton <span class="co">[</span><span class="ot">-@Hamilton2018</span><span class="co">]</span>, "Why You Should Never Use the Hodrick-Prescott Filter"). Detrending methods are usually discretionary and parametric, with a direct impact on what counts as trend versus cycle.</span>
 <span id="cb1-405"><a href="#cb1-405" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb1-406"><a href="#cb1-406" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-407"><a href="#cb1-407" aria-hidden="true" tabindex="-1"></a><span class="al">![Actual vs. HP-filtered log U.S. GDP, 1919–1939: the filter reads the Great Depression partly as a decline in potential output rather than purely a shortfall in demand.](../figures/ts/hp-filter-great-depression-hamilton2018.png)</span>{#fig-hp-filter-critique}</span>
+<span id="cb1-407"><a href="#cb1-407" aria-hidden="true" tabindex="-1"></a><span class="al">![Actual vs. HP-filtered log U.S. GDP, 1919-1939: the filter reads the Great Depression partly as a decline in potential output rather than purely a shortfall in demand.](../figures/ts/hp-filter-great-depression-hamilton2018.png)</span>{#fig-hp-filter-critique}</span>
 <span id="cb1-408"><a href="#cb1-408" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-409"><a href="#cb1-409" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- REVIEW: possible substantive issue in original slides: the frame "My work" (source: 09-time-series lecture, "Are Cycles Cyclical?") presents ongoing, unpublished research on frequency-domain separation of macro-financial cycles, illustrated by @fig-nfci-leverage-spectrum below. This is explicitly framed as the instructor's current work rather than an established textbook result; kept here as personal/illustrative research context rather than a citable finding. --&gt;</span></span>
 <span id="cb1-410"><a href="#cb1-410" aria-hidden="true" tabindex="-1"></a></span>
@@ -1926,7 +1945,7 @@ Zivot, Eric, and Donald W. K. Andrews. 1992. <span>“Further Evidence on the Gr
 <span id="cb1-412"><a href="#cb1-412" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-413"><a href="#cb1-413" aria-hidden="true" tabindex="-1"></a><span class="fu">### Summary of transformations</span></span>
 <span id="cb1-414"><a href="#cb1-414" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-415"><a href="#cb1-415" aria-hidden="true" tabindex="-1"></a>Log-transforming stabilizes variance; detrending removes deterministic growth; differencing removes stochastic trends. But filtering is never neutral — it defines what counts as "trend" and what counts as "cycle," and misuse can distort macroeconomic interpretation.</span>
+<span id="cb1-415"><a href="#cb1-415" aria-hidden="true" tabindex="-1"></a>Log-transforming stabilizes variance; detrending removes deterministic growth; differencing removes stochastic trends. But filtering is never neutral - it defines what counts as "trend" and what counts as "cycle," and misuse can distort macroeconomic interpretation.</span>
 <span id="cb1-416"><a href="#cb1-416" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-417"><a href="#cb1-417" aria-hidden="true" tabindex="-1"></a><span class="fu">## From stationarity to prediction: the Wold decomposition {#sec-wold}</span></span>
 <span id="cb1-418"><a href="#cb1-418" aria-hidden="true" tabindex="-1"></a></span>
@@ -1938,27 +1957,27 @@ Zivot, Eric, and Donald W. K. Andrews. 1992. <span>“Further Evidence on the Gr
 <span id="cb1-424"><a href="#cb1-424" aria-hidden="true" tabindex="-1"></a>where $X_t^{(d)}$ is a **deterministic** (perfectly linearly predictable) component and $X_t^{(s)}$ is the **purely nondeterministic** (stochastic) component, driven by uncorrelated innovations $\varepsilon_t \sim WN(0, \sigma^2)$ with $\sum_j \psi_j^2 &lt; \infty$.</span>
 <span id="cb1-425"><a href="#cb1-425" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb1-426"><a href="#cb1-426" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-427"><a href="#cb1-427" aria-hidden="true" tabindex="-1"></a>The Wold representation describes the *best linear predictor* of $X_t$ from its own past, and it guarantees that any stationary process can be approximated, in mean-square sense, by a linear process — which is exactly what motivates using linear **AR, MA, and ARMA models**, the subject of the next chapter. Wold's theorem does *not* imply that all stationary processes are truly linear (e.g. GARCH processes, or nonlinear Markov chains); only that their second-order structure is linearizable, and thus admits a linear representation.</span>
+<span id="cb1-427"><a href="#cb1-427" aria-hidden="true" tabindex="-1"></a>The Wold representation describes the *best linear predictor* of $X_t$ from its own past, and it guarantees that any stationary process can be approximated, in mean-square sense, by a linear process - which is exactly what motivates using linear **AR, MA, and ARMA models**, the subject of the next chapter. Wold's theorem does *not* imply that all stationary processes are truly linear (e.g. GARCH processes, or nonlinear Markov chains); only that their second-order structure is linearizable, and thus admits a linear representation.</span>
 <span id="cb1-428"><a href="#cb1-428" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-429"><a href="#cb1-429" aria-hidden="true" tabindex="-1"></a>This has a direct implication for prediction: stationarity ensures that all unconditional moments of $X_{T+h}$, for any horizon $h &gt; 0$, can be estimated from $(X_1, \ldots, X_T)$. A first, simple non-conditional predictor is the sample mean, $\hat X_{T+h} = \bar X_T = \frac{1}{T}\sum_{t=1}^T X_t$ — but this naive predictor is *constant* across all horizons $h$, ignoring any dynamics in the series (@fig-naive-forecast). Capturing those dynamics is exactly what dynamic linear models (AR, MA, ARMA) are for.</span>
+<span id="cb1-429"><a href="#cb1-429" aria-hidden="true" tabindex="-1"></a>This has a direct implication for prediction: stationarity ensures that all unconditional moments of $X_{T+h}$, for any horizon $h &gt; 0$, can be estimated from $(X_1, \ldots, X_T)$. A first, simple non-conditional predictor is the sample mean, $\hat X_{T+h} = \bar X_T = \frac{1}{T}\sum_{t=1}^T X_t$ - but this naive predictor is *constant* across all horizons $h$, ignoring any dynamics in the series (@fig-naive-forecast). Capturing those dynamics is exactly what dynamic linear models (AR, MA, ARMA) are for.</span>
 <span id="cb1-430"><a href="#cb1-430" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-431"><a href="#cb1-431" aria-hidden="true" tabindex="-1"></a><span class="al">![A constant ("naive") forecast compared against an actual persistent macro series: the actual series fluctuates well away from its unconditional mean for long stretches, illustrating why a constant predictor ignores exploitable dynamics.](../figures/ts/naive-constant-forecast-vs-actual.png)</span>{#fig-naive-forecast}</span>
 <span id="cb1-432"><a href="#cb1-432" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-433"><a href="#cb1-433" aria-hidden="true" tabindex="-1"></a><span class="fu">### A historical note on stationarity and linearity</span></span>
 <span id="cb1-434"><a href="#cb1-434" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-435"><a href="#cb1-435" aria-hidden="true" tabindex="-1"></a>Up to the end of the 1970s, time-series analysis largely assumed a stationary, linear setup. Nelson and Plosser <span class="co">[</span><span class="ot">-@NelsonPlosser1982</span><span class="co">]</span> applied Dickey–Fuller tests and showed that most macroeconomic and financial time series are in fact non-stationary, which meant that statistical inference built on an assumption of stationarity was invalid for these series. More recently, linearity tests and new model classes have emerged — structural-change and threshold models, stochastic-volatility models — motivated in part by the observation that prices, interest rates, and other financial series are often nonlinear. The nonstationarity issue is now widely acknowledged, but it is still frequently addressed within an otherwise linear, univariate framework; nonlinear models are the subject of a later chapter.</span>
+<span id="cb1-435"><a href="#cb1-435" aria-hidden="true" tabindex="-1"></a>Up to the end of the 1970s, time-series analysis largely assumed a stationary, linear setup. Nelson and Plosser <span class="co">[</span><span class="ot">-@NelsonPlosser1982</span><span class="co">]</span> applied Dickey-Fuller tests and showed that most macroeconomic and financial time series are in fact non-stationary, which meant that statistical inference built on an assumption of stationarity was invalid for these series. More recently, linearity tests and new model classes have emerged - structural-change and threshold models, stochastic-volatility models - motivated in part by the observation that prices, interest rates, and other financial series are often nonlinear. The nonstationarity issue is now widely acknowledged, but it is still frequently addressed within an otherwise linear, univariate framework; nonlinear models are the subject of a later chapter.</span>
 <span id="cb1-436"><a href="#cb1-436" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-437"><a href="#cb1-437" aria-hidden="true" tabindex="-1"></a><span class="fu">## Summary</span></span>
 <span id="cb1-438"><a href="#cb1-438" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-439"><a href="#cb1-439" aria-hidden="true" tabindex="-1"></a>A time series is one observed realization of a stochastic process, so its dependence structure requires assumptions on stability before any statistics can be done on it. **Stationarity** — constant mean, variance, and covariance — is necessary for estimation, inference, and forecasting.</span>
+<span id="cb1-439"><a href="#cb1-439" aria-hidden="true" tabindex="-1"></a>A time series is one observed realization of a stochastic process, so its dependence structure requires assumptions on stability before any statistics can be done on it. **Stationarity** - constant mean, variance, and covariance - is necessary for estimation, inference, and forecasting.</span>
 <span id="cb1-440"><a href="#cb1-440" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-441"><a href="#cb1-441" aria-hidden="true" tabindex="-1"></a>Nonstationarity may stem from deterministic trends, stochastic trends (unit roots), seasonality, or structural breaks. To achieve stationarity: take logs to stabilize variance; check the ACF visually and test formally for unit roots; then detrend to remove a deterministic trend, difference to remove a stochastic trend, or filter to separate frequency components (trend vs. cycle) — keeping in mind that filtering is never neutral, since the choice of filter defines what counts as trend and what counts as cycle.</span>
+<span id="cb1-441"><a href="#cb1-441" aria-hidden="true" tabindex="-1"></a>Nonstationarity may stem from deterministic trends, stochastic trends (unit roots), seasonality, or structural breaks. To achieve stationarity: take logs to stabilize variance; check the ACF visually and test formally for unit roots; then detrend to remove a deterministic trend, difference to remove a stochastic trend, or filter to separate frequency components (trend vs. cycle) - keeping in mind that filtering is never neutral, since the choice of filter defines what counts as trend and what counts as cycle.</span>
 <span id="cb1-442"><a href="#cb1-442" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-443"><a href="#cb1-443" aria-hidden="true" tabindex="-1"></a>Once a series is stationary, Wold's theorem guarantees it can be represented as a linear combination of past shocks — the foundation for the AR, MA, and ARMA models developed next.</span>
+<span id="cb1-443"><a href="#cb1-443" aria-hidden="true" tabindex="-1"></a>Once a series is stationary, Wold's theorem guarantees it can be represented as a linear combination of past shocks - the foundation for the AR, MA, and ARMA models developed next.</span>
 <span id="cb1-444"><a href="#cb1-444" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-445"><a href="#cb1-445" aria-hidden="true" tabindex="-1"></a><span class="fu">## Further reading</span></span>
 <span id="cb1-446"><a href="#cb1-446" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-447"><a href="#cb1-447" aria-hidden="true" tabindex="-1"></a>Hamilton <span class="co">[</span><span class="ot">-@Hamilton1994</span><span class="co">]</span>, Lütkepohl <span class="co">[</span><span class="ot">-@Lutkepohl2005</span><span class="co">]</span>, and Brockwell and Davis <span class="co">[</span><span class="ot">-@BrockwellDavis2002; -@BrockwellDavis2006</span><span class="co">]</span> cover time-series analysis in depth, though — as emphasized in the source lectures — none of them alone covers this course's full scope, nor shows how time series methods are used to estimate structural macroeconomic models.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb1-447"><a href="#cb1-447" aria-hidden="true" tabindex="-1"></a>Hamilton <span class="co">[</span><span class="ot">-@Hamilton1994</span><span class="co">]</span>, Lütkepohl <span class="co">[</span><span class="ot">-@Lutkepohl2005</span><span class="co">]</span>, and Brockwell and Davis <span class="co">[</span><span class="ot">-@BrockwellDavis2002; -@BrockwellDavis2006</span><span class="co">]</span> cover time-series analysis in depth, though - as emphasized in the source lectures - none of them alone covers this course's full scope, nor shows how time series methods are used to estimate structural macroeconomic models.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 <footer class="footer">

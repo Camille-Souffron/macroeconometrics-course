@@ -172,6 +172,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
       </ul>
   </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text">Univariate Linear Models</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapters/02-arma.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">AR, MA, and ARMA Processes</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./references.html" class="sidebar-item-text sidebar-link">
@@ -204,7 +221,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <div class="quarto-title-block"><div><h1 class="title">Macroeconometrics</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
-<p class="subtitle lead">Lecture Notes — M2 EPOG JM</p>
+<p class="subtitle lead">Lecture Notes - M2 EPOG JM</p>
 </div>
 
 
@@ -244,12 +261,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="course-contents" class="level2">
 <h2 class="anchored" data-anchor-id="course-contents">Course contents</h2>
 <ul>
-<li><strong>Foundations</strong> — univariate time series, stochastic processes, stationarity, and the transformations used to achieve it.</li>
-<li><strong>Univariate linear models</strong> — lag polynomials, AR, MA, and ARMA processes: identification, estimation, selection, and forecasting.</li>
-<li><strong>Vector autoregressions</strong> — reduced-form VARs, estimation, Granger causality, forecasting, impulse responses, and forecast error variance decomposition; structural VARs and identification (short-run, long-run, and sign restrictions, narrative approaches, external instruments).</li>
-<li><strong>Cointegration and multivariate extensions</strong> — panel VAR, cointegration, VECM, dynamic factor models (DFM), and FAVAR.</li>
-<li><strong>Nonlinear and time-varying models</strong> — threshold (TAR) and smooth-transition (STAR) models, Markov-switching regimes, time-varying parameters, and local projections.</li>
-<li><strong>Bayesian methods</strong> — Bayesian VARs, priors, computation, and time-varying Bayesian VARs.</li>
+<li><strong>Foundations</strong> - univariate time series, stochastic processes, stationarity, and the transformations used to achieve it.</li>
+<li><strong>Univariate linear models</strong> - lag polynomials, AR, MA, and ARMA processes: identification, estimation, selection, and forecasting.</li>
+<li><strong>Vector autoregressions</strong> - reduced-form VARs, estimation, Granger causality, forecasting, impulse responses, and forecast error variance decomposition; structural VARs and identification (short-run, long-run, and sign restrictions, narrative approaches, external instruments).</li>
+<li><strong>Cointegration and multivariate extensions</strong> - panel VAR, cointegration, VECM, dynamic factor models (DFM), and FAVAR.</li>
+<li><strong>Nonlinear and time-varying models</strong> - threshold (TAR) and smooth-transition (STAR) models, Markov-switching regimes, time-varying parameters, and local projections.</li>
+<li><strong>Bayesian methods</strong> - Bayesian VARs, priors, computation, and time-varying Bayesian VARs.</li>
 </ul>
 </section>
 <section id="how-to-use-these-notes" class="level2">
@@ -751,12 +768,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">## Course contents</span></span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Foundations** — univariate time series, stochastic processes, stationarity, and the transformations used to achieve it.</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Univariate linear models** — lag polynomials, AR, MA, and ARMA processes: identification, estimation, selection, and forecasting.</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Vector autoregressions** — reduced-form VARs, estimation, Granger causality, forecasting, impulse responses, and forecast error variance decomposition; structural VARs and identification (short-run, long-run, and sign restrictions, narrative approaches, external instruments).</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Cointegration and multivariate extensions** — panel VAR, cointegration, VECM, dynamic factor models (DFM), and FAVAR.</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Nonlinear and time-varying models** — threshold (TAR) and smooth-transition (STAR) models, Markov-switching regimes, time-varying parameters, and local projections.</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Bayesian methods** — Bayesian VARs, priors, computation, and time-varying Bayesian VARs.</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Foundations** - univariate time series, stochastic processes, stationarity, and the transformations used to achieve it.</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Univariate linear models** - lag polynomials, AR, MA, and ARMA processes: identification, estimation, selection, and forecasting.</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Vector autoregressions** - reduced-form VARs, estimation, Granger causality, forecasting, impulse responses, and forecast error variance decomposition; structural VARs and identification (short-run, long-run, and sign restrictions, narrative approaches, external instruments).</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Cointegration and multivariate extensions** - panel VAR, cointegration, VECM, dynamic factor models (DFM), and FAVAR.</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Nonlinear and time-varying models** - threshold (TAR) and smooth-transition (STAR) models, Markov-switching regimes, time-varying parameters, and local projections.</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Bayesian methods** - Bayesian VARs, priors, computation, and time-varying Bayesian VARs.</span>
 <span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="fu">## How to use these notes</span></span>
 <span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
