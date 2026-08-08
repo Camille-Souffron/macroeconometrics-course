@@ -51,6 +51,7 @@ book:
     - part: "Vector Autoregressions"
       chapters:
         - chapters/03-var.qmd
+        - chapters/04-svar-identification.qmd
 
     - references.qmd
 
