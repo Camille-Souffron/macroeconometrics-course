@@ -351,6 +351,62 @@ The QR decomposition, $X=QR$, is especially useful for regression calculations. 
 For a scalar AR(1), inspect $|\phi|$. For a VAR, companion matrix, or Jacobian, compute eigenvalues and inspect their moduli. A stable reduced form does not identify an economic mechanism, but an unstable one cannot be treated as covariance stationary. If the result lies near one, numerical precision and sampling uncertainty matter: “below one” is not the same as “confidently stable.”
 :::
 
+## Calculus and optimisation: choosing an estimator or an allocation {#sec-optimisation-foundations}
+
+Econometric estimators and economic equilibria frequently arise from the same mathematical question: among feasible candidates, which one makes an objective largest or smallest? A household chooses consumption and labour subject to a budget; a firm chooses inputs; OLS chooses coefficients that minimise squared residuals; maximum likelihood chooses a parameter that makes the observed data most compatible with a model. The economic interpretation differs, but the local calculations are shared.
+
+### From a slope to a gradient
+
+For a one-variable function $f(x)$, the derivative $f'(x)$ describes the first-order change caused by a small movement in $x$. At an interior optimum, a differentiable objective has no direction in which a small move improves it, so $f'(x^*)=0$. A zero derivative alone is not enough: $f(x)=x^3$ has derivative zero at zero but no minimum or maximum there. Curvature decides the local shape. If $f''(x^*)>0$, the graph bends upward and the point is a local minimum; if $f''(x^*)<0$, it bends downward and the point is a local maximum.
+
+With several choice variables, the derivative becomes a **gradient**,
+
+$$
+\nabla f(x)=
+\begin{pmatrix}
+\partial f(x)/\partial x_1\\
+\vdots\\
+\partial f(x)/\partial x_n
+\end{pmatrix}.
+$$
+
+The gradient points in the direction of the steepest local increase. Its derivative is the **Hessian** $H_f(x)$, the matrix of second partial derivatives. A positive-definite Hessian means that every non-zero local displacement raises the objective to second order, so an interior stationary point is a strict local minimum. A negative-definite Hessian gives a strict local maximum; an indefinite Hessian signals a saddle. Convex objectives have positive semidefinite Hessians everywhere, which turns a local minimum into a global one. This is why least squares and many likelihood problems are easier to solve than a general nonlinear equilibrium problem.
+
+### Constraints and shadow values
+
+Most economic choices are constrained. Consider minimising
+
+$$
+q(x,y)=(x-1.1)^2+2(y-.5)^2
+\qquad\text{subject to}\qquad x+y=1.1.
+$$
+
+Without the constraint, the bottom of the quadratic bowl is $(1.1,.5)$. It is unavailable on the feasible line. The best feasible point is where the lowest attainable contour of the objective just touches that line.
+
+![Contour lines collect points with the same objective value. The constrained optimum is the tangency point between the feasible set and the lowest attainable contour, not the unconstrained centre of the objective.](../figures/mathematics/constrained-optimisation.png){#fig-constrained-optimisation}
+
+The **Lagrangian** puts the objective and equality constraint in one expression:
+
+$$
+\mathcal L(x,y,\lambda)=q(x,y)+\lambda(x+y-1.1).
+$$
+
+The first-order conditions are $\partial\mathcal L/\partial x=0$, $\partial\mathcal L/\partial y=0$, and the constraint itself. At the optimum, $\nabla q(x,y)=-\lambda(1,1)'$: the objective’s steepest direction is perpendicular to the feasible line. The multiplier $\lambda$ is a **shadow value**. Under regularity conditions, it measures how much the optimised objective changes when the right-hand side of the constraint is relaxed slightly.
+
+Inequality constraints add a further logical condition. For a constraint $c(x)\leq0$, the Kuhn–Tucker conditions combine feasibility, a non-negative multiplier, and **complementary slackness**, $\lambda c(x)=0$. A slack constraint has zero shadow value; a binding constraint can have a non-zero one. Borrowing limits, non-negativity restrictions, and occasionally binding policy rules use this same language.
+
+### Equilibrium systems and comparative statics
+
+Many economic models define an endogenous vector $z$ implicitly through $F(z,\theta)=0$, where $\theta$ is a policy or structural parameter. The implicit function theorem gives the local comparative static when the Jacobian with respect to the endogenous variables is invertible:
+
+$$
+\frac{\partial z}{\partial\theta}
+=-\left[\frac{\partial F(z,\theta)}{\partial z'}\right]^{-1}
+\frac{\partial F(z,\theta)}{\partial\theta'}.
+$$
+
+The formula says that a parameter changes the system’s residuals directly, and the inverse Jacobian translates those residual changes into movements of the endogenous variables needed to restore equilibrium. The same invertibility condition seen in linear systems reappears here. When the Jacobian is singular or nearly singular, local uniqueness and comparative statics can fail or become highly sensitive.
+
 ## Probability: describing uncertainty before observing data {#sec-probability-foundations}
 
 ### A gamble, an event, and a random variable
@@ -414,6 +470,31 @@ Skewness is equally concrete. Household income is usually right-skewed: most obs
 ![The first four moments answer distinct questions. Location and dispersion can change while symmetry remains; two distributions can have the same first two moments yet differ sharply in asymmetry or tail risk.](../figures/mathematics/distribution-four-moments.png){#fig-distribution-moments}
 
 ![The left panel shows why the mean can exceed the median in a right-skewed income distribution. The right panel holds variance fixed and isolates the role of kurtosis: a heavy-tailed law makes large standardized moves more likely.](../figures/mathematics/income-skewness-kurtosis.png){#fig-income-skewness-kurtosis}
+
+### Joint distributions, information, and prediction
+
+Macroeconometric questions rarely concern an isolated variable. Output and inflation, consumption and income, or a return and a financial spread move jointly. Their **joint distribution** assigns probabilities to pairs or vectors. From it one obtains the marginal distribution of each component by integrating or summing out the other, and the conditional distribution by asking how the possibilities for one variable change after observing the other.
+
+The covariance matrix of a random vector $X=(X_1,\ldots,X_n)'$ is
+
+$$
+\Sigma=\operatorname{Var}(X)
+=E\left[(X-E[X])(X-E[X])'\right].
+$$
+
+Its diagonal entries are variances and its off-diagonal entries are covariances. The matrix is symmetric and positive semidefinite because, for any portfolio or linear combination $a$, $a'\Sigma a=\operatorname{Var}(a'X)\geq0$. This compact expression is the bridge from separate uncertainty to portfolio risk, VAR innovations, factor models, and multivariate forecasting.
+
+The multivariate Normal law is the benchmark in which a mean vector and covariance matrix completely determine the joint distribution. If $X\sim\mathcal N(\mu,\Sigma)$, every linear combination $a'X$ is Normal with mean $a'\mu$ and variance $a'\Sigma a$. Conditional means are linear functions of observed components, and conditional variances do not depend on the realised value. These properties make Gaussian state-space and Kalman-filter calculations tractable. They are useful modelling assumptions, not universal facts about macroeconomic shocks or financial returns.
+
+Conditional expectation turns joint variation into a prediction. If $Y$ is next quarter’s inflation and $\mathcal I_t$ contains today’s indicators, $E[Y\mid\mathcal I_t]$ is the forecast that minimises expected squared forecast error among all functions of $\mathcal I_t$. The forecast error $Y-E[Y\mid\mathcal I_t]$ is orthogonal to every variable known at date $t$. The law of total variance separates uncertainty into
+
+$$
+\operatorname{Var}(Y)
+=E\!\left[\operatorname{Var}(Y\mid\mathcal I_t)\right]
++\operatorname{Var}\!\left(E[Y\mid\mathcal I_t]\right).
+$$
+
+The first term is uncertainty that remains after using the information set; the second is variation in predictable conditional means. Better information can reduce the first term, but it does not create certainty. Conditional association is not causation either: a forecast can use a variable because it is informative without the variable being an intervention lever.
 
 ### Elementary probability laws begin with economic situations
 
@@ -479,6 +560,26 @@ The parent distribution need not be Normal. Expenditures may be skewed, defaults
 
 Time series are not i.i.d., so the theorem cannot simply be invoked. Stationarity, ergodicity, and sufficiently weak dependence replace independence in time-series LLNs and CLTs. Persistent data contain less independent information than equally many independent observations, which is why naive standard errors are too small in serially correlated settings.
 
+### From population restrictions to estimators
+
+The LLN becomes an estimation method once a model supplies a population restriction. Suppose a parameter $\theta_0$ is characterised by
+
+$$
+E[g(W_t,\theta_0)]=0,
+$$
+
+where $W_t$ denotes the observed data and $g$ is a vector of functions called **moments**. Replacing the expectation by its sample average gives the sample moment $\bar g_T(\theta)=T^{-1}\sum_t g(W_t,\theta)$. The **method of moments** chooses $\hat\theta$ so that $\bar g_T(\hat\theta)=0$ when the number of independent restrictions equals the number of unknown parameters.
+
+The familiar sample mean is the first example: $E[X-\mu]=0$ becomes $T^{-1}\sum_t(X_t-\hat\mu)=0$, whose solution is $\hat\mu=\bar X$. OLS is another. Exogeneity gives $E[x_t(y_t-x_t'\beta_0)]=0$; the sample version is the normal equation $X'(y-X\hat\beta)=0$. The apparent variety of estimators therefore conceals a common logic: a model says that certain population discrepancies vanish, and the data select the parameter that makes their sample counterparts as small as possible.
+
+When there are more valid moments than parameters, they cannot usually all be made exactly zero in a finite sample. **Generalised method of moments** chooses the parameter that minimises
+
+$$
+Q_T(\theta)=\bar g_T(\theta)'W_T\bar g_T(\theta),
+$$
+
+where the positive-definite weight matrix $W_T$ decides how discrepancies are scaled and combined. The efficient choice weights moments by their precision and correlation. The extra restrictions become testable: if a model cannot make them jointly small even in a large sample, the problem may lie in the instrument validity, the specification, or the maintained stochastic assumptions. GMM is the common language behind instrumental variables, many Euler-equation estimates, and numerous DSGE estimators.
+
 ### Convergence is a language for increasingly informative samples
 
 Asymptotics do not say that a finite sample is infinite. They provide a controlled approximation by describing what happens along a sequence of larger samples. Different questions require different forms of convergence.
@@ -501,6 +602,19 @@ $$
 $$ {#eq-delta-method}
 
 For a scalar $g$, this is the familiar rule $\mathrm{Var}(g(\hat\theta))\approx[g'(\theta_0)]^2\mathrm{Var}(\hat\theta)$. It produces standard errors for elasticities, ratios, correlations, long-run multipliers, and impulse-response transformations. The approximation can fail near a boundary, a kink, or a weakly identified denominator; differentiability is doing real work.
+
+### What makes an estimator reliable?
+
+Before asking whether an estimate is significant, it helps to separate several properties that are often conflated. The **bias** of $\hat\theta$ is $E[\hat\theta]-\theta_0$. Its **variance** describes how much it changes across repeated samples. The **mean squared error** combines both,
+
+$$
+E[(\hat\theta-\theta_0)^2]
+=\operatorname{Var}(\hat\theta)+\operatorname{Bias}(\hat\theta)^2.
+$$
+
+An unbiased estimator need not be preferable in a small sample if it is much more variable. Ridge regression deliberately introduces bias in exchange for lower variance when regressors are highly collinear; its possible value is a direct consequence of this decomposition. **Consistency** is different again: it asks whether the estimator approaches the true parameter as the sample grows. An estimator can be biased in finite samples yet consistent, or unbiased at every sample size but too noisy to be useful in a particular application.
+
+**Efficiency** is always relative to a class of estimators and maintained assumptions. Gauss–Markov efficiency concerns linear unbiased estimators under spherical errors; maximum-likelihood efficiency is an asymptotic statement under a correctly specified likelihood. No estimator is “efficient” without completing that sentence. This language disciplines comparisons between procedures rather than attaching a universal quality label to one of them.
 
 ### Why Normal, Student, chi-square, and Fisher distributions appear {#sec-sampling-distributions}
 
@@ -596,11 +710,25 @@ $$
 
 contains exactly the parameter values not rejected by the corresponding two-sided test. The equivalence is useful: if a 95 percent interval excludes zero, the corresponding two-sided five-percent test rejects zero. Its width is an estimand-relevant measure of precision. An elasticity estimated at .02 with a narrow interval can be highly significant and economically negligible; an elasticity estimated at .5 with a wide interval may be economically important but statistically unresolved. Statistical significance is therefore not effect size, economic importance, or model validity.
 
+When an estimator has no convenient analytical reference distribution, **resampling** can approximate its sampling variation. The non-parametric bootstrap draws many new samples with replacement from the observed observations, recomputes the estimator in each sample, and uses the resulting empirical distribution for standard errors or intervals. Its intuition is direct: the empirical distribution of a sufficiently representative sample stands in for the unknown population distribution. The approximation has assumptions of its own. Independent resampling is inappropriate for serially dependent data; block bootstrap methods preserve short stretches of a time series. Bootstrap inference cannot repair endogeneity, misspecification, or lack of identification, but it can avoid forcing a complicated statistic into an unsuitable Normal approximation.
+
 ## Stochastic processes: probability arranged through time {#sec-stochastic-processes-foundations}
 
 A cross-section asks what differs across households at one date. A macroeconomic series asks what may happen next after a particular past has occurred. A **stochastic process** $(X_t)_{t\in\mathbb Z}$ is a sequence of random variables indexed by time. The observed series $x_1,\ldots,x_T$ is one path drawn from a model that assigns probability to many possible histories. This distinction matters because the same process can generate a quiet path, a volatile path, or a path that resembles a crisis.
 
-The **information set** at date $t$, often denoted $\mathcal F_t$, collects the events and variables observed by then. Dynamics are statements about conditional distributions such as $p(X_{t+1}\mid\mathcal F_t)$, not only unconditional distributions. For a weakly stationary process, $E[X_t]=\mu$ is constant and $\operatorname{Cov}(X_t,X_{t-h})=\gamma(h)$ depends only on the lag. Its unconditional probabilistic environment does not drift over time, even though each realised observation does. The process may be highly persistent without being non-stationary.
+The **information set** at date $t$, often denoted $\mathcal F_t$, collects the events and variables observed by then. Dynamics are statements about conditional distributions such as $p(X_{t+1}\mid\mathcal F_t)$, not only unconditional distributions. A process is **strictly stationary** when every finite sequence $(X_t,\ldots,X_{t+k})$ has the same joint distribution after a shift in calendar time. This is a strong distributional statement. **Weak stationarity** asks only for a constant mean and a covariance that depends on the lag:
+
+$$
+E[X_t]=\mu,
+\qquad
+\operatorname{Cov}(X_t,X_{t-h})=\gamma(h).
+$$
+
+For Gaussian processes, weak and strict stationarity coincide; in general they need not. Weak stationarity is often enough for linear prediction and spectral analysis because those tools use second moments. Its unconditional probabilistic environment does not drift over time, even though each realised observation does.
+
+A **white-noise** sequence has mean zero, constant finite variance, and zero autocovariance at every non-zero lag. It need not be independent: a process can have no linear serial correlation while its conditional variance changes with past volatility. Independent and identically distributed shocks are white noise, but the converse need not hold. The autocorrelation function $\rho(h)=\gamma(h)/\gamma(0)$ rescales persistence between minus one and one. It is a descriptive property of the process, not a proof that a particular model has captured all dependence.
+
+Stationarity alone describes the population law; it does not guarantee that one long realised history reveals its moments. **Ergodicity** supplies that bridge. In its familiar mean form, it says that the time average $T^{-1}\sum_{t=1}^TX_t$ converges to $E[X_t]$. A process that randomly selects one permanent level at its start can be stationary in distribution yet non-ergodic: a single observed history remains trapped at its selected level and does not reveal the population mean. Macroeconometrics relies on an ergodic or otherwise justified LLN whenever it treats a long time average as evidence about a population moment.
 
 An AR(1),
 
@@ -656,7 +784,7 @@ p(\theta\mid y)=\frac{p(y\mid\theta)p(\theta)}{p(y)},
 p(y)=\int p(y\mid\theta)p(\theta)\,d\theta.
 $$ {#eq-bayes-rule}
 
-The denominator is the probability of the observed data under all parameter values; it makes the posterior integrate to one. The content of Bayes’ rule is proportionality: posterior $\propto$ likelihood $\times$ prior. If the likelihood is sharp, the data dominate; if it is flat or the sample is short, the prior remains influential. This is not a defect hidden by notation but a transparent feature of the calculation.
+The denominator is the probability of the observed data under all parameter values; it makes the posterior integrate to one. The content of Bayes’ rule is proportionality: posterior $\propto$ likelihood $\times$ prior. If the likelihood is sharp, the data dominate; if it is flat or the sample is short, the prior remains influential. The dependence is explicit and can therefore be examined rather than left implicit.
 
 For example, a prior centred near a persistent but stable AR coefficient can prevent a short sample from assigning implausibly high posterior weight to explosive values merely because of a few unusual observations. A prior need not be “subjective” in a casual sense: it can encode parameter restrictions, historical evidence, regularisation, or a disciplined belief that a large VAR should not have implausibly large coefficients. It should nevertheless be reported and its influence examined, particularly when the data are weak.
 
@@ -691,11 +819,23 @@ $$
 
 It allocates the variance of the process over frequencies: integrating the spectral density over all frequencies returns $\gamma(0)=\operatorname{Var}(X_t)$. A persistent process places relatively more power at low frequencies; a seasonal process produces peaks at its seasonal frequency and harmonics. This statement requires weak stationarity because a spectrum describes a stable allocation of variance across time. A deterministic trend or unit root must be modelled or removed with care before assigning a stationary spectrum to the level series.
 
-A linear filter changes the amplitude of each frequency by its **gain** and shifts its timing by its **phase**. This unifies ARMA dynamics, signal extraction, seasonal adjustment, and cycle filters. The frequency-domain chapter develops estimation, cross-spectra, coherence, and the economic interpretation of filtering (@sec-frequency-filtering).
+A linear time-invariant filter first appears in the time domain as a weighted moving average,
+
+$$
+y_t=\sum_{j=-\infty}^{\infty}b_jx_{t-j}.
+$$
+
+This operation is a **convolution**: it combines the present output with shifted inputs using the sequence of impulse-response weights $b_j$. Fourier coordinates turn convolution into multiplication. The transfer function $B(e^{-i\omega})=\sum_jb_je^{-i\omega j}$ multiplies each frequency component, so the output spectrum is
+
+$$
+f_Y(\omega)=|B(e^{-i\omega})|^2f_X(\omega).
+$$
+
+The modulus $|B(e^{-i\omega})|$ is the **gain** and its argument is the **phase** shift. This identity unifies ARMA dynamics, signal extraction, seasonal adjustment, and cycle filters. The frequency-domain chapter develops estimation, cross-spectra, coherence, and the economic interpretation of filtering (@sec-frequency-filtering).
 
 ## Summary: a map for the rest of the course
 
-Matrices organise simultaneous variables and dynamic feedback. Their eigenvalues determine whether local dynamics decay, oscillate, or explode. Probability describes possible data under a model; statistics uses one realised sample to learn about the unknown model; asymptotic theory makes that learning quantifiable. Stochastic processes add temporal dependence, so stationarity and unit roots become questions about what can be inferred from one history. Fourier analysis offers a second coordinate system in which persistence is described by frequency rather than lag.
+Matrices organise simultaneous variables and dynamic feedback. Their eigenvalues determine whether local dynamics decay, oscillate, or explode. Calculus and optimisation show how first-order conditions, constraints, and Jacobians turn economic questions into solvable local systems. Probability describes possible data under a model; statistics uses one realised sample to learn about the unknown model; moment restrictions and asymptotic theory make that learning quantifiable. Stochastic processes add temporal dependence, so stationarity, ergodicity, and unit roots become questions about what can be inferred from one history. Fourier analysis offers a second coordinate system in which persistence is described by frequency rather than lag.
 
 The purpose of these tools is disciplined interpretation. Algebra tells us what a model can do; probability tells us what it implies before data; statistics tells us how uncertain an empirical conclusion remains after data.
 

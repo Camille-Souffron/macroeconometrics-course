@@ -192,6 +192,27 @@ def jacobian_linearisation():
     plt.close(fig)
 
 
+def constrained_optimisation():
+    x = np.linspace(-.15, 1.75, 300)
+    y = np.linspace(-.25, 1.55, 300)
+    xx, yy = np.meshgrid(x, y)
+    objective = (xx - 1.1)**2 + 2 * (yy - .5)**2
+    x_star, y_star = 4.6 / 6, 1.1 - 4.6 / 6
+    fig, ax = plt.subplots(figsize=(7.4, 5.3))
+    contours = ax.contour(xx, yy, objective, levels=[.04, .12, .28, .55, .95, 1.5, 2.3], colors=BLUE, linewidths=1.35)
+    ax.clabel(contours, inline=True, fontsize=8, fmt="%.2f")
+    ax.plot(x, 1.1 - x, color=RED, lw=2.3, label=r"feasible set: $x+y=1.1$")
+    ax.scatter(1.1, .5, color=GREY, s=38, zorder=4, label="unconstrained minimum")
+    ax.scatter(x_star, y_star, color=PURPLE, s=55, zorder=5, label="constrained optimum")
+    ax.annotate("constraint prevents\nreaching the bowl's centre", xy=(x_star, y_star), xytext=(1.15, .08),
+                arrowprops={"arrowstyle": "->", "color": PURPLE}, color=PURPLE, fontsize=10)
+    ax.set(title="Optimisation: the optimum is where the feasible set first touches a contour", xlabel="$x$", ylabel="$y$", xlim=(-.15, 1.75), ylim=(-.25, 1.55), aspect="equal")
+    ax.legend(frameon=True, loc="upper right", fontsize=9)
+    fig.tight_layout()
+    fig.savefig(FIGURES / "constrained-optimisation.png", dpi=180, bbox_inches="tight")
+    plt.close(fig)
+
+
 def determinant_and_invertibility():
     transforms = [
         (np.array([[1.35, .35], [.25, .85]]), "non-zero determinant: area survives", BLUE),
@@ -565,6 +586,7 @@ if __name__ == "__main__":
     matrix_calculation()
     elimination_steps()
     jacobian_linearisation()
+    constrained_optimisation()
     determinant_and_invertibility()
     systems_geometry()
     stability_portraits()
