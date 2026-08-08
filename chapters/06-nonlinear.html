@@ -90,7 +90,7 @@ div.csl-indent {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../chapters/07-bvar.html" rel="next">
+<link href="../chapters/09-growth-at-risk.html" rel="next">
 <link href="../chapters/05-cointegration-dfm.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -330,7 +330,7 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false">
- <span class="menu-text">Bayesian Methods</span></a>
+ <span class="menu-text">Distributional Forecasting and Tail Risk</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -338,8 +338,25 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../chapters/09-growth-at-risk.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Quantile Regressions and Growth-at-Risk</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false">
+ <span class="menu-text">Bayesian Methods</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../chapters/07-bvar.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Bayesian Estimation: Foundations and Applications to VARs</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Bayesian Estimation: Foundations and Applications to VARs</span></span></a>
   </div>
 </li>
       </ul>
@@ -807,7 +824,7 @@ y_{t+h} = \alpha_h + \beta_h \varepsilon_t + \Gamma_h X_{t-1} + u_{t+h}, \qquad 
 </div>
 <section id="why-local-projections-are-useful" class="level3">
 <h3 class="anchored" data-anchor-id="why-local-projections-are-useful">Why local projections are useful</h3>
-<p>LPs are <strong>model-free</strong>: there is no need to commit to a correctly specified, finite-order VAR. They are correspondingly more <strong>robust to dynamic misspecification</strong> - no need for the full cross-equation system, no risk from a wrong lag count or from the omitted-variable bias that a high-dimensional VAR invites, no imposed linearity of the whole dynamic system - especially at longer horizons, where a misspecified VAR’s errors compound through iteration while an LP is estimated directly at <span class="math inline">\(t+h\)</span>. Formally, since <span class="math inline">\(\beta_h = \mathrm{Cov}(y_{t+h}, \varepsilon_t)/\mathrm{Var}(\varepsilon_t)\)</span> is simply the local derivative of a conditional expectation at horizon <span class="math inline">\(h\)</span>, the LP does not impose any particular dynamic system, and linear projection remains a consistent estimator of it regardless. LPs are also <strong>flexible</strong>: nonlinear terms (interactions, thresholds, splines) can be added directly, without estimating a full TVAR or ST-VAR; additional controls or instruments do not blow up the model’s dimensionality; and constraints on <span class="math inline">\(y_{t+h}\)</span> (bounded outcomes, via logit or probit) are easy to accommodate. In short, LPs inherit the entire toolbox of linear regression - OLS, robust standard errors, instrumental variables, panel methods, quantile regression.</p>
+<p>LPs are <strong>model-free</strong>: there is no need to commit to a correctly specified, finite-order VAR. They are correspondingly more <strong>robust to dynamic misspecification</strong> - no need for the full cross-equation system, no risk from a wrong lag count or from the omitted-variable bias that a high-dimensional VAR invites, no imposed linearity of the whole dynamic system - especially at longer horizons, where a misspecified VAR’s errors compound through iteration while an LP is estimated directly at <span class="math inline">\(t+h\)</span>. Formally, since <span class="math inline">\(\beta_h = \mathrm{Cov}(y_{t+h}, \varepsilon_t)/\mathrm{Var}(\varepsilon_t)\)</span> is simply the local derivative of a conditional expectation at horizon <span class="math inline">\(h\)</span>, the LP does not impose any particular dynamic system, and linear projection remains a consistent estimator of it regardless. LPs are also <strong>flexible</strong>: nonlinear terms (interactions, thresholds, splines) can be added directly, without estimating a full TVAR or ST-VAR; additional controls or instruments do not blow up the model’s dimensionality; and constraints on <span class="math inline">\(y_{t+h}\)</span> (bounded outcomes, via logit or probit) are easy to accommodate. In short, LPs inherit the entire toolbox of linear regression - OLS, robust standard errors, instrumental variables, panel methods, quantile regression. Estimating a separate conditional quantile at each horizon gives the distributional local-projection approach used for Growth-at-Risk in <a href="09-growth-at-risk.html" class="quarto-xref"><span>Chapter 8</span></a>.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="The precise connection to VARs (Plagborg-Møller and Wolf, 2021)">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1419,8 +1436,8 @@ Tong, Howell, and K. S. Lim. 1980. <span>“Threshold Autoregression, Limit Cycl
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../chapters/07-bvar.html" class="pagination-link" aria-label="Bayesian Estimation: Foundations and Applications to VARs">
-        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Bayesian Estimation: Foundations and Applications to VARs</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../chapters/09-growth-at-risk.html" class="pagination-link" aria-label="Quantile Regressions and Growth-at-Risk">
+        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Quantile Regressions and Growth-at-Risk</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
@@ -1657,7 +1674,7 @@ Tong, Howell, and K. S. Lim. 1980. <span>“Threshold Autoregression, Limit Cycl
 <span id="cb1-231"><a href="#cb1-231" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-232"><a href="#cb1-232" aria-hidden="true" tabindex="-1"></a><span class="fu">### Why local projections are useful</span></span>
 <span id="cb1-233"><a href="#cb1-233" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-234"><a href="#cb1-234" aria-hidden="true" tabindex="-1"></a>LPs are **model-free**: there is no need to commit to a correctly specified, finite-order VAR. They are correspondingly more **robust to dynamic misspecification** - no need for the full cross-equation system, no risk from a wrong lag count or from the omitted-variable bias that a high-dimensional VAR invites, no imposed linearity of the whole dynamic system - especially at longer horizons, where a misspecified VAR's errors compound through iteration while an LP is estimated directly at $t+h$. Formally, since $\beta_h = \mathrm{Cov}(y_{t+h}, \varepsilon_t)/\mathrm{Var}(\varepsilon_t)$ is simply the local derivative of a conditional expectation at horizon $h$, the LP does not impose any particular dynamic system, and linear projection remains a consistent estimator of it regardless. LPs are also **flexible**: nonlinear terms (interactions, thresholds, splines) can be added directly, without estimating a full TVAR or ST-VAR; additional controls or instruments do not blow up the model's dimensionality; and constraints on $y_{t+h}$ (bounded outcomes, via logit or probit) are easy to accommodate. In short, LPs inherit the entire toolbox of linear regression - OLS, robust standard errors, instrumental variables, panel methods, quantile regression.</span>
+<span id="cb1-234"><a href="#cb1-234" aria-hidden="true" tabindex="-1"></a>LPs are **model-free**: there is no need to commit to a correctly specified, finite-order VAR. They are correspondingly more **robust to dynamic misspecification** - no need for the full cross-equation system, no risk from a wrong lag count or from the omitted-variable bias that a high-dimensional VAR invites, no imposed linearity of the whole dynamic system - especially at longer horizons, where a misspecified VAR's errors compound through iteration while an LP is estimated directly at $t+h$. Formally, since $\beta_h = \mathrm{Cov}(y_{t+h}, \varepsilon_t)/\mathrm{Var}(\varepsilon_t)$ is simply the local derivative of a conditional expectation at horizon $h$, the LP does not impose any particular dynamic system, and linear projection remains a consistent estimator of it regardless. LPs are also **flexible**: nonlinear terms (interactions, thresholds, splines) can be added directly, without estimating a full TVAR or ST-VAR; additional controls or instruments do not blow up the model's dimensionality; and constraints on $y_{t+h}$ (bounded outcomes, via logit or probit) are easy to accommodate. In short, LPs inherit the entire toolbox of linear regression - OLS, robust standard errors, instrumental variables, panel methods, quantile regression. Estimating a separate conditional quantile at each horizon gives the distributional local-projection approach used for Growth-at-Risk in @sec-growth-at-risk.</span>
 <span id="cb1-235"><a href="#cb1-235" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-236"><a href="#cb1-236" aria-hidden="true" tabindex="-1"></a>::: {.callout-note title="The precise connection to VARs (Plagborg-Møller and Wolf, 2021)"}</span>
 <span id="cb1-237"><a href="#cb1-237" aria-hidden="true" tabindex="-1"></a>If the true DGP really is a linear VAR and $X_{t-1}$ contains enough lags, LPs and VAR-based IRFs <span class="co">[</span><span class="ot">-@PlagborgMollerWolf2021</span><span class="co">]</span> estimate *the same* population impulse responses. In finite samples, there is a genuine bias-variance trade-off: a correctly specified VAR is more efficient, while LPs are more robust to misspecification but can be noisier at long horizons. Bayesian VARs in particular remain attractive when precision at medium or long horizons matters most, and are *necessary* whenever the exogenous shock itself must be constructed through identification restrictions - local projections do not supply identification on their own; they require an already-identified series (narrative, or a proxy/instrument) to regress on. That said, LPs can equally be used for purely reduced-form analysis, with no identification claim at all - see Jordà, Schularick, and Taylor's "When Credit Bites Back" and "Leveraged Bubbles," discussed below.</span>
