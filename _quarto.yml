@@ -59,6 +59,10 @@ book:
       chapters:
         - chapters/09-growth-at-risk.qmd
 
+    - part: "Machine Learning and Forecasting"
+      chapters:
+        - chapters/10-machine-learning-time-series.qmd
+
     - part: "Bayesian Methods"
       chapters:
         - chapters/07-bvar.qmd
