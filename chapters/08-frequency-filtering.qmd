@@ -1,0 +1,179 @@
+# Frequency-Domain Analysis and Filtering {#sec-frequency-filtering}
+
+The preceding chapters describe persistence in the **time domain**: an ACF asks how strongly $X_t$ is related to $X_{t-h}$, and an ARMA model describes how a shock propagates through successive dates. The frequency domain asks the same question from another angle: *how is the variance of a stationary series distributed across fast and slow oscillations?* This perspective is indispensable when the empirical question itself is stated in terms of trend, business cycle, seasonal fluctuation, or financial cycle.
+
+It also disciplines the language of filtering. A filter is not a black box which discovers “the” cycle. It is a rule that assigns different weights to movements of different periodicities. Once this rule is explicit, its economic content and its limits become visible.
+
+## From time to frequency {#sec-frequency-intuition}
+
+### Periods, frequencies, and the sampling constraint
+
+A sinusoid $x_t = A\cos(\omega t + \varphi)$ has amplitude $A$, angular frequency $\omega$ (radians per observation), and phase $\varphi$. Its period is $P = 2\pi/\omega$: a low $\omega$ means a long, slow movement; a high $\omega$ means a rapid movement. With quarterly observations, $\omega = 2\pi/20$ corresponds to a five-year (20-quarter) cycle.
+
+Because discrete-time data are observed only once per period, all distinct frequencies lie in the **Nyquist interval** $[0,\pi]$ (equivalently 0 to 0.5 cycles per quarter). A component whose true period is below two observations cannot be distinguished from a lower-frequency component in the sample: this is **aliasing**. No econometric method can recover variation that the sampling frequency has already discarded. This is why quarterly data cannot reveal a monthly seasonal pattern, and why temporal aggregation changes the object being modelled.
+
+::: {.callout-note title="A frequency is not a causal mechanism"}
+A spectral peak near a period of 24 quarters says that the series contains unusually much variance at a rhythm of roughly six years. It does **not** establish that the economy is driven by a literal six-year clock, nor that one variable causes another. A deterministic sinusoid produces a sharp line in a spectrum; a stochastic, irregular business cycle usually produces a broad hump. Frequency analysis describes a second-order pattern; interpretation still requires economics and identification.
+:::
+
+### Fourier representation and the spectrum
+
+For a covariance-stationary process with autocovariance $\gamma(h)$, the **spectral density** is its Fourier transform,
+
+$$
+f_X(\omega) = \frac{1}{2\pi}\sum_{h=-\infty}^{\infty}\gamma(h)e^{-i\omega h},
+\qquad -\pi\leq\omega\leq\pi.
+$$ {#eq-spectral-density}
+
+The inverse transform recovers the autocovariance,
+
+$$
+\gamma(h) = \int_{-\pi}^{\pi} e^{i\omega h}f_X(\omega)\,d\omega,
+\qquad
+\mathrm{Var}(X_t)=\gamma(0)=\int_{-\pi}^{\pi} f_X(\omega)\,d\omega.
+$$ {#eq-spectral-inversion}
+
+Thus the area under $f_X$ is variance, and the area over a frequency band is the part of variance attributable to movements in that band. This is exactly the same information as the full autocovariance function, merely expressed in a different basis. Strong positive autocorrelation at many lags becomes power concentrated near zero frequency; alternating autocorrelation becomes power at higher frequencies.
+
+For the stationary AR(1), $X_t=\phi X_{t-1}+\varepsilon_t$, $|\phi|<1$, with innovation variance $\sigma_\varepsilon^2$,
+
+$$
+f_X(\omega)=\frac{\sigma_\varepsilon^2}{2\pi\left|1-\phi e^{-i\omega}\right|^2}
+=\frac{\sigma_\varepsilon^2}{2\pi(1-2\phi\cos\omega+\phi^2)}.
+$$ {#eq-ar1-spectrum}
+
+If $\phi$ is near $1$, shocks are persistent and the denominator is small near $\omega=0$: low frequencies dominate. If $\phi<0$, the spectrum instead peaks near $\pi$, the signature of rapid alternation. Equation @eq-ar1-spectrum is the frequency-domain counterpart of the slowly decaying ACF $\rho(h)=\phi^h$.
+
+![A periodogram makes the frequency content of a finite realization visible; the right panel gives the squared gain of two familiar filters. The HP cyclical component attenuates low-frequency movements, while differencing is an even more aggressive high-pass operation.](../figures/frequency/spectrum-and-filter-gain.png){#fig-spectrum-gain}
+
+## Estimating a spectrum {#sec-spectral-estimation}
+
+Given $T$ observations, the Fourier frequencies are $\omega_j=2\pi j/T$, $j=0,\ldots,\lfloor T/2\rfloor$. The **periodogram** is
+
+$$
+I(\omega_j)=\frac{1}{2\pi T}\left|\sum_{t=1}^{T}(X_t-\bar X)e^{-i\omega_jt}\right|^2.
+$$ {#eq-periodogram}
+
+It is a natural sample analogue of the spectrum, but a crucial warning is often missed: at an individual frequency, $I(\omega_j)$ is **not consistent** for $f_X(\omega_j)$. Increasing $T$ gives more Fourier ordinates, not a less variable ordinate. A usable non-parametric estimator therefore averages neighbouring ordinates (a **smoothed periodogram**) or smooths the sample autocovariances before transforming them. The smoothing bandwidth is a bias--variance choice: a narrow window preserves narrow features but is noisy; a wide window is stable but can erase them.
+
+Leakage is the finite-sample companion of this problem. The sample contains a truncated portion of the process; a component that does not fit an integer number of cycles into the sample spills power into nearby frequencies. Tapers (Bartlett, Hanning, etc.) soften the artificial discontinuity at the sample boundaries, reducing leakage at the cost of resolution. A spectral graph without a stated detrending, taper, and smoothing choice is therefore not fully reproducible.
+
+::: {.callout-important title="Before estimating a spectrum"}
+The standard stationary spectrum is a property of an $I(0)$ process. A level series with a unit root has an enormous and sample-dependent mass near frequency zero; a trend can masquerade as a low-frequency cycle. First decide whether the economic object is a level, a growth rate, a detrended series, or a filtered component. The transformation is part of the estimand, not cosmetic pre-processing.
+:::
+
+### Cross-spectra: co-movement by frequency
+
+For two stationary series, the cross-spectrum is
+
+$$
+f_{XY}(\omega)=\frac{1}{2\pi}\sum_h \gamma_{XY}(h)e^{-i\omega h}.
+$$
+
+Its squared coherence,
+
+$$
+\mathcal C_{XY}(\omega)=\frac{|f_{XY}(\omega)|^2}{f_X(\omega)f_Y(\omega)}\in[0,1],
+$$
+
+is the frequency-specific analogue of $R^2$: it measures linear co-movement at a given frequency, not overall correlation. The argument (phase) of $f_{XY}$ measures lead--lag at that frequency. This is useful, for example, when output and credit move together at medium frequencies but not at business-cycle frequencies. It is not a substitute for a structural restriction; indeed, Granger’s original paper links cross-spectra to predictability, not to structural causality [@Granger1969].
+
+## Linear filters as frequency-dependent weights {#sec-linear-filters}
+
+### The transfer function
+
+A two-sided linear time-invariant filter is
+
+$$
+Y_t=B(L)X_t=\sum_{j=-\infty}^{\infty}b_jX_{t-j}.
+$$ {#eq-linear-filter}
+
+Its transfer function is $B(e^{-i\omega})=\sum_jb_je^{-i\omega j}$. Provided the coefficients are square-summable,
+
+$$
+f_Y(\omega)=\left|B(e^{-i\omega})\right|^2f_X(\omega).
+$$ {#eq-filtered-spectrum}
+
+The **squared gain** $|B(e^{-i\omega})|^2$ tells us how much variance at $\omega$ is retained or amplified. The argument of $B(e^{-i\omega})$ is the **phase shift**: it tells us whether the filtered movement is displaced in time. A symmetric filter has zero phase (apart from a possible sign flip), a valuable property for historical business-cycle dating. But symmetry uses future as well as past observations, so it cannot be a real-time filter.
+
+| Goal | Frequencies retained | Typical example | Main caution |
+|-|-|-|-|
+| Low-pass | slow / long-period | smooth trend | trend is a modelling choice |
+| High-pass | rapid / short-period | first difference, HP cycle | may turn persistent dynamics into apparent cycles |
+| Band-pass | an intermediate range | BK or CF business-cycle filter | cut-offs impose a definition of cycle |
+| Seasonal adjustment | seasonal harmonics excluded | X-13-type seasonal filters | revisions and calendar effects remain |
+
+: A filter is defined by its frequency response, not by its label. {#tbl-filter-taxonomy}
+
+### Differencing and HP in the frequency domain
+
+The first difference is $(1-L)X_t$. Its gain is
+
+$$
+|1-e^{-i\omega}|^2=4\sin^2(\omega/2).
+$$
+
+It is exactly zero at $\omega=0$ and large near $\pi$: differencing is a high-pass filter. This is why it removes a stochastic trend, but also why it accentuates high-frequency measurement noise. “Making a series stationary” and “extracting a business cycle” are therefore different goals.
+
+For the HP criterion introduced in @sec-ts-transformations, the trend’s gain and the cycle’s gain are, away from finite-sample endpoints,
+
+$$
+G_T(\omega)=\frac{1}{1+16\lambda\sin^4(\omega/2)},\qquad
+G_C(\omega)=\frac{16\lambda\sin^4(\omega/2)}{1+16\lambda\sin^4(\omega/2)}.
+$$ {#eq-hp-gain}
+
+HP is consequently a smooth high-pass filter, not a literal 6--32-quarter band-pass filter. The conventional quarterly value $\lambda=1600$ encodes a particular cut-off, and changing data frequency requires changing $\lambda$ [@RavnUhlig2002]. The rule is transparent in @eq-hp-gain; it is not universally economically justified.
+
+### Ideal filters and feasible approximations
+
+An **ideal** band-pass filter would retain exactly the interval $\omega\in[2\pi/32,2\pi/6]$ and discard everything else. Its impulse-response weights extend infinitely far in both directions: it needs observations from the indefinite future and past. No finite sample can implement it exactly.
+
+Baxter and King [@BaxterKing1999] approximate it with a finite, symmetric moving average. This has an appealing nearly zero phase shift but loses $K$ observations at each end for a $2K+1$-term filter. Christiano and Fitzgerald [@ChristianoFitzgerald2003] construct sample-specific weights that use all observations and are optimal under a random-walk benchmark, but the result is asymmetric near the ends and may be revised as new data arrive. Neither procedure discovers a cycle in the data; each approximates a chosen target response.
+
+::: {.callout-warning title="The endpoint problem is an economic problem"}
+The most policy-relevant dates are often the latest ones, exactly where two-sided filters are least reliable. A historical decomposition using the full sample is **ex post**: it can use information that was unavailable at the date in question. A real-time assessment must use one-sided filters, real-time data vintages, or explicitly show revisions. The disagreement in @fig-endpoint-revisions is not a numerical accident; it follows from the use of future data in the HP trend.
+:::
+
+![The same real-GDP history produces different estimated cyclical components under HP, the Hamilton h-step regression, and a 6--32-quarter band-pass approximation. The comparison is deliberately empirical rather than a contest with a unique winner: each line answers a different filtering question. Data: U.S. real GDP (GDPC1), FRED; code and data download are reproducible in `code/python/make_frequency_figures.py`.](../figures/frequency/us-gdp-filter-comparison.png){#fig-gdp-filter-comparison}
+
+![A pseudo-real-time exercise: truncating the sample in 2019Q4 changes the HP estimate of the immediately preceding cycle. Later observations alter the estimate of the earlier state of the economy, demonstrating why endpoint uncertainty should be reported rather than hidden. Data: FRED GDPC1.](../figures/frequency/hp-endpoint-revisions.png){#fig-endpoint-revisions}
+
+## An empirical workflow {#sec-frequency-workflow}
+
+For a serious spectral or filtering exercise, the following order avoids the most common mistakes:
+
+1. **State the economic object first.** Is the question about long-run growth, short-run demand slack, seasonal variation, or a financial cycle? Choose the data frequency accordingly; a 6--32-quarter business-cycle band is not meaningful for annual data.
+2. **Document the transformation.** Plot levels and transformed data; deal with seasonal adjustment, breaks, and stationarity before interpreting low-frequency power.
+3. **Estimate rather than merely plot.** Report the sample period, detrending, taper, and smoothing bandwidth. Check whether apparent peaks survive reasonable choices.
+4. **Translate a filter into its gain and phase.** Report its cut-offs, order, and the observations lost or revised at the endpoints. Compare credible alternatives if the conclusion depends on the extraction rule.
+5. **Separate description from identification.** A cycle extracted mechanically is not potential output, an output gap, or a causal shock without an additional model.
+
+The code below gives a minimal, reproducible spectrum. The smoothing choice is exposed rather than delegated silently to a default.
+
+```{python}
+#| eval: false
+import numpy as np
+from scipy import signal
+
+# y: stationary quarterly series, e.g. log-GDP growth or a justified residual
+frequencies, raw = signal.periodogram(y - y.mean(), fs=1, scaling="density")
+frequencies, smooth = signal.welch(
+    y - y.mean(), fs=1, window="hann", nperseg=min(64, len(y)),
+    noverlap=32, detrend="constant", scaling="density"
+)
+periods = 1 / frequencies[1:]       # quarters per cycle; omit frequency zero
+```
+
+::: {.callout-tip title="Reading the output"}
+Plotting against period is often more intuitive for macroeconomics, but reverses the usual frequency axis: long periods lie at low frequency. Do not read a local maximum mechanically. With quarterly samples of a few decades, the number of independent long cycles is small, and its apparent period can be very imprecise. Bootstrap bands or a parametric ARMA/state-space model are often more informative than a highly smoothed periodogram.
+:::
+
+## What filtering can and cannot answer {#sec-filtering-conclusion}
+
+Frequency-domain analysis is powerful because it makes a modelling decision auditable: every linear filter has a gain, a phase, and an endpoint behaviour. It connects ARMA dynamics, detrending, seasonal adjustment, and cycle extraction through one common language.
+
+Its limit is equally important. Spectral evidence is a description of the covariance structure of a particular transformed series. It neither separates supply from demand nor identifies structural shocks. A filtered GDP “gap” becomes an estimate of economic slack only after adding a model of potential output, capacity, labour-market frictions, and so on. Hamilton’s critique of routine HP use [@Hamilton2018] is therefore best read not as a ban on looking at cycles, but as a demand for explicit assumptions and honest uncertainty.
+
+## Further reading
+
+Hamilton [@Hamilton1994, ch. 6] and Priestley [@Priestley1981] provide the theoretical foundations. For macroeconomic cycle filters, see Baxter and King [@BaxterKing1999], Christiano and Fitzgerald [@ChristianoFitzgerald2003], and the critical discussion in Hamilton [@Hamilton2018]. The papers supplied with these notes are especially useful complements for reflecting on how filtering choices shape the object called a business cycle.

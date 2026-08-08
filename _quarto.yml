@@ -34,6 +34,10 @@ book:
       chapters:
         - chapters/02-arma.qmd
 
+    - part: "Frequency-Domain Methods"
+      chapters:
+        - chapters/08-frequency-filtering.qmd
+
     - part: "Vector Autoregressions"
       chapters:
         - chapters/03-var.qmd

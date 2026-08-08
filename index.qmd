@@ -14,6 +14,7 @@ The notes are adapted from the accompanying lecture slides, reorganized as a con
 
 - **Foundations** - univariate time series, stochastic processes, stationarity, and the transformations used to achieve it.
 - **Univariate linear models** - lag polynomials, AR, MA, and ARMA processes: identification, estimation, selection, and forecasting.
+- **Frequency-domain methods** - spectral density, periodograms, cross-spectra, and the frequency response, implementation, and limits of trend and business-cycle filters.
 - **Vector autoregressions** - reduced-form VARs, estimation, Granger causality, forecasting, impulse responses, and forecast error variance decomposition; structural VARs and identification (short-run, long-run, and sign restrictions, narrative approaches, external instruments).
 - **Cointegration and multivariate extensions** - panel VAR, cointegration, VECM, dynamic factor models (DFM), and FAVAR.
 - **Nonlinear and time-varying models** - threshold (TAR) and smooth-transition (STAR) models, Markov-switching regimes, time-varying parameters, and local projections.
