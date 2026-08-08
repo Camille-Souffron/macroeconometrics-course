@@ -12,6 +12,7 @@ The notes are adapted from the accompanying lecture slides, reorganized as a con
 
 ## Course contents
 
+- **Mathematical preliminaries** - linear algebra, probability, statistical inference, stochastic processes, Bayesian updating, and the signal foundations needed for frequency-domain analysis.
 - **Foundations** - univariate time series, stochastic processes, stationarity, and the transformations used to achieve it.
 - **Univariate linear models** - lag polynomials, AR, MA, and ARMA processes: identification, estimation, selection, and forecasting.
 - **Frequency-domain methods** - spectral density, periodograms, cross-spectra, and the frequency response, implementation, and limits of trend and business-cycle filters.

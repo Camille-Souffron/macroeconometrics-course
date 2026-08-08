@@ -1,0 +1,262 @@
+# Chapter 0: Mathematical Foundations {.unnumbered #sec-mathematical-foundations}
+
+Macroeconometrics asks a recurring question: given a finite, noisy history, what can be learned about an economy whose relevant mechanisms are partly unobserved? The models in the following chapters provide different answers, but they repeatedly use the same language. A vector collects several variables at one date; a matrix maps today’s state into tomorrow’s; a probability distribution distinguishes a model from a realization; an estimator turns a sample into a statement about an unknown quantity.
+
+This chapter develops that common language from problems rather than from a list of definitions. Its purpose is not to replace a course in mathematics. It is to make the mathematics used in macroeconometrics legible enough that every later formula can be read as an economic statement.
+
+## A small model that contains most of the course {#sec-maths-motivating-system}
+
+Imagine that the state of an economy is summarized by output and inflation deviations,
+
+$$
+x_t=
+\begin{pmatrix}y_t\\ \pi_t\end{pmatrix},
+\qquad
+x_{t+1}=Ax_t+u_{t+1},
+$$ {#eq-maths-state-system}
+
+where $A$ describes internal propagation and $u_{t+1}$ collects new disturbances. Questions that look different at first are all contained in this compact expression:
+
+- What does it mean to multiply a matrix by a vector, and when can a system of equations be solved?
+- Does the economy return after a shock, oscillate, or explode? The answer is in the eigenvalues of $A$.
+- What does it mean for $u_t$ to be random? How do we describe its mean, variance, and dependence over time?
+- With only $T$ observations, how can we estimate $A$, attach uncertainty to it, or revise beliefs about it?
+- If a component repeats slowly, how can its periodicity be read from the data?
+
+The rest of the chapter unpacks these questions in that order.
+
+## Linear algebra: describing several movements at once {#sec-linear-algebra-foundations}
+
+### Vectors, distances, and directions
+
+At one date, a scalar records one quantity. A **vector** records several quantities together. The vector $x=(x_1,\ldots,x_n)'\in\mathbb R^n$ is a point in an $n$-dimensional space; its entries depend on the chosen coordinates, but the object is the same economic state. In two dimensions, $(y_t,\pi_t)'$ locates output and inflation jointly.
+
+The basic operation is a weighted sum. If $a,b\in\mathbb R^n$ and $\alpha,\beta\in\mathbb R$, then $\alpha a+\beta b$ is another vector. The set of all such combinations is the **span** of $a$ and $b$. It answers a concrete question: which movements can be built from the directions already available? Vectors are **linearly independent** if none can be manufactured from the others. A collection that is both independent and spans the whole space is a **basis**. Its number of vectors is the **dimension**.
+
+The inner product $a'b=\sum_i a_ib_i$ measures alignment. It generates the Euclidean length $\|a\|=\sqrt{a'a}$ and the angle between vectors,
+
+$$
+\cos\angle(a,b)=\frac{a'b}{\|a\|\,\|b\|}.
+$$
+
+Orthogonality, $a'b=0$, means that the directions have no linear overlap. This geometry is not decorative: least squares, principal components, and structural-shock orthogonalization are all problems of projection onto orthogonal directions.
+
+### Matrices are transformations, not tables {#sec-matrices-transformations}
+
+A matrix is often introduced as a rectangular table of numbers. Its useful meaning is more active: an $m\times n$ matrix $A$ is a linear rule that takes each $n$-vector $x$ into an $m$-vector $Ax$. It can rotate, stretch, compress, shear, or project a space. The columns of $A$ are simply the images of the basis vectors.
+
+![A matrix transforms every vector in a space at once. The coloured vector is one example; the purple directions on the right are eigenvectors, which keep their direction under the transformation.](../figures/mathematics/linear-transformation-eigenvectors.png){#fig-linear-transformation}
+
+Matrix multiplication is composition of transformations. If $z=Bx$ and $y=Az$, then $y=(AB)x$: $B$ acts first, then $A$. The order matters because economic mechanisms need not commute. In a VAR, for example, multiplying the companion matrix repeatedly traces how today’s state propagates through future dates.
+
+The identity matrix $I$ leaves every vector unchanged. A transpose $A'$ exchanges rows and columns. A symmetric matrix satisfies $A=A'$; covariance matrices are the most important example. The **rank** of $A$ is the number of independent directions that survive its transformation. If rank is below $n$, some distinct input vectors produce the same output, so information has been lost.
+
+### Systems, inversion, determinant, and projection
+
+The system $Ax=b$ asks which input $x$ produces the observed outcome $b$. For a square matrix, a unique solution for every $b$ exists exactly when $A$ is invertible:
+
+$$
+x=A^{-1}b,\qquad A^{-1}A=AA^{-1}=I.
+$$
+
+Inversion is a strong condition, not a routine operation. It fails when the columns of $A$ are linearly dependent, because the system contains redundant information or lacks a direction needed to identify $x$.
+
+The **determinant** of a square matrix gives a geometric test. In two dimensions, $|\det A|$ is the factor by which areas are scaled; in $n$ dimensions it scales volume. A determinant of zero means that an area or volume has been flattened into a lower-dimensional object, hence no inverse exists. The sign records an orientation reversal. Determinants are useful for theory, though numerical work normally solves $Ax=b$ directly rather than forming $A^{-1}$.
+
+Many econometric systems have no exact solution because data contain noise: $X\beta\approx y$. Ordinary least squares chooses the coefficient vector whose fitted value $X\hat\beta$ is closest to $y$ in Euclidean distance. The residual $y-X\hat\beta$ is orthogonal to every column of $X$,
+
+$$
+X'(y-X\hat\beta)=0,
+\qquad
+\hat\beta=(X'X)^{-1}X'y,
+$$ {#eq-ols-projection}
+
+when $X$ has full column rank. Equation @eq-ols-projection is a projection theorem: regression decomposes data into the component explained by the regressors and an orthogonal remainder. It is not, by itself, a causal theorem.
+
+### Eigenvalues: the directions a dynamic system recognises {#sec-eigenvalues-stability}
+
+Iterating @eq-maths-state-system without new shocks gives $x_{t+h}=A^hx_t$. Directly multiplying $A$ many times hides the structure. An **eigenvector** $v\neq0$ is a direction which the matrix does not turn; it only scales it:
+
+$$
+Av=\lambda v.
+$$
+
+The scalar $\lambda$ is its **eigenvalue**. Along that direction, $A^hv=\lambda^h v$. In discrete time, $|\lambda|<1$ means decay, $|\lambda|>1$ explosion, and $|\lambda|=1$ persistence without decay. A negative eigenvalue flips the sign each period. A complex-conjugate pair creates rotation, so that trajectories oscillate; its modulus governs whether the oscillation is damped or amplified.
+
+![Two systems with complex eigenvalues. On the left, the modulus is below one and all trajectories spiral back to the origin. On the right, the modulus exceeds one and the same qualitative motion becomes explosive.](../figures/mathematics/matrix-stability-phase-portraits.png){#fig-matrix-stability}
+
+The matrix is stable precisely when its **spectral radius** $\rho(A)=\max_i|\lambda_i|$ is below one. This condition appears throughout the course: stationarity of a VAR, convergence of an impulse response, stability of a state-space model, and local determinacy of a linearized DSGE model. For a continuous-time system $\dot x_t=Ax_t$, the corresponding condition is $\mathrm{Re}(\lambda_i)<0$.
+
+For a nonlinear law $x_{t+1}=g(x_t)$, a steady state $x^*$ satisfies $g(x^*)=x^*$. Near it,
+
+$$
+x_{t+1}-x^*\approx J_g(x^*)(x_t-x^*),
+$$
+
+where $J_g$ is the **Jacobian**, the matrix of first derivatives. Local stability is therefore a matrix-stability question. A linear approximation only describes nearby paths; if trajectories move far away, nonlinearities can change the conclusion.
+
+### Decompositions: choose coordinates that reveal structure
+
+If $A$ has enough independent eigenvectors, $A=V\Lambda V^{-1}$, where the columns of $V$ are eigenvectors and $\Lambda$ is diagonal. This **diagonalization** converts a coupled system into independent directions. It explains why the eigenvalues determine $A^h=V\Lambda^hV^{-1}$.
+
+Symmetric matrices are especially well behaved. The **spectral theorem** states that a real symmetric matrix has real eigenvalues and an orthonormal eigenbasis:
+
+$$
+S=Q\Lambda Q',\qquad Q'Q=I.
+$$
+
+For a covariance matrix $\Sigma$, eigenvalues are non-negative because $a'\Sigma a=\mathrm{Var}(a'X)\geq0$. The eigenvectors are uncorrelated directions of variation. PCA uses exactly this decomposition: it rotates the data into directions ranked by variance.
+
+For a general rectangular matrix, the singular-value decomposition is the more universal result,
+
+$$
+X=U\,D\,V',
+$$
+
+with orthonormal $U,V$ and non-negative singular values on the diagonal of $D$. It separates a transformation into a rotation, independent stretches, and another rotation. PCA, low-rank factor models, and regularization all rely on this geometry. The Cholesky factorization $\Sigma=PP'$ is another important decomposition for a positive-definite covariance matrix, used to turn independent shocks into correlated reduced-form innovations.
+
+::: {.callout-tip title="A practical stability checklist"}
+For a scalar AR(1), inspect $|\phi|$. For a VAR, companion matrix, or Jacobian, compute eigenvalues and inspect their moduli. A stable reduced form does not identify an economic mechanism, but an unstable one cannot be treated as covariance stationary. If the result lies near one, numerical precision and sampling uncertainty matter: “below one” is not the same as “confidently stable.”
+:::
+
+## Probability: describing uncertainty before observing data {#sec-probability-foundations}
+
+### A gamble, an event, and a random variable
+
+Consider tomorrow’s policy rate. Before tomorrow arrives, several outcomes are possible. The set of all complete possible outcomes is the **sample space** $\Omega$. An **event** is a collection of outcomes, such as “inflation exceeds the target.” Probability assigns a number between zero and one to each event in a way that respects disjoint addition.
+
+The formal object is a probability space $(\Omega,\mathcal F,\mathbb P)$. The collection $\mathcal F$ is a **sigma-algebra**, a set of events closed under complements and countable unions. Its job is modest but essential: it rules out ill-posed sets for which a coherent probability could not be assigned. A **random variable** $X:\Omega\to\mathbb R$ is a measurable numerical description of an outcome. “Measurable” means that statements such as $X\leq a$ are legitimate events in $\mathcal F$.
+
+This small dose of measure theory is the foundation, not an obstacle course. It makes the following objects precise: conditional expectation, likelihoods, stochastic processes, and convergence in probability. In most applied work, the central question is simpler: which probability law plausibly generated the variable we observe?
+
+### Distribution, expectation, variance, and conditioning
+
+A distribution tells us how probability is allocated. For a discrete variable, $Pr(X=x)$ can be positive. For a continuous variable with density $f_X$, individual points have probability zero and intervals have probability
+
+$$
+\Pr(a\leq X\leq b)=\int_a^b f_X(x)\,dx.
+$$
+
+The expectation is a probability-weighted average, $E[X]=\sum_xxp(x)$ or $E[X]=\int xf_X(x)dx$. It need not be an outcome that will occur; it is the centre of a probability law. Variance $\mathrm{Var}(X)=E[(X-E[X])^2]$ measures dispersion. Covariance $\mathrm{Cov}(X,Y)$ records joint linear variation, and correlation rescales it to lie between minus one and one.
+
+Conditional probability updates a description after information arrives. If $B$ has positive probability, $\Pr(A\mid B)=\Pr(A\cap B)/\Pr(B)$. Conditional expectation $E[X\mid\mathcal I]$ is the best mean-square prediction of $X$ using the information set $\mathcal I$. The law of iterated expectations,
+
+$$
+E\big[E(X\mid\mathcal I)\big]=E[X],
+$$
+
+is the logic behind forecasts, regressions, and filtering.
+
+### Probability is not statistics {#sec-probability-versus-statistics}
+
+**Probability** starts with a model and derives the behaviour of possible data. If $Y_t=\beta X_t+\varepsilon_t$ and the distribution of $(X_t,\varepsilon_t)$ is known, probability describes the distribution of $Y_t$. **Statistics** starts with one realized sample $(y_1,\ldots,y_T)$ and asks what can be learned about the unknown distribution, parameter, or model that generated it.
+
+A **statistical model** is a family of distributions $\{P_\theta:\theta\in\Theta\}$. The parameter $\theta$ indexes possible data-generating mechanisms: an AR coefficient, a variance, a regression slope, a VAR matrix, or an entire latent state path. Data do not reveal $\theta$ directly. An estimator $\hat\theta(Y_1,\ldots,Y_T)$ is itself random before the sample is drawn. Its sampling distribution is the bridge between an estimate and an inference claim.
+
+### Why averages become reliable: LLN and CLT {#sec-lln-clt}
+
+Suppose $X_1,\ldots,X_n$ are independent draws with finite mean $\mu$ and variance $\sigma^2$. The **law of large numbers** says
+
+$$
+\bar X_n=\frac1n\sum_{i=1}^nX_i\xrightarrow{p}\mu.
+$$
+
+It justifies replacing a population moment by a sample moment. The statement is about convergence in probability, not exact equality in a finite sample.
+
+The **central limit theorem** adds the shape of the remaining uncertainty:
+
+$$
+\frac{\sqrt n(\bar X_n-\mu)}{\sigma}\xrightarrow{d}\mathcal N(0,1).
+$$
+
+The parent distribution need not be Normal. Averages of many finite-variance contributions become approximately Normal after centring and scaling. This is why Normal approximations are so widespread in econometrics.
+
+![The left panel follows an average of skewed exponential draws as the sample grows. The right panel shows that the centred, scaled means are already close to a Normal curve at a moderate sample size.](../figures/mathematics/lln-clt-simulation.png){#fig-lln-clt}
+
+Time series are not i.i.d., so the theorem cannot simply be invoked. Stationarity, ergodicity, and sufficiently weak dependence replace independence in time-series LLNs and CLTs. Persistent data contain less independent information than equally many independent observations, which is why naive standard errors are too small in serially correlated settings.
+
+### Why Normal, Student, chi-square, and Fisher distributions appear {#sec-sampling-distributions}
+
+These distributions are not an arbitrary taxonomy. They arise from different unknown pieces of a model.
+
+| Distribution | What it standardizes | Typical econometric appearance |
+|-|-|-|
+| Normal | A mean with known scale, or a large-sample estimator | asymptotic $z$ statistic |
+| Student $t$ | A mean or coefficient with estimated scale | finite-sample regression test under Gaussian errors |
+| Chi-square | A sum of squared standardized Normal quantities | variance test, Wald test, likelihood-ratio limit |
+| Fisher $F$ | A ratio of two independent scaled chi-square variables | joint restriction test, comparison of residual variances |
+
+The Student distribution has heavier tails than the Normal because estimating a scale introduces uncertainty. The chi-square is non-negative because it is built from squares. The $F$ distribution is non-negative and right-skewed because it compares two sources of variation. In large samples, many tests become asymptotically Normal or chi-square even when finite-sample exact distributions are unavailable.
+
+![Sampling distributions reflect different inferential problems. Estimating a scale gives the heavier tails of Student’s $t$; squaring and comparing independent Gaussian components produces chi-square and $F$ laws.](../figures/mathematics/sampling-distributions.png){#fig-sampling-distributions}
+
+### Estimation, confidence intervals, and tests
+
+The likelihood $L(\theta;y)$ is the model’s density or mass for the observed data, viewed as a function of $\theta$. Maximum likelihood chooses $\hat\theta$ that makes the observed sample most probable under the maintained model. Under regularity conditions,
+
+$$
+\sqrt T(\hat\theta-\theta_0)\xrightarrow{d}\mathcal N\big(0,\mathcal I(\theta_0)^{-1}\big),
+$$
+
+where $\mathcal I$ is information. This asymptotic statement supplies standard errors, confidence intervals, Wald tests, score tests, and likelihood-ratio tests.
+
+A 95 percent confidence interval is a procedure which covers the fixed true parameter in 95 percent of repeated samples under the model. A $p$-value is the probability, under a specified null hypothesis, of a statistic at least as incompatible with that null as the realized one. Neither is the probability that the parameter or hypothesis itself is true.
+
+## Stochastic processes: probability arranged through time {#sec-stochastic-processes-foundations}
+
+A stochastic process $(X_t)_{t\in\mathbb Z}$ is a sequence of random variables indexed by time. The observed series $x_1,\ldots,x_T$ is one path. This distinction matters: the model assigns probability to many possible histories, while economics gives us only one.
+
+For a weakly stationary process, $E[X_t]=\mu$ is constant and $\mathrm{Cov}(X_t,X_{t-h})=\gamma(h)$ depends only on the lag. The process may be highly persistent without being non-stationary. An AR(1),
+
+$$
+X_t=\phi X_{t-1}+\varepsilon_t,
+$$
+
+is stationary for $|\phi|<1$: shocks fade at rate $\phi^h$. A random walk has $phi=1$; shocks never fade, variance accumulates, and the level has no fixed unconditional distribution.
+
+![The same innovations drive both paths. The stationary AR(1) forgets them gradually; the random walk retains every past innovation in its level.](../figures/mathematics/stationary-ar-versus-random-walk.png){#fig-stationary-random-walk}
+
+The economic distinction is substantial. A temporary demand shock in a stable system eventually disappears. A shock to a random-walk component permanently changes the forecast level. A unit-root test is therefore not a ritual preliminary: it asks which sort of persistence is compatible with the data, and thus which transformations and inferential approximations are defensible. The time-series chapter returns to these distinctions in detail (@sec-time-series).
+
+## Bayesian inference: uncertainty about parameters as well as data {#sec-bayes-foundations}
+
+Frequentist inference treats $\theta$ as fixed and data as random. Bayesian inference represents prior uncertainty about $\theta$ with a density $p(\theta)$, then updates it with the likelihood $p(y\mid\theta)$:
+
+$$
+p(\theta\mid y)=\frac{p(y\mid\theta)p(\theta)}{p(y)},
+\qquad
+p(y)=\int p(y\mid\theta)p(\theta)\,d\theta.
+$$ {#eq-bayes-rule}
+
+The denominator is a normalising constant. The content of Bayes’ rule is proportionality: posterior $\propto$ likelihood $\times$ prior. The prior matters most when data are sparse or weakly informative. It need not be “subjective” in a casual sense: it can encode parameter restrictions, historical evidence, regularisation, or a disciplined belief that a large VAR should not have implausibly large coefficients.
+
+![A prior density and a likelihood combine into a posterior. The graph does not show a compromise by convention; it shows multiplication of two probability statements, followed by normalisation.](../figures/mathematics/bayesian-update.png){#fig-bayesian-update}
+
+Bayesian credible intervals have a direct conditional interpretation: given the model, prior, and data, the posterior assigns a stated probability to the interval. Their validity therefore depends on the model and prior. The later Bayesian VAR chapter develops computation and prior choice in the setting where this distinction is most useful (@sec-bvar).
+
+## Signals and Fourier analysis: another coordinate system for time series {#sec-signal-fourier-foundations}
+
+Suppose a measured series contains a slow movement, a seasonal rhythm, a business-cycle fluctuation, and noise. Looking only at dates mixes these components together. Fourier analysis changes coordinates: instead of asking how a series moves at date $t$, it asks how much of its variation is associated with each periodicity.
+
+The building blocks are sines and cosines. Euler’s identity $e^{i\omega t}=\cos(\omega t)+i\sin(\omega t)$ packages both in one complex exponential. For $T$ observations, the discrete Fourier transform is
+
+$$
+\widetilde X(\omega_j)=\sum_{t=0}^{T-1}x_t e^{-i\omega_jt},
+\qquad \omega_j=\frac{2\pi j}{T}.
+$$
+
+Its squared modulus gives the periodogram. Large values indicate that a sinusoidal component of that frequency helps describe the observed path. Sampling imposes a hard limit: with observations one period apart, frequencies above the Nyquist frequency cannot be separately recovered. A monthly rhythm cannot be learned from quarterly observations.
+
+![A simulated series combines rhythms of 7 and 24 observations with noise. The time path hides their separate roles; the periodogram makes both periodicities visible.](../figures/mathematics/fourier-time-and-frequency.png){#fig-fourier-foundations}
+
+For a weakly stationary process, the Fourier transform of the autocovariance is the spectral density, and its integral is variance. A linear filter multiplies that spectrum by its squared gain. This unifies ARMA dynamics, signal extraction, seasonal adjustment, and cycle filters. The frequency-domain chapter develops estimation, cross-spectra, coherence, and the economic interpretation of filtering (@sec-frequency-filtering).
+
+## Summary: a map for the rest of the course
+
+Matrices organise simultaneous variables and dynamic feedback. Their eigenvalues determine whether local dynamics decay, oscillate, or explode. Probability describes possible data under a model; statistics uses one realised sample to learn about the unknown model; asymptotic theory makes that learning quantifiable. Stochastic processes add temporal dependence, so stationarity and unit roots become questions about what can be inferred from one history. Fourier analysis offers a second coordinate system in which persistence is described by frequency rather than lag.
+
+The purpose of these tools is disciplined interpretation. Algebra tells us what a model can do; probability tells us what it implies before data; statistics tells us how uncertain an empirical conclusion remains after data.
+
+## Further reading
+
+For linear algebra, Strang [@Strang2016] is exceptionally clear on geometry, eigenvalues, and decompositions. Casella and Berger [@CasellaBerger2002] provide a rigorous introduction to probability and statistical inference; van der Vaart [@vanDerVaart1998] develops asymptotic statistics. Hamilton [@Hamilton1994] connects these foundations to time-series econometrics.

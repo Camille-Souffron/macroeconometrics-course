@@ -26,6 +26,10 @@ book:
   chapters:
     - index.qmd
 
+    - part: "Mathematical Preliminaries"
+      chapters:
+        - chapters/00-mathematical-foundations.qmd
+
     - part: "Foundations"
       chapters:
         - chapters/01-time-series.qmd
