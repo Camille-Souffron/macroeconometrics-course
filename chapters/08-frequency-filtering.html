@@ -1,0 +1,1335 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>3&nbsp; Frequency-Domain Analysis and Filtering – Macroeconometrics</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../chapters/03-var.html" rel="next">
+<link href="../chapters/02-arma.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-0a2ba924a51c51b1951dc2bd466f6823.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Macroeconometrics</span>
+    </a>
+  </div>
+        <div class="quarto-navbar-tools tools-end">
+    <a href="https://github.com/Camille-Souffron/macroeconometrics-course" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+</div>
+          <div id="quarto-search" class="" title="Search"></div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/08-frequency-filtering.html">Frequency-Domain Methods</a></li><li class="breadcrumb-item"><a href="../chapters/08-frequency-filtering.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Frequency-Domain Analysis and Filtering</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
+ <span class="menu-text">Foundations</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/01-time-series.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction to Time Series</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text">Univariate Linear Models</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/02-arma.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">AR, MA, and ARMA Processes</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Frequency-Domain Methods</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/08-frequency-filtering.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Frequency-Domain Analysis and Filtering</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text">Vector Autoregressions</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/03-var.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Vector Autoregressions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/04-svar-identification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Structural VARs, Identification, and Policy Shock Assessment</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
+ <span class="menu-text">Cointegration and Multivariate Extensions</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/05-cointegration-dfm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Panel VAR, Cointegration, and Dynamic Factor Models</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false">
+ <span class="menu-text">Nonlinear and Time-Varying Models</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/06-nonlinear.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Beyond Linearity: Thresholds, Regime Changes, and Local Projections</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false">
+ <span class="menu-text">Bayesian Methods</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/07-bvar.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Bayesian Estimation: Foundations and Applications to VARs</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sec-frequency-intuition" id="toc-sec-frequency-intuition" class="nav-link active" data-scroll-target="#sec-frequency-intuition"><span class="header-section-number">3.1</span> From time to frequency</a>
+  <ul class="collapse">
+  <li><a href="#periods-frequencies-and-the-sampling-constraint" id="toc-periods-frequencies-and-the-sampling-constraint" class="nav-link" data-scroll-target="#periods-frequencies-and-the-sampling-constraint">Periods, frequencies, and the sampling constraint</a></li>
+  <li><a href="#fourier-representation-and-the-spectrum" id="toc-fourier-representation-and-the-spectrum" class="nav-link" data-scroll-target="#fourier-representation-and-the-spectrum">Fourier representation and the spectrum</a></li>
+  </ul></li>
+  <li><a href="#sec-spectral-estimation" id="toc-sec-spectral-estimation" class="nav-link" data-scroll-target="#sec-spectral-estimation"><span class="header-section-number">3.2</span> Estimating a spectrum</a>
+  <ul class="collapse">
+  <li><a href="#cross-spectra-co-movement-by-frequency" id="toc-cross-spectra-co-movement-by-frequency" class="nav-link" data-scroll-target="#cross-spectra-co-movement-by-frequency">Cross-spectra: co-movement by frequency</a></li>
+  </ul></li>
+  <li><a href="#sec-linear-filters" id="toc-sec-linear-filters" class="nav-link" data-scroll-target="#sec-linear-filters"><span class="header-section-number">3.3</span> Linear filters as frequency-dependent weights</a>
+  <ul class="collapse">
+  <li><a href="#the-transfer-function" id="toc-the-transfer-function" class="nav-link" data-scroll-target="#the-transfer-function">The transfer function</a></li>
+  <li><a href="#differencing-and-hp-in-the-frequency-domain" id="toc-differencing-and-hp-in-the-frequency-domain" class="nav-link" data-scroll-target="#differencing-and-hp-in-the-frequency-domain">Differencing and HP in the frequency domain</a></li>
+  <li><a href="#ideal-filters-and-feasible-approximations" id="toc-ideal-filters-and-feasible-approximations" class="nav-link" data-scroll-target="#ideal-filters-and-feasible-approximations">Ideal filters and feasible approximations</a></li>
+  </ul></li>
+  <li><a href="#sec-frequency-workflow" id="toc-sec-frequency-workflow" class="nav-link" data-scroll-target="#sec-frequency-workflow"><span class="header-section-number">3.4</span> An empirical workflow</a></li>
+  <li><a href="#sec-filtering-conclusion" id="toc-sec-filtering-conclusion" class="nav-link" data-scroll-target="#sec-filtering-conclusion"><span class="header-section-number">3.5</span> What filtering can and cannot answer</a></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading"><span class="header-section-number">3.6</span> Further reading</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/Camille-Souffron/macroeconometrics-course/edit/main/chapters/08-frequency-filtering.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/Camille-Souffron/macroeconometrics-course/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/08-frequency-filtering.html">Frequency-Domain Methods</a></li><li class="breadcrumb-item"><a href="../chapters/08-frequency-filtering.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Frequency-Domain Analysis and Filtering</span></a></li></ol></nav>
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title"><span id="sec-frequency-filtering" class="quarto-section-identifier"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Frequency-Domain Analysis and Filtering</span></span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>The preceding chapters describe persistence in the <strong>time domain</strong>: an ACF asks how strongly <span class="math inline">\(X_t\)</span> is related to <span class="math inline">\(X_{t-h}\)</span>, and an ARMA model describes how a shock propagates through successive dates. The frequency domain asks the same question from another angle: <em>how is the variance of a stationary series distributed across fast and slow oscillations?</em> This perspective is indispensable when the empirical question itself is stated in terms of trend, business cycle, seasonal fluctuation, or financial cycle.</p>
+<p>It also disciplines the language of filtering. A filter is not a black box which discovers “the” cycle. It is a rule that assigns different weights to movements of different periodicities. Once this rule is explicit, its economic content and its limits become visible.</p>
+<section id="sec-frequency-intuition" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="sec-frequency-intuition"><span class="header-section-number">3.1</span> From time to frequency</h2>
+<section id="periods-frequencies-and-the-sampling-constraint" class="level3">
+<h3 class="anchored" data-anchor-id="periods-frequencies-and-the-sampling-constraint">Periods, frequencies, and the sampling constraint</h3>
+<p>A sinusoid <span class="math inline">\(x_t = A\cos(\omega t + \varphi)\)</span> has amplitude <span class="math inline">\(A\)</span>, angular frequency <span class="math inline">\(\omega\)</span> (radians per observation), and phase <span class="math inline">\(\varphi\)</span>. Its period is <span class="math inline">\(P = 2\pi/\omega\)</span>: a low <span class="math inline">\(\omega\)</span> means a long, slow movement; a high <span class="math inline">\(\omega\)</span> means a rapid movement. With quarterly observations, <span class="math inline">\(\omega = 2\pi/20\)</span> corresponds to a five-year (20-quarter) cycle.</p>
+<p>Because discrete-time data are observed only once per period, all distinct frequencies lie in the <strong>Nyquist interval</strong> <span class="math inline">\([0,\pi]\)</span> (equivalently 0 to 0.5 cycles per quarter). A component whose true period is below two observations cannot be distinguished from a lower-frequency component in the sample: this is <strong>aliasing</strong>. No econometric method can recover variation that the sampling frequency has already discarded. This is why quarterly data cannot reveal a monthly seasonal pattern, and why temporal aggregation changes the object being modelled.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="A frequency is not a causal mechanism">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>A frequency is not a causal mechanism
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A spectral peak near a period of 24 quarters says that the series contains unusually much variance at a rhythm of roughly six years. It does <strong>not</strong> establish that the economy is driven by a literal six-year clock, nor that one variable causes another. A deterministic sinusoid produces a sharp line in a spectrum; a stochastic, irregular business cycle usually produces a broad hump. Frequency analysis describes a second-order pattern; interpretation still requires economics and identification.</p>
+</div>
+</div>
+</section>
+<section id="fourier-representation-and-the-spectrum" class="level3">
+<h3 class="anchored" data-anchor-id="fourier-representation-and-the-spectrum">Fourier representation and the spectrum</h3>
+<p>For a covariance-stationary process with autocovariance <span class="math inline">\(\gamma(h)\)</span>, the <strong>spectral density</strong> is its Fourier transform,</p>
+<p><span id="eq-spectral-density"><span class="math display">\[
+f_X(\omega) = \frac{1}{2\pi}\sum_{h=-\infty}^{\infty}\gamma(h)e^{-i\omega h},
+\qquad -\pi\leq\omega\leq\pi.
+\tag{3.1}\]</span></span></p>
+<p>The inverse transform recovers the autocovariance,</p>
+<p><span id="eq-spectral-inversion"><span class="math display">\[
+\gamma(h) = \int_{-\pi}^{\pi} e^{i\omega h}f_X(\omega)\,d\omega,
+\qquad
+\mathrm{Var}(X_t)=\gamma(0)=\int_{-\pi}^{\pi} f_X(\omega)\,d\omega.
+\tag{3.2}\]</span></span></p>
+<p>Thus the area under <span class="math inline">\(f_X\)</span> is variance, and the area over a frequency band is the part of variance attributable to movements in that band. This is exactly the same information as the full autocovariance function, merely expressed in a different basis. Strong positive autocorrelation at many lags becomes power concentrated near zero frequency; alternating autocorrelation becomes power at higher frequencies.</p>
+<p>For the stationary AR(1), <span class="math inline">\(X_t=\phi X_{t-1}+\varepsilon_t\)</span>, <span class="math inline">\(|\phi|&lt;1\)</span>, with innovation variance <span class="math inline">\(\sigma_\varepsilon^2\)</span>,</p>
+<p><span id="eq-ar1-spectrum"><span class="math display">\[
+f_X(\omega)=\frac{\sigma_\varepsilon^2}{2\pi\left|1-\phi e^{-i\omega}\right|^2}
+=\frac{\sigma_\varepsilon^2}{2\pi(1-2\phi\cos\omega+\phi^2)}.
+\tag{3.3}\]</span></span></p>
+<p>If <span class="math inline">\(\phi\)</span> is near <span class="math inline">\(1\)</span>, shocks are persistent and the denominator is small near <span class="math inline">\(\omega=0\)</span>: low frequencies dominate. If <span class="math inline">\(\phi&lt;0\)</span>, the spectrum instead peaks near <span class="math inline">\(\pi\)</span>, the signature of rapid alternation. Equation <a href="#eq-ar1-spectrum" class="quarto-xref">Equation&nbsp;<span>3.3</span></a> is the frequency-domain counterpart of the slowly decaying ACF <span class="math inline">\(\rho(h)=\phi^h\)</span>.</p>
+<div id="fig-spectrum-gain" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-spectrum-gain-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figures/frequency/spectrum-and-filter-gain.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-spectrum-gain-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.1: A periodogram makes the frequency content of a finite realization visible; the right panel gives the squared gain of two familiar filters. The HP cyclical component attenuates low-frequency movements, while differencing is an even more aggressive high-pass operation.
+</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="sec-spectral-estimation" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="sec-spectral-estimation"><span class="header-section-number">3.2</span> Estimating a spectrum</h2>
+<p>Given <span class="math inline">\(T\)</span> observations, the Fourier frequencies are <span class="math inline">\(\omega_j=2\pi j/T\)</span>, <span class="math inline">\(j=0,\ldots,\lfloor T/2\rfloor\)</span>. The <strong>periodogram</strong> is</p>
+<p><span id="eq-periodogram"><span class="math display">\[
+I(\omega_j)=\frac{1}{2\pi T}\left|\sum_{t=1}^{T}(X_t-\bar X)e^{-i\omega_jt}\right|^2.
+\tag{3.4}\]</span></span></p>
+<p>It is a natural sample analogue of the spectrum, but a crucial warning is often missed: at an individual frequency, <span class="math inline">\(I(\omega_j)\)</span> is <strong>not consistent</strong> for <span class="math inline">\(f_X(\omega_j)\)</span>. Increasing <span class="math inline">\(T\)</span> gives more Fourier ordinates, not a less variable ordinate. A usable non-parametric estimator therefore averages neighbouring ordinates (a <strong>smoothed periodogram</strong>) or smooths the sample autocovariances before transforming them. The smoothing bandwidth is a bias–variance choice: a narrow window preserves narrow features but is noisy; a wide window is stable but can erase them.</p>
+<p>Leakage is the finite-sample companion of this problem. The sample contains a truncated portion of the process; a component that does not fit an integer number of cycles into the sample spills power into nearby frequencies. Tapers (Bartlett, Hanning, etc.) soften the artificial discontinuity at the sample boundaries, reducing leakage at the cost of resolution. A spectral graph without a stated detrending, taper, and smoothing choice is therefore not fully reproducible.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Before estimating a spectrum">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Before estimating a spectrum
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The standard stationary spectrum is a property of an <span class="math inline">\(I(0)\)</span> process. A level series with a unit root has an enormous and sample-dependent mass near frequency zero; a trend can masquerade as a low-frequency cycle. First decide whether the economic object is a level, a growth rate, a detrended series, or a filtered component. The transformation is part of the estimand, not cosmetic pre-processing.</p>
+</div>
+</div>
+<section id="cross-spectra-co-movement-by-frequency" class="level3">
+<h3 class="anchored" data-anchor-id="cross-spectra-co-movement-by-frequency">Cross-spectra: co-movement by frequency</h3>
+<p>For two stationary series, the cross-spectrum is</p>
+<p><span class="math display">\[
+f_{XY}(\omega)=\frac{1}{2\pi}\sum_h \gamma_{XY}(h)e^{-i\omega h}.
+\]</span></p>
+<p>Its squared coherence,</p>
+<p><span class="math display">\[
+\mathcal C_{XY}(\omega)=\frac{|f_{XY}(\omega)|^2}{f_X(\omega)f_Y(\omega)}\in[0,1],
+\]</span></p>
+<p>is the frequency-specific analogue of <span class="math inline">\(R^2\)</span>: it measures linear co-movement at a given frequency, not overall correlation. The argument (phase) of <span class="math inline">\(f_{XY}\)</span> measures lead–lag at that frequency. This is useful, for example, when output and credit move together at medium frequencies but not at business-cycle frequencies. It is not a substitute for a structural restriction; indeed, Granger’s original paper links cross-spectra to predictability, not to structural causality <span class="citation" data-cites="Granger1969">(<a href="../references.html#ref-Granger1969" role="doc-biblioref">Granger 1969</a>)</span>.</p>
+</section>
+</section>
+<section id="sec-linear-filters" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="sec-linear-filters"><span class="header-section-number">3.3</span> Linear filters as frequency-dependent weights</h2>
+<section id="the-transfer-function" class="level3">
+<h3 class="anchored" data-anchor-id="the-transfer-function">The transfer function</h3>
+<p>A two-sided linear time-invariant filter is</p>
+<p><span id="eq-linear-filter"><span class="math display">\[
+Y_t=B(L)X_t=\sum_{j=-\infty}^{\infty}b_jX_{t-j}.
+\tag{3.5}\]</span></span></p>
+<p>Its transfer function is <span class="math inline">\(B(e^{-i\omega})=\sum_jb_je^{-i\omega j}\)</span>. Provided the coefficients are square-summable,</p>
+<p><span id="eq-filtered-spectrum"><span class="math display">\[
+f_Y(\omega)=\left|B(e^{-i\omega})\right|^2f_X(\omega).
+\tag{3.6}\]</span></span></p>
+<p>The <strong>squared gain</strong> <span class="math inline">\(|B(e^{-i\omega})|^2\)</span> tells us how much variance at <span class="math inline">\(\omega\)</span> is retained or amplified. The argument of <span class="math inline">\(B(e^{-i\omega})\)</span> is the <strong>phase shift</strong>: it tells us whether the filtered movement is displaced in time. A symmetric filter has zero phase (apart from a possible sign flip), a valuable property for historical business-cycle dating. But symmetry uses future as well as past observations, so it cannot be a real-time filter.</p>
+<div id="tbl-filter-taxonomy" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-filter-taxonomy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;3.1: A filter is defined by its frequency response, not by its label.
+</figcaption>
+<div aria-describedby="tbl-filter-taxonomy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Goal</th>
+<th>Frequencies retained</th>
+<th>Typical example</th>
+<th>Main caution</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Low-pass</td>
+<td>slow / long-period</td>
+<td>smooth trend</td>
+<td>trend is a modelling choice</td>
+</tr>
+<tr class="even">
+<td>High-pass</td>
+<td>rapid / short-period</td>
+<td>first difference, HP cycle</td>
+<td>may turn persistent dynamics into apparent cycles</td>
+</tr>
+<tr class="odd">
+<td>Band-pass</td>
+<td>an intermediate range</td>
+<td>BK or CF business-cycle filter</td>
+<td>cut-offs impose a definition of cycle</td>
+</tr>
+<tr class="even">
+<td>Seasonal adjustment</td>
+<td>seasonal harmonics excluded</td>
+<td>X-13-type seasonal filters</td>
+<td>revisions and calendar effects remain</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+<section id="differencing-and-hp-in-the-frequency-domain" class="level3">
+<h3 class="anchored" data-anchor-id="differencing-and-hp-in-the-frequency-domain">Differencing and HP in the frequency domain</h3>
+<p>The first difference is <span class="math inline">\((1-L)X_t\)</span>. Its gain is</p>
+<p><span class="math display">\[
+|1-e^{-i\omega}|^2=4\sin^2(\omega/2).
+\]</span></p>
+<p>It is exactly zero at <span class="math inline">\(\omega=0\)</span> and large near <span class="math inline">\(\pi\)</span>: differencing is a high-pass filter. This is why it removes a stochastic trend, but also why it accentuates high-frequency measurement noise. “Making a series stationary” and “extracting a business cycle” are therefore different goals.</p>
+<p>For the HP criterion introduced in <a href="01-time-series.html#sec-ts-transformations" class="quarto-xref"><span>Section 1.5</span></a>, the trend’s gain and the cycle’s gain are, away from finite-sample endpoints,</p>
+<p><span id="eq-hp-gain"><span class="math display">\[
+G_T(\omega)=\frac{1}{1+16\lambda\sin^4(\omega/2)},\qquad
+G_C(\omega)=\frac{16\lambda\sin^4(\omega/2)}{1+16\lambda\sin^4(\omega/2)}.
+\tag{3.7}\]</span></span></p>
+<p>HP is consequently a smooth high-pass filter, not a literal 6–32-quarter band-pass filter. The conventional quarterly value <span class="math inline">\(\lambda=1600\)</span> encodes a particular cut-off, and changing data frequency requires changing <span class="math inline">\(\lambda\)</span> <span class="citation" data-cites="RavnUhlig2002">(<a href="../references.html#ref-RavnUhlig2002" role="doc-biblioref">Ravn and Uhlig 2002</a>)</span>. The rule is transparent in <a href="#eq-hp-gain" class="quarto-xref">Equation&nbsp;<span>3.7</span></a>; it is not universally economically justified.</p>
+</section>
+<section id="ideal-filters-and-feasible-approximations" class="level3">
+<h3 class="anchored" data-anchor-id="ideal-filters-and-feasible-approximations">Ideal filters and feasible approximations</h3>
+<p>An <strong>ideal</strong> band-pass filter would retain exactly the interval <span class="math inline">\(\omega\in[2\pi/32,2\pi/6]\)</span> and discard everything else. Its impulse-response weights extend infinitely far in both directions: it needs observations from the indefinite future and past. No finite sample can implement it exactly.</p>
+<p>Baxter and King <span class="citation" data-cites="BaxterKing1999">(<a href="../references.html#ref-BaxterKing1999" role="doc-biblioref">Baxter and King 1999</a>)</span> approximate it with a finite, symmetric moving average. This has an appealing nearly zero phase shift but loses <span class="math inline">\(K\)</span> observations at each end for a <span class="math inline">\(2K+1\)</span>-term filter. Christiano and Fitzgerald <span class="citation" data-cites="ChristianoFitzgerald2003">(<a href="../references.html#ref-ChristianoFitzgerald2003" role="doc-biblioref">Christiano and Fitzgerald 2003</a>)</span> construct sample-specific weights that use all observations and are optimal under a random-walk benchmark, but the result is asymmetric near the ends and may be revised as new data arrive. Neither procedure discovers a cycle in the data; each approximates a chosen target response.</p>
+<div class="callout callout-style-default callout-warning callout-titled" title="The endpoint problem is an economic problem">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>The endpoint problem is an economic problem
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The most policy-relevant dates are often the latest ones, exactly where two-sided filters are least reliable. A historical decomposition using the full sample is <strong>ex post</strong>: it can use information that was unavailable at the date in question. A real-time assessment must use one-sided filters, real-time data vintages, or explicitly show revisions. The disagreement in <a href="#fig-endpoint-revisions" class="quarto-xref">Figure&nbsp;<span>3.3</span></a> is not a numerical accident; it follows from the use of future data in the HP trend.</p>
+</div>
+</div>
+<div id="fig-gdp-filter-comparison" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-gdp-filter-comparison-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figures/frequency/us-gdp-filter-comparison.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-gdp-filter-comparison-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.2: The same real-GDP history produces different estimated cyclical components under HP, the Hamilton h-step regression, and a 6–32-quarter band-pass approximation. The comparison is deliberately empirical rather than a contest with a unique winner: each line answers a different filtering question. Data: U.S. real GDP (GDPC1), FRED; code and data download are reproducible in <code>code/python/make_frequency_figures.py</code>.
+</figcaption>
+</figure>
+</div>
+<div id="fig-endpoint-revisions" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-endpoint-revisions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figures/frequency/hp-endpoint-revisions.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-endpoint-revisions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.3: A pseudo-real-time exercise: truncating the sample in 2019Q4 changes the HP estimate of the immediately preceding cycle. Later observations alter the estimate of the earlier state of the economy, demonstrating why endpoint uncertainty should be reported rather than hidden. Data: FRED GDPC1.
+</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="sec-frequency-workflow" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="sec-frequency-workflow"><span class="header-section-number">3.4</span> An empirical workflow</h2>
+<p>For a serious spectral or filtering exercise, the following order avoids the most common mistakes:</p>
+<ol type="1">
+<li><strong>State the economic object first.</strong> Is the question about long-run growth, short-run demand slack, seasonal variation, or a financial cycle? Choose the data frequency accordingly; a 6–32-quarter business-cycle band is not meaningful for annual data.</li>
+<li><strong>Document the transformation.</strong> Plot levels and transformed data; deal with seasonal adjustment, breaks, and stationarity before interpreting low-frequency power.</li>
+<li><strong>Estimate rather than merely plot.</strong> Report the sample period, detrending, taper, and smoothing bandwidth. Check whether apparent peaks survive reasonable choices.</li>
+<li><strong>Translate a filter into its gain and phase.</strong> Report its cut-offs, order, and the observations lost or revised at the endpoints. Compare credible alternatives if the conclusion depends on the extraction rule.</li>
+<li><strong>Separate description from identification.</strong> A cycle extracted mechanically is not potential output, an output gap, or a causal shock without an additional model.</li>
+</ol>
+<p>The code below gives a minimal, reproducible spectrum. The smoothing choice is exposed rather than delegated silently to a default.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> signal</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># y: stationary quarterly series, e.g. log-GDP growth or a justified residual</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>frequencies, raw <span class="op">=</span> signal.periodogram(y <span class="op">-</span> y.mean(), fs<span class="op">=</span><span class="dv">1</span>, scaling<span class="op">=</span><span class="st">"density"</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>frequencies, smooth <span class="op">=</span> signal.welch(</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    y <span class="op">-</span> y.mean(), fs<span class="op">=</span><span class="dv">1</span>, window<span class="op">=</span><span class="st">"hann"</span>, nperseg<span class="op">=</span><span class="bu">min</span>(<span class="dv">64</span>, <span class="bu">len</span>(y)),</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    noverlap<span class="op">=</span><span class="dv">32</span>, detrend<span class="op">=</span><span class="st">"constant"</span>, scaling<span class="op">=</span><span class="st">"density"</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>periods <span class="op">=</span> <span class="dv">1</span> <span class="op">/</span> frequencies[<span class="dv">1</span>:]       <span class="co"># quarters per cycle; omit frequency zero</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Reading the output">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Reading the output
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Plotting against period is often more intuitive for macroeconomics, but reverses the usual frequency axis: long periods lie at low frequency. Do not read a local maximum mechanically. With quarterly samples of a few decades, the number of independent long cycles is small, and its apparent period can be very imprecise. Bootstrap bands or a parametric ARMA/state-space model are often more informative than a highly smoothed periodogram.</p>
+</div>
+</div>
+</section>
+<section id="sec-filtering-conclusion" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="sec-filtering-conclusion"><span class="header-section-number">3.5</span> What filtering can and cannot answer</h2>
+<p>Frequency-domain analysis is powerful because it makes a modelling decision auditable: every linear filter has a gain, a phase, and an endpoint behaviour. It connects ARMA dynamics, detrending, seasonal adjustment, and cycle extraction through one common language.</p>
+<p>Its limit is equally important. Spectral evidence is a description of the covariance structure of a particular transformed series. It neither separates supply from demand nor identifies structural shocks. A filtered GDP “gap” becomes an estimate of economic slack only after adding a model of potential output, capacity, labour-market frictions, and so on. Hamilton’s critique of routine HP use <span class="citation" data-cites="Hamilton2018">(<a href="../references.html#ref-Hamilton2018" role="doc-biblioref">Hamilton 2018</a>)</span> is therefore best read not as a ban on looking at cycles, but as a demand for explicit assumptions and honest uncertainty.</p>
+</section>
+<section id="further-reading" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">3.6</span> Further reading</h2>
+<p>Hamilton <span class="citation" data-cites="Hamilton1994">(<a href="../references.html#ref-Hamilton1994" role="doc-biblioref">Hamilton 1994</a>, ch.&nbsp;6)</span> and Priestley <span class="citation" data-cites="Priestley1981">(<a href="../references.html#ref-Priestley1981" role="doc-biblioref">Priestley 1981</a>)</span> provide the theoretical foundations. For macroeconomic cycle filters, see Baxter and King <span class="citation" data-cites="BaxterKing1999">(<a href="../references.html#ref-BaxterKing1999" role="doc-biblioref">Baxter and King 1999</a>)</span>, Christiano and Fitzgerald <span class="citation" data-cites="ChristianoFitzgerald2003">(<a href="../references.html#ref-ChristianoFitzgerald2003" role="doc-biblioref">Christiano and Fitzgerald 2003</a>)</span>, and the critical discussion in Hamilton <span class="citation" data-cites="Hamilton2018">(<a href="../references.html#ref-Hamilton2018" role="doc-biblioref">Hamilton 2018</a>)</span>. The papers supplied with these notes are especially useful complements for reflecting on how filtering choices shape the object called a business cycle.</p>
+
+
+<!-- -->
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-BaxterKing1999" class="csl-entry" role="listitem">
+Baxter, Marianne, and Robert G. King. 1999. <span>“Measuring Business Cycles: Approximate Band-Pass Filters for Economic Time Series.”</span> <em>Review of Economics and Statistics</em> 81 (4): 575–93.
+</div>
+<div id="ref-ChristianoFitzgerald2003" class="csl-entry" role="listitem">
+Christiano, Lawrence J., and Terry J. Fitzgerald. 2003. <span>“The Band Pass Filter.”</span> <em>International Economic Review</em> 44 (2): 435–65.
+</div>
+<div id="ref-Granger1969" class="csl-entry" role="listitem">
+Granger, Clive W. J. 1969. <span>“Investigating Causal Relations by Econometric Models and Cross-Spectral Methods.”</span> <em>Econometrica</em> 37 (3): 424–38.
+</div>
+<div id="ref-Hamilton1994" class="csl-entry" role="listitem">
+Hamilton, James D. 1994. <em>Time Series Analysis</em>. Princeton University Press.
+</div>
+<div id="ref-Hamilton2018" class="csl-entry" role="listitem">
+Hamilton, James D. 2018. <span>“Why You Should Never Use the Hodrick-Prescott Filter.”</span> <em>Review of Economics and Statistics</em> 100 (5): 831–43.
+</div>
+<div id="ref-Priestley1981" class="csl-entry" role="listitem">
+Priestley, M. B. 1981. <em>Spectral Analysis and Time Series</em>. Academic Press.
+</div>
+<div id="ref-RavnUhlig2002" class="csl-entry" role="listitem">
+Ravn, Morten O., and Harald Uhlig. 2002. <span>“On Adjusting the Hodrick-Prescott Filter for the Frequency of Observations.”</span> <em>Review of Economics and Statistics</em> 84 (2): 371–76.
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const cellDetails = window.document.querySelectorAll(".cell details.code-fold");
+        for (let i=0; i<cellDetails.length; i++) {
+          const details = cellDetails[i];
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell div.sourceCode.cell-code");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+            // default icon
+            link.classList.add("external");
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../chapters/02-arma.html" class="pagination-link" aria-label="AR, MA, and ARMA Processes">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">AR, MA, and ARMA Processes</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../chapters/03-var.html" class="pagination-link" aria-label="Vector Autoregressions">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Vector Autoregressions</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Frequency-Domain Analysis and Filtering {#sec-frequency-filtering}</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>The preceding chapters describe persistence in the **time domain**: an ACF asks how strongly $X_t$ is related to $X_{t-h}$, and an ARMA model describes how a shock propagates through successive dates. The frequency domain asks the same question from another angle: *how is the variance of a stationary series distributed across fast and slow oscillations?* This perspective is indispensable when the empirical question itself is stated in terms of trend, business cycle, seasonal fluctuation, or financial cycle.</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>It also disciplines the language of filtering. A filter is not a black box which discovers “the” cycle. It is a rule that assigns different weights to movements of different periodicities. Once this rule is explicit, its economic content and its limits become visible.</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">## From time to frequency {#sec-frequency-intuition}</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="fu">### Periods, frequencies, and the sampling constraint</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>A sinusoid $x_t = A\cos(\omega t + \varphi)$ has amplitude $A$, angular frequency $\omega$ (radians per observation), and phase $\varphi$. Its period is $P = 2\pi/\omega$: a low $\omega$ means a long, slow movement; a high $\omega$ means a rapid movement. With quarterly observations, $\omega = 2\pi/20$ corresponds to a five-year (20-quarter) cycle.</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>Because discrete-time data are observed only once per period, all distinct frequencies lie in the **Nyquist interval** $[0,\pi]$ (equivalently 0 to 0.5 cycles per quarter). A component whose true period is below two observations cannot be distinguished from a lower-frequency component in the sample: this is **aliasing**. No econometric method can recover variation that the sampling frequency has already discarded. This is why quarterly data cannot reveal a monthly seasonal pattern, and why temporal aggregation changes the object being modelled.</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>::: {.callout-note title="A frequency is not a causal mechanism"}</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>A spectral peak near a period of 24 quarters says that the series contains unusually much variance at a rhythm of roughly six years. It does **not** establish that the economy is driven by a literal six-year clock, nor that one variable causes another. A deterministic sinusoid produces a sharp line in a spectrum; a stochastic, irregular business cycle usually produces a broad hump. Frequency analysis describes a second-order pattern; interpretation still requires economics and identification.</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="fu">### Fourier representation and the spectrum</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>For a covariance-stationary process with autocovariance $\gamma(h)$, the **spectral density** is its Fourier transform,</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>f_X(\omega) = \frac{1}{2\pi}\sum_{h=-\infty}^{\infty}\gamma(h)e^{-i\omega h},</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>\qquad -\pi\leq\omega\leq\pi.</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>$$ {#eq-spectral-density}</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>The inverse transform recovers the autocovariance,</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>\gamma(h) = \int_{-\pi}^{\pi} e^{i\omega h}f_X(\omega)\,d\omega,</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>\qquad</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>\mathrm{Var}(X_t)=\gamma(0)=\int_{-\pi}^{\pi} f_X(\omega)\,d\omega.</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>$$ {#eq-spectral-inversion}</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>Thus the area under $f_X$ is variance, and the area over a frequency band is the part of variance attributable to movements in that band. This is exactly the same information as the full autocovariance function, merely expressed in a different basis. Strong positive autocorrelation at many lags becomes power concentrated near zero frequency; alternating autocorrelation becomes power at higher frequencies.</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>For the stationary AR(1), $X_t=\phi X_{t-1}+\varepsilon_t$, $|\phi|&lt;1$, with innovation variance $\sigma_\varepsilon^2$,</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>f_X(\omega)=\frac{\sigma_\varepsilon^2}{2\pi\left|1-\phi e^{-i\omega}\right|^2}</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>=\frac{\sigma_\varepsilon^2}{2\pi(1-2\phi\cos\omega+\phi^2)}.</span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>$$ {#eq-ar1-spectrum}</span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>If $\phi$ is near $1$, shocks are persistent and the denominator is small near $\omega=0$: low frequencies dominate. If $\phi&lt;0$, the spectrum instead peaks near $\pi$, the signature of rapid alternation. Equation @eq-ar1-spectrum is the frequency-domain counterpart of the slowly decaying ACF $\rho(h)=\phi^h$.</span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a><span class="al">![A periodogram makes the frequency content of a finite realization visible; the right panel gives the squared gain of two familiar filters. The HP cyclical component attenuates low-frequency movements, while differencing is an even more aggressive high-pass operation.](../figures/frequency/spectrum-and-filter-gain.png)</span>{#fig-spectrum-gain}</span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a><span class="fu">## Estimating a spectrum {#sec-spectral-estimation}</span></span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>Given $T$ observations, the Fourier frequencies are $\omega_j=2\pi j/T$, $j=0,\ldots,\lfloor T/2\rfloor$. The **periodogram** is</span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>I(\omega_j)=\frac{1}{2\pi T}\left|\sum_{t=1}^{T}(X_t-\bar X)e^{-i\omega_jt}\right|^2.</span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a>$$ {#eq-periodogram}</span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>It is a natural sample analogue of the spectrum, but a crucial warning is often missed: at an individual frequency, $I(\omega_j)$ is **not consistent** for $f_X(\omega_j)$. Increasing $T$ gives more Fourier ordinates, not a less variable ordinate. A usable non-parametric estimator therefore averages neighbouring ordinates (a **smoothed periodogram**) or smooths the sample autocovariances before transforming them. The smoothing bandwidth is a bias--variance choice: a narrow window preserves narrow features but is noisy; a wide window is stable but can erase them.</span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a>Leakage is the finite-sample companion of this problem. The sample contains a truncated portion of the process; a component that does not fit an integer number of cycles into the sample spills power into nearby frequencies. Tapers (Bartlett, Hanning, etc.) soften the artificial discontinuity at the sample boundaries, reducing leakage at the cost of resolution. A spectral graph without a stated detrending, taper, and smoothing choice is therefore not fully reproducible.</span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a>::: {.callout-important title="Before estimating a spectrum"}</span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a>The standard stationary spectrum is a property of an $I(0)$ process. A level series with a unit root has an enormous and sample-dependent mass near frequency zero; a trend can masquerade as a low-frequency cycle. First decide whether the economic object is a level, a growth rate, a detrended series, or a filtered component. The transformation is part of the estimand, not cosmetic pre-processing.</span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a><span class="fu">### Cross-spectra: co-movement by frequency</span></span>
+<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a>For two stationary series, the cross-spectrum is</span>
+<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a>f_{XY}(\omega)=\frac{1}{2\pi}\sum_h \gamma_{XY}(h)e^{-i\omega h}.</span>
+<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a>Its squared coherence,</span>
+<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a>\mathcal C_{XY}(\omega)=\frac{|f_{XY}(\omega)|^2}{f_X(\omega)f_Y(\omega)}\in<span class="co">[</span><span class="ot">0,1</span><span class="co">]</span>,</span>
+<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a>is the frequency-specific analogue of $R^2$: it measures linear co-movement at a given frequency, not overall correlation. The argument (phase) of $f_{XY}$ measures lead--lag at that frequency. This is useful, for example, when output and credit move together at medium frequencies but not at business-cycle frequencies. It is not a substitute for a structural restriction; indeed, Granger’s original paper links cross-spectra to predictability, not to structural causality <span class="co">[</span><span class="ot">@Granger1969</span><span class="co">]</span>.</span>
+<span id="cb2-80"><a href="#cb2-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-81"><a href="#cb2-81" aria-hidden="true" tabindex="-1"></a><span class="fu">## Linear filters as frequency-dependent weights {#sec-linear-filters}</span></span>
+<span id="cb2-82"><a href="#cb2-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-83"><a href="#cb2-83" aria-hidden="true" tabindex="-1"></a><span class="fu">### The transfer function</span></span>
+<span id="cb2-84"><a href="#cb2-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-85"><a href="#cb2-85" aria-hidden="true" tabindex="-1"></a>A two-sided linear time-invariant filter is</span>
+<span id="cb2-86"><a href="#cb2-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-87"><a href="#cb2-87" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-88"><a href="#cb2-88" aria-hidden="true" tabindex="-1"></a>Y_t=B(L)X_t=\sum_{j=-\infty}^{\infty}b_jX_{t-j}.</span>
+<span id="cb2-89"><a href="#cb2-89" aria-hidden="true" tabindex="-1"></a>$$ {#eq-linear-filter}</span>
+<span id="cb2-90"><a href="#cb2-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-91"><a href="#cb2-91" aria-hidden="true" tabindex="-1"></a>Its transfer function is $B(e^{-i\omega})=\sum_jb_je^{-i\omega j}$. Provided the coefficients are square-summable,</span>
+<span id="cb2-92"><a href="#cb2-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-93"><a href="#cb2-93" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-94"><a href="#cb2-94" aria-hidden="true" tabindex="-1"></a>f_Y(\omega)=\left|B(e^{-i\omega})\right|^2f_X(\omega).</span>
+<span id="cb2-95"><a href="#cb2-95" aria-hidden="true" tabindex="-1"></a>$$ {#eq-filtered-spectrum}</span>
+<span id="cb2-96"><a href="#cb2-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-97"><a href="#cb2-97" aria-hidden="true" tabindex="-1"></a>The **squared gain** $|B(e^{-i\omega})|^2$ tells us how much variance at $\omega$ is retained or amplified. The argument of $B(e^{-i\omega})$ is the **phase shift**: it tells us whether the filtered movement is displaced in time. A symmetric filter has zero phase (apart from a possible sign flip), a valuable property for historical business-cycle dating. But symmetry uses future as well as past observations, so it cannot be a real-time filter.</span>
+<span id="cb2-98"><a href="#cb2-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-99"><a href="#cb2-99" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Goal <span class="pp">|</span> Frequencies retained <span class="pp">|</span> Typical example <span class="pp">|</span> Main caution <span class="pp">|</span></span>
+<span id="cb2-100"><a href="#cb2-100" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>-<span class="pp">|</span>-<span class="pp">|</span>-<span class="pp">|</span>-<span class="pp">|</span></span>
+<span id="cb2-101"><a href="#cb2-101" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Low-pass <span class="pp">|</span> slow / long-period <span class="pp">|</span> smooth trend <span class="pp">|</span> trend is a modelling choice <span class="pp">|</span></span>
+<span id="cb2-102"><a href="#cb2-102" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> High-pass <span class="pp">|</span> rapid / short-period <span class="pp">|</span> first difference, HP cycle <span class="pp">|</span> may turn persistent dynamics into apparent cycles <span class="pp">|</span></span>
+<span id="cb2-103"><a href="#cb2-103" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Band-pass <span class="pp">|</span> an intermediate range <span class="pp">|</span> BK or CF business-cycle filter <span class="pp">|</span> cut-offs impose a definition of cycle <span class="pp">|</span></span>
+<span id="cb2-104"><a href="#cb2-104" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Seasonal adjustment <span class="pp">|</span> seasonal harmonics excluded <span class="pp">|</span> X-13-type seasonal filters <span class="pp">|</span> revisions and calendar effects remain <span class="pp">|</span></span>
+<span id="cb2-105"><a href="#cb2-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-106"><a href="#cb2-106" aria-hidden="true" tabindex="-1"></a>: A filter is defined by its frequency response, not by its label. {#tbl-filter-taxonomy}</span>
+<span id="cb2-107"><a href="#cb2-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-108"><a href="#cb2-108" aria-hidden="true" tabindex="-1"></a><span class="fu">### Differencing and HP in the frequency domain</span></span>
+<span id="cb2-109"><a href="#cb2-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-110"><a href="#cb2-110" aria-hidden="true" tabindex="-1"></a>The first difference is $(1-L)X_t$. Its gain is</span>
+<span id="cb2-111"><a href="#cb2-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-112"><a href="#cb2-112" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-113"><a href="#cb2-113" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>1-e^{-i\omega}<span class="pp">|</span>^2=4\sin^2(\omega/2).</span>
+<span id="cb2-114"><a href="#cb2-114" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-115"><a href="#cb2-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-116"><a href="#cb2-116" aria-hidden="true" tabindex="-1"></a>It is exactly zero at $\omega=0$ and large near $\pi$: differencing is a high-pass filter. This is why it removes a stochastic trend, but also why it accentuates high-frequency measurement noise. “Making a series stationary” and “extracting a business cycle” are therefore different goals.</span>
+<span id="cb2-117"><a href="#cb2-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-118"><a href="#cb2-118" aria-hidden="true" tabindex="-1"></a>For the HP criterion introduced in @sec-ts-transformations, the trend’s gain and the cycle’s gain are, away from finite-sample endpoints,</span>
+<span id="cb2-119"><a href="#cb2-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-120"><a href="#cb2-120" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-121"><a href="#cb2-121" aria-hidden="true" tabindex="-1"></a>G_T(\omega)=\frac{1}{1+16\lambda\sin^4(\omega/2)},\qquad</span>
+<span id="cb2-122"><a href="#cb2-122" aria-hidden="true" tabindex="-1"></a>G_C(\omega)=\frac{16\lambda\sin^4(\omega/2)}{1+16\lambda\sin^4(\omega/2)}.</span>
+<span id="cb2-123"><a href="#cb2-123" aria-hidden="true" tabindex="-1"></a>$$ {#eq-hp-gain}</span>
+<span id="cb2-124"><a href="#cb2-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-125"><a href="#cb2-125" aria-hidden="true" tabindex="-1"></a>HP is consequently a smooth high-pass filter, not a literal 6--32-quarter band-pass filter. The conventional quarterly value $\lambda=1600$ encodes a particular cut-off, and changing data frequency requires changing $\lambda$ <span class="co">[</span><span class="ot">@RavnUhlig2002</span><span class="co">]</span>. The rule is transparent in @eq-hp-gain; it is not universally economically justified.</span>
+<span id="cb2-126"><a href="#cb2-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-127"><a href="#cb2-127" aria-hidden="true" tabindex="-1"></a><span class="fu">### Ideal filters and feasible approximations</span></span>
+<span id="cb2-128"><a href="#cb2-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-129"><a href="#cb2-129" aria-hidden="true" tabindex="-1"></a>An **ideal** band-pass filter would retain exactly the interval $\omega\in<span class="co">[</span><span class="ot">2\pi/32,2\pi/6</span><span class="co">]</span>$ and discard everything else. Its impulse-response weights extend infinitely far in both directions: it needs observations from the indefinite future and past. No finite sample can implement it exactly.</span>
+<span id="cb2-130"><a href="#cb2-130" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-131"><a href="#cb2-131" aria-hidden="true" tabindex="-1"></a>Baxter and King <span class="co">[</span><span class="ot">@BaxterKing1999</span><span class="co">]</span> approximate it with a finite, symmetric moving average. This has an appealing nearly zero phase shift but loses $K$ observations at each end for a $2K+1$-term filter. Christiano and Fitzgerald <span class="co">[</span><span class="ot">@ChristianoFitzgerald2003</span><span class="co">]</span> construct sample-specific weights that use all observations and are optimal under a random-walk benchmark, but the result is asymmetric near the ends and may be revised as new data arrive. Neither procedure discovers a cycle in the data; each approximates a chosen target response.</span>
+<span id="cb2-132"><a href="#cb2-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-133"><a href="#cb2-133" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning title="The endpoint problem is an economic problem"}</span>
+<span id="cb2-134"><a href="#cb2-134" aria-hidden="true" tabindex="-1"></a>The most policy-relevant dates are often the latest ones, exactly where two-sided filters are least reliable. A historical decomposition using the full sample is **ex post**: it can use information that was unavailable at the date in question. A real-time assessment must use one-sided filters, real-time data vintages, or explicitly show revisions. The disagreement in @fig-endpoint-revisions is not a numerical accident; it follows from the use of future data in the HP trend.</span>
+<span id="cb2-135"><a href="#cb2-135" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb2-136"><a href="#cb2-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-137"><a href="#cb2-137" aria-hidden="true" tabindex="-1"></a><span class="al">![The same real-GDP history produces different estimated cyclical components under HP, the Hamilton h-step regression, and a 6--32-quarter band-pass approximation. The comparison is deliberately empirical rather than a contest with a unique winner: each line answers a different filtering question. Data: U.S. real GDP (GDPC1), FRED; code and data download are reproducible in `code/python/make_frequency_figures.py`.](../figures/frequency/us-gdp-filter-comparison.png)</span>{#fig-gdp-filter-comparison}</span>
+<span id="cb2-138"><a href="#cb2-138" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-139"><a href="#cb2-139" aria-hidden="true" tabindex="-1"></a><span class="al">![A pseudo-real-time exercise: truncating the sample in 2019Q4 changes the HP estimate of the immediately preceding cycle. Later observations alter the estimate of the earlier state of the economy, demonstrating why endpoint uncertainty should be reported rather than hidden. Data: FRED GDPC1.](../figures/frequency/hp-endpoint-revisions.png)</span>{#fig-endpoint-revisions}</span>
+<span id="cb2-140"><a href="#cb2-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-141"><a href="#cb2-141" aria-hidden="true" tabindex="-1"></a><span class="fu">## An empirical workflow {#sec-frequency-workflow}</span></span>
+<span id="cb2-142"><a href="#cb2-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-143"><a href="#cb2-143" aria-hidden="true" tabindex="-1"></a>For a serious spectral or filtering exercise, the following order avoids the most common mistakes:</span>
+<span id="cb2-144"><a href="#cb2-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-145"><a href="#cb2-145" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**State the economic object first.** Is the question about long-run growth, short-run demand slack, seasonal variation, or a financial cycle? Choose the data frequency accordingly; a 6--32-quarter business-cycle band is not meaningful for annual data.</span>
+<span id="cb2-146"><a href="#cb2-146" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Document the transformation.** Plot levels and transformed data; deal with seasonal adjustment, breaks, and stationarity before interpreting low-frequency power.</span>
+<span id="cb2-147"><a href="#cb2-147" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Estimate rather than merely plot.** Report the sample period, detrending, taper, and smoothing bandwidth. Check whether apparent peaks survive reasonable choices.</span>
+<span id="cb2-148"><a href="#cb2-148" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Translate a filter into its gain and phase.** Report its cut-offs, order, and the observations lost or revised at the endpoints. Compare credible alternatives if the conclusion depends on the extraction rule.</span>
+<span id="cb2-149"><a href="#cb2-149" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**Separate description from identification.** A cycle extracted mechanically is not potential output, an output gap, or a causal shock without an additional model.</span>
+<span id="cb2-150"><a href="#cb2-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-151"><a href="#cb2-151" aria-hidden="true" tabindex="-1"></a>The code below gives a minimal, reproducible spectrum. The smoothing choice is exposed rather than delegated silently to a default.</span>
+<span id="cb2-152"><a href="#cb2-152" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-153"><a href="#cb2-153" aria-hidden="true" tabindex="-1"></a><span class="in">```{.python}</span></span>
+<span id="cb2-154"><a href="#cb2-154" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-155"><a href="#cb2-155" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> signal</span>
+<span id="cb2-156"><a href="#cb2-156" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-157"><a href="#cb2-157" aria-hidden="true" tabindex="-1"></a><span class="co"># y: stationary quarterly series, e.g. log-GDP growth or a justified residual</span></span>
+<span id="cb2-158"><a href="#cb2-158" aria-hidden="true" tabindex="-1"></a>frequencies, raw <span class="op">=</span> signal.periodogram(y <span class="op">-</span> y.mean(), fs<span class="op">=</span><span class="dv">1</span>, scaling<span class="op">=</span><span class="st">"density"</span>)</span>
+<span id="cb2-159"><a href="#cb2-159" aria-hidden="true" tabindex="-1"></a>frequencies, smooth <span class="op">=</span> signal.welch(</span>
+<span id="cb2-160"><a href="#cb2-160" aria-hidden="true" tabindex="-1"></a>    y <span class="op">-</span> y.mean(), fs<span class="op">=</span><span class="dv">1</span>, window<span class="op">=</span><span class="st">"hann"</span>, nperseg<span class="op">=</span><span class="bu">min</span>(<span class="dv">64</span>, <span class="bu">len</span>(y)),</span>
+<span id="cb2-161"><a href="#cb2-161" aria-hidden="true" tabindex="-1"></a>    noverlap<span class="op">=</span><span class="dv">32</span>, detrend<span class="op">=</span><span class="st">"constant"</span>, scaling<span class="op">=</span><span class="st">"density"</span></span>
+<span id="cb2-162"><a href="#cb2-162" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-163"><a href="#cb2-163" aria-hidden="true" tabindex="-1"></a>periods <span class="op">=</span> <span class="dv">1</span> <span class="op">/</span> frequencies[<span class="dv">1</span>:]       <span class="co"># quarters per cycle; omit frequency zero</span></span>
+<span id="cb2-164"><a href="#cb2-164" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb2-165"><a href="#cb2-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-166"><a href="#cb2-166" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip title="Reading the output"}</span>
+<span id="cb2-167"><a href="#cb2-167" aria-hidden="true" tabindex="-1"></a>Plotting against period is often more intuitive for macroeconomics, but reverses the usual frequency axis: long periods lie at low frequency. Do not read a local maximum mechanically. With quarterly samples of a few decades, the number of independent long cycles is small, and its apparent period can be very imprecise. Bootstrap bands or a parametric ARMA/state-space model are often more informative than a highly smoothed periodogram.</span>
+<span id="cb2-168"><a href="#cb2-168" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb2-169"><a href="#cb2-169" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-170"><a href="#cb2-170" aria-hidden="true" tabindex="-1"></a><span class="fu">## What filtering can and cannot answer {#sec-filtering-conclusion}</span></span>
+<span id="cb2-171"><a href="#cb2-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-172"><a href="#cb2-172" aria-hidden="true" tabindex="-1"></a>Frequency-domain analysis is powerful because it makes a modelling decision auditable: every linear filter has a gain, a phase, and an endpoint behaviour. It connects ARMA dynamics, detrending, seasonal adjustment, and cycle extraction through one common language.</span>
+<span id="cb2-173"><a href="#cb2-173" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-174"><a href="#cb2-174" aria-hidden="true" tabindex="-1"></a>Its limit is equally important. Spectral evidence is a description of the covariance structure of a particular transformed series. It neither separates supply from demand nor identifies structural shocks. A filtered GDP “gap” becomes an estimate of economic slack only after adding a model of potential output, capacity, labour-market frictions, and so on. Hamilton’s critique of routine HP use <span class="co">[</span><span class="ot">@Hamilton2018</span><span class="co">]</span> is therefore best read not as a ban on looking at cycles, but as a demand for explicit assumptions and honest uncertainty.</span>
+<span id="cb2-175"><a href="#cb2-175" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-176"><a href="#cb2-176" aria-hidden="true" tabindex="-1"></a><span class="fu">## Further reading</span></span>
+<span id="cb2-177"><a href="#cb2-177" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-178"><a href="#cb2-178" aria-hidden="true" tabindex="-1"></a>Hamilton <span class="co">[</span><span class="ot">@Hamilton1994, ch. 6</span><span class="co">]</span> and Priestley <span class="co">[</span><span class="ot">@Priestley1981</span><span class="co">]</span> provide the theoretical foundations. For macroeconomic cycle filters, see Baxter and King <span class="co">[</span><span class="ot">@BaxterKing1999</span><span class="co">]</span>, Christiano and Fitzgerald <span class="co">[</span><span class="ot">@ChristianoFitzgerald2003</span><span class="co">]</span>, and the critical discussion in Hamilton <span class="co">[</span><span class="ot">@Hamilton2018</span><span class="co">]</span>. The papers supplied with these notes are especially useful complements for reflecting on how filtering choices shape the object called a business cycle.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Camille Souffron, Ecole Normale Supérieure &amp; Paris School of Economics</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/Camille-Souffron/macroeconometrics-course/edit/main/chapters/08-frequency-filtering.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/Camille-Souffron/macroeconometrics-course/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+<p>Built with Quarto</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
