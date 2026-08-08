@@ -347,7 +347,7 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false">
- <span class="menu-text">Bayesian Methods</span></a>
+ <span class="menu-text">Machine Learning and Forecasting</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -355,8 +355,25 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../chapters/10-machine-learning-time-series.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Machine Learning Tools for Time Series</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false">
+ <span class="menu-text">Bayesian Methods</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../chapters/07-bvar.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Bayesian Estimation: Foundations and Applications to VARs</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Bayesian Estimation: Foundations and Applications to VARs</span></span></a>
   </div>
 </li>
       </ul>
@@ -1334,7 +1351,7 @@ Figure&nbsp;22: A prior density and a likelihood combine into a posterior. The p
 </figcaption>
 </figure>
 </div>
-<p>Bayesian credible intervals have a direct conditional interpretation: given the model, prior, and data, the posterior assigns a stated probability to the interval. This differs from a frequentist confidence interval, whose coverage is evaluated across repeated samples. Neither interpretation is unconditional truth. The former depends on the model and prior; the latter depends on the sampling model and calibration of the procedure. The later Bayesian VAR chapter develops computation and prior choice in the setting where this distinction is most useful (<a href="07-bvar.html" class="quarto-xref"><span>9&nbsp; Bayesian Estimation: Foundations and Applications to VARs</span></a>).</p>
+<p>Bayesian credible intervals have a direct conditional interpretation: given the model, prior, and data, the posterior assigns a stated probability to the interval. This differs from a frequentist confidence interval, whose coverage is evaluated across repeated samples. Neither interpretation is unconditional truth. The former depends on the model and prior; the latter depends on the sampling model and calibration of the procedure. The later Bayesian VAR chapter develops computation and prior choice in the setting where this distinction is most useful (<a href="07-bvar.html" class="quarto-xref"><span>10&nbsp; Bayesian Estimation: Foundations and Applications to VARs</span></a>).</p>
 <p>When the posterior cannot be integrated analytically, <strong>Monte Carlo</strong> methods approximate posterior expectations with simulated draws. Markov Chain Monte Carlo constructs an artificial Markov chain whose stationary distribution is the posterior. After the chain has reached that distribution, averages of <span class="math inline">\(g(\theta^{(s)})\)</span> approximate <span class="math inline">\(E[g(\theta)\mid y]\)</span>. Consecutive draws are generally dependent, so a long chain is not automatically a large amount of information: mixing, convergence across starting points, and effective sample size matter. The simulation index is not calendar time; it is a computational device for exploring an otherwise intractable probability distribution.</p>
 </section>
 <section id="sec-signal-fourier-foundations" class="level2">

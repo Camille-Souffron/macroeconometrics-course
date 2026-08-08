@@ -347,7 +347,7 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false">
- <span class="menu-text">Bayesian Methods</span></a>
+ <span class="menu-text">Machine Learning and Forecasting</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -355,8 +355,25 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../chapters/10-machine-learning-time-series.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Machine Learning Tools for Time Series</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false">
+ <span class="menu-text">Bayesian Methods</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../chapters/07-bvar.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Bayesian Estimation: Foundations and Applications to VARs</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Bayesian Estimation: Foundations and Applications to VARs</span></span></a>
   </div>
 </li>
       </ul>
@@ -643,7 +660,7 @@ y_{1t} = x_{1t}'\beta_1 + u_{1t}, \qquad y_{2t} = x_{2t}'\beta_2 + u_{2t}, \qqua
 <p>Zellner’s <span class="citation" data-cites="Zellner1962">(<a href="../references.html#ref-Zellner1962" role="doc-biblioref">1962</a>)</span> theorem answers this: if the regressors are <em>identical</em> across equations, <span class="math inline">\(x_{1t} = x_{2t} = x_t\)</span> (i.e.&nbsp;<span class="math inline">\(X_1 = X_2 = X\)</span>), the cross-equation covariance structure adds no additional information, and <span class="math inline">\(\hat B_{GLS} = (X'X)^{-1}X'Y = \hat B_{OLS}\)</span>. A VAR has, by construction, identical regressors across equations - so GLS collapses exactly to OLS, and <strong>OLS is already system-efficient</strong>.</p>
 </div>
 </div>
-<p>Three estimation approaches are used in practice for VARs: <strong>least squares</strong>, justified by Zellner’s result; <strong>maximum likelihood</strong>, which, under multivariate Gaussian errors, is asymptotically equivalent to least squares (exactly as for AR models, <a href="02-arma.html#sec-arma-estimation" class="quarto-xref"><span>Section 2.7</span></a>); and <strong>Bayesian methods</strong> (not covered in this chapter, but developed in <a href="07-bvar.html" class="quarto-xref"><span>Chapter 9</span></a>), which combine prior information with the likelihood to obtain a posterior distribution over the VAR parameters - particularly useful for high-dimensional systems requiring shrinkage, or when the sample size is limited.</p>
+<p>Three estimation approaches are used in practice for VARs: <strong>least squares</strong>, justified by Zellner’s result; <strong>maximum likelihood</strong>, which, under multivariate Gaussian errors, is asymptotically equivalent to least squares (exactly as for AR models, <a href="02-arma.html#sec-arma-estimation" class="quarto-xref"><span>Section 2.7</span></a>); and <strong>Bayesian methods</strong> (not covered in this chapter, but developed in <a href="07-bvar.html" class="quarto-xref"><span>Chapter 10</span></a>), which combine prior information with the likelihood to obtain a posterior distribution over the VAR parameters - particularly useful for high-dimensional systems requiring shrinkage, or when the sample size is limited.</p>
 </section>
 <section id="identification-and-validation-diagnostics" class="level3">
 <h3 class="anchored" data-anchor-id="identification-and-validation-diagnostics">Identification and validation: diagnostics</h3>

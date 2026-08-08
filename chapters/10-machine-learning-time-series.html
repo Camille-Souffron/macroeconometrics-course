@@ -1,0 +1,1549 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>9&nbsp; Machine Learning Tools for Time Series – Macroeconometrics</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../chapters/07-bvar.html" rel="next">
+<link href="../chapters/09-growth-at-risk.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-0a2ba924a51c51b1951dc2bd466f6823.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Macroeconometrics</span>
+    </a>
+  </div>
+        <div class="quarto-navbar-tools tools-end">
+    <a href="https://github.com/Camille-Souffron/macroeconometrics-course" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+</div>
+          <div id="quarto-search" class="" title="Search"></div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/10-machine-learning-time-series.html">Machine Learning and Forecasting</a></li><li class="breadcrumb-item"><a href="../chapters/10-machine-learning-time-series.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Machine Learning Tools for Time Series</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
+ <span class="menu-text">Mathematical Preliminaries</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/00-mathematical-foundations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter 0: Mathematical Foundations</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text">Foundations</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/01-time-series.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction to Time Series</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text">Univariate Linear Models</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/02-arma.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">AR, MA, and ARMA Processes</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text">Frequency-Domain Methods</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/08-frequency-filtering.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Frequency-Domain Analysis and Filtering</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
+ <span class="menu-text">Vector Autoregressions</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/03-var.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Vector Autoregressions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/04-svar-identification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Structural VARs, Identification, and Policy Shock Assessment</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false">
+ <span class="menu-text">Cointegration and Multivariate Extensions</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/05-cointegration-dfm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Panel VAR, Cointegration, and Dynamic Factor Models</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false">
+ <span class="menu-text">Nonlinear and Time-Varying Models</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/06-nonlinear.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Beyond Linearity: Thresholds, Regime Changes, and Local Projections</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false">
+ <span class="menu-text">Distributional Forecasting and Tail Risk</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/09-growth-at-risk.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Quantile Regressions and Growth-at-Risk</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
+ <span class="menu-text">Machine Learning and Forecasting</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/10-machine-learning-time-series.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Machine Learning Tools for Time Series</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false">
+ <span class="menu-text">Bayesian Methods</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/07-bvar.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Bayesian Estimation: Foundations and Applications to VARs</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sec-ml-forecast-origin" id="toc-sec-ml-forecast-origin" class="nav-link active" data-scroll-target="#sec-ml-forecast-origin"><span class="header-section-number">9.1</span> The date of the forecast is part of the model</a>
+  <ul class="collapse">
+  <li><a href="#a-loss-function-says-what-a-good-forecast-is" id="toc-a-loss-function-says-what-a-good-forecast-is" class="nav-link" data-scroll-target="#a-loss-function-says-what-a-good-forecast-is">A loss function says what a good forecast is</a></li>
+  </ul></li>
+  <li><a href="#sec-ml-regularisation" id="toc-sec-ml-regularisation" class="nav-link" data-scroll-target="#sec-ml-regularisation"><span class="header-section-number">9.2</span> Why flexibility needs restraint</a>
+  <ul class="collapse">
+  <li><a href="#ridge-the-first-useful-machine-learning-tool" id="toc-ridge-the-first-useful-machine-learning-tool" class="nav-link" data-scroll-target="#ridge-the-first-useful-machine-learning-tool">Ridge: the first useful machine-learning tool</a></li>
+  <li><a href="#features-are-hypotheses-about-the-past" id="toc-features-are-hypotheses-about-the-past" class="nav-link" data-scroll-target="#features-are-hypotheses-about-the-past">Features are hypotheses about the past</a></li>
+  </ul></li>
+  <li><a href="#sec-ml-nonlinear-predictors" id="toc-sec-ml-nonlinear-predictors" class="nav-link" data-scroll-target="#sec-ml-nonlinear-predictors"><span class="header-section-number">9.3</span> Nonlinearity from partitions and from networks</a>
+  <ul class="collapse">
+  <li><a href="#from-a-lag-window-to-a-hidden-representation" id="toc-from-a-lag-window-to-a-hidden-representation" class="nav-link" data-scroll-target="#from-a-lag-window-to-a-hidden-representation">From a lag window to a hidden representation</a></li>
+  </ul></li>
+  <li><a href="#sec-ml-sequence-architectures" id="toc-sec-ml-sequence-architectures" class="nav-link" data-scroll-target="#sec-ml-sequence-architectures"><span class="header-section-number">9.4</span> Architectures that preserve temporal order</a>
+  <ul class="collapse">
+  <li><a href="#recurrent-networks-and-lstms" id="toc-recurrent-networks-and-lstms" class="nav-link" data-scroll-target="#recurrent-networks-and-lstms">Recurrent networks and LSTMs</a></li>
+  <li><a href="#causal-convolutions-and-tcns" id="toc-causal-convolutions-and-tcns" class="nav-link" data-scroll-target="#causal-convolutions-and-tcns">Causal convolutions and TCNs</a></li>
+  <li><a href="#attention-and-transformers" id="toc-attention-and-transformers" class="nav-link" data-scroll-target="#attention-and-transformers">Attention and Transformers</a></li>
+  <li><a href="#one-horizon-or-many" id="toc-one-horizon-or-many" class="nav-link" data-scroll-target="#one-horizon-or-many">One horizon or many?</a></li>
+  </ul></li>
+  <li><a href="#sec-ml-probabilistic" id="toc-sec-ml-probabilistic" class="nav-link" data-scroll-target="#sec-ml-probabilistic"><span class="header-section-number">9.5</span> Forecasting a distribution, not only its centre</a></li>
+  <li><a href="#sec-ml-foundation-models" id="toc-sec-ml-foundation-models" class="nav-link" data-scroll-target="#sec-ml-foundation-models"><span class="header-section-number">9.6</span> Foundation models, transfer, and the limits of analogy</a></li>
+  <li><a href="#sec-ml-empirical" id="toc-sec-ml-empirical" class="nav-link" data-scroll-target="#sec-ml-empirical"><span class="header-section-number">9.7</span> A small U.S. forecasting exercise</a>
+  <ul class="collapse">
+  <li><a href="#what-to-report-with-a-machine-learning-forecast" id="toc-what-to-report-with-a-machine-learning-forecast" class="nav-link" data-scroll-target="#what-to-report-with-a-machine-learning-forecast">What to report with a machine-learning forecast</a></li>
+  </ul></li>
+  <li><a href="#sec-ml-prediction-causality" id="toc-sec-ml-prediction-causality" class="nav-link" data-scroll-target="#sec-ml-prediction-causality"><span class="header-section-number">9.8</span> Forecasting is not structural analysis</a></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading"><span class="header-section-number">9.9</span> Further reading</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/Camille-Souffron/macroeconometrics-course/edit/main/chapters/10-machine-learning-time-series.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/Camille-Souffron/macroeconometrics-course/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/10-machine-learning-time-series.html">Machine Learning and Forecasting</a></li><li class="breadcrumb-item"><a href="../chapters/10-machine-learning-time-series.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Machine Learning Tools for Time Series</span></a></li></ol></nav>
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title"><span id="sec-machine-learning-time-series" class="quarto-section-identifier"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Machine Learning Tools for Time Series</span></span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>At the beginning of a quarter, suppose that one wants to forecast next quarter’s real GDP growth. The data set contains the past of output, prices, interest rates, credit spreads, employment, surveys, commodity prices, and perhaps thousands of disaggregated series. There are two reasons not to begin by fitting the largest available neural network. First, every observation after the forecast date is forbidden information. Second, U.S. quarterly data offer only a few hundred dates, while a rich dynamic model can easily contain thousands of adjustable quantities.</p>
+<p>Machine learning enters this problem as a family of ways of estimating a forecasting rule. It is not a different object from the conditional expectation studied in the earlier chapters. If <span class="math inline">\(y_{t+h}\)</span> is the future variable of interest and <span class="math inline">\(\mathcal I_t\)</span> is the information genuinely available at date <span class="math inline">\(t\)</span>, the squared-error target remains</p>
+<p><span class="math display">\[
+m_h(\mathcal I_t)=E(y_{t+h}\mid \mathcal I_t).
+\]</span></p>
+<p>The difference is that a machine-learning method allows the function <span class="math inline">\(m_h(\cdot)\)</span> to be flexible, high-dimensional, or both. That freedom can uncover nonlinearities and interactions that a small VAR leaves out. It can also fit historical accidents, absorb leaked future information, and obscure the economic source of an apparent gain. The discipline of time-series econometrics therefore comes first: define the forecast origin, transform the data, respect dependence, compare with serious benchmarks, and distinguish prediction from a structural effect.</p>
+<p>This chapter starts from that forecasting problem and builds the main tools in turn: regularisation, trees, recurrent and convolutional networks, attention and Transformers, distributional prediction, and foundation models. The review by Chen and Wang <span class="citation" data-cites="ChenWang2026">(<a href="../references.html#ref-ChenWang2026" role="doc-biblioref">Chen and Wang 2026</a>)</span> is especially useful for seeing these methods as extensions of familiar dynamic models rather than as a replacement vocabulary. The final exercise uses public U.S. data and an expanding forecast experiment. It is a reproducible illustration, not a leaderboard.</p>
+<section id="sec-ml-forecast-origin" class="level2" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="sec-ml-forecast-origin"><span class="header-section-number">9.1</span> The date of the forecast is part of the model</h2>
+<p>An observation in a cross-sectional data set is often treated as exchangeable with the next one: an algorithm may randomly divide rows into a training and a test sample. A date is different. The value of GDP growth in 2023Q4 can be useful for explaining 2023Q3 after the fact, but it could not have helped a forecaster in 2023Q3. Random splitting lets the future enter the training sample and evaluates a forecaster who never existed.</p>
+<p>For a horizon <span class="math inline">\(h\)</span>, construct one row at each forecast origin <span class="math inline">\(t\)</span>:</p>
+<p><span class="math display">\[
+\big(x_t,y_{t+h}\big),\qquad x_t\in\mathcal I_t.
+\]</span></p>
+<p>The vector <span class="math inline">\(x_t\)</span> can contain lags, contemporaneous releases already published at <span class="math inline">\(t\)</span>, calendar variables, and transformations such as growth rates. Its entries must be dated as carefully as the target. If unemployment for month <span class="math inline">\(t\)</span> is released in month <span class="math inline">\(t+1\)</span>, it is not a time-<span class="math inline">\(t\)</span> predictor in a real-time nowcast without a vintage-data argument. Revisions create a second problem: today’s revised history is valuable for exposition, but it is not necessarily the data set that was visible in the past.</p>
+<div id="fig-ml-rolling-origin" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ml-rolling-origin-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figures/machine-learning/rolling-origin-validation.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ml-rolling-origin-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9.1: Each reported forecast error must come from a model fitted before the target was observed. Tuning choices belong inside that chronological boundary.
+</figcaption>
+</figure>
+</div>
+<p>The simplest honest experiment is an <strong>expanding-window forecast</strong>. At origin <span class="math inline">\(t_0\)</span>, estimate on observations up to <span class="math inline">\(t_0\)</span>, forecast <span class="math inline">\(y_{t_0+h}\)</span>, move to <span class="math inline">\(t_0+1\)</span>, re-estimate using the enlarged history, and continue. A rolling window instead discards distant observations and may be preferable when an old regime is judged irrelevant. Neither choice is mechanically correct: the expanding window reduces estimation noise, whereas the rolling window can adapt more quickly after a break. The choice itself should be part of the empirical design.</p>
+<p>The last stretch of data is often held back for the final evaluation. Within the preceding history, hyperparameters such as a ridge penalty, the number of trees, a network width, a look-back window, or the stopping epoch must be chosen using earlier forecast origins. This is <strong>nested time-series validation</strong>. Choosing an architecture after inspecting its performance on the final test period is a form of overfitting, even if the test observations were never used to estimate weights.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="The information set is more than a column list">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>The information set is more than a column list
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The relevant question is not merely whether a variable has a date stamp no later than <span class="math inline">\(t\)</span>. It is whether the value used was released, known, and defined at that date. A macroeconomic backtest based on the latest data vintage can be useful, but it measures performance with revised information. A real-time claim calls for real-time vintages and release calendars.</p>
+</div>
+</div>
+<section id="a-loss-function-says-what-a-good-forecast-is" class="level3">
+<h3 class="anchored" data-anchor-id="a-loss-function-says-what-a-good-forecast-is">A loss function says what a good forecast is</h3>
+<p>Given forecasts <span class="math inline">\(\hat y_{t+h\mid t}\)</span>, the common score is the mean squared forecast error,</p>
+<p><span class="math display">\[
+\operatorname{MSFE}_h=\frac{1}{N}\sum_{t\in\mathcal T}
+\left(y_{t+h}-\hat y_{t+h\mid t}\right)^2,
+\qquad
+\operatorname{RMSE}_h=\sqrt{\operatorname{MSFE}_h}.
+\]</span></p>
+<p>Squaring makes a rare large miss costly. That is reasonable when large forecast mistakes are especially damaging, but it is not a law of nature. The mean absolute error gives all misses proportional weight. A central bank interested in recessions may care about a lower quantile or a recession probability rather than the conditional mean; Chapter <a href="09-growth-at-risk.html" class="quarto-xref"><span>Chapter 8</span></a> develops the corresponding check loss. A forecast method cannot be assessed independently of this decision problem.</p>
+<p>Forecast errors are serially dependent when <span class="math inline">\(h&gt;1\)</span> because the targets overlap. Their relative performance may also change across recessions, tranquil periods, and revisions of the monetary-policy regime. Reporting a single RMSE is useful, but a graph of forecast errors through time, performance by subperiod, and the benchmark being beaten usually says more.</p>
+<p>If two forecasts are evaluated on the same origins, let <span class="math inline">\(d_t=\ell(e^A_t)-\ell(e^B_t)\)</span> be their loss differential. The null of equal expected predictive accuracy is <span class="math inline">\(E(d_t)=0\)</span>. The Diebold–Mariano statistic standardises the average <span class="math inline">\(\bar d\)</span> by a long-run standard error,</p>
+<p><span class="math display">\[
+DM=\frac{\sqrt{N}\,\bar d}{\widehat{\operatorname{LRV}}(d_t)^{1/2}}.
+\]</span></p>
+<p>The long-run variance includes autocovariances of <span class="math inline">\(d_t\)</span>, rather than treating the dates as independent. This is indispensable for overlapping multi-step targets. It does not rescue a test after the same test set has been repeatedly used to select models: selection has already made the reported winner unusually lucky. A forecast comparison is evidence about a stated design, not an automatic discovery of a universal best algorithm <span class="citation" data-cites="DieboldMariano1995">(<a href="../references.html#ref-DieboldMariano1995" role="doc-biblioref">Diebold and Mariano 1995</a>)</span>.</p>
+</section>
+</section>
+<section id="sec-ml-regularisation" class="level2" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="sec-ml-regularisation"><span class="header-section-number">9.2</span> Why flexibility needs restraint</h2>
+<p>A VAR already illustrates the central difficulty. With <span class="math inline">\(k\)</span> variables and <span class="math inline">\(p\)</span> lags, a dense VAR has <span class="math inline">\(k^2p+k\)</span> intercept and slope coefficients. With 20 variables and four lags, that is 1,620 coefficients before the innovation covariance matrix is considered. A quarterly sample of 120 observations has little chance of locating all of them precisely.</p>
+<div id="fig-ml-parameter-growth" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ml-parameter-growth-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figures/machine-learning/var-parameter-growth.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ml-parameter-growth-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9.2: The number of coefficients in a dense VAR grows with the square of the number of series. A flexible learner faces the same arithmetic, even when its parameters are not called regression coefficients.
+</figcaption>
+</figure>
+</div>
+<p>The issue is not a defect unique to VARs. A large neural network, a deep tree, and a high-order polynomial each have many ways to fit the same finite history. In sample, extra flexibility almost always helps. Out of sample, it may amplify estimation noise. This is the bias-variance trade-off in its concrete forecasting form: a rigid rule can systematically miss a genuine nonlinear relation; an excessively responsive rule changes sharply when a few historical dates are changed.</p>
+<section id="ridge-the-first-useful-machine-learning-tool" class="level3">
+<h3 class="anchored" data-anchor-id="ridge-the-first-useful-machine-learning-tool">Ridge: the first useful machine-learning tool</h3>
+<p>Take a linear predictor with a rich vector of features,</p>
+<p><span class="math display">\[
+y_{t+h}=\alpha+x_t'\beta+u_{t+h}.
+\]</span></p>
+<p>OLS minimises the residual sum of squares. Ridge regression instead solves</p>
+<p><span id="eq-ml-ridge"><span class="math display">\[
+(\hat\alpha_\lambda,\hat\beta_\lambda)
+=\arg\min_{\alpha,\beta}
+\left\{
+\sum_{t\in\mathcal T_{\mathrm{train}}}(y_{t+h}-\alpha-x_t'\beta)^2
++\lambda\sum_{j=1}^{q}\beta_j^2
+\right\},\qquad \lambda\geq0.
+\tag{9.1}\]</span></span></p>
+<p>The second term makes large slopes expensive. When predictors are correlated, many coefficient vectors can make almost indistinguishable in-sample predictions. Ridge prefers the one with a smaller Euclidean norm. In matrix notation, after centering or keeping an unpenalised intercept,</p>
+<p><span class="math display">\[
+\hat\beta_\lambda=(X'X+\lambda I)^{-1}X'y.
+\]</span></p>
+<p>The matrix <span class="math inline">\(X'X+\lambda I\)</span> remains invertible for <span class="math inline">\(\lambda&gt;0\)</span> even when the columns of <span class="math inline">\(X\)</span> are linearly dependent. Geometrically, the penalty prevents the fitted coefficient vector from moving far in directions where the data offer little information. The linear-algebra ingredients behind this expression are reviewed in <a href="00-mathematical-foundations.html#sec-matrices-transformations" class="quarto-xref"><span>Section 2.3</span></a> and <a href="00-mathematical-foundations.html#sec-linear-algebra-foundations" class="quarto-xref"><span>Section 2</span></a>.</p>
+<p>Ridge does not select variables: it usually keeps every coefficient nonzero but reduces unstable ones. The lasso replaces <span class="math inline">\(\sum_j\beta_j^2\)</span> by <span class="math inline">\(\sum_j|\beta_j|\)</span> and can set some coefficients exactly to zero. Elastic net combines both penalties,</p>
+<p><span class="math display">\[
+\sum_t(y_{t+h}-\alpha-x_t'\beta)^2
++\lambda\left[(1-\eta)\frac{\|\beta\|_2^2}{2}+\eta\|\beta\|_1\right],
+\qquad 0\leq\eta\leq1.
+\]</span></p>
+<p>The <span class="math inline">\(\ell_1\)</span> corner is what permits selection; the <span class="math inline">\(\ell_2\)</span> part stabilises groups of correlated lags. These are not merely computational devices. They state a prior empirical judgment: extremely large and intricate responses to small movements in a predictor are less plausible unless the data repeatedly earn them. The same shrinkage logic appears in the Minnesota prior of a Bayesian VAR, developed in Chapter <a href="07-bvar.html" class="quarto-xref"><span>Chapter 10</span></a>.</p>
+<p>Standardisation is essential here. A one-unit change in an interest rate and a one-unit change in an index need not be comparable. Before applying a common penalty, transform each predictor using the mean and standard deviation <strong>estimated in the training window only</strong>. Applying a full-sample transformation makes future observations influence the scale of the past. The point is small algebraically and consequential in a backtest.</p>
+</section>
+<section id="features-are-hypotheses-about-the-past" class="level3">
+<h3 class="anchored" data-anchor-id="features-are-hypotheses-about-the-past">Features are hypotheses about the past</h3>
+<p>To give a learner a time series, one often builds a lag window,</p>
+<p><span class="math display">\[
+x_t=(y_t,y_{t-1},\ldots,y_{t-L+1},z_t,z_{t-1},\ldots,z_{t-L+1})'.
+\]</span></p>
+<p>This table is a representation of a dynamic question, not ordinary independent rows. The window length <span class="math inline">\(L\)</span>, transformations, missing-value treatment, seasonal adjustment, and inclusion of external variables all impose structure. A model that forecasts levels with a bounded activation function can fail simply because it cannot extrapolate a trend; a model trained on raw prices may appear accurate because persistence dominates, while saying little about returns. The stationarity, unit-root, and cointegration diagnostics in Chapters <a href="01-time-series.html" class="quarto-xref"><span>Chapter 1</span></a> and <a href="05-cointegration-dfm.html#sec-cointegration" class="quarto-xref"><span>Section 6.2</span></a> should shape this work before a loss is minimised.</p>
+</section>
+</section>
+<section id="sec-ml-nonlinear-predictors" class="level2" data-number="9.3">
+<h2 data-number="9.3" class="anchored" data-anchor-id="sec-ml-nonlinear-predictors"><span class="header-section-number">9.3</span> Nonlinearity from partitions and from networks</h2>
+<p>Suppose a credit spread predicts low output growth only when it is already unusually high. A linear slope averages the two situations. A <strong>regression tree</strong> searches for a split such as <span class="math inline">\(\text{spread}_t&gt;c\)</span>, then fits a separate local mean on each side. Repeated splits divide the predictor space into rectangles, and the forecast is constant within each terminal rectangle.</p>
+<p>The attraction is immediate: interactions and thresholds are discovered without writing them all down in advance. A single deep tree is unstable, though. Moving one observation can alter an early split and change every subsequent branch. A random forest averages many trees grown on resampled observations and randomly selected candidate predictors. The average lowers variance. Gradient boosting builds trees sequentially, each new tree fitting the residual errors of its predecessors; with squared loss, the update has the form</p>
+<p><span class="math display">\[
+f_m(x)=f_{m-1}(x)+\nu g_m(x),
+\]</span></p>
+<p>where <span class="math inline">\(g_m\)</span> is a shallow tree and <span class="math inline">\(\nu\)</span> is a learning rate. Shallow trees, a small learning rate, and early stopping limit how closely the ensemble chases the training sample.</p>
+<p>Trees have useful limits to remember. Their basic prediction within a leaf is an average of observed outcomes, so they extrapolate trends and extremes poorly. Their variable-importance measures can be misleading when predictors are correlated. Most importantly, a split saying that high spreads precede weak growth is a conditional forecasting association, not the effect of an intervention on spreads. For the latter, the identification problem in Chapter <a href="04-svar-identification.html" class="quarto-xref"><span>Chapter 5</span></a> remains.</p>
+<section id="from-a-lag-window-to-a-hidden-representation" class="level3">
+<h3 class="anchored" data-anchor-id="from-a-lag-window-to-a-hidden-representation">From a lag window to a hidden representation</h3>
+<p>A feed-forward neural network starts with the same lag vector <span class="math inline">\(x_t\)</span>, but repeatedly transforms it. In a one-hidden-layer network,</p>
+<p><span class="math display">\[
+h_t=\phi(W_1x_t+b_1),
+\qquad
+\hat y_{t+h\mid t}=w_2'h_t+b_2,
+\]</span></p>
+<p>where <span class="math inline">\(\phi\)</span> is a nonlinear activation such as the rectified linear unit, <span class="math inline">\(\phi(a)=\max(a,0)\)</span>. The hidden units construct nonlinear combinations of lags; the final layer combines them. With enough units, such a network can approximate a wide class of continuous functions on a bounded region. This approximation result says little about how much data is needed to learn the function, which is precisely the scarce resource in macroeconomics.</p>
+<p>The network is fitted by minimising an empirical loss through gradient descent. For a parameter vector <span class="math inline">\(\theta\)</span>, a gradient step is</p>
+<p><span class="math display">\[
+\theta^{(r+1)}=\theta^{(r)}-\gamma_r\nabla_\theta
+\frac{1}{n}\sum_{t\in\mathcal T_{\mathrm{train}}}
+\ell\left(y_{t+h},f_\theta(x_t)\right).
+\]</span></p>
+<p>Back-propagation is the repeated chain rule used to calculate this gradient efficiently through the layers. Its economic interpretation is modest: it is a numerical method for adjusting a flexible forecast function. Dropout, weight decay, early stopping, and data augmentation all serve the familiar purpose of regularisation. They reduce the effective capacity of the fitted rule; they do not create additional business cycles in the historical record.</p>
+</section>
+</section>
+<section id="sec-ml-sequence-architectures" class="level2" data-number="9.4">
+<h2 data-number="9.4" class="anchored" data-anchor-id="sec-ml-sequence-architectures"><span class="header-section-number">9.4</span> Architectures that preserve temporal order</h2>
+<p>Flattening the last <span class="math inline">\(L\)</span> observations into a vector makes a feed-forward network possible, but it does not share any structure across dates. A recurrent, convolutional, or attention-based architecture introduces a particular idea about how temporal information should be reused. Each is a restriction as well as a source of flexibility.</p>
+<section id="recurrent-networks-and-lstms" class="level3">
+<h3 class="anchored" data-anchor-id="recurrent-networks-and-lstms">Recurrent networks and LSTMs</h3>
+<p>An ordinary recurrent neural network maintains a hidden state,</p>
+<p><span class="math display">\[
+h_t=\phi(W_xx_t+W_hh_{t-1}+b),
+\qquad
+\hat y_{t+h\mid t}=a'h_t+c.
+\]</span></p>
+<p>The state is a learned summary of the past. Unrolling the recursion shows why a long sequence can be difficult: the derivative of a remote observation involves repeated products of <span class="math inline">\(W_h\)</span> and activation derivatives. Those products can vanish or explode, making long-lag learning fragile.</p>
+<p>The long short-term memory network (LSTM) introduces a separate cell state <span class="math inline">\(c_t\)</span> and gates that decide what to retain <span class="citation" data-cites="HochreiterSchmidhuber1997">(<a href="../references.html#ref-HochreiterSchmidhuber1997" role="doc-biblioref">Hochreiter and Schmidhuber 1997</a>)</span>. With input <span class="math inline">\(x_t\)</span> and previous hidden state <span class="math inline">\(h_{t-1}\)</span>,</p>
+<p><span id="eq-ml-lstm"><span class="math display">\[
+\begin{aligned}
+f_t&amp;=\sigma(W_f[x_t,h_{t-1}]+b_f), &amp; i_t&amp;=\sigma(W_i[x_t,h_{t-1}]+b_i),\\
+o_t&amp;=\sigma(W_o[x_t,h_{t-1}]+b_o), &amp; \tilde c_t&amp;=\tanh(W_c[x_t,h_{t-1}]+b_c),\\
+c_t&amp;=f_t\odot c_{t-1}+i_t\odot\tilde c_t, &amp; h_t&amp;=o_t\odot\tanh(c_t).
+\end{aligned}
+\tag{9.2}\]</span></span></p>
+<p>Here <span class="math inline">\(\sigma\)</span> maps a number to <span class="math inline">\((0,1)\)</span>, <span class="math inline">\(\odot\)</span> denotes element-by-element multiplication, and the forget gate <span class="math inline">\(f_t\)</span> can carry part of the old cell state forward. The equations give a precise meaning to the informal idea of memory. They do not establish that the learned cell is an economic state variable, nor that one gate corresponds to a named mechanism.</p>
+<p>A bidirectional LSTM processes the input window in both directions. It can be legitimate when the whole input window lies before the forecast origin: the model is allowed to compare January with March when forecasting April. It is invalid if the backward pass sees dates after the forecast origin. This distinction is easy to lose in generic sequence-model software.</p>
+</section>
+<section id="causal-convolutions-and-tcns" class="level3">
+<h3 class="anchored" data-anchor-id="causal-convolutions-and-tcns">Causal convolutions and TCNs</h3>
+<p>A one-dimensional <strong>causal convolution</strong> with kernel <span class="math inline">\(w_0,\ldots,w_{K-1}\)</span> forms</p>
+<p><span class="math display">\[
+s_t=\sum_{j=0}^{K-1}w_jx_{t-j}.
+\]</span></p>
+<p>The same kernel is applied at every date, so a local pattern has the same meaning wherever it occurs. A dilated convolution replaces <span class="math inline">\(t-j\)</span> by <span class="math inline">\(t-dj\)</span>, allowing the receptive field to expand without a huge kernel. Stacking several causal, dilated layers produces a temporal convolutional network (TCN). It can reach far back in time while remaining parallelisable during training <span class="citation" data-cites="BaiKolterKoltun2018">(<a href="../references.html#ref-BaiKolterKoltun2018" role="doc-biblioref">Bai et al. 2018</a>)</span>.</p>
+<div id="fig-ml-convolution-attention" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ml-convolution-attention-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figures/machine-learning/causal-convolution-and-attention.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ml-convolution-attention-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9.3: A causal convolution uses fixed past positions; attention can assign different weights to the same positions when the observed state changes. The weights in the lower panel are illustrative, not estimated from U.S. data.
+</figcaption>
+</figure>
+</div>
+<p>The word <em>causal</em> in a causal convolution concerns information flow: the architecture does not use future dates. It does not mean causal identification. The distinction matters throughout macroeconometrics.</p>
+</section>
+<section id="attention-and-transformers" class="level3">
+<h3 class="anchored" data-anchor-id="attention-and-transformers">Attention and Transformers</h3>
+<p>The Transformer replaces a fixed recurrence or a fixed local kernel by data-dependent weighted combinations. For a sequence matrix <span class="math inline">\(X\)</span>, construct queries, keys, and values,</p>
+<p><span class="math display">\[
+Q=XW_Q,\qquad K=XW_K,\qquad V=XW_V,
+\]</span></p>
+<p>and define scaled dot-product attention by</p>
+<p><span id="eq-ml-attention"><span class="math display">\[
+\operatorname{Attention}(Q,K,V)=
+\operatorname{softmax}\left(\frac{QK'}{\sqrt{d_k}}+M\right)V.
+\tag{9.3}\]</span></span></p>
+<p>Each row of the softmax is non-negative and sums to one. The entry in the mask <span class="math inline">\(M\)</span> is set to a very negative value for forbidden future positions, so a forecast at <span class="math inline">\(t\)</span> cannot attend to <span class="math inline">\(t+1\)</span>. Positional encodings or time features are necessary because attention by itself sees a set of vectors, not their chronological order. Multiple attention heads apply several query-key-value maps in parallel, allowing different similarity patterns to be represented <span class="citation" data-cites="VaswaniEtAl2017">(<a href="../references.html#ref-VaswaniEtAl2017" role="doc-biblioref">Vaswani et al. 2017</a>)</span>.</p>
+<p>There is a useful connection with a nonlinear VAR. A linear VAR applies the same lag matrices at every date. An attention layer can recompute the weights placed on different past dates from the current window. It may, for example, put greater weight on recent financial observations in a stressed period. That adaptability is a forecasting property. An attention weight is not an elasticitiy, a Granger-causality statistic, or an impulse response. Correlated inputs can receive very different weights while producing the same forecast, and a large weight can reflect redundancy rather than economic importance.</p>
+<p>Long sequences create a computational cost because the attention score matrix contains a pairwise comparison of positions. Time-series implementations therefore use patches of adjacent dates, restrict attention to local windows, or use approximate attention. They also choose whether tokens represent dates, variables, or blocks of a multivariate panel. These are consequential modelling choices: patching may help smooth high-frequency noise, but it can blur a sharp policy announcement.</p>
+</section>
+<section id="one-horizon-or-many" class="level3">
+<h3 class="anchored" data-anchor-id="one-horizon-or-many">One horizon or many?</h3>
+<p>For a one-step model, multi-step forecasts can be obtained recursively:</p>
+<p><span class="math display">\[
+\hat y_{t+2\mid t}=f\left(\hat y_{t+1\mid t},x_t\right).
+\]</span></p>
+<p>The model is trained on observed lags but, beyond the first step, receives its own predictions. Errors can compound. A direct method instead fits a separate <span class="math inline">\(f_h\)</span> for each horizon, <span class="math inline">\(\hat y_{t+h\mid t}=f_h(\mathcal I_t)\)</span>; a sequence-to-sequence model outputs the whole path jointly. Direct forecasts avoid recursive error propagation but require more parameters. A path model can preserve cross-horizon coherence, yet needs a loss and an evaluation that make that coherence visible.</p>
+<p>The same distinction arises across series. A <strong>local</strong> model is estimated separately for each series. A <strong>global</strong> model shares parameters across a panel of related series, such as thousands of product sales or country-level macro series. Global learning can be powerful when many comparable trajectories exist. It is less compelling when a single country’s quarterly history is the effective sample and institutional differences are economically important.</p>
+</section>
+</section>
+<section id="sec-ml-probabilistic" class="level2" data-number="9.5">
+<h2 data-number="9.5" class="anchored" data-anchor-id="sec-ml-probabilistic"><span class="header-section-number">9.5</span> Forecasting a distribution, not only its centre</h2>
+<p>A point forecast cannot distinguish a predictable two-percent growth rate from a two-percent average of very different boom and recession outcomes. A distributional learner estimates an object such as</p>
+<p><span class="math display">\[
+F_{t,h}(y)=\Pr(Y_{t+h}\leq y\mid\mathcal I_t).
+\]</span></p>
+<p>One route is a parametric output layer that predicts a conditional mean and variance, then uses a Gaussian or Student distribution. Another predicts a grid of quantiles with the check loss of Chapter <a href="09-growth-at-risk.html#sec-quantile-regression" class="quarto-xref"><span>Section 8.2</span></a>. The latter directly yields growth-at-risk, while a distributional VAR extends the question to several jointly evolving variables; see <a href="09-growth-at-risk.html#sec-distributional-var" class="quarto-xref"><span>Section 8.6</span></a>.</p>
+<p>Probabilistic forecasts need probabilistic evaluation. If a 90 percent interval is correctly calibrated over comparable forecast origins, roughly 90 percent of realisations should fall inside it. Calibration alone is insufficient: an interval extending from minus fifty to plus fifty percent would cover almost everything and be uninformative. The continuous ranked probability score (CRPS) rewards a predictive CDF that places probability near the realised value; the probability integral transform (PIT), <span class="math inline">\(F_{t,h}(y_{t+h})\)</span>, should be approximately uniform for a calibrated continuous forecast. Calibration should also be checked separately in crises, where it is most valuable and the evidence is thinnest.</p>
+<p><strong>Conformal prediction</strong> offers a simple route to marginal coverage. Fit a point model on historical data, calculate past absolute forecast errors, and attach a suitably high empirical residual quantile to the next forecast. Under exchangeability, the interval has finite-sample coverage. Time series are not exchangeable, so rolling or weighted conformal procedures rely on approximate stability rather than a free guarantee. After a structural break, old residuals may be the wrong uncertainty distribution. The method makes this vulnerability visible; it cannot remove it.</p>
+<p>Generative diffusion models go further by learning to reverse a gradual corruption of a future path with noise. Conditional on the observed past, repeated denoising yields simulated future trajectories rather than only independent marginal quantiles. This can be attractive for scenario generation and joint dependence across horizons. It is computationally demanding and requires just as much care about calibration, changing regimes, and the information set as any other forecast model <span class="citation" data-cites="ChenWang2026">(<a href="../references.html#ref-ChenWang2026" role="doc-biblioref">Chen and Wang 2026</a>)</span>.</p>
+</section>
+<section id="sec-ml-foundation-models" class="level2" data-number="9.6">
+<h2 data-number="9.6" class="anchored" data-anchor-id="sec-ml-foundation-models"><span class="header-section-number">9.6</span> Foundation models, transfer, and the limits of analogy</h2>
+<p>A time-series foundation model is trained in advance on a large collection of series, then used directly or adapted to a new series. The hope is that recurring temporal motifs, seasonality, persistence, and changes in scale can be learned from many histories. For a small macro sample, transfer can be appealing because the model has seen far more trajectories than the domestic data alone provide.</p>
+<p>The relevant empirical question is not whether pretraining is impressive in the abstract. It is whether the pretraining population resembles the target task, whether the target period may already have appeared in the training corpus, and whether the zero-shot forecast beats a simple model using the same real-time information. A benchmark contaminated by future target data is not a forecast experiment. Nor does a model trained on retail, electricity, and web traffic automatically understand an unprecedented monetary-fiscal regime or a pandemic. Pretraining supplies a statistical prior; it does not identify an invariant economic law.</p>
+<p>Chen and Wang <span class="citation" data-cites="ChenWang2026">(<a href="../references.html#ref-ChenWang2026" role="doc-biblioref">Chen and Wang 2026</a>)</span> make a useful broader comparison. Classical methods retain unusually explicit ways of representing unit roots, cointegration, parameter restrictions, uncertainty, and structural identification. Neural and foundation models can offer nonlinear approximation and cross-series transfer, but normalisation layers do not resolve a unit root, and attention does not identify a policy shock. These are complementary capabilities, not interchangeable labels.</p>
+</section>
+<section id="sec-ml-empirical" class="level2" data-number="9.7">
+<h2 data-number="9.7" class="anchored" data-anchor-id="sec-ml-empirical"><span class="header-section-number">9.7</span> A small U.S. forecasting exercise</h2>
+<p>The following exercise keeps the data and claims deliberately narrow. It forecasts annualised one-quarter-ahead U.S. real GDP growth from four lags of current GDP growth, CPI inflation, the federal funds rate, and the Baa–Treasury spread. The quarterly FRED series begin in 1961. At every origin from 1990Q1 onward, the model is re-estimated using only earlier observations. The ridge penalty is selected on earlier rolling origins within the expanding training sample.</p>
+<p>The three contenders are a historical-mean forecast, an unpenalised linear lag regression, and ridge regression. The last two use the same features, so the comparison isolates the value of coefficient shrinkage rather than attributing a gain to a different information set. The source data and figures are generated by <a href="../code/python/make_ml_timeseries_figures.py">make_ml_timeseries_figures.py</a>.</p>
+<div id="fig-ml-fred" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ml-fred-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figures/machine-learning/fred-expanding-ridge-forecast.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ml-fred-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9.4: Realised annualised GDP growth and one-step forecasts made at successive expanding origins. The lower panel uses the entire 1990Q1–2024Q3 pseudo-out-of-sample period; its purpose is to retain the difficult episodes, not to declare a permanent ranking.
+</figcaption>
+</figure>
+</div>
+<p>The figure gives a salutary result. In this particular specification, the historical mean has the lowest full-period RMSE; ridge improves slightly on unpenalised OLS but does not overturn that benchmark. The pandemic dominates squared errors and neither linear forecast anticipates it. This does not prove that sophisticated models are useless. It shows what an honest comparison is allowed to say: a richer specification has not earned a claim of superiority for this target, horizon, sample, and loss. A different horizon, real-time data vintage, or a model designed for distributional risk may lead to another conclusion, but each is a new experiment.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The essential chronology of the exercise.</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> origin <span class="kw">in</span> forecast_origins:</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    train_x, train_y <span class="op">=</span> x[:origin], y[:origin]</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    lam <span class="op">=</span> choose_penalty_on_earlier_origins(train_x, train_y)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    forecast[origin] <span class="op">=</span> fit_ridge(train_x, train_y, lam).predict(x[origin])</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Only after all forecasts have been stored is RMSE computed.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The comparative study by Gopali et al. <span class="citation" data-cites="GopaliSiamiNaminiAbriNamin2024">(<a href="../references.html#ref-GopaliSiamiNaminiAbriNamin2024" role="doc-biblioref">Gopali et al. 2024</a>)</span> is a useful counterpoint. On their daily stock and cryptocurrency data, LSTM, bidirectional LSTM, temporal convolutional, and multi-head attention models often report smaller errors than their VAR benchmark. The result is not uniform: their cryptocurrency <span class="math inline">\(R^2\)</span> values are negative for every reported method in several specifications, a reminder that volatile prices are difficult to forecast. Their chronological 70/30 split is preferable to random shuffling, but it remains one split on a particular collection of transformed financial series. It cannot establish that a deep architecture dominates VARs for macroeconomic forecasting, where data frequency, sample length, structural change, and the forecasting target are different.</p>
+<section id="what-to-report-with-a-machine-learning-forecast" class="level3">
+<h3 class="anchored" data-anchor-id="what-to-report-with-a-machine-learning-forecast">What to report with a machine-learning forecast</h3>
+<p>An applied result is easier to assess when it states, in one place:</p>
+<ol type="1">
+<li>the target, horizon, transformation, and decision loss;</li>
+<li>the exact time-<span class="math inline">\(t\)</span> information set, release timing, and data vintage;</li>
+<li>the training, validation, and final evaluation dates, including every tuning choice;</li>
+<li>strong benchmarks: at least a sensible naive forecast and a parsimonious time-series model;</li>
+<li>error scores by horizon and subperiod, together with forecast paths rather than only an average;</li>
+<li>uncertainty calibration when intervals, quantiles, or scenarios are reported;</li>
+<li>what remains predictive association rather than a causal or structural claim.</li>
+</ol>
+<p>This is not a separate standard for machine learning. It is the same standard that makes an ARMA forecast, a VAR, a Bayesian model, or a Growth-at-Risk estimate scientifically interpretable.</p>
+</section>
+</section>
+<section id="sec-ml-prediction-causality" class="level2" data-number="9.8">
+<h2 data-number="9.8" class="anchored" data-anchor-id="sec-ml-prediction-causality"><span class="header-section-number">9.8</span> Forecasting is not structural analysis</h2>
+<p>Machine learning can approximate the conditional relationship</p>
+<p><span class="math display">\[
+E(Y_{t+h}\mid X_t=x)
+\]</span></p>
+<p>with remarkable flexibility. A policy question asks something else:</p>
+<p><span class="math display">\[
+E\left[Y_{t+h}\mid\operatorname{do}(D_t=d),\mathcal I_t\right],
+\]</span></p>
+<p>the outcome under an intervention setting a treatment or policy variable <span class="math inline">\(D_t\)</span> to <span class="math inline">\(d\)</span>. The observational conditional expectation can differ because policy responds to information about future output, because an omitted shock moves both variables, or because the intervention changes the regime. A lower forecast error does not make that difference disappear.</p>
+<p>This boundary does not diminish the value of prediction. A well-calibrated recession-risk forecast is useful even without a causal interpretation, and a flexible learner can construct controls, forecast counterfactual untreated outcomes, or summarise high-dimensional information within a carefully identified design. But the identifying assumptions must then be stated separately. The SVAR, local-projection, and instrumental-variable chapters remain relevant because the question has changed, not because the forecasting algorithm has become less sophisticated.</p>
+</section>
+<section id="further-reading" class="level2" data-number="9.9">
+<h2 data-number="9.9" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">9.9</span> Further reading</h2>
+<p>Chen and Wang <span class="citation" data-cites="ChenWang2026">(<a href="../references.html#ref-ChenWang2026" role="doc-biblioref">Chen and Wang 2026</a>)</span> provide a wide survey from VARs to contemporary AI-based forecasting, with particular attention to high dimensionality, nonstationarity, nonlinearity, uncertainty, and interpretability. Gopali et al. <span class="citation" data-cites="GopaliSiamiNaminiAbriNamin2024">(<a href="../references.html#ref-GopaliSiamiNaminiAbriNamin2024" role="doc-biblioref">Gopali et al. 2024</a>)</span> offer an applied comparison of VAR, recurrent, convolutional, and attention models on volatile financial series. For the econometric foundations of forecast evaluation, the ARMA and VAR chapters of this course are the natural starting point; for tail and distributional targets, see Chapter <a href="09-growth-at-risk.html" class="quarto-xref"><span>Chapter 8</span></a>.</p>
+
+
+<!-- -->
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-BaiKolterKoltun2018" class="csl-entry" role="listitem">
+Bai, Shaojie, J. Zico Kolter, and Vladlen Koltun. 2018. <span>“An Empirical Evaluation of Generic Convolutional and Recurrent Networks for Sequence Modeling.”</span> <em>arXiv Preprint arXiv:1803.01271</em>.
+</div>
+<div id="ref-ChenWang2026" class="csl-entry" role="listitem">
+Chen, Likai, and Weining Wang. 2026. <span>“From Vector Autoregressions to AI-Based Time Series Forecasting: A Review.”</span> <em>arXiv Preprint arXiv:2607.14279</em>.
+</div>
+<div id="ref-DieboldMariano1995" class="csl-entry" role="listitem">
+Diebold, Francis X., and Roberto S. Mariano. 1995. <span>“Comparing Predictive Accuracy.”</span> <em>Journal of Business and Economic Statistics</em> 13 (3): 253–63. <a href="https://doi.org/10.1080/07350015.1995.10524599">https://doi.org/10.1080/07350015.1995.10524599</a>.
+</div>
+<div id="ref-GopaliSiamiNaminiAbriNamin2024" class="csl-entry" role="listitem">
+Gopali, Saroj, Sima Siami-Namini, Faranak Abri, and Akbar Siami Namin. 2024. <span>“A Comparative Multivariate Analysis of VAR and Deep Learning-Based Models for Forecasting Volatile Time Series Data.”</span> <em>IEEE Access</em> 12: 155423–35. <a href="https://doi.org/10.1109/ACCESS.2024.3447354">https://doi.org/10.1109/ACCESS.2024.3447354</a>.
+</div>
+<div id="ref-HochreiterSchmidhuber1997" class="csl-entry" role="listitem">
+Hochreiter, Sepp, and Jürgen Schmidhuber. 1997. <span>“Long Short-Term Memory.”</span> <em>Neural Computation</em> 9 (8): 1735–80. <a href="https://doi.org/10.1162/neco.1997.9.8.1735">https://doi.org/10.1162/neco.1997.9.8.1735</a>.
+</div>
+<div id="ref-VaswaniEtAl2017" class="csl-entry" role="listitem">
+Vaswani, Ashish, Noam Shazeer, Niki Parmar, et al. 2017. <span>“Attention Is All You Need.”</span> <em>Advances in Neural Information Processing Systems</em> 30.
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const cellDetails = window.document.querySelectorAll(".cell details.code-fold");
+        for (let i=0; i<cellDetails.length; i++) {
+          const details = cellDetails[i];
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell div.sourceCode.cell-code");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+            // default icon
+            link.classList.add("external");
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../chapters/09-growth-at-risk.html" class="pagination-link" aria-label="Quantile Regressions and Growth-at-Risk">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Quantile Regressions and Growth-at-Risk</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../chapters/07-bvar.html" class="pagination-link" aria-label="Bayesian Estimation: Foundations and Applications to VARs">
+        <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Bayesian Estimation: Foundations and Applications to VARs</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Machine Learning Tools for Time Series {#sec-machine-learning-time-series}</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>At the beginning of a quarter, suppose that one wants to forecast next quarter's real GDP growth. The data set contains the past of output, prices, interest rates, credit spreads, employment, surveys, commodity prices, and perhaps thousands of disaggregated series. There are two reasons not to begin by fitting the largest available neural network. First, every observation after the forecast date is forbidden information. Second, U.S. quarterly data offer only a few hundred dates, while a rich dynamic model can easily contain thousands of adjustable quantities.</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>Machine learning enters this problem as a family of ways of estimating a forecasting rule. It is not a different object from the conditional expectation studied in the earlier chapters. If $y_{t+h}$ is the future variable of interest and $\mathcal I_t$ is the information genuinely available at date $t$, the squared-error target remains</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>m_h(\mathcal I_t)=E(y_{t+h}\mid \mathcal I_t).</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>The difference is that a machine-learning method allows the function $m_h(\cdot)$ to be flexible, high-dimensional, or both. That freedom can uncover nonlinearities and interactions that a small VAR leaves out. It can also fit historical accidents, absorb leaked future information, and obscure the economic source of an apparent gain. The discipline of time-series econometrics therefore comes first: define the forecast origin, transform the data, respect dependence, compare with serious benchmarks, and distinguish prediction from a structural effect.</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>This chapter starts from that forecasting problem and builds the main tools in turn: regularisation, trees, recurrent and convolutional networks, attention and Transformers, distributional prediction, and foundation models. The review by Chen and Wang <span class="co">[</span><span class="ot">@ChenWang2026</span><span class="co">]</span> is especially useful for seeing these methods as extensions of familiar dynamic models rather than as a replacement vocabulary. The final exercise uses public U.S. data and an expanding forecast experiment. It is a reproducible illustration, not a leaderboard.</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="fu">## The date of the forecast is part of the model {#sec-ml-forecast-origin}</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>An observation in a cross-sectional data set is often treated as exchangeable with the next one: an algorithm may randomly divide rows into a training and a test sample. A date is different. The value of GDP growth in 2023Q4 can be useful for explaining 2023Q3 after the fact, but it could not have helped a forecaster in 2023Q3. Random splitting lets the future enter the training sample and evaluates a forecaster who never existed.</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>For a horizon $h$, construct one row at each forecast origin $t$:</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>\big(x_t,y_{t+h}\big),\qquad x_t\in\mathcal I_t.</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>The vector $x_t$ can contain lags, contemporaneous releases already published at $t$, calendar variables, and transformations such as growth rates. Its entries must be dated as carefully as the target. If unemployment for month $t$ is released in month $t+1$, it is not a time-$t$ predictor in a real-time nowcast without a vintage-data argument. Revisions create a second problem: today’s revised history is valuable for exposition, but it is not necessarily the data set that was visible in the past.</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="al">![Each reported forecast error must come from a model fitted before the target was observed. Tuning choices belong inside that chronological boundary.](../figures/machine-learning/rolling-origin-validation.png)</span>{#fig-ml-rolling-origin}</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>The simplest honest experiment is an **expanding-window forecast**. At origin $t_0$, estimate on observations up to $t_0$, forecast $y_{t_0+h}$, move to $t_0+1$, re-estimate using the enlarged history, and continue. A rolling window instead discards distant observations and may be preferable when an old regime is judged irrelevant. Neither choice is mechanically correct: the expanding window reduces estimation noise, whereas the rolling window can adapt more quickly after a break. The choice itself should be part of the empirical design.</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>The last stretch of data is often held back for the final evaluation. Within the preceding history, hyperparameters such as a ridge penalty, the number of trees, a network width, a look-back window, or the stopping epoch must be chosen using earlier forecast origins. This is **nested time-series validation**. Choosing an architecture after inspecting its performance on the final test period is a form of overfitting, even if the test observations were never used to estimate weights.</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>::: {.callout-important title="The information set is more than a column list"}</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>The relevant question is not merely whether a variable has a date stamp no later than $t$. It is whether the value used was released, known, and defined at that date. A macroeconomic backtest based on the latest data vintage can be useful, but it measures performance with revised information. A real-time claim calls for real-time vintages and release calendars.</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a><span class="fu">### A loss function says what a good forecast is</span></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>Given forecasts $\hat y_{t+h\mid t}$, the common score is the mean squared forecast error,</span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>\operatorname{MSFE}_h=\frac{1}{N}\sum_{t\in\mathcal T}</span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>\left(y_{t+h}-\hat y_{t+h\mid t}\right)^2,</span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>\qquad</span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>\operatorname{RMSE}_h=\sqrt{\operatorname{MSFE}_h}.</span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>Squaring makes a rare large miss costly. That is reasonable when large forecast mistakes are especially damaging, but it is not a law of nature. The mean absolute error gives all misses proportional weight. A central bank interested in recessions may care about a lower quantile or a recession probability rather than the conditional mean; Chapter @sec-growth-at-risk develops the corresponding check loss. A forecast method cannot be assessed independently of this decision problem.</span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>Forecast errors are serially dependent when $h&gt;1$ because the targets overlap. Their relative performance may also change across recessions, tranquil periods, and revisions of the monetary-policy regime. Reporting a single RMSE is useful, but a graph of forecast errors through time, performance by subperiod, and the benchmark being beaten usually says more.</span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>If two forecasts are evaluated on the same origins, let $d_t=\ell(e^A_t)-\ell(e^B_t)$ be their loss differential. The null of equal expected predictive accuracy is $E(d_t)=0$. The Diebold–Mariano statistic standardises the average $\bar d$ by a long-run standard error,</span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a>DM=\frac{\sqrt{N}\,\bar d}{\widehat{\operatorname{LRV}}(d_t)^{1/2}}.</span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>The long-run variance includes autocovariances of $d_t$, rather than treating the dates as independent. This is indispensable for overlapping multi-step targets. It does not rescue a test after the same test set has been repeatedly used to select models: selection has already made the reported winner unusually lucky. A forecast comparison is evidence about a stated design, not an automatic discovery of a universal best algorithm <span class="co">[</span><span class="ot">@DieboldMariano1995</span><span class="co">]</span>.</span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a><span class="fu">## Why flexibility needs restraint {#sec-ml-regularisation}</span></span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a>A VAR already illustrates the central difficulty. With $k$ variables and $p$ lags, a dense VAR has $k^2p+k$ intercept and slope coefficients. With 20 variables and four lags, that is 1,620 coefficients before the innovation covariance matrix is considered. A quarterly sample of 120 observations has little chance of locating all of them precisely.</span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a><span class="al">![The number of coefficients in a dense VAR grows with the square of the number of series. A flexible learner faces the same arithmetic, even when its parameters are not called regression coefficients.](../figures/machine-learning/var-parameter-growth.png)</span>{#fig-ml-parameter-growth}</span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a>The issue is not a defect unique to VARs. A large neural network, a deep tree, and a high-order polynomial each have many ways to fit the same finite history. In sample, extra flexibility almost always helps. Out of sample, it may amplify estimation noise. This is the bias-variance trade-off in its concrete forecasting form: a rigid rule can systematically miss a genuine nonlinear relation; an excessively responsive rule changes sharply when a few historical dates are changed.</span>
+<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a><span class="fu">### Ridge: the first useful machine-learning tool</span></span>
+<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a>Take a linear predictor with a rich vector of features,</span>
+<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a>y_{t+h}=\alpha+x_t'\beta+u_{t+h}.</span>
+<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a>OLS minimises the residual sum of squares. Ridge regression instead solves</span>
+<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a>(\hat\alpha_\lambda,\hat\beta_\lambda)</span>
+<span id="cb2-80"><a href="#cb2-80" aria-hidden="true" tabindex="-1"></a>=\arg\min_{\alpha,\beta}</span>
+<span id="cb2-81"><a href="#cb2-81" aria-hidden="true" tabindex="-1"></a>\left<span class="sc">\{</span></span>
+<span id="cb2-82"><a href="#cb2-82" aria-hidden="true" tabindex="-1"></a>\sum_{t\in\mathcal T_{\mathrm{train}}}(y_{t+h}-\alpha-x_t'\beta)^2</span>
+<span id="cb2-83"><a href="#cb2-83" aria-hidden="true" tabindex="-1"></a>+\lambda\sum_{j=1}^{q}\beta_j^2</span>
+<span id="cb2-84"><a href="#cb2-84" aria-hidden="true" tabindex="-1"></a>\right<span class="sc">\}</span>,\qquad \lambda\geq0.</span>
+<span id="cb2-85"><a href="#cb2-85" aria-hidden="true" tabindex="-1"></a>$$ {#eq-ml-ridge}</span>
+<span id="cb2-86"><a href="#cb2-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-87"><a href="#cb2-87" aria-hidden="true" tabindex="-1"></a>The second term makes large slopes expensive. When predictors are correlated, many coefficient vectors can make almost indistinguishable in-sample predictions. Ridge prefers the one with a smaller Euclidean norm. In matrix notation, after centering or keeping an unpenalised intercept,</span>
+<span id="cb2-88"><a href="#cb2-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-89"><a href="#cb2-89" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-90"><a href="#cb2-90" aria-hidden="true" tabindex="-1"></a>\hat\beta_\lambda=(X'X+\lambda I)^{-1}X'y.</span>
+<span id="cb2-91"><a href="#cb2-91" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-92"><a href="#cb2-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-93"><a href="#cb2-93" aria-hidden="true" tabindex="-1"></a>The matrix $X'X+\lambda I$ remains invertible for $\lambda&gt;0$ even when the columns of $X$ are linearly dependent. Geometrically, the penalty prevents the fitted coefficient vector from moving far in directions where the data offer little information. The linear-algebra ingredients behind this expression are reviewed in @sec-matrices-transformations and @sec-linear-algebra-foundations.</span>
+<span id="cb2-94"><a href="#cb2-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-95"><a href="#cb2-95" aria-hidden="true" tabindex="-1"></a>Ridge does not select variables: it usually keeps every coefficient nonzero but reduces unstable ones. The lasso replaces $\sum_j\beta_j^2$ by $\sum_j|\beta_j|$ and can set some coefficients exactly to zero. Elastic net combines both penalties,</span>
+<span id="cb2-96"><a href="#cb2-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-97"><a href="#cb2-97" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-98"><a href="#cb2-98" aria-hidden="true" tabindex="-1"></a>\sum_t(y_{t+h}-\alpha-x_t'\beta)^2</span>
+<span id="cb2-99"><a href="#cb2-99" aria-hidden="true" tabindex="-1"></a>+\lambda\left<span class="co">[</span><span class="ot">(1-\eta)\frac{\|\beta\|_2^2}{2}+\eta\|\beta\|_1\right</span><span class="co">]</span>,</span>
+<span id="cb2-100"><a href="#cb2-100" aria-hidden="true" tabindex="-1"></a>\qquad 0\leq\eta\leq1.</span>
+<span id="cb2-101"><a href="#cb2-101" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-102"><a href="#cb2-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-103"><a href="#cb2-103" aria-hidden="true" tabindex="-1"></a>The $\ell_1$ corner is what permits selection; the $\ell_2$ part stabilises groups of correlated lags. These are not merely computational devices. They state a prior empirical judgment: extremely large and intricate responses to small movements in a predictor are less plausible unless the data repeatedly earn them. The same shrinkage logic appears in the Minnesota prior of a Bayesian VAR, developed in Chapter @sec-bvar.</span>
+<span id="cb2-104"><a href="#cb2-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-105"><a href="#cb2-105" aria-hidden="true" tabindex="-1"></a>Standardisation is essential here. A one-unit change in an interest rate and a one-unit change in an index need not be comparable. Before applying a common penalty, transform each predictor using the mean and standard deviation **estimated in the training window only**. Applying a full-sample transformation makes future observations influence the scale of the past. The point is small algebraically and consequential in a backtest.</span>
+<span id="cb2-106"><a href="#cb2-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-107"><a href="#cb2-107" aria-hidden="true" tabindex="-1"></a><span class="fu">### Features are hypotheses about the past</span></span>
+<span id="cb2-108"><a href="#cb2-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-109"><a href="#cb2-109" aria-hidden="true" tabindex="-1"></a>To give a learner a time series, one often builds a lag window,</span>
+<span id="cb2-110"><a href="#cb2-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-111"><a href="#cb2-111" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-112"><a href="#cb2-112" aria-hidden="true" tabindex="-1"></a>x_t=(y_t,y_{t-1},\ldots,y_{t-L+1},z_t,z_{t-1},\ldots,z_{t-L+1})'.</span>
+<span id="cb2-113"><a href="#cb2-113" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-114"><a href="#cb2-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-115"><a href="#cb2-115" aria-hidden="true" tabindex="-1"></a>This table is a representation of a dynamic question, not ordinary independent rows. The window length $L$, transformations, missing-value treatment, seasonal adjustment, and inclusion of external variables all impose structure. A model that forecasts levels with a bounded activation function can fail simply because it cannot extrapolate a trend; a model trained on raw prices may appear accurate because persistence dominates, while saying little about returns. The stationarity, unit-root, and cointegration diagnostics in Chapters @sec-time-series and @sec-cointegration should shape this work before a loss is minimised.</span>
+<span id="cb2-116"><a href="#cb2-116" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-117"><a href="#cb2-117" aria-hidden="true" tabindex="-1"></a><span class="fu">## Nonlinearity from partitions and from networks {#sec-ml-nonlinear-predictors}</span></span>
+<span id="cb2-118"><a href="#cb2-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-119"><a href="#cb2-119" aria-hidden="true" tabindex="-1"></a>Suppose a credit spread predicts low output growth only when it is already unusually high. A linear slope averages the two situations. A **regression tree** searches for a split such as $\text{spread}_t&gt;c$, then fits a separate local mean on each side. Repeated splits divide the predictor space into rectangles, and the forecast is constant within each terminal rectangle.</span>
+<span id="cb2-120"><a href="#cb2-120" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-121"><a href="#cb2-121" aria-hidden="true" tabindex="-1"></a>The attraction is immediate: interactions and thresholds are discovered without writing them all down in advance. A single deep tree is unstable, though. Moving one observation can alter an early split and change every subsequent branch. A random forest averages many trees grown on resampled observations and randomly selected candidate predictors. The average lowers variance. Gradient boosting builds trees sequentially, each new tree fitting the residual errors of its predecessors; with squared loss, the update has the form</span>
+<span id="cb2-122"><a href="#cb2-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-123"><a href="#cb2-123" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-124"><a href="#cb2-124" aria-hidden="true" tabindex="-1"></a>f_m(x)=f_{m-1}(x)+\nu g_m(x),</span>
+<span id="cb2-125"><a href="#cb2-125" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-126"><a href="#cb2-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-127"><a href="#cb2-127" aria-hidden="true" tabindex="-1"></a>where $g_m$ is a shallow tree and $\nu$ is a learning rate. Shallow trees, a small learning rate, and early stopping limit how closely the ensemble chases the training sample.</span>
+<span id="cb2-128"><a href="#cb2-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-129"><a href="#cb2-129" aria-hidden="true" tabindex="-1"></a>Trees have useful limits to remember. Their basic prediction within a leaf is an average of observed outcomes, so they extrapolate trends and extremes poorly. Their variable-importance measures can be misleading when predictors are correlated. Most importantly, a split saying that high spreads precede weak growth is a conditional forecasting association, not the effect of an intervention on spreads. For the latter, the identification problem in Chapter @sec-svar remains.</span>
+<span id="cb2-130"><a href="#cb2-130" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-131"><a href="#cb2-131" aria-hidden="true" tabindex="-1"></a><span class="fu">### From a lag window to a hidden representation</span></span>
+<span id="cb2-132"><a href="#cb2-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-133"><a href="#cb2-133" aria-hidden="true" tabindex="-1"></a>A feed-forward neural network starts with the same lag vector $x_t$, but repeatedly transforms it. In a one-hidden-layer network,</span>
+<span id="cb2-134"><a href="#cb2-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-135"><a href="#cb2-135" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-136"><a href="#cb2-136" aria-hidden="true" tabindex="-1"></a>h_t=\phi(W_1x_t+b_1),</span>
+<span id="cb2-137"><a href="#cb2-137" aria-hidden="true" tabindex="-1"></a>\qquad</span>
+<span id="cb2-138"><a href="#cb2-138" aria-hidden="true" tabindex="-1"></a>\hat y_{t+h\mid t}=w_2'h_t+b_2,</span>
+<span id="cb2-139"><a href="#cb2-139" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-140"><a href="#cb2-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-141"><a href="#cb2-141" aria-hidden="true" tabindex="-1"></a>where $\phi$ is a nonlinear activation such as the rectified linear unit, $\phi(a)=\max(a,0)$. The hidden units construct nonlinear combinations of lags; the final layer combines them. With enough units, such a network can approximate a wide class of continuous functions on a bounded region. This approximation result says little about how much data is needed to learn the function, which is precisely the scarce resource in macroeconomics.</span>
+<span id="cb2-142"><a href="#cb2-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-143"><a href="#cb2-143" aria-hidden="true" tabindex="-1"></a>The network is fitted by minimising an empirical loss through gradient descent. For a parameter vector $\theta$, a gradient step is</span>
+<span id="cb2-144"><a href="#cb2-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-145"><a href="#cb2-145" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-146"><a href="#cb2-146" aria-hidden="true" tabindex="-1"></a>\theta^{(r+1)}=\theta^{(r)}-\gamma_r\nabla_\theta</span>
+<span id="cb2-147"><a href="#cb2-147" aria-hidden="true" tabindex="-1"></a>\frac{1}{n}\sum_{t\in\mathcal T_{\mathrm{train}}}</span>
+<span id="cb2-148"><a href="#cb2-148" aria-hidden="true" tabindex="-1"></a>\ell\left(y_{t+h},f_\theta(x_t)\right).</span>
+<span id="cb2-149"><a href="#cb2-149" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-150"><a href="#cb2-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-151"><a href="#cb2-151" aria-hidden="true" tabindex="-1"></a>Back-propagation is the repeated chain rule used to calculate this gradient efficiently through the layers. Its economic interpretation is modest: it is a numerical method for adjusting a flexible forecast function. Dropout, weight decay, early stopping, and data augmentation all serve the familiar purpose of regularisation. They reduce the effective capacity of the fitted rule; they do not create additional business cycles in the historical record.</span>
+<span id="cb2-152"><a href="#cb2-152" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-153"><a href="#cb2-153" aria-hidden="true" tabindex="-1"></a><span class="fu">## Architectures that preserve temporal order {#sec-ml-sequence-architectures}</span></span>
+<span id="cb2-154"><a href="#cb2-154" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-155"><a href="#cb2-155" aria-hidden="true" tabindex="-1"></a>Flattening the last $L$ observations into a vector makes a feed-forward network possible, but it does not share any structure across dates. A recurrent, convolutional, or attention-based architecture introduces a particular idea about how temporal information should be reused. Each is a restriction as well as a source of flexibility.</span>
+<span id="cb2-156"><a href="#cb2-156" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-157"><a href="#cb2-157" aria-hidden="true" tabindex="-1"></a><span class="fu">### Recurrent networks and LSTMs</span></span>
+<span id="cb2-158"><a href="#cb2-158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-159"><a href="#cb2-159" aria-hidden="true" tabindex="-1"></a>An ordinary recurrent neural network maintains a hidden state,</span>
+<span id="cb2-160"><a href="#cb2-160" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-161"><a href="#cb2-161" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-162"><a href="#cb2-162" aria-hidden="true" tabindex="-1"></a>h_t=\phi(W_xx_t+W_hh_{t-1}+b),</span>
+<span id="cb2-163"><a href="#cb2-163" aria-hidden="true" tabindex="-1"></a>\qquad</span>
+<span id="cb2-164"><a href="#cb2-164" aria-hidden="true" tabindex="-1"></a>\hat y_{t+h\mid t}=a'h_t+c.</span>
+<span id="cb2-165"><a href="#cb2-165" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-166"><a href="#cb2-166" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-167"><a href="#cb2-167" aria-hidden="true" tabindex="-1"></a>The state is a learned summary of the past. Unrolling the recursion shows why a long sequence can be difficult: the derivative of a remote observation involves repeated products of $W_h$ and activation derivatives. Those products can vanish or explode, making long-lag learning fragile.</span>
+<span id="cb2-168"><a href="#cb2-168" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-169"><a href="#cb2-169" aria-hidden="true" tabindex="-1"></a>The long short-term memory network (LSTM) introduces a separate cell state $c_t$ and gates that decide what to retain <span class="co">[</span><span class="ot">@HochreiterSchmidhuber1997</span><span class="co">]</span>. With input $x_t$ and previous hidden state $h_{t-1}$,</span>
+<span id="cb2-170"><a href="#cb2-170" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-171"><a href="#cb2-171" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-172"><a href="#cb2-172" aria-hidden="true" tabindex="-1"></a>\begin{aligned}</span>
+<span id="cb2-173"><a href="#cb2-173" aria-hidden="true" tabindex="-1"></a>f_t&amp;=\sigma(W_f<span class="co">[</span><span class="ot">x_t,h_{t-1}</span><span class="co">]</span>+b_f), &amp; i_t&amp;=\sigma(W_i<span class="co">[</span><span class="ot">x_t,h_{t-1}</span><span class="co">]</span>+b_i),<span class="sc">\\</span></span>
+<span id="cb2-174"><a href="#cb2-174" aria-hidden="true" tabindex="-1"></a>o_t&amp;=\sigma(W_o<span class="co">[</span><span class="ot">x_t,h_{t-1}</span><span class="co">]</span>+b_o), &amp; \tilde c_t&amp;=\tanh(W_c<span class="co">[</span><span class="ot">x_t,h_{t-1}</span><span class="co">]</span>+b_c),<span class="sc">\\</span></span>
+<span id="cb2-175"><a href="#cb2-175" aria-hidden="true" tabindex="-1"></a>c_t&amp;=f_t\odot c_{t-1}+i_t\odot\tilde c_t, &amp; h_t&amp;=o_t\odot\tanh(c_t).</span>
+<span id="cb2-176"><a href="#cb2-176" aria-hidden="true" tabindex="-1"></a>\end{aligned}</span>
+<span id="cb2-177"><a href="#cb2-177" aria-hidden="true" tabindex="-1"></a>$$ {#eq-ml-lstm}</span>
+<span id="cb2-178"><a href="#cb2-178" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-179"><a href="#cb2-179" aria-hidden="true" tabindex="-1"></a>Here $\sigma$ maps a number to $(0,1)$, $\odot$ denotes element-by-element multiplication, and the forget gate $f_t$ can carry part of the old cell state forward. The equations give a precise meaning to the informal idea of memory. They do not establish that the learned cell is an economic state variable, nor that one gate corresponds to a named mechanism.</span>
+<span id="cb2-180"><a href="#cb2-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-181"><a href="#cb2-181" aria-hidden="true" tabindex="-1"></a>A bidirectional LSTM processes the input window in both directions. It can be legitimate when the whole input window lies before the forecast origin: the model is allowed to compare January with March when forecasting April. It is invalid if the backward pass sees dates after the forecast origin. This distinction is easy to lose in generic sequence-model software.</span>
+<span id="cb2-182"><a href="#cb2-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-183"><a href="#cb2-183" aria-hidden="true" tabindex="-1"></a><span class="fu">### Causal convolutions and TCNs</span></span>
+<span id="cb2-184"><a href="#cb2-184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-185"><a href="#cb2-185" aria-hidden="true" tabindex="-1"></a>A one-dimensional **causal convolution** with kernel $w_0,\ldots,w_{K-1}$ forms</span>
+<span id="cb2-186"><a href="#cb2-186" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-187"><a href="#cb2-187" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-188"><a href="#cb2-188" aria-hidden="true" tabindex="-1"></a>s_t=\sum_{j=0}^{K-1}w_jx_{t-j}.</span>
+<span id="cb2-189"><a href="#cb2-189" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-190"><a href="#cb2-190" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-191"><a href="#cb2-191" aria-hidden="true" tabindex="-1"></a>The same kernel is applied at every date, so a local pattern has the same meaning wherever it occurs. A dilated convolution replaces $t-j$ by $t-dj$, allowing the receptive field to expand without a huge kernel. Stacking several causal, dilated layers produces a temporal convolutional network (TCN). It can reach far back in time while remaining parallelisable during training <span class="co">[</span><span class="ot">@BaiKolterKoltun2018</span><span class="co">]</span>.</span>
+<span id="cb2-192"><a href="#cb2-192" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-193"><a href="#cb2-193" aria-hidden="true" tabindex="-1"></a><span class="al">![A causal convolution uses fixed past positions; attention can assign different weights to the same positions when the observed state changes. The weights in the lower panel are illustrative, not estimated from U.S. data.](../figures/machine-learning/causal-convolution-and-attention.png)</span>{#fig-ml-convolution-attention}</span>
+<span id="cb2-194"><a href="#cb2-194" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-195"><a href="#cb2-195" aria-hidden="true" tabindex="-1"></a>The word *causal* in a causal convolution concerns information flow: the architecture does not use future dates. It does not mean causal identification. The distinction matters throughout macroeconometrics.</span>
+<span id="cb2-196"><a href="#cb2-196" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-197"><a href="#cb2-197" aria-hidden="true" tabindex="-1"></a><span class="fu">### Attention and Transformers</span></span>
+<span id="cb2-198"><a href="#cb2-198" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-199"><a href="#cb2-199" aria-hidden="true" tabindex="-1"></a>The Transformer replaces a fixed recurrence or a fixed local kernel by data-dependent weighted combinations. For a sequence matrix $X$, construct queries, keys, and values,</span>
+<span id="cb2-200"><a href="#cb2-200" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-201"><a href="#cb2-201" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-202"><a href="#cb2-202" aria-hidden="true" tabindex="-1"></a>Q=XW_Q,\qquad K=XW_K,\qquad V=XW_V,</span>
+<span id="cb2-203"><a href="#cb2-203" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-204"><a href="#cb2-204" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-205"><a href="#cb2-205" aria-hidden="true" tabindex="-1"></a>and define scaled dot-product attention by</span>
+<span id="cb2-206"><a href="#cb2-206" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-207"><a href="#cb2-207" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-208"><a href="#cb2-208" aria-hidden="true" tabindex="-1"></a>\operatorname{Attention}(Q,K,V)=</span>
+<span id="cb2-209"><a href="#cb2-209" aria-hidden="true" tabindex="-1"></a>\operatorname{softmax}\left(\frac{QK'}{\sqrt{d_k}}+M\right)V.</span>
+<span id="cb2-210"><a href="#cb2-210" aria-hidden="true" tabindex="-1"></a>$$ {#eq-ml-attention}</span>
+<span id="cb2-211"><a href="#cb2-211" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-212"><a href="#cb2-212" aria-hidden="true" tabindex="-1"></a>Each row of the softmax is non-negative and sums to one. The entry in the mask $M$ is set to a very negative value for forbidden future positions, so a forecast at $t$ cannot attend to $t+1$. Positional encodings or time features are necessary because attention by itself sees a set of vectors, not their chronological order. Multiple attention heads apply several query-key-value maps in parallel, allowing different similarity patterns to be represented <span class="co">[</span><span class="ot">@VaswaniEtAl2017</span><span class="co">]</span>.</span>
+<span id="cb2-213"><a href="#cb2-213" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-214"><a href="#cb2-214" aria-hidden="true" tabindex="-1"></a>There is a useful connection with a nonlinear VAR. A linear VAR applies the same lag matrices at every date. An attention layer can recompute the weights placed on different past dates from the current window. It may, for example, put greater weight on recent financial observations in a stressed period. That adaptability is a forecasting property. An attention weight is not an elasticitiy, a Granger-causality statistic, or an impulse response. Correlated inputs can receive very different weights while producing the same forecast, and a large weight can reflect redundancy rather than economic importance.</span>
+<span id="cb2-215"><a href="#cb2-215" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-216"><a href="#cb2-216" aria-hidden="true" tabindex="-1"></a>Long sequences create a computational cost because the attention score matrix contains a pairwise comparison of positions. Time-series implementations therefore use patches of adjacent dates, restrict attention to local windows, or use approximate attention. They also choose whether tokens represent dates, variables, or blocks of a multivariate panel. These are consequential modelling choices: patching may help smooth high-frequency noise, but it can blur a sharp policy announcement.</span>
+<span id="cb2-217"><a href="#cb2-217" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-218"><a href="#cb2-218" aria-hidden="true" tabindex="-1"></a><span class="fu">### One horizon or many?</span></span>
+<span id="cb2-219"><a href="#cb2-219" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-220"><a href="#cb2-220" aria-hidden="true" tabindex="-1"></a>For a one-step model, multi-step forecasts can be obtained recursively:</span>
+<span id="cb2-221"><a href="#cb2-221" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-222"><a href="#cb2-222" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-223"><a href="#cb2-223" aria-hidden="true" tabindex="-1"></a>\hat y_{t+2\mid t}=f\left(\hat y_{t+1\mid t},x_t\right).</span>
+<span id="cb2-224"><a href="#cb2-224" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-225"><a href="#cb2-225" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-226"><a href="#cb2-226" aria-hidden="true" tabindex="-1"></a>The model is trained on observed lags but, beyond the first step, receives its own predictions. Errors can compound. A direct method instead fits a separate $f_h$ for each horizon, $\hat y_{t+h\mid t}=f_h(\mathcal I_t)$; a sequence-to-sequence model outputs the whole path jointly. Direct forecasts avoid recursive error propagation but require more parameters. A path model can preserve cross-horizon coherence, yet needs a loss and an evaluation that make that coherence visible.</span>
+<span id="cb2-227"><a href="#cb2-227" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-228"><a href="#cb2-228" aria-hidden="true" tabindex="-1"></a>The same distinction arises across series. A **local** model is estimated separately for each series. A **global** model shares parameters across a panel of related series, such as thousands of product sales or country-level macro series. Global learning can be powerful when many comparable trajectories exist. It is less compelling when a single country’s quarterly history is the effective sample and institutional differences are economically important.</span>
+<span id="cb2-229"><a href="#cb2-229" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-230"><a href="#cb2-230" aria-hidden="true" tabindex="-1"></a><span class="fu">## Forecasting a distribution, not only its centre {#sec-ml-probabilistic}</span></span>
+<span id="cb2-231"><a href="#cb2-231" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-232"><a href="#cb2-232" aria-hidden="true" tabindex="-1"></a>A point forecast cannot distinguish a predictable two-percent growth rate from a two-percent average of very different boom and recession outcomes. A distributional learner estimates an object such as</span>
+<span id="cb2-233"><a href="#cb2-233" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-234"><a href="#cb2-234" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-235"><a href="#cb2-235" aria-hidden="true" tabindex="-1"></a>F_{t,h}(y)=\Pr(Y_{t+h}\leq y\mid\mathcal I_t).</span>
+<span id="cb2-236"><a href="#cb2-236" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-237"><a href="#cb2-237" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-238"><a href="#cb2-238" aria-hidden="true" tabindex="-1"></a>One route is a parametric output layer that predicts a conditional mean and variance, then uses a Gaussian or Student distribution. Another predicts a grid of quantiles with the check loss of Chapter @sec-quantile-regression. The latter directly yields growth-at-risk, while a distributional VAR extends the question to several jointly evolving variables; see @sec-distributional-var.</span>
+<span id="cb2-239"><a href="#cb2-239" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-240"><a href="#cb2-240" aria-hidden="true" tabindex="-1"></a>Probabilistic forecasts need probabilistic evaluation. If a 90 percent interval is correctly calibrated over comparable forecast origins, roughly 90 percent of realisations should fall inside it. Calibration alone is insufficient: an interval extending from minus fifty to plus fifty percent would cover almost everything and be uninformative. The continuous ranked probability score (CRPS) rewards a predictive CDF that places probability near the realised value; the probability integral transform (PIT), $F_{t,h}(y_{t+h})$, should be approximately uniform for a calibrated continuous forecast. Calibration should also be checked separately in crises, where it is most valuable and the evidence is thinnest.</span>
+<span id="cb2-241"><a href="#cb2-241" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-242"><a href="#cb2-242" aria-hidden="true" tabindex="-1"></a>**Conformal prediction** offers a simple route to marginal coverage. Fit a point model on historical data, calculate past absolute forecast errors, and attach a suitably high empirical residual quantile to the next forecast. Under exchangeability, the interval has finite-sample coverage. Time series are not exchangeable, so rolling or weighted conformal procedures rely on approximate stability rather than a free guarantee. After a structural break, old residuals may be the wrong uncertainty distribution. The method makes this vulnerability visible; it cannot remove it.</span>
+<span id="cb2-243"><a href="#cb2-243" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-244"><a href="#cb2-244" aria-hidden="true" tabindex="-1"></a>Generative diffusion models go further by learning to reverse a gradual corruption of a future path with noise. Conditional on the observed past, repeated denoising yields simulated future trajectories rather than only independent marginal quantiles. This can be attractive for scenario generation and joint dependence across horizons. It is computationally demanding and requires just as much care about calibration, changing regimes, and the information set as any other forecast model <span class="co">[</span><span class="ot">@ChenWang2026</span><span class="co">]</span>.</span>
+<span id="cb2-245"><a href="#cb2-245" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-246"><a href="#cb2-246" aria-hidden="true" tabindex="-1"></a><span class="fu">## Foundation models, transfer, and the limits of analogy {#sec-ml-foundation-models}</span></span>
+<span id="cb2-247"><a href="#cb2-247" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-248"><a href="#cb2-248" aria-hidden="true" tabindex="-1"></a>A time-series foundation model is trained in advance on a large collection of series, then used directly or adapted to a new series. The hope is that recurring temporal motifs, seasonality, persistence, and changes in scale can be learned from many histories. For a small macro sample, transfer can be appealing because the model has seen far more trajectories than the domestic data alone provide.</span>
+<span id="cb2-249"><a href="#cb2-249" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-250"><a href="#cb2-250" aria-hidden="true" tabindex="-1"></a>The relevant empirical question is not whether pretraining is impressive in the abstract. It is whether the pretraining population resembles the target task, whether the target period may already have appeared in the training corpus, and whether the zero-shot forecast beats a simple model using the same real-time information. A benchmark contaminated by future target data is not a forecast experiment. Nor does a model trained on retail, electricity, and web traffic automatically understand an unprecedented monetary-fiscal regime or a pandemic. Pretraining supplies a statistical prior; it does not identify an invariant economic law.</span>
+<span id="cb2-251"><a href="#cb2-251" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-252"><a href="#cb2-252" aria-hidden="true" tabindex="-1"></a>Chen and Wang <span class="co">[</span><span class="ot">@ChenWang2026</span><span class="co">]</span> make a useful broader comparison. Classical methods retain unusually explicit ways of representing unit roots, cointegration, parameter restrictions, uncertainty, and structural identification. Neural and foundation models can offer nonlinear approximation and cross-series transfer, but normalisation layers do not resolve a unit root, and attention does not identify a policy shock. These are complementary capabilities, not interchangeable labels.</span>
+<span id="cb2-253"><a href="#cb2-253" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-254"><a href="#cb2-254" aria-hidden="true" tabindex="-1"></a><span class="fu">## A small U.S. forecasting exercise {#sec-ml-empirical}</span></span>
+<span id="cb2-255"><a href="#cb2-255" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-256"><a href="#cb2-256" aria-hidden="true" tabindex="-1"></a>The following exercise keeps the data and claims deliberately narrow. It forecasts annualised one-quarter-ahead U.S. real GDP growth from four lags of current GDP growth, CPI inflation, the federal funds rate, and the Baa–Treasury spread. The quarterly FRED series begin in 1961. At every origin from 1990Q1 onward, the model is re-estimated using only earlier observations. The ridge penalty is selected on earlier rolling origins within the expanding training sample.</span>
+<span id="cb2-257"><a href="#cb2-257" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-258"><a href="#cb2-258" aria-hidden="true" tabindex="-1"></a>The three contenders are a historical-mean forecast, an unpenalised linear lag regression, and ridge regression. The last two use the same features, so the comparison isolates the value of coefficient shrinkage rather than attributing a gain to a different information set. The source data and figures are generated by <span class="co">[</span><span class="ot">make_ml_timeseries_figures.py</span><span class="co">](../code/python/make_ml_timeseries_figures.py)</span>.</span>
+<span id="cb2-259"><a href="#cb2-259" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-260"><a href="#cb2-260" aria-hidden="true" tabindex="-1"></a><span class="al">![Realised annualised GDP growth and one-step forecasts made at successive expanding origins. The lower panel uses the entire 1990Q1–2024Q3 pseudo-out-of-sample period; its purpose is to retain the difficult episodes, not to declare a permanent ranking.](../figures/machine-learning/fred-expanding-ridge-forecast.png)</span>{#fig-ml-fred}</span>
+<span id="cb2-261"><a href="#cb2-261" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-262"><a href="#cb2-262" aria-hidden="true" tabindex="-1"></a>The figure gives a salutary result. In this particular specification, the historical mean has the lowest full-period RMSE; ridge improves slightly on unpenalised OLS but does not overturn that benchmark. The pandemic dominates squared errors and neither linear forecast anticipates it. This does not prove that sophisticated models are useless. It shows what an honest comparison is allowed to say: a richer specification has not earned a claim of superiority for this target, horizon, sample, and loss. A different horizon, real-time data vintage, or a model designed for distributional risk may lead to another conclusion, but each is a new experiment.</span>
+<span id="cb2-263"><a href="#cb2-263" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-264"><a href="#cb2-264" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
+<span id="cb2-265"><a href="#cb2-265" aria-hidden="true" tabindex="-1"></a><span class="co"># The essential chronology of the exercise.</span></span>
+<span id="cb2-266"><a href="#cb2-266" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> origin <span class="kw">in</span> forecast_origins:</span>
+<span id="cb2-267"><a href="#cb2-267" aria-hidden="true" tabindex="-1"></a>    train_x, train_y <span class="op">=</span> x[:origin], y[:origin]</span>
+<span id="cb2-268"><a href="#cb2-268" aria-hidden="true" tabindex="-1"></a>    lam <span class="op">=</span> choose_penalty_on_earlier_origins(train_x, train_y)</span>
+<span id="cb2-269"><a href="#cb2-269" aria-hidden="true" tabindex="-1"></a>    forecast[origin] <span class="op">=</span> fit_ridge(train_x, train_y, lam).predict(x[origin])</span>
+<span id="cb2-270"><a href="#cb2-270" aria-hidden="true" tabindex="-1"></a><span class="co"># Only after all forecasts have been stored is RMSE computed.</span></span>
+<span id="cb2-271"><a href="#cb2-271" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb2-272"><a href="#cb2-272" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-273"><a href="#cb2-273" aria-hidden="true" tabindex="-1"></a>The comparative study by Gopali et al. <span class="co">[</span><span class="ot">@GopaliSiamiNaminiAbriNamin2024</span><span class="co">]</span> is a useful counterpoint. On their daily stock and cryptocurrency data, LSTM, bidirectional LSTM, temporal convolutional, and multi-head attention models often report smaller errors than their VAR benchmark. The result is not uniform: their cryptocurrency $R^2$ values are negative for every reported method in several specifications, a reminder that volatile prices are difficult to forecast. Their chronological 70/30 split is preferable to random shuffling, but it remains one split on a particular collection of transformed financial series. It cannot establish that a deep architecture dominates VARs for macroeconomic forecasting, where data frequency, sample length, structural change, and the forecasting target are different.</span>
+<span id="cb2-274"><a href="#cb2-274" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-275"><a href="#cb2-275" aria-hidden="true" tabindex="-1"></a><span class="fu">### What to report with a machine-learning forecast</span></span>
+<span id="cb2-276"><a href="#cb2-276" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-277"><a href="#cb2-277" aria-hidden="true" tabindex="-1"></a>An applied result is easier to assess when it states, in one place:</span>
+<span id="cb2-278"><a href="#cb2-278" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-279"><a href="#cb2-279" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>the target, horizon, transformation, and decision loss;</span>
+<span id="cb2-280"><a href="#cb2-280" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>the exact time-$t$ information set, release timing, and data vintage;</span>
+<span id="cb2-281"><a href="#cb2-281" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>the training, validation, and final evaluation dates, including every tuning choice;</span>
+<span id="cb2-282"><a href="#cb2-282" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>strong benchmarks: at least a sensible naive forecast and a parsimonious time-series model;</span>
+<span id="cb2-283"><a href="#cb2-283" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>error scores by horizon and subperiod, together with forecast paths rather than only an average;</span>
+<span id="cb2-284"><a href="#cb2-284" aria-hidden="true" tabindex="-1"></a><span class="ss">6. </span>uncertainty calibration when intervals, quantiles, or scenarios are reported;</span>
+<span id="cb2-285"><a href="#cb2-285" aria-hidden="true" tabindex="-1"></a><span class="ss">7. </span>what remains predictive association rather than a causal or structural claim.</span>
+<span id="cb2-286"><a href="#cb2-286" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-287"><a href="#cb2-287" aria-hidden="true" tabindex="-1"></a>This is not a separate standard for machine learning. It is the same standard that makes an ARMA forecast, a VAR, a Bayesian model, or a Growth-at-Risk estimate scientifically interpretable.</span>
+<span id="cb2-288"><a href="#cb2-288" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-289"><a href="#cb2-289" aria-hidden="true" tabindex="-1"></a><span class="fu">## Forecasting is not structural analysis {#sec-ml-prediction-causality}</span></span>
+<span id="cb2-290"><a href="#cb2-290" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-291"><a href="#cb2-291" aria-hidden="true" tabindex="-1"></a>Machine learning can approximate the conditional relationship</span>
+<span id="cb2-292"><a href="#cb2-292" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-293"><a href="#cb2-293" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-294"><a href="#cb2-294" aria-hidden="true" tabindex="-1"></a>E(Y_{t+h}\mid X_t=x)</span>
+<span id="cb2-295"><a href="#cb2-295" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-296"><a href="#cb2-296" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-297"><a href="#cb2-297" aria-hidden="true" tabindex="-1"></a>with remarkable flexibility. A policy question asks something else:</span>
+<span id="cb2-298"><a href="#cb2-298" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-299"><a href="#cb2-299" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-300"><a href="#cb2-300" aria-hidden="true" tabindex="-1"></a>E\left<span class="co">[</span><span class="ot">Y_{t+h}\mid\operatorname{do}(D_t=d),\mathcal I_t\right</span><span class="co">]</span>,</span>
+<span id="cb2-301"><a href="#cb2-301" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-302"><a href="#cb2-302" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-303"><a href="#cb2-303" aria-hidden="true" tabindex="-1"></a>the outcome under an intervention setting a treatment or policy variable $D_t$ to $d$. The observational conditional expectation can differ because policy responds to information about future output, because an omitted shock moves both variables, or because the intervention changes the regime. A lower forecast error does not make that difference disappear.</span>
+<span id="cb2-304"><a href="#cb2-304" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-305"><a href="#cb2-305" aria-hidden="true" tabindex="-1"></a>This boundary does not diminish the value of prediction. A well-calibrated recession-risk forecast is useful even without a causal interpretation, and a flexible learner can construct controls, forecast counterfactual untreated outcomes, or summarise high-dimensional information within a carefully identified design. But the identifying assumptions must then be stated separately. The SVAR, local-projection, and instrumental-variable chapters remain relevant because the question has changed, not because the forecasting algorithm has become less sophisticated.</span>
+<span id="cb2-306"><a href="#cb2-306" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-307"><a href="#cb2-307" aria-hidden="true" tabindex="-1"></a><span class="fu">## Further reading</span></span>
+<span id="cb2-308"><a href="#cb2-308" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-309"><a href="#cb2-309" aria-hidden="true" tabindex="-1"></a>Chen and Wang <span class="co">[</span><span class="ot">@ChenWang2026</span><span class="co">]</span> provide a wide survey from VARs to contemporary AI-based forecasting, with particular attention to high dimensionality, nonstationarity, nonlinearity, uncertainty, and interpretability. Gopali et al. <span class="co">[</span><span class="ot">@GopaliSiamiNaminiAbriNamin2024</span><span class="co">]</span> offer an applied comparison of VAR, recurrent, convolutional, and attention models on volatile financial series. For the econometric foundations of forecast evaluation, the ARMA and VAR chapters of this course are the natural starting point; for tail and distributional targets, see Chapter @sec-growth-at-risk.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Camille Souffron, Ecole Normale Supérieure &amp; Paris School of Economics</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/Camille-Souffron/macroeconometrics-course/edit/main/chapters/10-machine-learning-time-series.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/Camille-Souffron/macroeconometrics-course/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+<p>Built with Quarto</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

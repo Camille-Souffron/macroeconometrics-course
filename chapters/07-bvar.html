@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>9&nbsp; Bayesian Estimation: Foundations and Applications to VARs – Macroeconometrics</title>
+<title>10&nbsp; Bayesian Estimation: Foundations and Applications to VARs – Macroeconometrics</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -91,7 +91,7 @@ div.csl-indent {
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
 <link href="../references.html" rel="next">
-<link href="../chapters/09-growth-at-risk.html" rel="prev">
+<link href="../chapters/10-machine-learning-time-series.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -184,7 +184,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/07-bvar.html">Bayesian Methods</a></li><li class="breadcrumb-item"><a href="../chapters/07-bvar.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Bayesian Estimation: Foundations and Applications to VARs</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/07-bvar.html">Bayesian Methods</a></li><li class="breadcrumb-item"><a href="../chapters/07-bvar.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Bayesian Estimation: Foundations and Applications to VARs</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -346,17 +346,34 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
- <span class="menu-text">Bayesian Methods</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false">
+ <span class="menu-text">Machine Learning and Forecasting</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/10-machine-learning-time-series.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Machine Learning Tools for Time Series</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="true">
+ <span class="menu-text">Bayesian Methods</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/07-bvar.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Bayesian Estimation: Foundations and Applications to VARs</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Bayesian Estimation: Foundations and Applications to VARs</span></span></a>
   </div>
 </li>
       </ul>
@@ -377,46 +394,46 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#sec-why-bayesian" id="toc-sec-why-bayesian" class="nav-link active" data-scroll-target="#sec-why-bayesian"><span class="header-section-number">9.1</span> Why Bayesian?</a>
+  <li><a href="#sec-why-bayesian" id="toc-sec-why-bayesian" class="nav-link active" data-scroll-target="#sec-why-bayesian"><span class="header-section-number">10.1</span> Why Bayesian?</a>
   <ul class="collapse">
   <li><a href="#bayes-theorem" id="toc-bayes-theorem" class="nav-link" data-scroll-target="#bayes-theorem">Bayes’ theorem</a></li>
   <li><a href="#where-does-the-prior-come-from" id="toc-where-does-the-prior-come-from" class="nav-link" data-scroll-target="#where-does-the-prior-come-from">Where does the prior come from?</a></li>
   <li><a href="#posterior-summaries" id="toc-posterior-summaries" class="nav-link" data-scroll-target="#posterior-summaries">Posterior summaries</a></li>
   </ul></li>
-  <li><a href="#sec-bayesian-computation" id="toc-sec-bayesian-computation" class="nav-link" data-scroll-target="#sec-bayesian-computation"><span class="header-section-number">9.2</span> Bayesian computation</a>
+  <li><a href="#sec-bayesian-computation" id="toc-sec-bayesian-computation" class="nav-link" data-scroll-target="#sec-bayesian-computation"><span class="header-section-number">10.2</span> Bayesian computation</a>
   <ul class="collapse">
   <li><a href="#the-gibbs-sampler" id="toc-the-gibbs-sampler" class="nav-link" data-scroll-target="#the-gibbs-sampler">The Gibbs sampler</a></li>
   <li><a href="#metropolis-hastings-and-modern-samplers" id="toc-metropolis-hastings-and-modern-samplers" class="nav-link" data-scroll-target="#metropolis-hastings-and-modern-samplers">Metropolis-Hastings and modern samplers</a></li>
   </ul></li>
-  <li><a href="#sec-bvar-priors" id="toc-sec-bvar-priors" class="nav-link" data-scroll-target="#sec-bvar-priors"><span class="header-section-number">9.3</span> Bayesian VARs: priors</a>
+  <li><a href="#sec-bvar-priors" id="toc-sec-bvar-priors" class="nav-link" data-scroll-target="#sec-bvar-priors"><span class="header-section-number">10.3</span> Bayesian VARs: priors</a>
   <ul class="collapse">
   <li><a href="#prior-1-the-minnesota-prior" id="toc-prior-1-the-minnesota-prior" class="nav-link" data-scroll-target="#prior-1-the-minnesota-prior">Prior 1: the Minnesota prior</a></li>
   <li><a href="#prior-2-the-normal-wishart-prior" id="toc-prior-2-the-normal-wishart-prior" class="nav-link" data-scroll-target="#prior-2-the-normal-wishart-prior">Prior 2: the Normal-Wishart prior</a></li>
   <li><a href="#prior-3-the-independent-normal-wishart-prior" id="toc-prior-3-the-independent-normal-wishart-prior" class="nav-link" data-scroll-target="#prior-3-the-independent-normal-wishart-prior">Prior 3: the independent Normal-Wishart prior</a></li>
   <li><a href="#prior-4-the-normal-diffuse-prior" id="toc-prior-4-the-normal-diffuse-prior" class="nav-link" data-scroll-target="#prior-4-the-normal-diffuse-prior">Prior 4: the Normal-diffuse prior</a></li>
   </ul></li>
-  <li><a href="#sec-tvp-bvar" id="toc-sec-tvp-bvar" class="nav-link" data-scroll-target="#sec-tvp-bvar"><span class="header-section-number">9.4</span> Time-varying Bayesian VARs</a>
+  <li><a href="#sec-tvp-bvar" id="toc-sec-tvp-bvar" class="nav-link" data-scroll-target="#sec-tvp-bvar"><span class="header-section-number">10.4</span> Time-varying Bayesian VARs</a>
   <ul class="collapse">
   <li><a href="#tvp-var-as-a-state-space-model-in-bayesian-form" id="toc-tvp-var-as-a-state-space-model-in-bayesian-form" class="nav-link" data-scroll-target="#tvp-var-as-a-state-space-model-in-bayesian-form">TVP-VAR as a state-space model, in Bayesian form</a></li>
   <li><a href="#stochastic-volatility" id="toc-stochastic-volatility" class="nav-link" data-scroll-target="#stochastic-volatility">Stochastic volatility</a></li>
   <li><a href="#a-taxonomy-of-time-varying-bvars" id="toc-a-taxonomy-of-time-varying-bvars" class="nav-link" data-scroll-target="#a-taxonomy-of-time-varying-bvars">A taxonomy of time-varying BVARs</a></li>
   <li><a href="#choosing-among-these-models" id="toc-choosing-among-these-models" class="nav-link" data-scroll-target="#choosing-among-these-models">Choosing among these models</a></li>
   </ul></li>
-  <li><a href="#sec-bvar-practice" id="toc-sec-bvar-practice" class="nav-link" data-scroll-target="#sec-bvar-practice"><span class="header-section-number">9.5</span> Practical implementation</a>
+  <li><a href="#sec-bvar-practice" id="toc-sec-bvar-practice" class="nav-link" data-scroll-target="#sec-bvar-practice"><span class="header-section-number">10.5</span> Practical implementation</a>
   <ul class="collapse">
   <li><a href="#forecasting-with-a-bvar" id="toc-forecasting-with-a-bvar" class="nav-link" data-scroll-target="#forecasting-with-a-bvar">Forecasting with a BVAR</a></li>
   <li><a href="#impulse-responses-from-bayesian-vars" id="toc-impulse-responses-from-bayesian-vars" class="nav-link" data-scroll-target="#impulse-responses-from-bayesian-vars">Impulse responses from Bayesian VARs</a></li>
   </ul></li>
-  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">9.6</span> Summary</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">10.6</span> Summary</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/Camille-Souffron/macroeconometrics-course/edit/main/chapters/07-bvar.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/Camille-Souffron/macroeconometrics-course/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/07-bvar.html">Bayesian Methods</a></li><li class="breadcrumb-item"><a href="../chapters/07-bvar.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Bayesian Estimation: Foundations and Applications to VARs</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/07-bvar.html">Bayesian Methods</a></li><li class="breadcrumb-item"><a href="../chapters/07-bvar.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Bayesian Estimation: Foundations and Applications to VARs</span></a></li></ol></nav>
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title"><span id="sec-bvar" class="quarto-section-identifier"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Bayesian Estimation: Foundations and Applications to VARs</span></span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<div class="quarto-title-block"><div><h1 class="title"><span id="sec-bvar" class="quarto-section-identifier"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Bayesian Estimation: Foundations and Applications to VARs</span></span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
 </div>
 
 
@@ -434,15 +451,15 @@ window.Quarto = {
 
 
 <p>Every model so far has been estimated the frequentist way: parameters are fixed but unknown constants, estimated by OLS, MLE, or GMM, with uncertainty expressed through asymptotic standard errors and confidence intervals - loosely, “if we repeated the sampling process infinitely often.” This chapter develops the Bayesian alternative, and argues that it is not merely a philosophical preference but close to a practical necessity for VARs estimated on typical macro samples.</p>
-<section id="sec-why-bayesian" class="level2" data-number="9.1">
-<h2 data-number="9.1" class="anchored" data-anchor-id="sec-why-bayesian"><span class="header-section-number">9.1</span> Why Bayesian?</h2>
+<section id="sec-why-bayesian" class="level2" data-number="10.1">
+<h2 data-number="10.1" class="anchored" data-anchor-id="sec-why-bayesian"><span class="header-section-number">10.1</span> Why Bayesian?</h2>
 <p>Macro data creates exactly the conditions frequentist asymptotics handle worst. Samples are short - <span class="math inline">\(T=40\)</span> to <span class="math inline">\(150\)</span> observations is typical - so asymptotic approximations are, in an important sense, fictions. Parameter counts explode quickly: a VAR(<span class="math inline">\(p\)</span>) with <span class="math inline">\(k\)</span> variables has <span class="math inline">\(k^2p\)</span> slope parameters plus <span class="math inline">\(k(k+1)/2\)</span> covariance parameters, so with <span class="math inline">\(T=120\)</span> quarterly observations (30 years) and <span class="math inline">\(k=8\)</span>, <span class="math inline">\(p=4\)</span>, OLS must estimate 264 slope parameters (plus covariance parameters) from 120 observations - catastrophic overfitting, with IRFs and forecasts that are, in a word, garbage. Structural breaks and regime changes reduce the <em>effective</em> number of observations per regime still further. And frequentist methods have no systematic way to use what is often known <em>before</em> looking at the data at all - economic theory, stylized facts, results from previous studies.</p>
 <p>The <strong>Bayesian solution</strong>: treat the parameter <span class="math inline">\(\theta\)</span> itself as a random variable, express what is known before seeing the data as a <strong>prior distribution</strong>, and update it with the data to obtain a <strong>posterior distribution</strong>.</p>
 <section id="bayes-theorem" class="level3">
 <h3 class="anchored" data-anchor-id="bayes-theorem">Bayes’ theorem</h3>
 <p><span id="eq-bayes-theorem"><span class="math display">\[
 \underbrace{p(\theta \mid Y)}_{\text{posterior}} \;\propto\; \underbrace{p(Y \mid \theta)}_{\text{likelihood}} \times \underbrace{p(\theta)}_{\text{prior}}.
-\tag{9.1}\]</span></span></p>
+\tag{10.1}\]</span></span></p>
 <p><span class="math inline">\(p(\theta)\)</span> is the <strong>prior</strong> - what is believed about <span class="math inline">\(\theta\)</span> before seeing the data (theory, stylized facts, regularization, prior empirical results); <span class="math inline">\(p(Y\mid\theta)\)</span> is the <strong>likelihood</strong> - exactly the same object used in MLE, the probability of the observed data given a parameter value; <span class="math inline">\(p(\theta\mid Y)\)</span> is the <strong>posterior</strong> - the updated belief about <span class="math inline">\(\theta\)</span> after seeing the data, and the entire object of Bayesian inference.</p>
 <p>The conditioning logic, prior-to-posterior update, and distinction from frequentist intervals are introduced in <a href="00-mathematical-foundations.html#sec-bayes-foundations" class="quarto-xref"><span>Section 6</span></a>.</p>
 <p>Three conceptual shifts relative to frequentism follow directly. Uncertainty about <span class="math inline">\(\theta\)</span> is <em>probabilistic</em>, not a statement about hypothetically repeated sampling. The posterior is a full <em>distribution</em> over <span class="math inline">\(\theta\)</span>, not a point estimate plus a standard error. And as <span class="math inline">\(T \to \infty\)</span>, the prior is washed out by the data - the posterior converges to the MLE (the Bernstein-von Mises theorem) - but with <em>small</em> <span class="math inline">\(T\)</span>, exactly the macro case, the prior genuinely matters.</p>
@@ -460,7 +477,7 @@ window.Quarto = {
 <p>A Bayesian instead places a prior <span class="math inline">\(\phi \sim \mathcal{N}(1,\kappa^2)\)</span> - “a random walk is a reasonable benchmark.” The posterior mean is then a precision-weighted average of the two sources of information,</p>
 <p><span id="eq-ar1-posterior-mean"><span class="math display">\[
 E[\phi\mid Y] = \underbrace{\frac{T/\sigma^2}{T/\sigma^2 + 1/\kappa^2}}_{\text{weight on data}}\hat\phi_{OLS} + \underbrace{\frac{1/\kappa^2}{T/\sigma^2+1/\kappa^2}}_{\text{weight on prior}}\cdot 1.
-\tag{9.2}\]</span></span></p>
+\tag{10.2}\]</span></span></p>
 <p>With small <span class="math inline">\(T\)</span>, the prior dominates and shrinks <span class="math inline">\(\phi\)</span> toward 1 (the random-walk benchmark); with large <span class="math inline">\(T\)</span>, the data dominates and the posterior converges to the OLS estimate. This <strong>shrinkage</strong> is regularization in the same spirit as ridge regression, but derived from a fully probabilistic model rather than imposed as an ad hoc penalty.</p>
 </div>
 </div>
@@ -470,7 +487,7 @@ E[\phi\mid Y] = \underbrace{\frac{T/\sigma^2}{T/\sigma^2 + 1/\kappa^2}}_{\text{w
 <img src="../figures/bvar/prior-likelihood-posterior-ar1.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-prior-posterior-ar1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;9.1: Bayesian updating for the AR(1) coefficient: the wide, noisy likelihood from a short sample (<span class="math inline">\(T=30\)</span>) combines with a random-walk-centered prior to produce a posterior that is both shifted toward 1 and narrower than either input alone.
+Figure&nbsp;10.1: Bayesian updating for the AR(1) coefficient: the wide, noisy likelihood from a short sample (<span class="math inline">\(T=30\)</span>) combines with a random-walk-centered prior to produce a posterior that is both shifted toward 1 and narrower than either input alone.
 </figcaption>
 </figure>
 </div>
@@ -498,7 +515,7 @@ Figure&nbsp;9.1: Bayesian updating for the AR(1) coefficient: the wide, noisy li
 <div id="tbl-posterior-summaries" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-posterior-summaries-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;9.1: Posterior summaries and their frequentist counterparts
+Table&nbsp;10.1: Posterior summaries and their frequentist counterparts
 </figcaption>
 <div aria-describedby="tbl-posterior-summaries-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
@@ -551,8 +568,8 @@ p(Y\mid\mathcal{M}) = \int p(Y\mid\theta,\mathcal{M})\,p(\theta\mid\mathcal{M})\
 <p>automatically penalizes over-parameterization - an Occam’s-razor effect built directly into the marginal likelihood, without needing a separate information-criterion penalty term bolted on afterward.</p>
 </section>
 </section>
-<section id="sec-bayesian-computation" class="level2" data-number="9.2">
-<h2 data-number="9.2" class="anchored" data-anchor-id="sec-bayesian-computation"><span class="header-section-number">9.2</span> Bayesian computation</h2>
+<section id="sec-bayesian-computation" class="level2" data-number="10.2">
+<h2 data-number="10.2" class="anchored" data-anchor-id="sec-bayesian-computation"><span class="header-section-number">10.2</span> Bayesian computation</h2>
 <p>In some models the posterior has a closed analytical form: a normal likelihood combined with a normal prior on a mean gives a normal posterior (a <strong>conjugate</strong> pair); a Normal-Wishart prior on <span class="math inline">\((B,\Sigma)\)</span> in a VAR gives a Normal-Wishart posterior. In general, though, the posterior is a high-dimensional integral with no closed form,</p>
 <p><span class="math display">\[
 p(\theta\mid Y) = \frac{p(Y\mid\theta)\,p(\theta)}{\int p(Y\mid\theta)\,p(\theta)\,d\theta},
@@ -570,7 +587,7 @@ p(\theta\mid Y) = \frac{p(Y\mid\theta)\,p(\theta)}{\int p(Y\mid\theta)\,p(\theta
 <img src="../figures/bvar/mcmc-trace-convergence.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mcmc-trace-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;9.2: Two MCMC chains started from very different initial values (<span class="math inline">\(\phi^{(0)} = 0.15\)</span> and <span class="math inline">\(\phi^{(0)} = 1.30\)</span>) converge to mix around the same true value (<span class="math inline">\(\phi=0.75\)</span>) after burn-in; the post-burn-in marginal histograms match the analytical posterior density closely, confirming convergence.
+Figure&nbsp;10.2: Two MCMC chains started from very different initial values (<span class="math inline">\(\phi^{(0)} = 0.15\)</span> and <span class="math inline">\(\phi^{(0)} = 1.30\)</span>) converge to mix around the same true value (<span class="math inline">\(\phi=0.75\)</span>) after burn-in; the post-burn-in marginal histograms match the analytical posterior density closely, confirming convergence.
 </figcaption>
 </figure>
 </div>
@@ -584,8 +601,8 @@ Figure&nbsp;9.2: Two MCMC chains started from very different initial values (<sp
 <p>setting <span class="math inline">\(\theta^{(s)}=\theta^*\)</span> if accepted and <span class="math inline">\(\theta^{(s)}=\theta^{(s-1)}\)</span> otherwise. Plain random-walk MH explores the parameter space slowly; modern alternatives address this directly. <strong>Hamiltonian Monte Carlo (HMC)</strong> uses the gradient of <span class="math inline">\(\log p(\theta\mid Y)\)</span> to make directed rather than random proposals, dramatically lowering autocorrelation (implemented in Stan). <strong>NUTS</strong>, the No-U-Turn Sampler, is an adaptive form of HMC, and the default sampler in Stan and PyMC. <strong>Variational Bayes</strong> instead approximates the posterior by a tractable family (e.g.&nbsp;Gaussian), minimizing the KL divergence to the true posterior - very fast, but only approximate, and mainly useful for very large models where exact MCMC is infeasible. When the prior and likelihood happen to be conjugate, none of this machinery is needed at all: the posterior is available analytically, in the same family as the prior - the Normal-Wishart case for VARs, developed next.</p>
 </section>
 </section>
-<section id="sec-bvar-priors" class="level2" data-number="9.3">
-<h2 data-number="9.3" class="anchored" data-anchor-id="sec-bvar-priors"><span class="header-section-number">9.3</span> Bayesian VARs: priors</h2>
+<section id="sec-bvar-priors" class="level2" data-number="10.3">
+<h2 data-number="10.3" class="anchored" data-anchor-id="sec-bvar-priors"><span class="header-section-number">10.3</span> Bayesian VARs: priors</h2>
 <p>The Bayesian answer to catastrophic VAR over-parameterization - sometimes literally more parameters than observations - is a prior that <strong>shrinks</strong> the VAR toward a parsimonious benchmark (a random walk, say, or zero cross-variable lags), while still letting a sufficiently strong signal in the data override that prior. This is regularization, but carried out in a fully probabilistic and internally coherent way.</p>
 <div class="callout callout-style-default callout-important callout-titled" title="The general Bayesian VAR setup">
 <div class="callout-header d-flex align-content-center">
@@ -618,7 +635,7 @@ v_{\ell,ij}^2 = \begin{cases} \left(\dfrac{\lambda_1}{\ell^{\lambda_3}}\right)^2
 <img src="../figures/bvar/ols-vs-minnesota-irf-comparison.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-minnesota-irf-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;9.3: The Minnesota prior in action, same short dataset (<span class="math inline">\(T=40\)</span>, <span class="math inline">\(k=6\)</span>) estimated two ways: OLS confidence bands (left) are wide and can include explosive impulse responses, while the Bayesian VAR with a Minnesota prior (right) shrinks toward the random-walk benchmark, giving tighter, better-centered bands around the true IRF (an AR(1) with <span class="math inline">\(\phi=0.70\)</span>).
+Figure&nbsp;10.3: The Minnesota prior in action, same short dataset (<span class="math inline">\(T=40\)</span>, <span class="math inline">\(k=6\)</span>) estimated two ways: OLS confidence bands (left) are wide and can include explosive impulse responses, while the Bayesian VAR with a Minnesota prior (right) shrinks toward the random-walk benchmark, giving tighter, better-centered bands around the true IRF (an AR(1) with <span class="math inline">\(\phi=0.70\)</span>).
 </figcaption>
 </figure>
 </div>
@@ -636,8 +653,8 @@ Figure&nbsp;9.3: The Minnesota prior in action, same short dataset (<span class=
 <p>Addresses a different question: what if the coefficients <span class="math inline">\(B\)</span> should be shrunk, but there is no strong prior view on <span class="math inline">\(\Sigma\)</span> at all? The prior combines an informative, Minnesota-type shrinkage prior on <span class="math inline">\(B\)</span>, <span class="math inline">\(\mathrm{vec}(B) \sim \mathcal{N}(\mathrm{vec}(\underline{B}), \underline{V}_B)\)</span>, with a diffuse (Jeffreys) prior on <span class="math inline">\(\Sigma\)</span>, <span class="math inline">\(p(\Sigma) \propto |\Sigma|^{-(k+1)/2}\)</span>, letting the data determine the error covariance entirely. The posterior is not fully conjugate but both full conditionals remain analytical, so Gibbs sampling is straightforward: <span class="math inline">\(B\mid\Sigma,Y \sim \mathcal{N}(\overline{B},\overline{V}_B)\)</span>, and <span class="math inline">\(\Sigma\mid B,Y \sim \mathcal{IW}(\hat E'\hat E,\, T-kp)\)</span> with <span class="math inline">\(\hat E = Y-XB\)</span>. This gives coefficient shrinkage without restricting the error-covariance structure at all - useful when the researcher holds a strong theoretical prior on the dynamics but wants the residual covariances left entirely data-driven, as in some SFC or structural models where theory pins down particular behavioral equations while the error structure is deliberately left unrestricted.</p>
 </section>
 </section>
-<section id="sec-tvp-bvar" class="level2" data-number="9.4">
-<h2 data-number="9.4" class="anchored" data-anchor-id="sec-tvp-bvar"><span class="header-section-number">9.4</span> Time-varying Bayesian VARs</h2>
+<section id="sec-tvp-bvar" class="level2" data-number="10.4">
+<h2 data-number="10.4" class="anchored" data-anchor-id="sec-tvp-bvar"><span class="header-section-number">10.4</span> Time-varying Bayesian VARs</h2>
 <p>Every VAR discussed so far assumes constant coefficients <span class="math inline">\(B\)</span> and constant <span class="math inline">\(\Sigma\)</span>. But the macro record is full of episodes suggesting otherwise: the Great Moderation (mid-1980s) roughly halved volatility - was that a change in <span class="math inline">\(B\)</span>, or simply a change in the size of the shocks hitting the economy? Monetary transmission plausibly changed around the effective lower bound period (2008-2015); cross-country financial spillovers strengthened with globalization. Two distinct dimensions of time variation are worth separating. <strong>Time-varying parameters (TVP)</strong>: the VAR coefficients <span class="math inline">\(B_t\)</span> themselves change over time, capturing gradual structural change (already developed as the TVP-VAR in <a href="06-nonlinear.html#sec-tvp-var" class="quarto-xref"><span>Section 7.5</span></a>). <strong>Stochastic volatility (SV)</strong>: the error covariance <span class="math inline">\(\Sigma_t\)</span> changes over time, capturing heteroskedasticity directly - larger shocks in a crisis, smaller ones in tranquil periods. The two can be combined, and estimating a fixed-parameter VAR when either is genuinely present in the data leads to biased coefficients and unreliable inference.</p>
 <section id="tvp-var-as-a-state-space-model-in-bayesian-form" class="level3">
 <h3 class="anchored" data-anchor-id="tvp-var-as-a-state-space-model-in-bayesian-form">TVP-VAR as a state-space model, in Bayesian form</h3>
@@ -649,7 +666,7 @@ Figure&nbsp;9.3: The Minnesota prior in action, same short dataset (<span class=
 <img src="../figures/bvar/tvp-var-coefficient-drift.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-tvp-coefficients-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;9.4: A TVP-VAR coefficient (here, the inflation-to-output link) drifting gradually over four decades: the constant-parameter OLS estimate (dashed red) is a poor summary of a relationship that strengthens through the 1970s, peaks around the mid-1980s, and weakens sharply after the Great Moderation (1984).
+Figure&nbsp;10.4: A TVP-VAR coefficient (here, the inflation-to-output link) drifting gradually over four decades: the constant-parameter OLS estimate (dashed red) is a poor summary of a relationship that strengthens through the 1970s, peaks around the mid-1980s, and weakens sharply after the Great Moderation (1984).
 </figcaption>
 </figure>
 </div>
@@ -667,7 +684,7 @@ u_t = e^{h_t/2}\varepsilon_t, \qquad \varepsilon_t \sim \mathcal{N}(0,1), \qquad
 <img src="../figures/bvar/stochastic-volatility-illustration.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-stochastic-volatility-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;9.5: A simulated series with stochastic volatility: the top panel shows <span class="math inline">\(y_t = e^{h_t/2}\varepsilon_t\)</span> with a time-varying <span class="math inline">\(\pm 2\hat\sigma_t\)</span> band, including a sharp crisis spike; the bottom panel shows the underlying log-variance <span class="math inline">\(h_t\)</span> following a persistent, mean-reverting AR(1) with a pronounced jump around the crisis episode. A constant-variance model would badly misjudge uncertainty throughout this sample.
+Figure&nbsp;10.5: A simulated series with stochastic volatility: the top panel shows <span class="math inline">\(y_t = e^{h_t/2}\varepsilon_t\)</span> with a time-varying <span class="math inline">\(\pm 2\hat\sigma_t\)</span> band, including a sharp crisis spike; the bottom panel shows the underlying log-variance <span class="math inline">\(h_t\)</span> following a persistent, mean-reverting AR(1) with a pronounced jump around the crisis episode. A constant-variance model would badly misjudge uncertainty throughout this sample.
 </figcaption>
 </figure>
 </div>
@@ -678,7 +695,7 @@ Figure&nbsp;9.5: A simulated series with stochastic volatility: the top panel sh
 <div id="tbl-tvp-bvar-taxonomy" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-tvp-bvar-taxonomy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;9.2: A taxonomy of time-varying Bayesian VARs
+Table&nbsp;10.2: A taxonomy of time-varying Bayesian VARs
 </figcaption>
 <div aria-describedby="tbl-tvp-bvar-taxonomy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
@@ -751,8 +768,8 @@ Table&nbsp;9.2: A taxonomy of time-varying Bayesian VARs
 <p>Five general principles help discipline the choice. <strong>Start simple</strong>: a constant-parameter Bayesian VAR with a Minnesota prior already improves substantially on OLS, and time variation should be added only when the data actually calls for it. <strong>Visualize volatility first</strong>: plot the squared residuals from a constant-<span class="math inline">\(B\)</span> VAR; if volatility looks clearly non-stationary, add SV, and if it looks stable, do not. <strong>Test for parameter instability</strong> directly (Chow tests, Bai-Perron), with strong discrete breaks pointing toward TVP or regime-switching specifications and gradual drift pointing toward a random-walk TVP prior. <strong>Use formal model comparison</strong> - the marginal likelihood (Bayes factor), or out-of-sample forecast evaluation (DIC, WAIC, rolling mean squared forecast error, backtesting) - since overly complex models can still overfit within a Bayesian framework if the prior is not sufficiently tight. And weigh <strong>interpretability</strong>: a TVP-SV model with 8 variables produces 8 time-varying IRFs per shock, changing every quarter - hard to digest, and worth the added complexity only when the research question genuinely requires it (e.g.&nbsp;“did monetary transmission change after 2008?”).</p>
 </section>
 </section>
-<section id="sec-bvar-practice" class="level2" data-number="9.5">
-<h2 data-number="9.5" class="anchored" data-anchor-id="sec-bvar-practice"><span class="header-section-number">9.5</span> Practical implementation</h2>
+<section id="sec-bvar-practice" class="level2" data-number="10.5">
+<h2 data-number="10.5" class="anchored" data-anchor-id="sec-bvar-practice"><span class="header-section-number">10.5</span> Practical implementation</h2>
 <div class="callout callout-style-default callout-note callout-titled" title="Workflow">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -786,7 +803,7 @@ p(y_{T+1},\ldots,y_{T+H}\mid Y) = \int p(y_{T+1:T+H}\mid B,\Sigma)\,p(B,\Sigma\m
 <img src="../figures/bvar/bvar-forecast-fan-chart.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-bvar-fan-chart-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;9.6: A posterior predictive forecast fan chart: the 68 and 90 percent credible bands widen with the horizon, reflecting both shock uncertainty and genuine parameter uncertainty - each posterior draw of <span class="math inline">\((B^{(s)},\Sigma^{(s)})\)</span> implies a different propagation path. A plug-in forecast built only from the posterior mean of the parameters would understate this uncertainty.
+Figure&nbsp;10.6: A posterior predictive forecast fan chart: the 68 and 90 percent credible bands widen with the horizon, reflecting both shock uncertainty and genuine parameter uncertainty - each posterior draw of <span class="math inline">\((B^{(s)},\Sigma^{(s)})\)</span> implies a different propagation path. A plug-in forecast built only from the posterior mean of the parameters would understate this uncertainty.
 </figcaption>
 </figure>
 </div>
@@ -810,8 +827,8 @@ Figure&nbsp;9.6: A posterior predictive forecast fan chart: the 68 and 90 percen
 </div>
 </section>
 </section>
-<section id="summary" class="level2" data-number="9.6">
-<h2 data-number="9.6" class="anchored" data-anchor-id="summary"><span class="header-section-number">9.6</span> Summary</h2>
+<section id="summary" class="level2" data-number="10.6">
+<h2 data-number="10.6" class="anchored" data-anchor-id="summary"><span class="header-section-number">10.6</span> Summary</h2>
 <p>Bayesian estimation brings four distinct things to macroeconometrics that frequentist methods, applied to typical macro sample sizes, cannot easily supply on their own: <strong>regularization</strong>, through priors that shrink parameters toward economically sensible benchmarks and directly address the VAR over-parameterization problem; a principled way to bring in <strong>theoretical priors and existing empirical knowledge</strong>, rather than discarding it; <strong>full uncertainty quantification</strong> through posterior distributions, credible bands, and the posterior predictive distribution, rather than point estimates dressed up with asymptotic standard errors that may not hold in short samples; <strong>time variation when the data calls for it</strong>, via state-space models and Gibbs sampling, for TVP and stochastic-volatility specifications that are otherwise computationally intractable; and <strong>principled model comparison</strong> through the marginal likelihood, selecting among competing specifications without resorting to repeated significance testing.</p>
 
 
@@ -1303,8 +1320,8 @@ Primiceri, Giorgio E. 2005. <span>“Time Varying Structural Vector Autoregressi
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../chapters/09-growth-at-risk.html" class="pagination-link" aria-label="Quantile Regressions and Growth-at-Risk">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Quantile Regressions and Growth-at-Risk</span></span>
+      <a href="../chapters/10-machine-learning-time-series.html" class="pagination-link" aria-label="Machine Learning Tools for Time Series">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Machine Learning Tools for Time Series</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
