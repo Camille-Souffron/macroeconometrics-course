@@ -19,3 +19,10 @@ Tracks problems found while converting the source slides into the Quarto book. E
 - All 4 figures referenced in `source/slides/03_ARMA/main (2).tex` migrated to `figures/arma/` with descriptive names. No figures missing.
 - The Nishi (2021) reading assigned as homework was added to `references.bib` (`@Nishi2021`) since the slide gave full bibliographic detail (author, year, title, journal, URL).
 - `\citecolor` etc. in the preamble (`hyperref` color options) are presentation-only and were dropped, as with other Beamer-only commands.
+
+## Lecture 4 - VAR (`chapters/03-var.qmd`)
+
+- All 3 figures referenced in `source/slides/04_VAR/main (3).tex` migrated to `figures/var/`. No figures missing.
+- Added canonical citations (Sims 1980, Lucas 1976, Sargent-Wallace 1975, Kydland-Prescott 1982, Long-Plosser 1983, Kirman 1992, Barro-Grossman 1971, Granger 1969, Zellner 1962) to `references.bib`; the slides gave author/year/journal only, standard volume/page metadata for these well-known papers was completed and should be spot-checked.
+- The slide mentions "*Transforming Modern Macroeconomics: Exploring Disequilibrium Microfoundations, 1956-2003* (2012)" without an author. Kept as plain-text mention (not a formal `@citation`) rather than guessing the author, per the no-invented-metadata rule.
+- The VECM / cointegration material (end of the VAR lecture, "for the 6th class") is deliberately kept brief here as a preview - full treatment is in the Cointegration and DFM chapter converted from lecture 7.

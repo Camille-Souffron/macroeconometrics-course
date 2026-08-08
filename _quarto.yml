@@ -48,6 +48,10 @@ book:
       chapters:
         - chapters/02-arma.qmd
 
+    - part: "Vector Autoregressions"
+      chapters:
+        - chapters/03-var.qmd
+
     - references.qmd
 
 bibliography: references.bib
