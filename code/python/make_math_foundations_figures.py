@@ -50,6 +50,113 @@ def linear_transformation():
     plt.close(fig)
 
 
+def bases_and_span():
+    fig, axes = plt.subplots(1, 3, figsize=(13, 4.1), sharex=True, sharey=True)
+    limits = dict(xlim=(-2.6, 3.1), ylim=(-2.3, 2.7), aspect="equal")
+    # A basis: two independent directions spanning the plane.
+    ax = axes[0]
+    u, v, x = np.array([1.6, .25]), np.array([.35, 1.35]), np.array([1.95, 1.6])
+    _arrow(ax, (0, 0), u, BLUE, "$u$")
+    _arrow(ax, (0, 0), v, RED, "$v$")
+    _arrow(ax, (0, 0), x, PURPLE, "$x= u+v$")
+    ax.set(title="A free family gives unique coordinates", **limits)
+    # A linked family: all generated vectors stay on the same line.
+    ax = axes[1]
+    u, v = np.array([1.4, .7]), np.array([2.1, 1.05])
+    line = np.column_stack([np.linspace(-2.5, 3, 100), .5 * np.linspace(-2.5, 3, 100)])
+    ax.plot(line[:, 0], line[:, 1], color="#c7c7c7", lw=2)
+    _arrow(ax, (0, 0), u, BLUE, "$u$")
+    _arrow(ax, (0, 0), v, RED, "$v=1.5u$")
+    ax.set(title="A linked family spans only a line", **limits)
+    # A subspace: a line through origin, contrasted with a translated affine line.
+    ax = axes[2]
+    z = np.linspace(-2.5, 3, 100)
+    ax.plot(z, -.45 * z, color=PURPLE, lw=2.4, label=r"$\mathrm{Vect}(w)$")
+    ax.plot(z, -.45 * z + 1.1, color="#999999", ls=":", lw=2, label="translated line")
+    _arrow(ax, (0, 0), np.array([1.5, -.675]), PURPLE, "$w$")
+    ax.scatter(0, 0, color="black", s=16)
+    ax.set(title="A vector subspace must contain zero", **limits)
+    ax.legend(frameon=True, fontsize=9, loc="lower left")
+    for ax in axes:
+        ax.axhline(0, color="black", lw=.65)
+        ax.axvline(0, color="black", lw=.65)
+        ax.set_xlabel("first coordinate")
+    axes[0].set_ylabel("second coordinate")
+    fig.tight_layout()
+    fig.savefig(FIGURES / "bases-span-and-subspaces.png", dpi=180, bbox_inches="tight")
+    plt.close(fig)
+
+
+def dimensions_and_products():
+    fig, ax = plt.subplots(figsize=(10.5, 3.2))
+    ax.axis("off")
+    boxes = [
+        (.05, .35, .23, .34, BLUE, r"$x\in R^n$"),
+        (.39, .35, .23, .34, RED, r"$A\in R^{m\times n}$"),
+        (.73, .35, .23, .34, PURPLE, r"$Ax\in R^m$"),
+    ]
+    for left, bottom, width, height, color, text in boxes:
+        rect = plt.Rectangle((left, bottom), width, height, facecolor=color, alpha=.16, edgecolor=color, lw=2)
+        ax.add_patch(rect)
+        ax.text(left + width / 2, bottom + height / 2, text, ha="center", va="center", fontsize=17, color=color)
+    ax.annotate("", xy=(.37, .52), xytext=(.29, .52), arrowprops={"arrowstyle": "->", "lw": 2})
+    ax.annotate("", xy=(.71, .52), xytext=(.63, .52), arrowprops={"arrowstyle": "->", "lw": 2})
+    ax.text(.5, .17, r"The inner dimensions $n$ match; the product has the outer dimension $m$.", ha="center", fontsize=13)
+    ax.text(.5, .83, r"For $AB$, the number of columns of $A$ must equal the number of rows of $B$.", ha="center", fontsize=14)
+    ax.set(xlim=(0, 1), ylim=(0, 1))
+    fig.tight_layout()
+    fig.savefig(FIGURES / "matrix-vector-dimensions.png", dpi=180, bbox_inches="tight")
+    plt.close(fig)
+
+
+def determinant_and_invertibility():
+    transforms = [
+        (np.array([[1.35, .35], [.25, .85]]), "non-zero determinant: area survives", BLUE),
+        (np.array([[1.0, .55], [.5, .275]]), "zero determinant: the plane collapses", RED),
+    ]
+    grid = np.linspace(-1.8, 1.8, 11)
+    square = np.array([[0, 0], [1, 0], [1, 1], [0, 1], [0, 0]])
+    fig, axes = plt.subplots(1, 2, figsize=(10.5, 4.5), sharex=True, sharey=True)
+    for ax, (matrix, title, color) in zip(axes, transforms):
+        for value in grid:
+            horizontal = np.column_stack([grid, np.full_like(grid, value)]) @ matrix.T
+            vertical = np.column_stack([np.full_like(grid, value), grid]) @ matrix.T
+            ax.plot(horizontal[:, 0], horizontal[:, 1], color="#c7c7c7", lw=.8)
+            ax.plot(vertical[:, 0], vertical[:, 1], color="#c7c7c7", lw=.8)
+        image = square @ matrix.T
+        ax.fill(image[:, 0], image[:, 1], color=color, alpha=.22)
+        ax.plot(image[:, 0], image[:, 1], color=color, lw=2.2)
+        det = np.linalg.det(matrix)
+        ax.axhline(0, color="black", lw=.65)
+        ax.axvline(0, color="black", lw=.65)
+        ax.set(title=title + f"\n$\\det(A)={det:.2f}$", xlim=(-3, 3), ylim=(-2.5, 2.5), aspect="equal", xlabel="$x_1$")
+    axes[0].set_ylabel("$x_2$")
+    fig.tight_layout()
+    fig.savefig(FIGURES / "determinant-invertibility.png", dpi=180, bbox_inches="tight")
+    plt.close(fig)
+
+
+def systems_geometry():
+    x = np.linspace(-1, 6, 200)
+    fig, axes = plt.subplots(1, 3, figsize=(12.5, 3.8), sharex=True, sharey=True)
+    cases = [
+        ((x, 4 - .65 * x, x, .35 + .55 * x), "one intersection\nunique solution", BLUE),
+        ((x, 3.7 - .55 * x, x, 2.4 - .55 * x), "parallel lines\nno solution", RED),
+        ((x, 3.2 - .55 * x, x, 3.2 - .55 * x), "same line\ninfinitely many solutions", PURPLE),
+    ]
+    for ax, ((x1, y1, x2, y2), title, color) in zip(axes, cases):
+        ax.plot(x1, y1, color=BLUE, lw=2.2, label="first equation")
+        ax.plot(x2, y2, color=color, lw=2.2, ls="--", label="second equation")
+        ax.set(title=title, xlim=(-.5, 5.5), ylim=(-.5, 4.5), aspect="equal", xlabel="$x_1$")
+        ax.axhline(0, color="black", lw=.65)
+        ax.axvline(0, color="black", lw=.65)
+    axes[0].set_ylabel("$x_2$")
+    axes[0].legend(frameon=True, fontsize=8, loc="upper right")
+    fig.tight_layout()
+    fig.savefig(FIGURES / "linear-systems-geometry.png", dpi=180, bbox_inches="tight")
+    plt.close(fig)
+
+
 def stability_portraits():
     matrices = [
         (np.array([[.78, -.30], [.30, .78]]), "damped oscillation", BLUE),
@@ -269,6 +376,10 @@ def fourier_signal():
 
 if __name__ == "__main__":
     linear_transformation()
+    bases_and_span()
+    dimensions_and_products()
+    determinant_and_invertibility()
+    systems_geometry()
     stability_portraits()
     llm_and_clt()
     sampling_distributions()
