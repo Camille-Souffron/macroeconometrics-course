@@ -40,6 +40,17 @@ records one point in a two-dimensional state space. A scalar records one quantit
 
 Two operations preserve the nature of the object. Vectors can be added, which combines movements coordinate by coordinate, and multiplied by a scalar, which changes their magnitude and possibly their direction. Thus, if output and inflation move by $a$ in one disturbance and by $b$ in another, $\alpha a+\beta b$ is the combined movement when the disturbances are scaled by $\alpha$ and $\beta$. The zero vector is the state with no displacement; every vector has an opposite, $-x$, which exactly offsets it. These elementary rules are what make the set of vectors into a vector space.
 
+For example, with $a=(1,.5)'$, $b=(-.2,1)'$, $\alpha=2$, and $\beta=-1$, the combined movement is
+
+$$
+2a-b
+=2\begin{pmatrix}1\\.5\end{pmatrix}
+-\begin{pmatrix}-.2\\1\end{pmatrix}
+=\begin{pmatrix}2.2\\0\end{pmatrix}.
+$$
+
+The calculation is coordinate by coordinate, but its meaning is geometric: the inflation movements cancel while the output movement remains. Addition is associative and commutative, $(a+b)+c=a+(b+c)$ and $a+b=b+a$; scalar multiplication distributes, $\alpha(a+b)=\alpha a+\alpha b$. These identities are why a complicated combination of shocks can be rearranged without changing the resulting state.
+
 The next question is economic as much as geometric: which movements can the directions already at hand generate? Given vectors $v_1,\ldots,v_k$, their **span**, also written $\operatorname{Vect}(v_1,\ldots,v_k)$, is
 
 $$
@@ -62,6 +73,8 @@ $$
 If a non-trivial combination gives zero, the family is linearly dependent (or linked): at least one vector can be reconstructed from the others. For instance, $(1,2)'$ and $(2,4)'$ are linked because the latter equals twice the former. Adding the second vector supplies no new direction, even though it supplies another column of numbers. A **basis** is a family that is both free and generating. It is the smallest non-redundant coordinate system for the space. In $\mathbb R^2$, the familiar vectors $e_1=(1,0)'$ and $e_2=(0,1)'$ form the canonical basis, so every $x$ has the unique representation $x=x_1e_1+x_2e_2$.
 
 The number of vectors in any basis of the same space is always the same; it is its **dimension**. Dimension counts independent directions, not the number of labels written down. A two-column matrix can have rank one, and a dataset with a thousand variables can vary almost entirely along a few directions. That is why dimension is central to identification, factor models, and principal components.
+
+Coordinates are always relative to a basis. If $B=(v_1,\ldots,v_n)$ is a basis and $x=c_1v_1+\cdots+c_nv_n$, then $[x]_B=(c_1,\ldots,c_n)'$ is the coordinate vector of $x$ in that basis. Write $P_B=[v_1\ \cdots\ v_n]$, whose columns are the new basis vectors expressed in the canonical coordinates. Then $x=P_B[x]_B$. A change of basis is therefore an invertible matrix operation: $[x]_B=P_B^{-1}x$. The economic state has not changed; only the language used to describe its directions has changed. Diagonalization later uses exactly this idea to find coordinates in which dynamics separate.
 
 Geometry makes the preceding language quantitative. The **inner product** $a'b=\sum_i a_ib_i$ measures alignment. It generates the Euclidean norm, or length, $\|a\|_2=\sqrt{a'a}$, and hence the distance between two states, $d(a,b)=\|a-b\|_2$. If $a$ and $b$ are two quarterly observations, this distance aggregates their coordinate-by-coordinate differences; it is meaningful only after deciding how variables should be scaled. Measuring output in euros and inflation in percent without standardisation makes the unit with larger numerical scale dominate the distance.
 
@@ -89,6 +102,10 @@ $$
 
 for an $m\times n$ matrix. Every missing rank dimension is a direction in which the input cannot be recovered. A square matrix is invertible precisely when its null space contains only zero, its rank is $n$, and its determinant is non-zero. These are different faces of the same fact.
 
+There are four related spaces worth keeping distinct. The column space lives in $\mathbb R^m$ and describes feasible outputs. The row space lives in $\mathbb R^n$ and describes the independent restrictions imposed on inputs. The null space lives in $\mathbb R^n$ and contains input directions that vanish under $A$. The left null space contains vectors $w$ with $w'A=0$; it describes output restrictions that every feasible $Ax$ must satisfy. In a regression, the column space of $X$ contains all fitted-value vectors, while the residual belongs to its orthogonal complement, the left null space of $X'$.
+
+One can recognise a vector subspace without listing a basis. A non-empty subset $V\subseteq\mathbb R^n$ is a subspace if, for any $u,v\in V$ and scalar $a$, both $u+v$ and $av$ remain in $V$. The solution set of a homogeneous system $Ax=0$ is always a subspace because sums and scalar multiples of solutions are again solutions. The solution set of $Ax=b$ with $b\neq0$ is generally not a subspace: it is an affine translation of the null space. This difference explains why the set of regression residuals is a vector space while the set of coefficient vectors satisfying a non-zero restriction is usually a shifted plane.
+
 ### Matrices are transformations, not tables {#sec-matrices-transformations}
 
 A matrix is often introduced as a rectangular table of numbers. Its useful meaning is more active: an $m\times n$ matrix $A$ is a linear rule that takes each $n$-vector $x$ into an $m$-vector $Ax$. It can rotate, stretch, compress, shear, or project a space. The columns of $A$ are simply the images of the basis vectors.
@@ -108,6 +125,20 @@ Each output coordinate is therefore a weighted sum of all input coordinates. Wit
 
 ![Dimensions are part of the meaning of a matrix product. A map with $n$ inputs and $m$ outputs is represented by an $m\times n$ matrix; the inner dimensions must agree.](../figures/mathematics/matrix-vector-dimensions.png){#fig-matrix-dimensions}
 
+The dimensions are a discipline rather than a decoration. A column vector has shape $n\times1$; its transpose $x'$ has shape $1\times n$. Thus $x'x$ is a $1\times1$ scalar, while $xx'$ is an $n\times n$ matrix. For $x=(x_1,x_2)'$,
+
+$$
+x'x=x_1^2+x_2^2,
+\qquad
+xx'=
+\begin{pmatrix}
+x_1^2&x_1x_2\\
+x_2x_1&x_2^2
+\end{pmatrix}.
+$$
+
+The first measures length squared; the second is a rank-one matrix that projects onto the direction $x$ after appropriate normalisation. Confusing them is a dimension error, but it also confuses two different mathematical objects.
+
 For $A\in\mathbb R^{m\times n}$ and $B\in\mathbb R^{n\times p}$, the product $AB\in\mathbb R^{m\times p}$ is defined by
 
 $$
@@ -116,7 +147,11 @@ $$
 
 The columns of $AB$ are $A$ applied to the columns of $B$. Dimensions therefore provide a first error check: $(3\times2)(2\times4)$ is defined and yields a $3\times4$ matrix, whereas $(3\times2)(3\times4)$ is not defined. Products associate, $(AB)C=A(BC)$, because both describe the same sequence of maps. They generally do not commute: $AB$ and $BA$, when both exist, represent different orders of intervention and need not even have the same dimensions.
 
-The identity matrix $I$ leaves every vector unchanged. A transpose $A'$ exchanges rows and columns. A symmetric matrix satisfies $A=A'$; covariance matrices are the most important example. The **rank** of $A$ is the number of independent directions that survive its transformation. If rank is below $n$, some distinct input vectors produce the same output, so information has been lost.
+![Matrix multiplication is a sequence of dot products. For a matrix–vector product each row acts on the vector; for a matrix–matrix product, each entry combines a row of the first matrix with a column of the second.](../figures/mathematics/matrix-product-calculation.png){#fig-matrix-calculation}
+
+Some useful identities follow from this interpretation. The transpose reverses the order of composition, $(AB)'=B'A'$. If $A$ and $B$ are invertible, so is their composition and $(AB)^{-1}=B^{-1}A^{-1}$: undo the last operation first. A diagonal matrix multiplies each coordinate independently; a triangular matrix couples coordinates only in one direction. These forms are computationally valuable because solving a triangular system proceeds one coordinate at a time.
+
+The identity matrix $I$ leaves every vector unchanged. A transpose $A'$ exchanges rows and columns. A symmetric matrix satisfies $A=A'$; covariance matrices are the most important example. A positive semidefinite matrix satisfies $x'Ax\geq0$ for every $x$; covariance matrices have this property because $a'\Sigma a$ is a variance. Positive definiteness, $x'Ax>0$ for every non-zero $x$, guarantees invertibility for a symmetric matrix and is the curvature condition behind a unique least-squares minimum. The **rank** of $A$ is the number of independent directions that survive its transformation. If rank is below $n$, some distinct input vectors produce the same output, so information has been lost.
 
 Rows and columns play different roles. The $j$th column describes what happens when only the $j$th input coordinate is activated; the $i$th row gives the weights used to construct output coordinate $i$. This makes matrix notation economical without making it mysterious. For a VAR, each row of a coefficient matrix is one equation, while each column traces how one lagged variable enters all equations.
 
@@ -158,6 +193,12 @@ $$
 $$
 
 the two equations are two lines. If $ad-bc\neq0$, they meet once. If it is zero, they are parallel or identical: no solution or infinitely many. **Gaussian elimination** generalises this picture. It exchanges equations, rescales one, or adds a multiple of one equation to another; each operation preserves the solution set. The resulting pivots reveal independent restrictions and the zero rows reveal redundancy or inconsistency. Numerically, QR or LU decompositions are preferred to explicit inversion because they are more stable.
+
+For instance, the system $x_1+x_2=5$, $2x_1-x_2=1$ becomes an augmented matrix. Subtracting twice the first row from the second produces one equation in $x_2$; substitution then recovers $x_1$. The calculation is elementary, but the pivot structure continues to work with hundreds of equations.
+
+![Gaussian elimination changes the representation of a system without changing its solutions. Non-zero pivots mark independent equations; the final identity block makes the unique solution explicit.](../figures/mathematics/gaussian-elimination-steps.png){#fig-gaussian-elimination}
+
+Even when a square system is formally invertible, it may be nearly singular. If two columns are almost proportional, a small change in $b$ can require a large change in $x$. The **condition number**, often written $\kappa(A)=\|A\|\|A^{-1}\|$, measures this sensitivity. A large condition number is the numerical counterpart of weak identification: the inverse exists, but recovering the underlying direction is unstable. This is why econometrics distinguishes exact collinearity from severe multicollinearity.
 
 Many econometric systems have no exact solution because data contain noise: $X\beta\approx y$. Ordinary least squares chooses the coefficient vector whose fitted value $X\hat\beta$ is closest to $y$ in Euclidean distance. The residual $y-X\hat\beta$ is orthogonal to every column of $X$,
 
@@ -202,6 +243,16 @@ $$
 
 where $\mathrm{tr}(A)$ is the sum of diagonal elements. Trace records the total local self-feedback; determinant records the product of eigenvalues and the local area scaling. The discriminant decides whether the roots are real or complex. In a second-order scalar recurrence or a two-variable system, this gives a direct way to diagnose monotone adjustment, sign alternation, or oscillation before simulation.
 
+The calculation is worth doing once. For $A=\begin{pmatrix}.7&.2\\.1&.8\end{pmatrix}$,
+
+$$
+\det(A-\lambda I)
+=\det\begin{pmatrix}.7-\lambda&.2\\.1&.8-\lambda\end{pmatrix}
+=(.7-\lambda)(.8-\lambda)-.02.
+$$
+
+Setting this expression to zero gives $\lambda^2-1.5\lambda+.54=0$, hence eigenvalues $.9$ and $.6$. Both are inside the unit circle, so repeated multiplication shrinks every initial condition. The associated eigenvectors tell us the two combinations of output and inflation that decay at those separate speeds. The eigenvalue alone tells us the speed; the eigenvector tells us which economic combination has that speed.
+
 ![Two systems with complex eigenvalues. On the left, the modulus is below one and all trajectories spiral back to the origin. On the right, the modulus exceeds one and the same qualitative motion becomes explosive.](../figures/mathematics/matrix-stability-phase-portraits.png){#fig-matrix-stability}
 
 The matrix is stable precisely when its **spectral radius** $\rho(A)=\max_i|\lambda_i|$ is below one. This condition appears throughout the course: stationarity of a VAR, convergence of an impulse response, stability of a state-space model, and local determinacy of a linearized DSGE model. For a continuous-time system $\dot x_t=Ax_t$, the corresponding condition is $\mathrm{Re}(\lambda_i)<0$.
@@ -210,7 +261,55 @@ For a linearized dynamic model, the same calculation is often described in terms
 
 The distinction between an eigenvalue and a singular value is worth retaining. Eigenvalues describe a square transformation acting repeatedly on its own state, hence stability. Singular values describe how much a general matrix stretches lengths in its most and least amplified directions. A non-normal matrix can have stable eigenvalues while producing large temporary amplification; this matters for short-horizon responses even when long-run stability holds.
 
-For a nonlinear law $x_{t+1}=g(x_t)$, a steady state $x^*$ satisfies $g(x^*)=x^*$. Near it,
+For a nonlinear law $x_{t+1}=g(x_t)$, a steady state $x^*$ satisfies $g(x^*)=x^*$. The **Jacobian** collects every first partial derivative:
+
+$$
+J_g(x)=
+\begin{pmatrix}
+\partial g_1(x)/\partial x_1&\cdots&\partial g_1(x)/\partial x_n\\
+\vdots&\ddots&\vdots\\
+\partial g_n(x)/\partial x_1&\cdots&\partial g_n(x)/\partial x_n
+\end{pmatrix}.
+$$
+
+Its $(i,j)$ entry is the local effect of the $j$th state coordinate on the $i$th next-period coordinate, holding the other coordinates fixed. For $g(x_1,x_2)=(x_1+.4x_2+.12x_1^2,\,-.2x_1+.8x_2+.08x_2^2)'$, for example,
+
+$$
+J_g(x_1,x_2)=
+\begin{pmatrix}
+1+.24x_1&.4\\
+-.2&.8+.16x_2
+\end{pmatrix}.
+$$
+
+In differential notation, a small change $dx$ produces $dg\approx J_g(x)\,dx$. The chain rule is consequently a matrix product. If a model first maps a state through $g$ and then maps the result through $f$, then
+
+$$
+J_{f\circ g}(x)=J_f(g(x))J_g(x).
+$$
+
+The rightmost Jacobian acts first, exactly as for ordinary matrix composition. This identity is the local version of a sequence of economic mechanisms: the sensitivity of a final outcome combines the direct sensitivities of each stage.
+
+The Jacobian enters through a **Taylor expansion**. Begin with one variable. If a smooth function $f$ is evaluated close to $a$, then
+
+$$
+f(a+h)=f(a)+f'(a)h+\frac12f''(a)h^2+R_3(h),
+$$
+
+where the remainder $R_3(h)$ is of smaller order than $h^2$ under the usual smoothness conditions. The constant term is the level at the reference point; the first derivative gives the tangent-line response; the second derivative measures curvature. For $f(x)=\log x$ around $a=1$, this becomes $\log(1+h)=h-\tfrac12h^2+\cdots$. Retaining only $h$ is useful for small changes, but it is not an identity. Curvature becomes quantitatively important as the deviation grows.
+
+For a vector-valued map, the same argument is applied to each equation. Writing $h=x-x^*$, the first-order expansion is
+
+$$
+g(x^*+h)=g(x^*)+J_g(x^*)h+r(h),
+\qquad
+\frac{\|r(h)\|}{\|h\|}\longrightarrow0
+\quad\text{as }\|h\|\longrightarrow0.
+$$
+
+The remainder collects second and higher-order terms. At second order, each equation has a **Hessian** matrix of second partial derivatives, so the curvature contribution takes the form $\tfrac12h'H_i(x^*)h$ in equation $i$. Cross derivatives in the Hessian capture interactions: the marginal effect of output on inflation can itself depend on the level of inflation.
+
+Near the steady state, the nonlinear map is therefore approximated by
 
 $$
 x_{t+1}-x^*\approx J_g(x^*)(x_t-x^*),
@@ -218,9 +317,17 @@ $$
 
 where $J_g$ is the **Jacobian**, the matrix of first derivatives. Local stability is therefore a matrix-stability question. A linear approximation only describes nearby paths; if trajectories move far away, nonlinearities can change the conclusion.
 
+The steady-state condition is what removes the constant term. Defining the deviation $z_t=x_t-x^*$ gives $z_{t+1}\approx J_g(x^*)z_t$. The eigenvalues of the Jacobian then describe the fate of a small displacement: they are not eigenvalues of the original nonlinear economy everywhere, but of its tangent dynamics at that particular equilibrium. A fully linear model has no Taylor remainder at all; its Jacobian is the same matrix at every point and the approximation is exact. A nonlinear model has a state-dependent Jacobian and a remainder whose importance must be assessed rather than assumed away.
+
+![The grey grid is the image of a neighbourhood under a nonlinear map. The red grid is its affine approximation around the blue point. Their local agreement is what makes the Jacobian the relevant object for stability analysis near a steady state.](../figures/mathematics/jacobian-local-linearisation.png){#fig-jacobian}
+
+The qualification “local” is substantive. Eigenvalues of the Jacobian describe the evolution of small deviations from $x^*$; they do not rule out other steady states, constraints, or regime changes far away. In macroeconomic models, log-linearisation is valuable precisely because it replaces a difficult nonlinear equilibrium map with this locally faithful matrix map, while leaving the scope of the approximation visible.
+
 ### Decompositions: choose coordinates that reveal structure
 
 If $A$ has enough independent eigenvectors, $A=V\Lambda V^{-1}$, where the columns of $V$ are eigenvectors and $\Lambda$ is diagonal. This **diagonalization** is a change of basis. In the original coordinates, the components may interact at every period; in eigenvector coordinates, each coordinate is simply multiplied by its eigenvalue. It explains why the eigenvalues determine $A^h=V\Lambda^hV^{-1}$. Diagonalization fails for some matrices, including certain matrices with repeated eigenvalues, but the stability conclusion still follows from the eigenvalues through more general decompositions.
+
+A repeated eigenvalue is not itself a problem. The question is whether it comes with enough independent eigenvectors. The **algebraic multiplicity** counts how often an eigenvalue appears as a root of the characteristic polynomial; the **geometric multiplicity** is the dimension of its eigenspace, $\ker(A-\lambda I)$. Diagonalization requires that the total number of independent eigenvectors be $n$. When this fails, a Jordan block couples directions even after the best possible change of coordinates. Repeated multiplication can then contain polynomial factors such as $h\lambda^h$, although the criterion $|\lambda|<1$ still ensures eventual decay in discrete time.
 
 Symmetric matrices are especially well behaved. The **spectral theorem** states that a real symmetric matrix has real eigenvalues and an orthonormal eigenbasis:
 
@@ -237,6 +344,8 @@ X=U\,D\,V',
 $$
 
 with orthonormal $U,V$ and non-negative singular values on the diagonal of $D$. It separates a transformation into a rotation, independent stretches, and another rotation. PCA, low-rank factor models, and regularization all rely on this geometry. The Cholesky factorization $\Sigma=PP'$ is another important decomposition for a positive-definite covariance matrix, used to turn independent shocks into correlated reduced-form innovations.
+
+The QR decomposition, $X=QR$, is especially useful for regression calculations. Its columns in $Q$ are orthonormal directions spanning the column space of $X$, and $R$ is upper triangular. Solving $X\beta\approx y$ can then proceed by projecting $y$ onto $Q$ and solving a triangular system, avoiding the numerical amplification that may arise from explicitly forming $X'X$. The decompositions differ in form, but share one purpose: replace coordinates that obscure the problem with coordinates that expose its independent directions.
 
 ::: {.callout-tip title="A practical stability checklist"}
 For a scalar AR(1), inspect $|\phi|$. For a VAR, companion matrix, or Jacobian, compute eigenvalues and inspect their moduli. A stable reduced form does not identify an economic mechanism, but an unstable one cannot be treated as covariance stationary. If the result lies near one, numerical precision and sampling uncertainty matter: “below one” is not the same as “confidently stable.”

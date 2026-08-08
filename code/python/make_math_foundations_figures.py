@@ -109,6 +109,89 @@ def dimensions_and_products():
     plt.close(fig)
 
 
+def matrix_calculation():
+    fig, axes = plt.subplots(1, 2, figsize=(12.5, 4.25))
+    for ax in axes:
+        ax.axis("off")
+        ax.set(xlim=(0, 1), ylim=(0, 1))
+    axes[0].text(.5, .90, "Matrix–vector multiplication\nEach row takes a dot product", ha="center", fontsize=12.5)
+    axes[0].text(.15, .66, r"$A=$", ha="right", fontsize=18)
+    table_a = axes[0].table(cellText=[["2", "−1"], [".5", "3"]], cellLoc="center", bbox=[.17, .48, .20, .32])
+    table_x = axes[0].table(cellText=[["4"], ["2"]], cellLoc="center", bbox=[.50, .48, .10, .32])
+    table_y = axes[0].table(cellText=[["6"], ["8"]], cellLoc="center", bbox=[.80, .48, .10, .32])
+    for table in (table_a, table_x, table_y):
+        table.auto_set_font_size(False)
+        table.set_fontsize(13)
+    axes[0].text(.44, .65, r"$\times$", ha="center", fontsize=20)
+    axes[0].text(.70, .65, r"$=$", ha="center", fontsize=20)
+    axes[0].text(.5, .24, r"first coordinate: $2(4)-1(2)=6$", ha="center", fontsize=13, color=BLUE)
+    axes[0].text(.5, .12, r"second coordinate: $.5(4)+3(2)=8$", ha="center", fontsize=13, color=RED)
+    axes[1].text(.5, .90, "Matrix–matrix multiplication\nColumns are transformed one by one", ha="center", fontsize=12.5)
+    axes[1].text(.50, .68, r"$AB=\left[A b_1\;\;A b_2\right]$", ha="center", fontsize=18)
+    axes[1].text(.50, .45, r"$(AB)_{12}=$ row 1 of $A\;\cdot\;$ column 2 of $B$", ha="center", fontsize=14)
+    axes[1].text(.50, .28, r"$=a_{11}b_{12}+a_{12}b_{22}$", ha="center", fontsize=16, color=PURPLE)
+    axes[1].text(.50, .10, "Every entry uses one row of the first map and one column of the second.", ha="center", fontsize=11.5, color=GREY)
+    fig.tight_layout()
+    fig.savefig(FIGURES / "matrix-product-calculation.png", dpi=180, bbox_inches="tight")
+    plt.close(fig)
+
+
+def elimination_steps():
+    fig, ax = plt.subplots(figsize=(11.2, 3.7))
+    ax.axis("off")
+    ax.set(xlim=(0, 1), ylim=(0, 1))
+    matrices = [
+        ([["1", "1", "|", "5"], ["2", "−1", "|", "1"]], r"$\left[\;A\mid b\;\right]$"),
+        ([["1", "1", "|", "5"], ["0", "−3", "|", "−9"]], r"$R_2\leftarrow R_2-2R_1$"),
+        ([["1", "0", "|", "2"], ["0", "1", "|", "3"]], "back substitution"),
+    ]
+    lefts = [.05, .39, .73]
+    for left, (values, label) in zip(lefts, matrices):
+        table = ax.table(cellText=values, cellLoc="center", bbox=[left, .29, .20, .36])
+        table.auto_set_font_size(False)
+        table.set_fontsize(13)
+        for row in range(2):
+            table[(row, 2)].set_facecolor("#f1f1f1")
+        ax.text(left + .10, .73, label, ha="center", fontsize=11)
+    ax.annotate("", xy=(.37, .47), xytext=(.27, .47), arrowprops={"arrowstyle": "->", "lw": 2})
+    ax.annotate("", xy=(.71, .47), xytext=(.61, .47), arrowprops={"arrowstyle": "->", "lw": 2})
+    ax.text(.5, .10, r"The pivots reveal two independent restrictions and the solution $(x_1,x_2)=(2,3)$.", ha="center", fontsize=13)
+    fig.tight_layout()
+    fig.savefig(FIGURES / "gaussian-elimination-steps.png", dpi=180, bbox_inches="tight")
+    plt.close(fig)
+
+
+def jacobian_linearisation():
+    def g(points):
+        x1, x2 = points[:, 0], points[:, 1]
+        return np.column_stack([x1 + .4 * x2 + .12 * x1**2, -.2 * x1 + .8 * x2 + .08 * x2**2])
+    x_star = np.array([0., 0.])
+    g_star = g(x_star[None, :])[0]
+    jacobian = np.array([[1 + .24 * x_star[0], .4], [-.2, .8 + .16 * x_star[1]]])
+    offsets = np.linspace(-.55, .55, 9)
+    fig, axes = plt.subplots(1, 2, figsize=(10.8, 4.4))
+    for value in offsets:
+        horizontal = np.column_stack([x_star[0] + offsets, np.full_like(offsets, x_star[1] + value)])
+        vertical = np.column_stack([np.full_like(offsets, x_star[0] + value), x_star[1] + offsets])
+        for line in (horizontal, vertical):
+            axes[0].plot(line[:, 0], line[:, 1], color="#c7c7c7", lw=.8)
+            axes[1].plot(*(g(line).T), color="#c7c7c7", lw=.8)
+            approximation = g_star + (line - x_star) @ jacobian.T
+            axes[1].plot(*(approximation.T), color=RED, alpha=.55, lw=.75)
+    axes[0].scatter(*x_star, color=BLUE, s=36, zorder=4)
+    axes[0].text(x_star[0] + .04, x_star[1] + .07, r"$x^*$", color=BLUE)
+    axes[1].scatter(*g_star, color=BLUE, s=36, zorder=4)
+    axes[1].text(g_star[0] + .04, g_star[1] + .07, r"$g(x^*)$", color=BLUE)
+    axes[1].plot([], [], color="#c7c7c7", label="nonlinear map")
+    axes[1].plot([], [], color=RED, label="local linear approximation")
+    axes[1].legend(frameon=True, fontsize=9, loc="upper left")
+    axes[0].set(title="A neighbourhood of the steady state", xlabel="$x_1$", ylabel="$x_2$", aspect="equal")
+    axes[1].set(title=r"The Jacobian gives the tangent map at $x^*$", xlabel="$g_1(x)$", ylabel="$g_2(x)$", aspect="equal")
+    fig.tight_layout()
+    fig.savefig(FIGURES / "jacobian-local-linearisation.png", dpi=180, bbox_inches="tight")
+    plt.close(fig)
+
+
 def determinant_and_invertibility():
     transforms = [
         (np.array([[1.35, .35], [.25, .85]]), "non-zero determinant: area survives", BLUE),
@@ -479,6 +562,9 @@ if __name__ == "__main__":
     linear_transformation()
     bases_and_span()
     dimensions_and_products()
+    matrix_calculation()
+    elimination_steps()
+    jacobian_linearisation()
     determinant_and_invertibility()
     systems_geometry()
     stability_portraits()
