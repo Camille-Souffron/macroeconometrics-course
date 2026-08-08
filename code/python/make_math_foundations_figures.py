@@ -247,6 +247,36 @@ def distribution_moments():
     plt.close(fig)
 
 
+def income_skewness_and_kurtosis():
+    x_income = np.linspace(.01, 7.5, 800)
+    median, sigma_log = 1.0, .72
+    income = stats.lognorm.pdf(x_income, s=sigma_log, scale=median)
+    mean_income = median * np.exp(sigma_log**2 / 2)
+    x = np.linspace(-5, 5, 900)
+    t_scale = np.sqrt(3 / 5)
+    normal_tail = 2 * stats.norm.sf(2)
+    t_tail = 2 * stats.t.sf(2 / t_scale, 5)
+    fig, axes = plt.subplots(1, 2, figsize=(11, 4.25))
+    axes[0].plot(x_income, income, color=GOLD, lw=2.4)
+    axes[0].fill_between(x_income, 0, income, color=GOLD, alpha=.14)
+    axes[0].axvline(median, color=BLUE, lw=1.8, ls=":", label=f"median = {median:.1f}")
+    axes[0].axvline(mean_income, color=RED, lw=1.8, ls="--", label=f"mean = {mean_income:.2f}")
+    axes[0].annotate("rare high incomes\npull the mean rightward", xy=(mean_income, .20), xytext=(3.7, .47),
+                     arrowprops={"arrowstyle": "->", "color": GREY}, color=GREY, fontsize=10)
+    axes[0].set(title="Skewness: income is a familiar right-tailed example", xlabel="income, in arbitrary units", ylabel="density", xlim=(0, 7.5))
+    axes[0].legend(frameon=True)
+    axes[1].plot(x, stats.norm.pdf(x), color=BLUE, lw=2.2, label="Normal, variance one")
+    axes[1].plot(x, stats.t.pdf(x / t_scale, 5) / t_scale, color=PURPLE, lw=2.2, label=r"$t_5$, variance one")
+    axes[1].fill_between(x[x >= 2], 0, stats.t.pdf(x[x >= 2] / t_scale, 5) / t_scale, color=PURPLE, alpha=.16)
+    axes[1].fill_between(x[x <= -2], 0, stats.t.pdf(x[x <= -2] / t_scale, 5) / t_scale, color=PURPLE, alpha=.16)
+    axes[1].set(title="Kurtosis: equal variance, very different tail risk", xlabel="standardised return", ylabel="density")
+    axes[1].legend(frameon=True)
+    axes[1].text(.5, .76, f"$P(|X|>2)$: {normal_tail:.3f} vs {t_tail:.3f}", transform=axes[1].transAxes, ha="center", fontsize=10)
+    fig.tight_layout()
+    fig.savefig(FIGURES / "income-skewness-kurtosis.png", dpi=180, bbox_inches="tight")
+    plt.close(fig)
+
+
 def basic_distributions():
     k = np.arange(0, 13)
     x = np.linspace(0, 5, 700)
@@ -301,18 +331,49 @@ def hypothesis_testing():
     x = np.linspace(-4, 5, 1000)
     h0 = stats.norm.pdf(x)
     h1 = stats.norm.pdf(x, loc=1.35)
-    critical = stats.norm.ppf(.95)
-    fig, ax = plt.subplots(figsize=(9.2, 4.3))
-    ax.plot(x, h0, color=BLUE, lw=2.2, label=r"sampling distribution under $H_0$")
-    ax.plot(x, h1, color=RED, lw=2.2, label=r"sampling distribution under $H_1$")
-    ax.fill_between(x[x >= critical], 0, h0[x >= critical], color=BLUE, alpha=.25, label=r"Type I error $\alpha$")
-    ax.fill_between(x[x < critical], 0, h1[x < critical], color=RED, alpha=.20, label=r"Type II error $\beta$")
-    ax.axvline(critical, color="black", ls=":", lw=1.5)
-    ax.text(critical + .05, ax.get_ylim()[1] * .89, "critical value", rotation=90, va="top")
-    ax.set(title="A test trades false alarms against missed effects", xlabel="test statistic", ylabel="density", xlim=(-3.5, 4.5))
-    ax.legend(frameon=True, ncol=2, fontsize=8.7)
+    left_critical, right_critical = stats.norm.ppf(.025), stats.norm.ppf(.975)
+    fig, axes = plt.subplots(1, 2, figsize=(11.2, 4.25), sharey=True)
+    ax = axes[0]
+    ax.plot(x, h0, color=BLUE, lw=2.2, label=r"$H_0$: standard Normal")
+    ax.fill_between(x[x <= left_critical], 0, h0[x <= left_critical], color=RED, alpha=.24, label=r"$\alpha/2$")
+    ax.fill_between(x[x >= right_critical], 0, h0[x >= right_critical], color=RED, alpha=.24)
+    ax.axvline(left_critical, color="black", ls=":", lw=1.3)
+    ax.axvline(right_critical, color="black", ls=":", lw=1.3)
+    ax.text(0, .30, "retain $H_0$\nby this rule", ha="center", fontsize=10)
+    ax.set(title="A two-sided five-percent test fixes tails in advance", xlabel="test statistic", ylabel="density", xlim=(-3.7, 3.7))
+    ax.legend(frameon=True, fontsize=9)
+    ax = axes[1]
+    ax.plot(x, h0, color=BLUE, lw=2.2, label=r"distribution under $H_0$")
+    ax.plot(x, h1, color=RED, lw=2.2, label=r"distribution under one $H_1$")
+    ax.fill_between(x[x >= right_critical], 0, h0[x >= right_critical], color=BLUE, alpha=.25, label=r"Type I error $\alpha/2$")
+    ax.fill_between(x[x < right_critical], 0, h1[x < right_critical], color=RED, alpha=.20, label=r"Type II error $\beta$")
+    ax.axvline(right_critical, color="black", ls=":", lw=1.3)
+    ax.set(title="Overlapping sampling distributions create both risks", xlabel="test statistic", xlim=(-3.7, 4.5))
+    ax.legend(frameon=True, fontsize=8.5)
     fig.tight_layout()
     fig.savefig(FIGURES / "hypothesis-testing-errors.png", dpi=180, bbox_inches="tight")
+    plt.close(fig)
+
+
+def repeated_confidence_intervals():
+    rng = np.random.default_rng(2026)
+    true_mean, n, repetitions = 0.8, 24, 24
+    means = rng.normal(true_mean, 1.0, size=(repetitions, n)).mean(axis=1)
+    means[0] = true_mean + .70
+    half_width = stats.t.ppf(.975, n - 1) / np.sqrt(n)
+    low, high = means - half_width, means + half_width
+    misses = (low > true_mean) | (high < true_mean)
+    fig, ax = plt.subplots(figsize=(9.2, 5.2))
+    for i, (lo, hi, mean, miss) in enumerate(zip(low, high, means, misses), start=1):
+        colour = RED if miss else BLUE
+        ax.plot([lo, hi], [i, i], color=colour, lw=1.8)
+        ax.scatter(mean, i, color=colour, s=20, zorder=3)
+    ax.axvline(true_mean, color="black", ls=":", lw=1.5, label="fixed true mean")
+    ax.set(title="Confidence intervals across repeated samples", xlabel="candidate values for the mean", ylabel="independent samples", ylim=(0, repetitions + 1))
+    ax.text(.98, .04, "blue: interval covers the truth\nred: interval misses it", transform=ax.transAxes, ha="right", va="bottom", fontsize=10)
+    ax.legend(frameon=True, loc="upper left")
+    fig.tight_layout()
+    fig.savefig(FIGURES / "confidence-interval-repeated-sampling.png", dpi=180, bbox_inches="tight")
     plt.close(fig)
 
 
@@ -332,6 +393,40 @@ def stochastic_processes():
     axes[1].set(title=r"Unit root: $X_t=X_{t-1}+\varepsilon_t$", xlabel="quarter")
     fig.tight_layout()
     fig.savefig(FIGURES / "stationary-ar-versus-random-walk.png", dpi=180, bbox_inches="tight")
+    plt.close(fig)
+
+
+def markov_chain():
+    fig, axes = plt.subplots(1, 2, figsize=(10.8, 4.2))
+    ax = axes[0]
+    positions = {"expansion": (0, 0), "recession": (2.4, 0)}
+    for state, pos in positions.items():
+        circle = plt.Circle(pos, .46, facecolor=BLUE if state == "expansion" else RED, alpha=.16,
+                            edgecolor=BLUE if state == "expansion" else RED, lw=2)
+        ax.add_patch(circle)
+        ax.text(*pos, state, ha="center", va="center", fontsize=11)
+    ax.annotate("", xy=(1.94, .12), xytext=(.46, .12), arrowprops={"arrowstyle": "->", "connectionstyle": "arc3,rad=.22", "lw": 1.7, "color": RED})
+    ax.annotate("", xy=(.46, -.12), xytext=(1.94, -.12), arrowprops={"arrowstyle": "->", "connectionstyle": "arc3,rad=.22", "lw": 1.7, "color": BLUE})
+    ax.text(1.2, .52, "$0.08$", color=RED, ha="center")
+    ax.text(1.2, -.65, "$0.35$", color=BLUE, ha="center")
+    ax.annotate("", xy=(-.18, .35), xytext=(-.38, .05), arrowprops={"arrowstyle": "->", "connectionstyle": "arc3,rad=1.3", "lw": 1.5, "color": BLUE})
+    ax.annotate("", xy=(2.58, .35), xytext=(2.78, .05), arrowprops={"arrowstyle": "->", "connectionstyle": "arc3,rad=1.3", "lw": 1.5, "color": RED})
+    ax.text(-.55, .65, "$0.92$", color=BLUE)
+    ax.text(2.72, .65, "$0.65$", color=RED)
+    ax.set(title="A Markov model: next period depends on the current regime", xlim=(-1, 3.5), ylim=(-1.1, 1.1), aspect="equal")
+    ax.axis("off")
+    ax = axes[1]
+    transition = np.array([[.92, .08], [.35, .65]])
+    probabilities = [np.array([1., 0.])]
+    for _ in range(12):
+        probabilities.append(probabilities[-1] @ transition)
+    probabilities = np.asarray(probabilities)
+    ax.plot(probabilities[:, 0], color=BLUE, lw=2.2, label="probability of expansion")
+    ax.plot(probabilities[:, 1], color=RED, lw=2.2, label="probability of recession")
+    ax.set(title="Distribution over regimes evolves by multiplication", xlabel="quarters ahead", ylabel="probability", ylim=(0, 1))
+    ax.legend(frameon=True)
+    fig.tight_layout()
+    fig.savefig(FIGURES / "markov-regime-process.png", dpi=180, bbox_inches="tight")
     plt.close(fig)
 
 
@@ -360,15 +455,21 @@ def fourier_signal():
     freq = np.fft.rfftfreq(len(t), d=1)
     power = np.abs(np.fft.rfft(signal - signal.mean())) ** 2 / len(t)
     period = 1 / freq[1:]
-    fig, axes = plt.subplots(2, 1, figsize=(10.5, 5.5))
-    axes[0].plot(t, signal, color=BLUE, lw=1.3)
-    axes[0].set(title="A time series can contain several rhythms at once", xlabel="observation", ylabel="value")
+    slow = 1.2 * np.sin(2 * np.pi * t / 24)
+    fast = .55 * np.sin(2 * np.pi * t / 7)
+    fig, axes = plt.subplots(3, 1, figsize=(10.5, 7.3))
+    axes[0].plot(t, slow, color=PURPLE, lw=1.45, label="period 24")
+    axes[0].plot(t, fast, color=GOLD, lw=1.25, label="period 7")
+    axes[0].set(title="Two elementary oscillations have distinct periods", xlabel="observation", ylabel="component")
+    axes[0].legend(frameon=True, ncol=2)
+    axes[1].plot(t, signal, color=BLUE, lw=1.3)
+    axes[1].set(title="Observed data add the components and noise", xlabel="observation", ylabel="value")
     order = np.argsort(period)
-    axes[1].plot(period[order], power[1:][order], color=PURPLE, lw=1.6)
+    axes[2].plot(period[order], power[1:][order], color=PURPLE, lw=1.6)
     for value, text in [(7, "7"), (24, "24")]:
-        axes[1].axvline(value, color=RED, lw=1, ls=":")
-        axes[1].text(value, axes[1].get_ylim()[1] * .83, f"period {text}", color=RED, ha="center")
-    axes[1].set(xlim=(2, 50), title="The discrete Fourier transform reveals those rhythms", xlabel="period (observations)", ylabel="periodogram")
+        axes[2].axvline(value, color=RED, lw=1, ls=":")
+        axes[2].text(value, axes[2].get_ylim()[1] * .83, f"period {text}", color=RED, ha="center")
+    axes[2].set(xlim=(2, 50), title="The discrete Fourier transform reveals those rhythms", xlabel="period (observations)", ylabel="periodogram")
     fig.tight_layout()
     fig.savefig(FIGURES / "fourier-time-and-frequency.png", dpi=180, bbox_inches="tight")
     plt.close(fig)
@@ -384,9 +485,12 @@ if __name__ == "__main__":
     llm_and_clt()
     sampling_distributions()
     distribution_moments()
+    income_skewness_and_kurtosis()
     basic_distributions()
     ols_geometry()
     hypothesis_testing()
+    repeated_confidence_intervals()
     stochastic_processes()
+    markov_chain()
     bayesian_update()
     fourier_signal()
