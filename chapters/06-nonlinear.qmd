@@ -108,7 +108,7 @@ conditioning on a given starting state $x_{t-1}$, then averaging over both futur
 ::: {.callout-tip title="Example: Caggiano, Castelnuovo, and Groshenny (2014)"}
 Caggiano, Castelnuovo, and Groshenny [-@CaggianoCastelnuovoGroshenny2014], "Uncertainty Shocks and Unemployment Dynamics in U.S. Recessions" (*Journal of Monetary Economics*), ask whether uncertainty shocks affect unemployment more strongly in recessions than in expansions - a question a linear SVAR cannot even pose, since it delivers the same IRF regardless of the state of the cycle.
 
-**Setup.** A quarterly U.S. VAR(3) (1962Q3-2012Q3, selected by AIC) with four variables, ordered uncertainty (VIX) before unemployment, inflation, and the federal funds rate.
+**Setup.** A quarterly U.S. VAR(3) (1962Q3-2012Q3, selected by AIC) with four variables, ordered uncertainty (the VIX, as in Bloom [-@Bloom2009]) before unemployment, inflation, and the federal funds rate.
 
 ![The four baseline macroeconomic variables, 1962Q3-2012Q3, with NBER recessions shaded.](../figures/nonlinear/caggiano-stvar-baseline-variables.png){#fig-caggiano-variables}
 

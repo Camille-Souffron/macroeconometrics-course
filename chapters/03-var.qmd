@@ -146,7 +146,7 @@ where the equations *seem* unrelated (no common regressor), yet a common shock (
 Zellner's [-@Zellner1962] theorem answers this: if the regressors are *identical* across equations, $x_{1t} = x_{2t} = x_t$ (i.e. $X_1 = X_2 = X$), the cross-equation covariance structure adds no additional information, and $\hat B_{GLS} = (X'X)^{-1}X'Y = \hat B_{OLS}$. A VAR has, by construction, identical regressors across equations - so GLS collapses exactly to OLS, and **OLS is already system-efficient**.
 :::
 
-Three estimation approaches are used in practice for VARs: **least squares**, justified by Zellner's result; **maximum likelihood**, which, under multivariate Gaussian errors, is asymptotically equivalent to least squares (exactly as for AR models, @sec-arma-estimation); and **Bayesian methods** (not covered in this chapter, but developed in a later chapter on Bayesian VARs), which combine prior information with the likelihood to obtain a posterior distribution over the VAR parameters - particularly useful for high-dimensional systems requiring shrinkage, or when the sample size is limited.
+Three estimation approaches are used in practice for VARs: **least squares**, justified by Zellner's result; **maximum likelihood**, which, under multivariate Gaussian errors, is asymptotically equivalent to least squares (exactly as for AR models, @sec-arma-estimation); and **Bayesian methods** (not covered in this chapter, but developed in @sec-bvar), which combine prior information with the likelihood to obtain a posterior distribution over the VAR parameters - particularly useful for high-dimensional systems requiring shrinkage, or when the sample size is limited.
 
 ### Identification and validation: diagnostics
 
@@ -244,7 +244,7 @@ $$
 \Delta y_t = \Pi y_{t-1} + \Gamma_1 \Delta y_{t-1} + \cdots + \Gamma_{p-1}\Delta y_{t-p+1} + u_t,
 $$ {#eq-vecm-preview}
 
-where $\Pi = \alpha\beta'$ encodes the long-run relations through $\beta$ (the cointegrating vector) and the **adjustment, or loading, coefficients** $\alpha$, which govern how each variable responds to short-run disequilibrium from that long-run relation. This model, its estimation, and the Johansen procedure for testing the cointegrating rank are developed in full in a later chapter.
+where $\Pi = \alpha\beta'$ encodes the long-run relations through $\beta$ (the cointegrating vector) and the **adjustment, or loading, coefficients** $\alpha$, which govern how each variable responds to short-run disequilibrium from that long-run relation. This model, its estimation, and the Johansen procedure for testing the cointegrating rank are developed in full in @sec-vecm.
 
 ## Impulse response functions {#sec-irf}
 
@@ -284,7 +284,7 @@ When reading an impulse response, look at its sign, magnitude, lag or delay, dur
 
 ### Limits of linearity
 
-Because VARs are linear, two properties always hold mechanically, whether or not they are economically realistic. First, a positive shock is always the exact mirror image of a negative shock of the same size - only nonlinear models can produce asymmetric responses. This raises the empirical question of whether macro multipliers really have the same magnitude in an expansion as in a recession (consider, informally, the Greek crisis). Second, the magnitude of the initial shock does not matter for the *shape* of the IRF: a "unit shock" is conventionally a one-standard-deviation shock to a variable's residual, and a $2.3$-unit shock produces exactly $2.3$ times the impulse response of a unit shock. Whether this scale-invariance holds in reality is also an open empirical question - thresholds and tipping points (the Great Moderation, policy-rate effective lower bounds, "Minsky moments") all suggest it may not, always. These are exactly the limitations that motivate the nonlinear models developed in a later chapter.
+Because VARs are linear, two properties always hold mechanically, whether or not they are economically realistic. First, a positive shock is always the exact mirror image of a negative shock of the same size - only nonlinear models can produce asymmetric responses. This raises the empirical question of whether macro multipliers really have the same magnitude in an expansion as in a recession (consider, informally, the Greek crisis). Second, the magnitude of the initial shock does not matter for the *shape* of the IRF: a "unit shock" is conventionally a one-standard-deviation shock to a variable's residual, and a $2.3$-unit shock produces exactly $2.3$ times the impulse response of a unit shock. Whether this scale-invariance holds in reality is also an open empirical question - thresholds and tipping points (the Great Moderation, policy-rate effective lower bounds, "Minsky moments") all suggest it may not, always. These are exactly the limitations that motivate the nonlinear models developed in @sec-nonlinear.
 
 ## Forecast error variance decomposition {#sec-fevd}
 

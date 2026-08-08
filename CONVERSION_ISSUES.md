@@ -49,3 +49,14 @@ Tracks problems found while converting the source slides into the Quarto book. E
 - The slide cites Miranda-Agrippino & Rey as "(2015/2021)"; the well-documented published version used here is Miranda-Agrippino & Rey (2020), *Review of Economic Studies* 87(6) - the 2015 date is an NBER working-paper circulation year, not verified in detail; flagged for instructor check.
 - Several papers mentioned only in passing (Canova & Ciccarelli 2004, Jarociński 2010, Giraud & Kahraman 2014, Shapiro & Watson 1988, Hallin & Liška 2007, Working 1960, Boyarchenko & Elias 2024) were kept as narrative mentions without formal `@citation` entries - full bibliographic detail not independently verified.
 - Barrales-Ruiz et al. (2025) and Stresing, Lindenberger & Kümmel (2008) are described from the slide's own summary (data, method, results) but not given formal `@citation` entries, since the slide does not state a publication venue for either.
+
+## Lecture 9 - Bayesian Estimation: Foundations and Applications to VARs (`chapters/07-bvar.qmd`)
+
+- All 6 figures referenced in `source/slides/09_BAYES/main (1).tex` migrated to `figures/bvar/`. No figures missing. (Note: this lecture's images are all synthetic/illustrative plots generated for teaching, not reproductions of a published paper's figure - no attribution issue.)
+- Canova & Ciccarelli (2004), Jarociński (2010) - mentioned narratively (panel VAR hierarchical priors, in the Cointegration/DFM chapter) and Chan, Koop, Poirier & Tobias (CCMM SV taxonomy, this chapter) - kept as narrative mentions without formal `@citation` entries; full bibliographic detail not independently verified.
+
+## Status
+
+All 7 supplied lecture zips (01_TS, 03_ARMA, 04_VAR, 05_Structural_VAR_Identification, 06_Nonlinear_specifications, 07_Cointegration_DFM, 09_BAYES) have been converted into chapters. Lectures 2, 8, and 10 referenced in the original course roadmap (`index.qmd` "Course contents") were not supplied and remain outstanding - see "Next recommended conversion step" in the final report for this session.
+
+**Outstanding technical item:** the Proxy-VAR / external-instruments content noted under Lecture 6 above (relocated out of that chapter, not yet placed in the SVAR chapter) is the one piece of source material read during this conversion pass that has not yet been written into any chapter.
