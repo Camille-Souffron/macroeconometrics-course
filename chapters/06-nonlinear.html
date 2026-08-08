@@ -90,7 +90,7 @@ div.csl-indent {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../references.html" rel="next">
+<link href="../chapters/07-bvar.html" rel="next">
 <link href="../chapters/05-cointegration-dfm.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -289,6 +289,23 @@ window.Quarto = {
   <div class="sidebar-item-container"> 
   <a href="../chapters/06-nonlinear.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Beyond Linearity: Thresholds, Regime Changes, and Local Projections</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false">
+ <span class="menu-text">Bayesian Methods</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/07-bvar.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Bayesian Estimation: Foundations and Applications to VARs</span></span></a>
   </div>
 </li>
       </ul>
@@ -549,7 +566,7 @@ Figure&nbsp;6.1: The logistic transition function for several values of the stee
 </div>
 <div class="callout-body-container callout-body">
 <p>Caggiano, Castelnuovo, and Groshenny <span class="citation" data-cites="CaggianoCastelnuovoGroshenny2014">(<a href="../references.html#ref-CaggianoCastelnuovoGroshenny2014" role="doc-biblioref">2014</a>)</span>, “Uncertainty Shocks and Unemployment Dynamics in U.S. Recessions” (<em>Journal of Monetary Economics</em>), ask whether uncertainty shocks affect unemployment more strongly in recessions than in expansions - a question a linear SVAR cannot even pose, since it delivers the same IRF regardless of the state of the cycle.</p>
-<p><strong>Setup.</strong> A quarterly U.S. VAR(3) (1962Q3-2012Q3, selected by AIC) with four variables, ordered uncertainty (VIX) before unemployment, inflation, and the federal funds rate.</p>
+<p><strong>Setup.</strong> A quarterly U.S. VAR(3) (1962Q3-2012Q3, selected by AIC) with four variables, ordered uncertainty (the VIX, as in Bloom <span class="citation" data-cites="Bloom2009">(<a href="../references.html#ref-Bloom2009" role="doc-biblioref">2009</a>)</span>) before unemployment, inflation, and the federal funds rate.</p>
 <div id="fig-caggiano-variables" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-caggiano-variables-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -844,6 +861,9 @@ Figure&nbsp;6.11: Asymmetric impulse responses to a positive (red, solid) versus
 <div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
 <div id="ref-AuerbachGorodnichenko2012" class="csl-entry" role="listitem">
 Auerbach, Alan J., and Yuriy Gorodnichenko. 2012. <span>“Measuring the Output Responses to Fiscal Policy.”</span> <em>American Economic Journal: Economic Policy</em> 4 (2): 1–27.
+</div>
+<div id="ref-Bloom2009" class="csl-entry" role="listitem">
+Bloom, Nicholas. 2009. <span>“The Impact of Uncertainty Shocks.”</span> <em>Econometrica</em> 77 (3): 623–85.
 </div>
 <div id="ref-CaggianoCastelnuovoGroshenny2014" class="csl-entry" role="listitem">
 Caggiano, Giovanni, Efrem Castelnuovo, and Nicolas Groshenny. 2014. <span>“Uncertainty Shocks and Unemployment Dynamics in u.s. Recessions.”</span> <em>Journal of Monetary Economics</em> 67: 78–92.
@@ -1362,8 +1382,8 @@ Tong, Howell, and K. S. Lim. 1980. <span>“Threshold Autoregression, Limit Cycl
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../references.html" class="pagination-link" aria-label="References">
-        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../chapters/07-bvar.html" class="pagination-link" aria-label="Bayesian Estimation: Foundations and Applications to VARs">
+        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Bayesian Estimation: Foundations and Applications to VARs</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
@@ -1477,7 +1497,7 @@ Tong, Howell, and K. S. Lim. 1980. <span>“Threshold Autoregression, Limit Cycl
 <span id="cb1-108"><a href="#cb1-108" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip title="Example: Caggiano, Castelnuovo, and Groshenny (2014)"}</span>
 <span id="cb1-109"><a href="#cb1-109" aria-hidden="true" tabindex="-1"></a>Caggiano, Castelnuovo, and Groshenny <span class="co">[</span><span class="ot">-@CaggianoCastelnuovoGroshenny2014</span><span class="co">]</span>, "Uncertainty Shocks and Unemployment Dynamics in U.S. Recessions" (*Journal of Monetary Economics*), ask whether uncertainty shocks affect unemployment more strongly in recessions than in expansions - a question a linear SVAR cannot even pose, since it delivers the same IRF regardless of the state of the cycle.</span>
 <span id="cb1-110"><a href="#cb1-110" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-111"><a href="#cb1-111" aria-hidden="true" tabindex="-1"></a>**Setup.** A quarterly U.S. VAR(3) (1962Q3-2012Q3, selected by AIC) with four variables, ordered uncertainty (VIX) before unemployment, inflation, and the federal funds rate.</span>
+<span id="cb1-111"><a href="#cb1-111" aria-hidden="true" tabindex="-1"></a>**Setup.** A quarterly U.S. VAR(3) (1962Q3-2012Q3, selected by AIC) with four variables, ordered uncertainty (the VIX, as in Bloom <span class="co">[</span><span class="ot">-@Bloom2009</span><span class="co">]</span>) before unemployment, inflation, and the federal funds rate.</span>
 <span id="cb1-112"><a href="#cb1-112" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-113"><a href="#cb1-113" aria-hidden="true" tabindex="-1"></a><span class="al">![The four baseline macroeconomic variables, 1962Q3-2012Q3, with NBER recessions shaded.](../figures/nonlinear/caggiano-stvar-baseline-variables.png)</span>{#fig-caggiano-variables}</span>
 <span id="cb1-114"><a href="#cb1-114" aria-hidden="true" tabindex="-1"></a></span>

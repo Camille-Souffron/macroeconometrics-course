@@ -293,6 +293,23 @@ window.Quarto = {
 </li>
       </ul>
   </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false">
+ <span class="menu-text">Bayesian Methods</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/07-bvar.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Bayesian Estimation: Foundations and Applications to VARs</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../references.html" class="sidebar-item-text sidebar-link">
@@ -571,7 +588,7 @@ y_{1t} = x_{1t}'\beta_1 + u_{1t}, \qquad y_{2t} = x_{2t}'\beta_2 + u_{2t}, \qqua
 <p>Zellner’s <span class="citation" data-cites="Zellner1962">(<a href="../references.html#ref-Zellner1962" role="doc-biblioref">1962</a>)</span> theorem answers this: if the regressors are <em>identical</em> across equations, <span class="math inline">\(x_{1t} = x_{2t} = x_t\)</span> (i.e.&nbsp;<span class="math inline">\(X_1 = X_2 = X\)</span>), the cross-equation covariance structure adds no additional information, and <span class="math inline">\(\hat B_{GLS} = (X'X)^{-1}X'Y = \hat B_{OLS}\)</span>. A VAR has, by construction, identical regressors across equations - so GLS collapses exactly to OLS, and <strong>OLS is already system-efficient</strong>.</p>
 </div>
 </div>
-<p>Three estimation approaches are used in practice for VARs: <strong>least squares</strong>, justified by Zellner’s result; <strong>maximum likelihood</strong>, which, under multivariate Gaussian errors, is asymptotically equivalent to least squares (exactly as for AR models, <a href="02-arma.html#sec-arma-estimation" class="quarto-xref"><span>Section 2.7</span></a>); and <strong>Bayesian methods</strong> (not covered in this chapter, but developed in a later chapter on Bayesian VARs), which combine prior information with the likelihood to obtain a posterior distribution over the VAR parameters - particularly useful for high-dimensional systems requiring shrinkage, or when the sample size is limited.</p>
+<p>Three estimation approaches are used in practice for VARs: <strong>least squares</strong>, justified by Zellner’s result; <strong>maximum likelihood</strong>, which, under multivariate Gaussian errors, is asymptotically equivalent to least squares (exactly as for AR models, <a href="02-arma.html#sec-arma-estimation" class="quarto-xref"><span>Section 2.7</span></a>); and <strong>Bayesian methods</strong> (not covered in this chapter, but developed in <a href="07-bvar.html" class="quarto-xref"><span>Chapter 7</span></a>), which combine prior information with the likelihood to obtain a posterior distribution over the VAR parameters - particularly useful for high-dimensional systems requiring shrinkage, or when the sample size is limited.</p>
 </section>
 <section id="identification-and-validation-diagnostics" class="level3">
 <h3 class="anchored" data-anchor-id="identification-and-validation-diagnostics">Identification and validation: diagnostics</h3>
@@ -683,7 +700,7 @@ H_0: \text{all lag coefficients of block } y_2 \text{ are zero in the equations 
 <p><span id="eq-vecm-preview"><span class="math display">\[
 \Delta y_t = \Pi y_{t-1} + \Gamma_1 \Delta y_{t-1} + \cdots + \Gamma_{p-1}\Delta y_{t-p+1} + u_t,
 \tag{3.5}\]</span></span></p>
-<p>where <span class="math inline">\(\Pi = \alpha\beta'\)</span> encodes the long-run relations through <span class="math inline">\(\beta\)</span> (the cointegrating vector) and the <strong>adjustment, or loading, coefficients</strong> <span class="math inline">\(\alpha\)</span>, which govern how each variable responds to short-run disequilibrium from that long-run relation. This model, its estimation, and the Johansen procedure for testing the cointegrating rank are developed in full in a later chapter.</p>
+<p>where <span class="math inline">\(\Pi = \alpha\beta'\)</span> encodes the long-run relations through <span class="math inline">\(\beta\)</span> (the cointegrating vector) and the <strong>adjustment, or loading, coefficients</strong> <span class="math inline">\(\alpha\)</span>, which govern how each variable responds to short-run disequilibrium from that long-run relation. This model, its estimation, and the Johansen procedure for testing the cointegrating rank are developed in full in <a href="05-cointegration-dfm.html#sec-vecm" class="quarto-xref"><span>Section 5.3</span></a>.</p>
 </section>
 <section id="sec-irf" class="level2" data-number="3.7">
 <h2 data-number="3.7" class="anchored" data-anchor-id="sec-irf"><span class="header-section-number">3.7</span> Impulse response functions</h2>
@@ -750,7 +767,7 @@ Figure&nbsp;3.3: Reading a grid of impulse responses (Stata-style output): each 
 </section>
 <section id="limits-of-linearity" class="level3">
 <h3 class="anchored" data-anchor-id="limits-of-linearity">Limits of linearity</h3>
-<p>Because VARs are linear, two properties always hold mechanically, whether or not they are economically realistic. First, a positive shock is always the exact mirror image of a negative shock of the same size - only nonlinear models can produce asymmetric responses. This raises the empirical question of whether macro multipliers really have the same magnitude in an expansion as in a recession (consider, informally, the Greek crisis). Second, the magnitude of the initial shock does not matter for the <em>shape</em> of the IRF: a “unit shock” is conventionally a one-standard-deviation shock to a variable’s residual, and a <span class="math inline">\(2.3\)</span>-unit shock produces exactly <span class="math inline">\(2.3\)</span> times the impulse response of a unit shock. Whether this scale-invariance holds in reality is also an open empirical question - thresholds and tipping points (the Great Moderation, policy-rate effective lower bounds, “Minsky moments”) all suggest it may not, always. These are exactly the limitations that motivate the nonlinear models developed in a later chapter.</p>
+<p>Because VARs are linear, two properties always hold mechanically, whether or not they are economically realistic. First, a positive shock is always the exact mirror image of a negative shock of the same size - only nonlinear models can produce asymmetric responses. This raises the empirical question of whether macro multipliers really have the same magnitude in an expansion as in a recession (consider, informally, the Greek crisis). Second, the magnitude of the initial shock does not matter for the <em>shape</em> of the IRF: a “unit shock” is conventionally a one-standard-deviation shock to a variable’s residual, and a <span class="math inline">\(2.3\)</span>-unit shock produces exactly <span class="math inline">\(2.3\)</span> times the impulse response of a unit shock. Whether this scale-invariance holds in reality is also an open empirical question - thresholds and tipping points (the Great Moderation, policy-rate effective lower bounds, “Minsky moments”) all suggest it may not, always. These are exactly the limitations that motivate the nonlinear models developed in <a href="06-nonlinear.html" class="quarto-xref"><span>Chapter 6</span></a>.</p>
 </section>
 </section>
 <section id="sec-fevd" class="level2" data-number="3.8">
@@ -1430,7 +1447,7 @@ Zellner, Arnold. 1962. <span>“An Efficient Method of Estimating Seemingly Unre
 <span id="cb1-146"><a href="#cb1-146" aria-hidden="true" tabindex="-1"></a>Zellner's <span class="co">[</span><span class="ot">-@Zellner1962</span><span class="co">]</span> theorem answers this: if the regressors are *identical* across equations, $x_{1t} = x_{2t} = x_t$ (i.e. $X_1 = X_2 = X$), the cross-equation covariance structure adds no additional information, and $\hat B_{GLS} = (X'X)^{-1}X'Y = \hat B_{OLS}$. A VAR has, by construction, identical regressors across equations - so GLS collapses exactly to OLS, and **OLS is already system-efficient**.</span>
 <span id="cb1-147"><a href="#cb1-147" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb1-148"><a href="#cb1-148" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-149"><a href="#cb1-149" aria-hidden="true" tabindex="-1"></a>Three estimation approaches are used in practice for VARs: **least squares**, justified by Zellner's result; **maximum likelihood**, which, under multivariate Gaussian errors, is asymptotically equivalent to least squares (exactly as for AR models, @sec-arma-estimation); and **Bayesian methods** (not covered in this chapter, but developed in a later chapter on Bayesian VARs), which combine prior information with the likelihood to obtain a posterior distribution over the VAR parameters - particularly useful for high-dimensional systems requiring shrinkage, or when the sample size is limited.</span>
+<span id="cb1-149"><a href="#cb1-149" aria-hidden="true" tabindex="-1"></a>Three estimation approaches are used in practice for VARs: **least squares**, justified by Zellner's result; **maximum likelihood**, which, under multivariate Gaussian errors, is asymptotically equivalent to least squares (exactly as for AR models, @sec-arma-estimation); and **Bayesian methods** (not covered in this chapter, but developed in @sec-bvar), which combine prior information with the likelihood to obtain a posterior distribution over the VAR parameters - particularly useful for high-dimensional systems requiring shrinkage, or when the sample size is limited.</span>
 <span id="cb1-150"><a href="#cb1-150" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-151"><a href="#cb1-151" aria-hidden="true" tabindex="-1"></a><span class="fu">### Identification and validation: diagnostics</span></span>
 <span id="cb1-152"><a href="#cb1-152" aria-hidden="true" tabindex="-1"></a></span>
@@ -1528,7 +1545,7 @@ Zellner, Arnold. 1962. <span>“An Efficient Method of Estimating Seemingly Unre
 <span id="cb1-244"><a href="#cb1-244" aria-hidden="true" tabindex="-1"></a>\Delta y_t = \Pi y_{t-1} + \Gamma_1 \Delta y_{t-1} + \cdots + \Gamma_{p-1}\Delta y_{t-p+1} + u_t,</span>
 <span id="cb1-245"><a href="#cb1-245" aria-hidden="true" tabindex="-1"></a>$$ {#eq-vecm-preview}</span>
 <span id="cb1-246"><a href="#cb1-246" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-247"><a href="#cb1-247" aria-hidden="true" tabindex="-1"></a>where $\Pi = \alpha\beta'$ encodes the long-run relations through $\beta$ (the cointegrating vector) and the **adjustment, or loading, coefficients** $\alpha$, which govern how each variable responds to short-run disequilibrium from that long-run relation. This model, its estimation, and the Johansen procedure for testing the cointegrating rank are developed in full in a later chapter.</span>
+<span id="cb1-247"><a href="#cb1-247" aria-hidden="true" tabindex="-1"></a>where $\Pi = \alpha\beta'$ encodes the long-run relations through $\beta$ (the cointegrating vector) and the **adjustment, or loading, coefficients** $\alpha$, which govern how each variable responds to short-run disequilibrium from that long-run relation. This model, its estimation, and the Johansen procedure for testing the cointegrating rank are developed in full in @sec-vecm.</span>
 <span id="cb1-248"><a href="#cb1-248" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-249"><a href="#cb1-249" aria-hidden="true" tabindex="-1"></a><span class="fu">## Impulse response functions {#sec-irf}</span></span>
 <span id="cb1-250"><a href="#cb1-250" aria-hidden="true" tabindex="-1"></a></span>
@@ -1568,7 +1585,7 @@ Zellner, Arnold. 1962. <span>“An Efficient Method of Estimating Seemingly Unre
 <span id="cb1-284"><a href="#cb1-284" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-285"><a href="#cb1-285" aria-hidden="true" tabindex="-1"></a><span class="fu">### Limits of linearity</span></span>
 <span id="cb1-286"><a href="#cb1-286" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-287"><a href="#cb1-287" aria-hidden="true" tabindex="-1"></a>Because VARs are linear, two properties always hold mechanically, whether or not they are economically realistic. First, a positive shock is always the exact mirror image of a negative shock of the same size - only nonlinear models can produce asymmetric responses. This raises the empirical question of whether macro multipliers really have the same magnitude in an expansion as in a recession (consider, informally, the Greek crisis). Second, the magnitude of the initial shock does not matter for the *shape* of the IRF: a "unit shock" is conventionally a one-standard-deviation shock to a variable's residual, and a $2.3$-unit shock produces exactly $2.3$ times the impulse response of a unit shock. Whether this scale-invariance holds in reality is also an open empirical question - thresholds and tipping points (the Great Moderation, policy-rate effective lower bounds, "Minsky moments") all suggest it may not, always. These are exactly the limitations that motivate the nonlinear models developed in a later chapter.</span>
+<span id="cb1-287"><a href="#cb1-287" aria-hidden="true" tabindex="-1"></a>Because VARs are linear, two properties always hold mechanically, whether or not they are economically realistic. First, a positive shock is always the exact mirror image of a negative shock of the same size - only nonlinear models can produce asymmetric responses. This raises the empirical question of whether macro multipliers really have the same magnitude in an expansion as in a recession (consider, informally, the Greek crisis). Second, the magnitude of the initial shock does not matter for the *shape* of the IRF: a "unit shock" is conventionally a one-standard-deviation shock to a variable's residual, and a $2.3$-unit shock produces exactly $2.3$ times the impulse response of a unit shock. Whether this scale-invariance holds in reality is also an open empirical question - thresholds and tipping points (the Great Moderation, policy-rate effective lower bounds, "Minsky moments") all suggest it may not, always. These are exactly the limitations that motivate the nonlinear models developed in @sec-nonlinear.</span>
 <span id="cb1-288"><a href="#cb1-288" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-289"><a href="#cb1-289" aria-hidden="true" tabindex="-1"></a><span class="fu">## Forecast error variance decomposition {#sec-fevd}</span></span>
 <span id="cb1-290"><a href="#cb1-290" aria-hidden="true" tabindex="-1"></a></span>
