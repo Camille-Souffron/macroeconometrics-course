@@ -53,6 +53,10 @@ book:
         - chapters/03-var.qmd
         - chapters/04-svar-identification.qmd
 
+    - part: "Nonlinear and Time-Varying Models"
+      chapters:
+        - chapters/06-nonlinear.qmd
+
     - references.qmd
 
 bibliography: references.bib
