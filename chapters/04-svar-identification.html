@@ -90,7 +90,7 @@ div.csl-indent {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../chapters/06-nonlinear.html" rel="next">
+<link href="../chapters/05-cointegration-dfm.html" rel="next">
 <link href="../chapters/03-var.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -262,7 +262,7 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
- <span class="menu-text">Nonlinear and Time-Varying Models</span></a>
+ <span class="menu-text">Cointegration and Multivariate Extensions</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -270,8 +270,25 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../chapters/05-cointegration-dfm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Panel VAR, Cointegration, and Dynamic Factor Models</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
+ <span class="menu-text">Nonlinear and Time-Varying Models</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../chapters/06-nonlinear.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Beyond Linearity: Thresholds, Regime Changes, and Local Projections</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Beyond Linearity: Thresholds, Regime Changes, and Local Projections</span></span></a>
   </div>
 </li>
       </ul>
@@ -570,7 +587,7 @@ Figure&nbsp;4.2: Impulse responses to the three identified oil-market shocks (su
 </figcaption>
 </figure>
 </div>
-<p>The key patterns: a supply shock produces only a small, short-lived fall in production and a small, transitory rise in the real oil price; an aggregate demand shock produces a persistent rise in global activity and a large, sustained (if delayed) rise in the oil price; a precautionary demand shock produces an immediate, sharp, and persistent rise in the oil price (with overshooting) and a temporary drop in activity with little change in production. The historical decomposition (1975-2007) attributes oil-price spikes mainly to global aggregate demand and precautionary demand, not supply - the post-2003 surge is almost entirely driven by world demand. To assess U.S. macro effects, the estimated global shocks <span class="math inline">\(\{\hat\varepsilon_t^{supply}, \hat\varepsilon_t^{agg.dem}, \hat\varepsilon_t^{prec}\}\)</span> - not U.S.-specific - are fed into external regressions (local projections, <a href="06-nonlinear.html" class="quarto-xref"><span>Chapter 5</span></a>): supply shocks produce a small, temporary GDP drop with little CPI response; aggregate demand shocks initially raise GDP but are later recessionary, with persistently rising CPI; precautionary demand shocks are stagflationary (GDP down, CPI up). “Oil price shocks” are thus not a single object - their macro effects depend on which structural shock actually moved the price.</p>
+<p>The key patterns: a supply shock produces only a small, short-lived fall in production and a small, transitory rise in the real oil price; an aggregate demand shock produces a persistent rise in global activity and a large, sustained (if delayed) rise in the oil price; a precautionary demand shock produces an immediate, sharp, and persistent rise in the oil price (with overshooting) and a temporary drop in activity with little change in production. The historical decomposition (1975-2007) attributes oil-price spikes mainly to global aggregate demand and precautionary demand, not supply - the post-2003 surge is almost entirely driven by world demand. To assess U.S. macro effects, the estimated global shocks <span class="math inline">\(\{\hat\varepsilon_t^{supply}, \hat\varepsilon_t^{agg.dem}, \hat\varepsilon_t^{prec}\}\)</span> - not U.S.-specific - are fed into external regressions (local projections, <a href="06-nonlinear.html" class="quarto-xref"><span>Chapter 6</span></a>): supply shocks produce a small, temporary GDP drop with little CPI response; aggregate demand shocks initially raise GDP but are later recessionary, with persistently rising CPI; precautionary demand shocks are stagflationary (GDP down, CPI up). “Oil price shocks” are thus not a single object - their macro effects depend on which structural shock actually moved the price.</p>
 </div>
 </div>
 </section>
@@ -845,7 +862,7 @@ i_t = \psi_y y_t + \psi_p p_t + \psi_{pc}pc_t + \psi_{tr}tr_t + \psi_{nbr}nbr_t 
 </div>
 <div class="callout-body-container callout-body">
 <p>Romer and Romer (seminal 1989 paper, revised 2023 <span class="citation" data-cites="RomerRomer2023">(<a href="../references.html#ref-RomerRomer2023" role="doc-biblioref">2023</a>)</span>) read Federal Open Market Committee <em>Minutes</em> to find dates of exogenous monetary policy decisions - episodes where the central bank deliberately tightened or loosened policy for reasons <em>not</em> driven by current or expected output - producing a time series of shock indicators <span class="math inline">\(m_t \in \{-1, 0, 1\}\)</span>. More precisely, the original approach looks for times when policymakers judged the economy to be roughly at potential output, but decided inflation was too high, and chose to raise interest rates or cut money growth while accepting the risk of adverse output and unemployment consequences (in AS/AD terms: a deliberate leftward shift of the aggregate demand curve). The 2023 revision extends this to <em>expansionary</em> shocks - episodes where policymakers judged activity to be at a stable level but acted to lower unemployment, accepting adverse inflation consequences.</p>
-<p>Narrative shocks can be used in three ways: included as an exogenous regressor (a VARX), or as the shock in an SVAR block treated as purely exogenous; used directly as the regressor of interest in a local projection (<a href="06-nonlinear.html" class="quarto-xref"><span>Chapter 5</span></a>; Jordà <span class="citation" data-cites="Jorda2005">(<a href="../references.html#ref-Jorda2005" role="doc-biblioref">2005</a>)</span><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>) to compute IRFs; or, if the measurement is noisy, used as an <em>instrument</em> in a proxy-VAR. The first two methods tend to give quite similar results, though local projections additionally accommodate nonlinearities.</p>
+<p>Narrative shocks can be used in three ways: included as an exogenous regressor (a VARX), or as the shock in an SVAR block treated as purely exogenous; used directly as the regressor of interest in a local projection (<a href="06-nonlinear.html" class="quarto-xref"><span>Chapter 6</span></a>; Jordà <span class="citation" data-cites="Jorda2005">(<a href="../references.html#ref-Jorda2005" role="doc-biblioref">2005</a>)</span><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>) to compute IRFs; or, if the measurement is noisy, used as an <em>instrument</em> in a proxy-VAR. The first two methods tend to give quite similar results, though local projections additionally accommodate nonlinearities.</p>
 </div>
 </div>
 <p>The same logic applies to identifying <strong>fiscal</strong> shocks. Ramey and Shapiro <span class="citation" data-cites="RameyShapiro1998">(<a href="../references.html#ref-RameyShapiro1998" role="doc-biblioref">1998</a>)</span> identify defense-spending shocks from episodes where <em>Business Week</em> suddenly forecast large defense spending unrelated to the state of the U.S. economy - capturing genuine <em>news</em> about future spending (a shock to expectations), rather than the delayed execution of already-planned spending. Three original episodes: the start of the Korean War (July 1950), the escalation of the Vietnam War (February 1965), and the Soviet invasion of Afghanistan (January 1980); Ramey <span class="citation" data-cites="Ramey2011">(<a href="../references.html#ref-Ramey2011" role="doc-biblioref">2011</a>)</span> adds September 11, 2001 as a fourth date.</p>
@@ -1612,8 +1629,8 @@ Uhlig, Harald. 2005. <span>“What Are the Effects of Monetary Policy on Output?
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../chapters/06-nonlinear.html" class="pagination-link" aria-label="Beyond Linearity: Thresholds, Regime Changes, and Local Projections">
-        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Beyond Linearity: Thresholds, Regime Changes, and Local Projections</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../chapters/05-cointegration-dfm.html" class="pagination-link" aria-label="Panel VAR, Cointegration, and Dynamic Factor Models">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Panel VAR, Cointegration, and Dynamic Factor Models</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">

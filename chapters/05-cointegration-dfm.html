@@ -1,0 +1,1570 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>5&nbsp; Panel VAR, Cointegration, and Dynamic Factor Models – Macroeconometrics</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../chapters/06-nonlinear.html" rel="next">
+<link href="../chapters/04-svar-identification.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-0a2ba924a51c51b1951dc2bd466f6823.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Macroeconometrics</span>
+    </a>
+  </div>
+        <div class="quarto-navbar-tools tools-end">
+    <a href="https://github.com/Camille-Souffron/macroeconometrics-course" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+</div>
+          <div id="quarto-search" class="" title="Search"></div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/05-cointegration-dfm.html">Cointegration and Multivariate Extensions</a></li><li class="breadcrumb-item"><a href="../chapters/05-cointegration-dfm.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Panel VAR, Cointegration, and Dynamic Factor Models</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
+ <span class="menu-text">Foundations</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/01-time-series.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction to Time Series</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text">Univariate Linear Models</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/02-arma.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">AR, MA, and ARMA Processes</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text">Vector Autoregressions</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/03-var.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Vector Autoregressions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/04-svar-identification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Structural VARs, Identification, and Policy Shock Assessment</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Cointegration and Multivariate Extensions</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/05-cointegration-dfm.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Panel VAR, Cointegration, and Dynamic Factor Models</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
+ <span class="menu-text">Nonlinear and Time-Varying Models</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/06-nonlinear.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Beyond Linearity: Thresholds, Regime Changes, and Local Projections</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#a-note-on-panel-var" id="toc-a-note-on-panel-var" class="nav-link active" data-scroll-target="#a-note-on-panel-var"><span class="header-section-number">5.1</span> A note on panel VAR</a></li>
+  <li><a href="#sec-cointegration" id="toc-sec-cointegration" class="nav-link" data-scroll-target="#sec-cointegration"><span class="header-section-number">5.2</span> Cointegration</a></li>
+  <li><a href="#sec-vecm" id="toc-sec-vecm" class="nav-link" data-scroll-target="#sec-vecm"><span class="header-section-number">5.3</span> The error-correction representation</a>
+  <ul class="collapse">
+  <li><a href="#the-cointegration-rank" id="toc-the-cointegration-rank" class="nav-link" data-scroll-target="#the-cointegration-rank">The cointegration rank</a></li>
+  <li><a href="#testing-for-cointegration-the-johansen-procedure" id="toc-testing-for-cointegration-the-johansen-procedure" class="nav-link" data-scroll-target="#testing-for-cointegration-the-johansen-procedure">Testing for cointegration: the Johansen procedure</a></li>
+  <li><a href="#interpreting-beta-and-alpha" id="toc-interpreting-beta-and-alpha" class="nav-link" data-scroll-target="#interpreting-beta-and-alpha">Interpreting <span class="math inline">\(\beta\)</span> and <span class="math inline">\(\alpha\)</span></a></li>
+  <li><a href="#correlation-is-not-cointegration" id="toc-correlation-is-not-cointegration" class="nav-link" data-scroll-target="#correlation-is-not-cointegration">Correlation is not cointegration</a></li>
+  <li><a href="#two-empirical-illustrations" id="toc-two-empirical-illustrations" class="nav-link" data-scroll-target="#two-empirical-illustrations">Two empirical illustrations</a></li>
+  </ul></li>
+  <li><a href="#sec-dfm" id="toc-sec-dfm" class="nav-link" data-scroll-target="#sec-dfm"><span class="header-section-number">5.4</span> Dynamic factor models</a>
+  <ul class="collapse">
+  <li><a href="#from-hundreds-of-observables-to-a-few-factors" id="toc-from-hundreds-of-observables-to-a-few-factors" class="nav-link" data-scroll-target="#from-hundreds-of-observables-to-a-few-factors">From hundreds of observables to a few factors</a></li>
+  <li><a href="#estimating-the-factors-by-pca" id="toc-estimating-the-factors-by-pca" class="nav-link" data-scroll-target="#estimating-the-factors-by-pca">Estimating the factors by PCA</a></li>
+  <li><a href="#from-static-to-dynamic-factors" id="toc-from-static-to-dynamic-factors" class="nav-link" data-scroll-target="#from-static-to-dynamic-factors">From static to dynamic factors</a></li>
+  </ul></li>
+  <li><a href="#sec-favar" id="toc-sec-favar" class="nav-link" data-scroll-target="#sec-favar"><span class="header-section-number">5.5</span> Factor-augmented VAR (FAVAR)</a></li>
+  <li><a href="#core-example-the-global-financial-cycle" id="toc-core-example-the-global-financial-cycle" class="nav-link" data-scroll-target="#core-example-the-global-financial-cycle"><span class="header-section-number">5.6</span> Core example: the Global Financial Cycle</a></li>
+  <li><a href="#appendix-further-topics-in-dimension-reduction-and-estimation" id="toc-appendix-further-topics-in-dimension-reduction-and-estimation" class="nav-link" data-scroll-target="#appendix-further-topics-in-dimension-reduction-and-estimation"><span class="header-section-number">5.7</span> Appendix: further topics in dimension reduction and estimation</a>
+  <ul class="collapse">
+  <li><a href="#regularization-as-an-alternative-to-latent-factors" id="toc-regularization-as-an-alternative-to-latent-factors" class="nav-link" data-scroll-target="#regularization-as-an-alternative-to-latent-factors">Regularization as an alternative to latent factors</a></li>
+  <li><a href="#the-pca-algorithm-in-full" id="toc-the-pca-algorithm-in-full" class="nav-link" data-scroll-target="#the-pca-algorithm-in-full">The PCA algorithm, in full</a></li>
+  <li><a href="#identification-is-only-up-to-rotation" id="toc-identification-is-only-up-to-rotation" class="nav-link" data-scroll-target="#identification-is-only-up-to-rotation">Identification is only up to rotation</a></li>
+  <li><a href="#kalman-filter-and-em-estimation-in-detail" id="toc-kalman-filter-and-em-estimation-in-detail" class="nav-link" data-scroll-target="#kalman-filter-and-em-estimation-in-detail">Kalman filter and EM estimation, in detail</a></li>
+  <li><a href="#mixed-frequency-data" id="toc-mixed-frequency-data" class="nav-link" data-scroll-target="#mixed-frequency-data">Mixed-frequency data</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/Camille-Souffron/macroeconometrics-course/edit/main/chapters/05-cointegration-dfm.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/Camille-Souffron/macroeconometrics-course/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/05-cointegration-dfm.html">Cointegration and Multivariate Extensions</a></li><li class="breadcrumb-item"><a href="../chapters/05-cointegration-dfm.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Panel VAR, Cointegration, and Dynamic Factor Models</span></a></li></ol></nav>
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title"><span id="sec-cointegration-dfm" class="quarto-section-identifier"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Panel VAR, Cointegration, and Dynamic Factor Models</span></span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>This chapter closes three loose ends left open by the VAR chapters. First, what to do when the units of observation are themselves a panel - many countries, banks, or sectors - rather than a single economy. Second, the case flagged repeatedly since <a href="03-var.html#sec-var-cointegration" class="quarto-xref"><span>Section 3.6</span></a>: what to do when the variables in a VAR are <span class="math inline">\(I(1)\)</span> <em>and</em> cointegrated, where neither a levels VAR nor a differenced VAR is appropriate. Third, what to do when there are far more observed series than any VAR could handle - the dynamic factor model, and its VAR-based cousin, the factor-augmented VAR (FAVAR).</p>
+<section id="a-note-on-panel-var" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="a-note-on-panel-var"><span class="header-section-number">5.1</span> A note on panel VAR</h2>
+<p>A <strong>panel VAR (PVAR)</strong> extends the VAR framework to panel data, modeling dynamic interactions <em>within</em> each unit while exploiting repeated observations <em>across</em> units - credit, capital, and risk for 100 banks over 10 years, say, or output, inflation, and employment for 20 countries or sectors:</p>
+<p><span class="math display">\[
+y_{i,t} = a_i + \sum_{\ell=1}^p A_{i\ell}y_{i,t-\ell} + u_{i,t}, \qquad i = 1, \ldots, N,
+\]</span></p>
+<p>with <span class="math inline">\(y_{i,t}\)</span> a <span class="math inline">\(k\)</span>-vector of endogenous variables for unit <span class="math inline">\(i\)</span> and <span class="math inline">\(a_i\)</span> a unit-specific fixed effect. The model describes domestic, within-unit dynamics, and is useful for learning common or average dynamic patterns across many comparable units. The central modeling choice is how much heterogeneity to allow in <span class="math inline">\(A_{i\ell}\)</span> across units - should the slopes be pooled, partially pooled, or estimated separately?</p>
+<p><strong>Strategy 1: pooled PVAR</strong> (units are homogeneous). Assume identical slopes <span class="math inline">\(A_{i\ell} = A_\ell\)</span> across units, with only the intercepts <span class="math inline">\(a_i\)</span> differing. The estimation challenge is that removing <span class="math inline">\(a_i\)</span> by demeaning or first-differencing interacts badly with the dynamic structure: <span class="math inline">\(y_{i,t-1}\)</span> appears on the right-hand side <em>and</em> in the demeaned left-hand side, producing the <strong>Nickell <span class="citation" data-cites="Nickell1981">(<a href="../references.html#ref-Nickell1981" role="doc-biblioref">1981</a>)</span> bias</strong> - the within-group estimator is inconsistent at fixed <span class="math inline">\(T\)</span>, with bias of order <span class="math inline">\(-\frac{1+\rho}{T}\)</span> that does <em>not</em> vanish as <span class="math inline">\(N \to \infty\)</span>.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> The standard fix is <strong>GMM estimation</strong> <span class="citation" data-cites="ArellanoBond1991 BlundellBond1998">(Arellano and Bond, <a href="../references.html#ref-ArellanoBond1991" role="doc-biblioref">1991</a>; Blundell and Bond, <a href="../references.html#ref-BlundellBond1998" role="doc-biblioref">1998</a>)</span>: first-difference to remove <span class="math inline">\(a_i\)</span>, then instrument <span class="math inline">\(\Delta y_{i,t-1}\)</span> with levels <span class="math inline">\(y_{i,t-2}, y_{i,t-3}, \ldots\)</span> (valid whenever <span class="math inline">\(u_{i,t}\)</span> is serially uncorrelated); <strong>system GMM</strong> adds a levels equation, instrumented with differences, for better finite-<span class="math inline">\(T\)</span> precision. This strategy suits similar-sized units under a shared institutional framework (banks of similar size, firms in the same sector), but is inconsistent if the slopes genuinely differ across units <span class="citation" data-cites="PesaranSmith1995">(<a href="../references.html#ref-PesaranSmith1995" role="doc-biblioref">Pesaran and Smith 1995</a>)</span>.</p>
+<p><strong>Strategy 2: hierarchical panel VAR</strong> (units heterogeneous but structurally related). Each unit gets its own slope <span class="math inline">\(A_{i\ell}\)</span>, but units are assumed to share a common group structure - countries in a currency union, banks in the same regulatory tier. The natural implementation is Bayesian hierarchical: place a common prior <span class="math inline">\(A_{i\ell} \sim \mathcal{N}(\bar A_\ell, \Sigma_A)\)</span> and estimate via MCMC/Gibbs sampling (Canova and Ciccarelli, 2004; Jarociński, 2010), giving <strong>partial pooling</strong> - units with little data are shrunk toward the global mean, while data-rich units stay close to their own estimates. This suits heterogeneous units with small <span class="math inline">\(T\)</span>, where fully separate VARs would be too noisy.</p>
+<p><strong>Strategy 3: Mean Group (MG) estimator</strong> <span class="citation" data-cites="PesaranSmith1995">(Pesaran and Smith, <a href="../references.html#ref-PesaranSmith1995" role="doc-biblioref">1995</a>)</span> (units fully heterogeneous). Slopes are assumed fully heterogeneous, with no common structure beyond a common <em>mean</em>: estimate a separate VAR for each unit (<span class="math inline">\(\hat A_{\ell,i}\)</span>, by OLS or GMM), then average, <span class="math inline">\(\hat A_\ell^{MG} = \frac{1}{N}\sum_i \hat A_{\ell,i}\)</span>. The MG estimator is consistent under slope heterogeneity (unlike the pooled estimator), and <span class="math inline">\(\bar A_\ell\)</span> has a natural interpretation as the cross-unit average dynamic - but it is noisy when <span class="math inline">\(T\)</span> is small, with no shrinkage toward a common value; hierarchical pooling is preferable in that case.</p>
+<div id="tbl-pvar-strategies" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-pvar-strategies-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;5.1: Panel VAR strategies, by slope-heterogeneity assumption
+</figcaption>
+<div aria-describedby="tbl-pvar-strategies-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Strategy</th>
+<th>Slope assumption</th>
+<th>When to use</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Pooled + GMM</td>
+<td>Identical</td>
+<td>Homogeneous units, small <span class="math inline">\(T\)</span></td>
+</tr>
+<tr class="even">
+<td>Hierarchical</td>
+<td>Heterogeneous, common structure</td>
+<td>Heterogeneous units, small <span class="math inline">\(T\)</span></td>
+</tr>
+<tr class="odd">
+<td>Mean Group</td>
+<td>Fully heterogeneous</td>
+<td>Heterogeneous units, large <span class="math inline">\(T\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>A related tool, the <strong>Global VAR (GVAR)</strong>, models an interconnected multi-economy system with spillovers across units. Each unit gets a country-specific VARX, <span class="math inline">\(y_{i,t} = a_i + \sum_\ell A_{i\ell}y_{i,t-\ell} + \sum_\ell B_{i\ell}y^*_{i,t-\ell} + e_{i,t}\)</span>, with foreign aggregates <span class="math inline">\(y^*_{i,t} = \sum_{j\ne i} w_{ij}y_{j,t}\)</span> built from trade, financial, or input-output weights <span class="math inline">\(w_{ij}\)</span>. This captures spillovers and network propagation while scaling far better than one huge unrestricted VAR: each country-specific VARX is estimated on its own (often treating <span class="math inline">\(y^*\)</span> as weakly exogenous for that unit), and the units are then stacked into a single global system, with any identification scheme respecting the cross-country structure.</p>
+</section>
+<section id="sec-cointegration" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="sec-cointegration"><span class="header-section-number">5.2</span> Cointegration</h2>
+<p>Return to the diagnostic question from <a href="03-var.html#sec-var-cointegration" class="quarto-xref"><span>Section 3.6</span></a>: each series must first be checked for stationarity via unit-root tests (ADF, PP, ERS, KPSS). If all variables are <span class="math inline">\(I(0)\)</span>, a standard VAR in levels is valid. If variables are <span class="math inline">\(I(1)\)</span> but <em>not</em> cointegrated, a VAR in first differences (or growth rates, if the levels were in logs) is needed - though its IRFs then describe only short-run dynamics, with long-run levels left unidentified. This chapter takes up the third and most interesting case in full.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="What is cointegration?">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>What is cointegration?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Cointegration means that several non-stationary variables share a common long-run equilibrium relation despite short-run deviations, so that a specific linear combination of them is stationary even though each series individually is not: there exists <span class="math inline">\(\beta\)</span>, the <strong>cointegrating vector</strong> (or long-run equilibrium vector), such that</p>
+<p><span class="math display">\[
+\beta'y_t = \sum_{i=1}^k \beta_i y_{i,t} \quad \text{is stationary,}
+\]</span></p>
+<p>even though each <span class="math inline">\(y_{i,t}\)</span> is <span class="math inline">\(I(1)\)</span>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="A canonical example: consumption and income">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>A canonical example: consumption and income
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Both consumption <span class="math inline">\(C_t\)</span> and income <span class="math inline">\(Y_t\)</span> individually look like random walks in levels, but households smooth consumption toward income in the long run, <span class="math inline">\(C_t \approx \beta_0 + \beta_1 Y_t\)</span>, and the gap <span class="math inline">\(u_t = C_t - \beta_0 - \beta_1 Y_t\)</span> is stationary. More generally, if <span class="math inline">\(y_{1,t}, y_{2,t} \sim I(1)\)</span> but <span class="math inline">\(y_{1,t} - \beta y_{2,t} \sim I(0)\)</span>, the two series are cointegrated: they may each drift, but they cannot drift <em>too far</em> apart.</p>
+</div>
+</div>
+<div id="fig-coint-example" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-coint-example-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figures/cointegration-dfm/yield-spread-cointegration-example.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-coint-example-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.1: Two <span class="math inline">\(I(1)\)</span> interest-rate series (12- and 24-month zero-coupon yields) whose spread nonetheless looks stationary: a textbook cointegration pattern.
+</figcaption>
+</figure>
+</div>
+<p>Cointegration is a genuinely common pattern in macro and finance data. In the <strong>term structure of interest rates</strong>, <span class="math inline">\(i^{\text{long}}_t - \beta i^{\text{short}}_t\)</span> is stationary - long and short rates move together in the long run, consistent with the expectations hypothesis.</p>
+<div id="fig-yield-curve-coint" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-yield-curve-coint-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figures/cointegration-dfm/yield-curve-cointegration.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-yield-curve-coint-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.2: Government bond yields at several maturities, moving together over decades: a term-structure cointegration pattern.
+</figcaption>
+</figure>
+</div>
+<p>In <strong>purchasing power parity (PPP)</strong>, <span class="math inline">\(e_t + p_t - p_t^*\)</span> is stationary - the nominal exchange rate and relative price levels co-move in the long run (loosely: if domestic inflation raises money supply and depresses exports, a compensating nominal depreciation should follow).</p>
+<div id="fig-ppp-coint" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ppp-coint-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figures/cointegration-dfm/ppp-cointegration.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ppp-coint-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.3: Bilateral exchange rates against their PPP-implied paths, and the resulting deviations from PPP, across several currency pairs.
+</figcaption>
+</figure>
+</div>
+<p>Thirlwall’s law - the <strong>balance-of-payments-constrained growth</strong> relation - ties exports, imports, and domestic and foreign income together, <span class="math inline">\(X_t - \beta_1 M_t - \beta_2 Y_t - \beta_3 Y_t^* \sim I(0)\)</span>, with the implication that a country’s long-run growth rate is approximately bounded by the growth of its exports divided by the income elasticity of its imports: if income grows and imports rise faster than exports can pay for them, the country hits an external constraint and must slow down.</p>
+<p>In <strong>housing markets</strong>, <span class="math inline">\(P_t^{\text{house}} - \theta_1 R_t - \theta_2 Y_t \sim I(0)\)</span> ties house prices to rents and income through long-run affordability - though it is worth asking whether that relationship still holds as tightly as it once did.</p>
+<div id="fig-housing-coint" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-housing-coint-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figures/cointegration-dfm/housing-price-rent-income-cointegration.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-housing-coint-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.4: House prices, rents, and household income (rebased to 2000 = 100): house prices pull increasingly away from both rents and income after 2000, raising the question of whether the affordability relationship still cointegrates as cleanly as in earlier decades.
+</figcaption>
+</figure>
+</div>
+<p>Finally, the <strong>dividend discount model</strong> for stock prices, <span class="math inline">\(P_t - \phi D_t\)</span> stationary, is a theoretically motivated but empirically fragile cointegration claim: prices should reflect the discounted present value of dividends and expected returns; dividends have a unit root but expected returns are (in the simplest version of the theory) stationary, so essentially all long-run price variation should trace back to dividend variation rather than to time-varying discount rates. In practice the relationship looks progressively less stable, plausibly reflecting buybacks, quantitative easing, and genuinely time-varying discount rates.</p>
+<div id="fig-dividend-coint" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-dividend-coint-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figures/cointegration-dfm/price-dividend-cointegration.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dividend-coint-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.5: Log price and log dividends for the CRSP market portfolio, 1926-2015: broadly co-trending, but with visibly widening and narrowing gaps that a simple constant-<span class="math inline">\(\phi\)</span> cointegrating relation cannot fully explain.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="sec-vecm" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="sec-vecm"><span class="header-section-number">5.3</span> The error-correction representation</h2>
+<p>Start with a bivariate long-run relation, <span class="math inline">\(y_t = \gamma_0 + \gamma_1 y_{t-1} + \gamma_2 x_{t-1} + u_t\)</span>, with <span class="math inline">\(y_t, x_t \sim I(1)\)</span> and cointegrated. Subtracting <span class="math inline">\(y_{t-1}\)</span> from both sides and rearranging,</p>
+<p><span id="eq-ecm"><span class="math display">\[
+\Delta y_t = \gamma_0 - \alpha\underbrace{(y_{t-1} - \beta x_{t-1})}_{\text{error-correction term}} + u_t,
+\tag{5.1}\]</span></span></p>
+<p>with <span class="math inline">\(\alpha = 1-\gamma_1\)</span> and <span class="math inline">\(\beta = \gamma_2/(1-\gamma_1)\)</span>. The term <span class="math inline">\(e_{t-1} = y_{t-1} - \beta x_{t-1}\)</span> is last period’s deviation from the long-run equilibrium (with <span class="math inline">\(E[e_{t-1}] = 0\)</span> if the relation is genuinely stationary), and <span class="math inline">\(-\alpha\)</span> is the <strong>speed of adjustment</strong> back toward it: if <span class="math inline">\(e_{t-1} &gt; 0\)</span> (<span class="math inline">\(y_{t-1}\)</span> too high relative to <span class="math inline">\(x_{t-1}\)</span>), then <span class="math inline">\(-\alpha e_{t-1} &lt; 0\)</span> and <span class="math inline">\(y_t\)</span> is pushed downward next period, and conversely if <span class="math inline">\(e_{t-1} &lt; 0\)</span>. With <span class="math inline">\(\alpha &gt; 0\)</span>, this is a systematic restoring force pulling <span class="math inline">\(y_t\)</span> back toward the long-run relationship.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="The VECM in general form">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>The VECM in general form
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For <span class="math inline">\(y_t\)</span> a <span class="math inline">\(k \times 1\)</span> vector of <span class="math inline">\(I(1)\)</span> variables, the <strong>vector error-correction model (VECM)</strong> of order <span class="math inline">\(p\)</span> - also called the Johansen model - is</p>
+<p><span class="math display">\[
+\Delta y_t = \Pi y_{t-1} + \Gamma_1\Delta y_{t-1} + \cdots + \Gamma_{p-1}\Delta y_{t-p+1} + u_t, \qquad \Pi = \alpha\beta', \quad \alpha, \beta \in \mathbb{R}^{k \times r}.
+\]</span></p>
+<p><span class="math inline">\(\beta'y_{t-1}\)</span> gives <span class="math inline">\(r\)</span> long-run equilibrium relations (cointegrating combinations); <span class="math inline">\(\alpha\)</span> gives the adjustment (loading) coefficients describing how each variable reacts to short-run deviations from each equilibrium; and <span class="math inline">\(\Gamma_i\)</span> captures the short-run dynamics in differences (relevant once <span class="math inline">\(p \ge 2\)</span>).</p>
+</div>
+</div>
+<section id="the-cointegration-rank" class="level3">
+<h3 class="anchored" data-anchor-id="the-cointegration-rank">The cointegration rank</h3>
+<p>The rank <span class="math inline">\(r = \mathrm{rank}(\Pi)\)</span> tells us how many independent long-run equilibrium relations exist among the <span class="math inline">\(k\)</span> variables, and equivalently how many common stochastic trends remain (<span class="math inline">\(k-r\)</span> of them). Three cases:</p>
+<ul>
+<li><strong><span class="math inline">\(r = 0\)</span>: no cointegration.</strong> No stationary linear combination of <span class="math inline">\(y_t\)</span> exists; model in differences, a VAR in <span class="math inline">\(\Delta y_t\)</span> with no error-correction term.</li>
+<li><strong><span class="math inline">\(0 &lt; r &lt; k\)</span>: cointegration present.</strong> There are <span class="math inline">\(r\)</span> long-run relations and <span class="math inline">\(k-r\)</span> common stochastic trends; use a VECM with <span class="math inline">\(\Pi = \alpha\beta'\)</span>, <span class="math inline">\(\beta\)</span> containing the <span class="math inline">\(r\)</span> cointegrating vectors and <span class="math inline">\(\alpha\)</span> the loading coefficients.</li>
+<li><strong><span class="math inline">\(r = k\)</span>: effectively no unit roots.</strong> All variables are <span class="math inline">\(I(0)\)</span>; a standard VAR in levels is appropriate, with no need to difference.</li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled" title="Reading the rank in a 3-variable system">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Reading the rank in a 3-variable system
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For <span class="math inline">\(y_t = (y_{1,t}, y_{2,t}, y_{3,t})'\)</span>: at <span class="math inline">\(r=1\)</span>, only one stationary combination <span class="math inline">\(\beta_1'y_t \sim I(0)\)</span> exists, and two stochastic trends remain. At <span class="math inline">\(r=2\)</span>, two independent stationary combinations <span class="math inline">\(\beta_1'y_t, \beta_2'y_t \sim I(0)\)</span> exist, and only one stochastic trend remains. At <span class="math inline">\(r=3\)</span>, three stationary relations span the whole space, which forces <span class="math inline">\(y_{1,t}, y_{2,t}, y_{3,t}\)</span> to each be <span class="math inline">\(I(0)\)</span> individually (each variable can be solved for as a stationary function of the others) - no VECM is needed, and a standard VAR in levels applies.</p>
+</div>
+</div>
+</section>
+<section id="testing-for-cointegration-the-johansen-procedure" class="level3">
+<h3 class="anchored" data-anchor-id="testing-for-cointegration-the-johansen-procedure">Testing for cointegration: the Johansen procedure</h3>
+<p>Testing for cointegration is not as simple as running ADF on some residual series <span class="math inline">\(\beta'y_t\)</span> for a guessed <span class="math inline">\(\beta\)</span>: there is no way to test every possible linear combination one at a time, and cointegration is a property of the <em>system</em> as a whole, not of any single pair of series. A genuinely multivariate method is needed to estimate both the rank <span class="math inline">\(r\)</span> and the vectors <span class="math inline">\(\beta\)</span> jointly - the full-system maximum-likelihood approach of Johansen <span class="citation" data-cites="Johansen1988 Johansen1991">(<a href="../references.html#ref-Johansen1988" role="doc-biblioref">1988</a>, <a href="../references.html#ref-Johansen1991" role="doc-biblioref">1991</a>)</span>.</p>
+<p>Since <span class="math inline">\(\Pi\)</span> contains all the long-run information, Johansen’s approach estimates its eigenvalues <span class="math inline">\(\lambda_1 \ge \cdots \ge \lambda_k\)</span>, which measure the strength of each candidate long-run relation: a large <span class="math inline">\(\lambda_i\)</span> signals a real cointegrating vector (deviations are pulled back strongly), a tiny one signals no further cointegration. Two test statistics are built from these eigenvalues: the <strong>trace test</strong>, <span class="math inline">\(H_0: r \le r_0\)</span> against <span class="math inline">\(H_1: r &gt; r_0\)</span>, <span class="math inline">\(\lambda_{\text{trace}}(r_0) = -T\sum_{i=r_0+1}^k \ln(1-\hat\lambda_i)\)</span>; and the <strong>maximum-eigenvalue test</strong>, <span class="math inline">\(H_0: r = r_0\)</span> against <span class="math inline">\(H_1: r = r_0+1\)</span>, <span class="math inline">\(\lambda_{\max}(r_0) = -T\ln(1-\hat\lambda_{r_0+1})\)</span>. The standard procedure starts at <span class="math inline">\(r_0 = 0\)</span> and increases <span class="math inline">\(r_0\)</span> until the test fails to reject; the resulting <span class="math inline">\(r\)</span> is the estimated number of long-run equilibria.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Practical workflow with I(1) variables">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Practical workflow with I(1) variables
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>Run unit-root tests on each variable (<span class="math inline">\(I(0)\)</span> versus <span class="math inline">\(I(1)\)</span>).</li>
+<li>If all series are <span class="math inline">\(I(0)\)</span>: estimate a VAR in levels directly.</li>
+<li>If some are <span class="math inline">\(I(1)\)</span>: test for the cointegration rank <span class="math inline">\(r\)</span> (Johansen trace/max-eigenvalue tests).</li>
+<li>If <span class="math inline">\(r = 0\)</span>: a VAR in differences, short-run dynamics only.</li>
+<li>If <span class="math inline">\(0 &lt; r &lt; k\)</span>: estimate a VECM, then interpret <span class="math inline">\(\beta\)</span> (the long-run relations) and <span class="math inline">\(\alpha\)</span> (who adjusts to whom), and recover IRFs and FEVDs via the equivalent levels VAR.</li>
+</ol>
+<p><span class="math inline">\(I(0)\)</span> variables can coexist with <span class="math inline">\(I(1)\)</span> ones in the system; they simply do not participate in any cointegrating relation, which reduces the effective rank <span class="math inline">\(r\)</span> available among the genuinely <span class="math inline">\(I(1)\)</span> variables.</p>
+</div>
+</div>
+</section>
+<section id="interpreting-beta-and-alpha" class="level3">
+<h3 class="anchored" data-anchor-id="interpreting-beta-and-alpha">Interpreting <span class="math inline">\(\beta\)</span> and <span class="math inline">\(\alpha\)</span></h3>
+<p><strong>The cointegrating vector <span class="math inline">\(\beta\)</span></strong> defines the stationary long-run relation and the fixed proportion in which variables move together - e.g.&nbsp;<span class="math inline">\(C_t - 0.85Y_t\)</span> stationary means consumption and income move together in an 0.85:1 long-run ratio. Only <em>relative</em> coefficients matter: if <span class="math inline">\(\beta = (1,-2)\)</span>, then <span class="math inline">\(p_t - 2c_t \sim I(0)\)</span>, meaning <span class="math inline">\(p_t\)</span> must be roughly twice <span class="math inline">\(c_t\)</span> in the long run - a 1-point rise in <span class="math inline">\(c_t\)</span> requires <span class="math inline">\(\Delta p_t = 2\)</span> to stay on the long-run path, a 0.5-point rise requires <span class="math inline">\(\Delta p_t = 1\)</span>. Two caveats: with only <span class="math inline">\(r=1\)</span> cointegrating relation among 3 or more variables, <span class="math inline">\(\beta\)</span> gives only the equilibrium proportion, not which variable does the adjusting to restore it (that is <span class="math inline">\(\alpha\)</span>’s job); and if <span class="math inline">\(\beta_i = 0\)</span> for a given variable in every cointegrating vector, that variable plays no role in the long-run equilibrium at all - <strong>long-run exclusion</strong> - even though it may still appear in the short-run dynamics <span class="math inline">\(\Gamma\)</span> through its first difference.</p>
+<p><strong>The loading matrix <span class="math inline">\(\alpha\)</span></strong> describes how each variable reacts once the system deviates from equilibrium: <span class="math inline">\(\alpha_i &lt; 0\)</span> means variable <span class="math inline">\(i\)</span> falls to correct a positive disequilibrium, <span class="math inline">\(\alpha_i &gt; 0\)</span> means it rises to correct it, <span class="math inline">\(\alpha_i = 0\)</span> means variable <span class="math inline">\(i\)</span> does not adjust at all - it is <strong>weakly exogenous</strong> for the long run - and a larger <span class="math inline">\(|\alpha_i|\)</span> means faster adjustment. A standard example: prices adjust to costs, not the reverse, so <span class="math inline">\(\alpha_{\text{price}} &gt; 0\)</span> while <span class="math inline">\(\alpha_{\text{cost}} \approx 0\)</span> - costs are weakly exogenous for the long-run relationship.</p>
+<p>Three distinct restrictions can be tested within a VECM: <strong>weak exogeneity</strong> (<span class="math inline">\(\alpha_i = 0\)</span>, variable <span class="math inline">\(i\)</span> does not adjust to long-run disequilibrium), <strong>long-run exclusion</strong> (<span class="math inline">\(\beta_i = 0\)</span> in every cointegrating vector, variable <span class="math inline">\(i\)</span> plays no role in the long-run relation), and <strong>short-run exclusion / Granger non-causality</strong> (the relevant row or column of <span class="math inline">\(\Gamma\)</span> is zero, variable <span class="math inline">\(i\)</span> does not affect the others’ short-run dynamics).</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Long-run anchors: in the cointegrating relation but weakly exogenous">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Long-run anchors: in the cointegrating relation but weakly exogenous
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A variable can enter the long-run relation (<span class="math inline">\(\beta_i \ne 0\)</span>) while never adjusting to it (<span class="math inline">\(\alpha_i = 0\)</span>) - it is then part of the equilibrium but acts as its <strong>external anchor</strong>, not something the rest of the system pulls back into line. Examples: the foreign interest rate in a small open economy enters the uncovered interest parity relation (<span class="math inline">\(\beta \ne 0\)</span>) but does not react to domestic deviations (<span class="math inline">\(\alpha=0\)</span>) - it is the <em>domestic</em> rate that adjusts, through depreciation, capital flight, or bond yields. The world oil price drives domestic costs for energy-importing countries but is unaffected by local imbalances. A productivity trend anchors long-run wages (wages adjust to productivity, not the reverse - barring a Kaldor-Verdoorn feedback through demand and increasing returns). Foreign GDP anchors long-run export volumes (and hence, under Thirlwall’s law, domestic growth) without adjusting to home-country exports. And potential output anchors the long-run gap in Phillips-curve systems without moving in response to short-run inflation or output imbalances.</p>
+</div>
+</div>
+</section>
+<section id="correlation-is-not-cointegration" class="level3">
+<h3 class="anchored" data-anchor-id="correlation-is-not-cointegration">Correlation is not cointegration</h3>
+<p>Ordinary correlation measures linear association <em>at a point in time</em>; it can be high simply because two series both trend over time, with no genuine economic relation at all (spurious correlation), and it ignores both the order of integration and long-run behavior entirely. Cointegration, by contrast, is about <em>common stochastic trends</em>, not contemporaneous covariation - two cointegrated series can even be weakly correlated in the short run. Two unrelated random walks can show high correlation with no cointegration whatsoever (both simply trend upward); conversely, two series can be cointegrated even with weak short-run correlation, wandering independently period to period while never drifting apart <em>permanently</em>. The standard image: two drunk walkers taking independent steps each moment have low or even zero correlation in their individual movements, but if they are tied together by a rope, they cannot drift apart indefinitely - their <em>distance</em> is stationary, even though neither walker’s own path is.</p>
+</section>
+<section id="two-empirical-illustrations" class="level3">
+<h3 class="anchored" data-anchor-id="two-empirical-illustrations">Two empirical illustrations</h3>
+<div class="callout callout-style-default callout-tip callout-titled" title="Is U.S. growth wage-led or profit-led? (Barrales-Ruiz et al., 2025)">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Is U.S. growth wage-led or profit-led? (Barrales-Ruiz et al., 2025)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Question:</strong> why did U.S. long-run growth and the labor share decline together since the 1970s - is long-run growth wage-led or profit-led? <strong>Data:</strong> U.S., 1948Q1-2023Q4, real GDP growth <span class="math inline">\(g_t\)</span>, labor share <span class="math inline">\(\psi_t\)</span>, unemployment <span class="math inline">\(u_t\)</span>. <strong>Method:</strong> a time-varying-parameter VECM with stochastic volatility (<a href="06-nonlinear.html#sec-tvp-var" class="quarto-xref"><span>Section 6.5</span></a>) - TVP because the postwar U.S. has passed through very different eras (the Golden Age, neoliberalism, financialization) that evolved only gradually - with a long-run equilibrium of the form <span class="math inline">\(g_t = B_{1,t}\psi_t + B_{3,t}u_t\)</span>, applying Johansen’s logic within a Bayesian VECM.</p>
+<p><strong>Results.</strong> The long-run coefficient <span class="math inline">\(B_{1,t} &gt; 0\)</span> for most of 1948-2023: a 1 percentage-point fall in the labor share is associated with a 0.25 to 0.40 percentage-point fall in long-run GDP growth - long-run U.S. growth is <strong>wage-led</strong>. The effect essentially disappears during 1975-1995 (the neoliberal transition, a profit-led interlude) before reappearing after the mid-1990s. Two further VECMs trace the transmission channels: the labor share strongly and robustly affects consumption growth, and affects labor productivity positively but only significantly after 2000 - so the pattern is short-run profit-led but long-run wage-led, with the consumption channel dominating any induced-technical-change channel.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Cointegration of output, capital, labor, and energy (Stresing, Lindenberger, and Kümmel, 2008)">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Cointegration of output, capital, labor, and energy (Stresing, Lindenberger, and Kümmel, 2008)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Question:</strong> do the production factors <span class="math inline">\((K, L, E)\)</span> and output <span class="math inline">\(Q\)</span> form a long-run equilibrium relation - and if so, does the cointegrating vector match the Cobb-Douglas elasticities implied by neoclassical theory? <strong>Data:</strong> Germany, Japan, and the USA, 1960s-1990s, <span class="math inline">\(\ln Q_t, \ln K_t, \ln L_t, \ln E_t\)</span>. <strong>Method:</strong> all series are <span class="math inline">\(I(1)\)</span>, so the study tests cointegration of <span class="math inline">\(u_t = \ln Q_t - \alpha\ln K_t - \beta\ln L_t - \gamma\ln E_t\)</span>, imposing the Cobb-Douglas structure <span class="math inline">\(\alpha, \beta, \gamma \ge 0\)</span>, <span class="math inline">\(\alpha+\beta+\gamma=1\)</span>, and identifying <span class="math inline">\((\alpha,\beta,\gamma)\)</span> via Engle-Granger residual-stationarity tests together with RSS and Durbin-Watson criteria to pick the best candidate vector. The resulting cointegrating vector is interpreted as an <em>empirical output elasticity</em>, not a cost share - these need not coincide (cf.&nbsp;the cost-share theorem’s documented failures).</p>
+<p><strong>Results.</strong> <span class="math inline">\((Q,K,L,E)\)</span> are cointegrated for Germany and the USA, more weakly so for Japan, with estimated long-run elasticities that differ sharply from neoclassical predictions: <span class="math inline">\(\alpha_K \approx 0.4\)</span> to <span class="math inline">\(0.6\)</span>, <span class="math inline">\(\beta_L \approx 0.05\)</span> to <span class="math inline">\(0.2\)</span>, <span class="math inline">\(\gamma_E \approx 0.3\)</span> to <span class="math inline">\(0.6\)</span> - a strikingly large energy elasticity and a small labor elasticity relative to capital’s. This supports heterodox production theories built on thermodynamic constraints, challenges the neoclassical assumption that cost shares equal output elasticities, and offers an alternative reading of the 1973 and 1979 energy crises as genuine productivity shocks - output highly sensitive to energy - in contrast to the real-business-cycle literature’s tendency (e.g.&nbsp;Shapiro and Watson, 1988) to attribute roughly half of output volatility to labor-supply shifts, effectively reversing the direction of causality.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-dfm" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="sec-dfm"><span class="header-section-number">5.4</span> Dynamic factor models</h2>
+<p>Modern macro-finance datasets contain dozens or hundreds of indicators - production, employment, sales, prices, wages across many sectors; credit, spreads, house prices, equity indices; surveys, confidence indicators, expectations - and the goal is to exploit all of it for analysis, forecasting, and structural work. But a VAR with <span class="math inline">\(k\)</span> variables and <span class="math inline">\(p\)</span> lags has roughly <span class="math inline">\(k^2p\)</span> parameters: with <span class="math inline">\(k=20\)</span> and <span class="math inline">\(p=4\)</span>, that is 1,600 parameters - the <strong>curse of dimensionality</strong> makes an unrestricted VAR on the full dataset hopeless.</p>
+<p>The escape route rests on a stylized fact: most macro and financial variables co-move because of a handful of underlying forces - domestic and global business cycles, domestic and global financial cycles, inflation regimes, uncertainty cycles, market sentiment - and not a great deal else. Idiosyncratic components obviously differ series by series, but the cross-sectional comovement is strong. The core idea of the <strong>dynamic factor model (DFM)</strong>: if <span class="math inline">\(N\)</span> is large, most of the variance of <span class="math inline">\(x_{1t}, \ldots, x_{Nt}\)</span> can be explained by a small number of hidden drivers, and the goal is to extract those few latent common components.</p>
+<section id="from-hundreds-of-observables-to-a-few-factors" class="level3">
+<h3 class="anchored" data-anchor-id="from-hundreds-of-observables-to-a-few-factors">From hundreds of observables to a few factors</h3>
+<p>Instead of modeling <span class="math inline">\(x_t \in \mathbb{R}^N\)</span> directly, assume</p>
+<p><span class="math display">\[
+x_t = \Lambda f_t + e_t, \qquad x_t \in \mathbb{R}^N,\ f_t \in \mathbb{R}^r,\ \Lambda \in \mathbb{R}^{N \times r},\ e_t \in \mathbb{R}^N,
+\]</span></p>
+<p>with <span class="math inline">\(N\)</span> large and <span class="math inline">\(r \ll N\)</span> (often <span class="math inline">\(r=1\)</span> to <span class="math inline">\(4\)</span>). <span class="math inline">\(f_t\)</span> is the vector of <strong>latent factors</strong> (a business cycle, a financial cycle); <span class="math inline">\(\Lambda\)</span> is the matrix of <strong>factor loadings</strong> linking each <span class="math inline">\(x_{it}\)</span> to each factor; <span class="math inline">\(e_t\)</span> is <strong>idiosyncratic</strong> noise (variable-specific components and measurement error). This compresses <span class="math inline">\(N\)</span> series into <span class="math inline">\(r\)</span> factors, lets dynamics be modeled on <span class="math inline">\(f_t\)</span> with a small VAR, and lets the impact of <span class="math inline">\(f_t\)</span> on each <span class="math inline">\(x_{it}\)</span> be recovered through its loadings - a low-dimensional, state-space representation of a high-dimensional system.</p>
+<p>Dynamic factor models serve several distinct purposes. <strong>Forecasting</strong>: GDP, inflation, or credit growth can be forecast using factors that summarize 100+ variables at once. <strong>Nowcasting</strong> <span class="citation" data-cites="GiannoneReichlinSmall2008">(Giannone, Reichlin, and Small, <a href="../references.html#ref-GiannoneReichlinSmall2008" role="doc-biblioref">2008</a>)</span>: a real-time estimate of the current state of the economy (e.g.&nbsp;GDP) before official statistics are released, handling missing or late data releases naturally through the state-space representation - a Kalman filter updates the factor estimate as monthly indicators (industrial production, PMI, retail sales, credit) arrive. <strong>Structural analysis via the factor-augmented VAR (FAVAR)</strong>: identify shocks in a VAR augmented with factors, and observe the responses of hundreds of underlying series through the factor loadings (below). <strong>Macro-financial cycle analysis</strong> <span class="citation" data-cites="MirandaAgrippinoRey2020">(Miranda-Agrippino and Rey, <a href="../references.html#ref-MirandaAgrippinoRey2020" role="doc-biblioref">2020</a>)</span>: uncover common global or cross-country factors to study spillovers, comovement, and systemic risk across a panel of countries or assets.</p>
+<p>In short, the DFM pipeline: represent each <span class="math inline">\(x_{it}\)</span> as driven by a small number of common factors; estimate the factors by principal component analysis (PCA), exploiting large-<span class="math inline">\(N\)</span> consistency to average out idiosyncratic noise; model the factor dynamics with a small VAR (for forecasting, analysis, or identification); and map factor shocks back onto every original series via the loadings.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Exact versus approximate factor models">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Exact versus approximate factor models
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The textbook <strong>exact</strong> factor model assumes the idiosyncratic components <span class="math inline">\(e_{it}\)</span> are cross-sectionally uncorrelated. In macro/finance practice, the <strong>approximate</strong> factor model is more realistic: <span class="math inline">\(e_{it}\)</span> may be weakly correlated across both <span class="math inline">\(i\)</span> and <span class="math inline">\(t\)</span>, but the <em>dominant</em> cross-sectional dependence still comes from <span class="math inline">\(f_t\)</span> - most of the covariance of <span class="math inline">\(x_t\)</span> across <span class="math inline">\(i=1,\ldots,N\)</span> is driven by the small number of common factors. This weaker assumption is what allows the factor space to be estimated consistently when <span class="math inline">\(N\)</span> is large; the typical asymptotics are large <span class="math inline">\(N\)</span>, moderate-to-large <span class="math inline">\(T\)</span>.</p>
+</div>
+</div>
+</section>
+<section id="estimating-the-factors-by-pca" class="level3">
+<h3 class="anchored" data-anchor-id="estimating-the-factors-by-pca">Estimating the factors by PCA</h3>
+<p>Let <span class="math inline">\(X = [x_1, \ldots, x_T]\)</span> be the <span class="math inline">\(N \times T\)</span> data matrix. The objective is to find low-dimensional <span class="math inline">\(f_t\)</span> and <span class="math inline">\(\Lambda\)</span> such that <span class="math inline">\(x_t \approx \Lambda f_t\)</span> for every <span class="math inline">\(t\)</span>, minimizing the sum of squared idiosyncratic components, <span class="math inline">\(\min_{\Lambda,(f_t)} \frac{1}{NT}\sum_t \|x_t - \Lambda f_t\|^2\)</span>, subject to a normalization on <span class="math inline">\((f_t)\)</span> - exactly what <strong>principal component analysis</strong> does, by choosing <span class="math inline">\(r\)</span> linear combinations of <span class="math inline">\(x_t\)</span> that maximize explained variance. PCA chooses <span class="math inline">\(\hat f_t\)</span> and <span class="math inline">\(\hat\Lambda\)</span> so that the first factor explains as much of <span class="math inline">\(x_t\)</span>’s variance as possible, the second explains as much of the <em>remaining</em> variance as possible, and so on, with all factors mutually orthogonal - so the first few factors capture the main comovements in the data, and the idiosyncratic components absorb what is left as variable-specific noise.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Interpreting factors and loadings">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Interpreting factors and loadings
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Once <span class="math inline">\(\hat f_t\)</span> is estimated, check its correlation with known macro series (GDP growth, credit spreads, trade flows); inspect it visually - do its peaks and troughs coincide with recessions or crises? The <strong>sign</strong> of a loading <span class="math inline">\(\lambda_{ik}\)</span> tells you whether series <span class="math inline">\(i\)</span> moves with or against factor <span class="math inline">\(k\)</span>; its <strong>magnitude</strong> tells you how strongly series <span class="math inline">\(i\)</span> is driven by that factor, and the high-loading series collectively suggest how to interpret the factor. The cross-section of loadings <span class="math inline">\(\lambda_i\)</span> tells you which economic block a given factor corresponds to (real activity, credit, confidence, prices, financial stress). Interpretation matters: a factor is only useful insofar as it corresponds to an economically meaningful latent force, not merely a statistically convenient summary.</p>
+</div>
+</div>
+<p><strong>Choosing the number of factors</strong> is, in practice, never fully settled: look at the share of variance explained by the first few components (e.g.&nbsp;if factor 1 explains 75 percent, factor 2 an additional 15 percent, and factor 3 only 3 percent more, <span class="math inline">\(r=2\)</span> is a reasonable choice), or minimize the Bai and Ng <span class="citation" data-cites="BaiNg2002">(<a href="../references.html#ref-BaiNg2002" role="doc-biblioref">2002</a>)</span> information criteria (<span class="math inline">\(IC(r)\)</span>, <span class="math inline">\(PC(r)\)</span>) for static factors (for the dynamic case, compare with the Hallin and Liška, 2007, spectral-density test). In practice, do not obsess over <span class="math inline">\(r=2\)</span> versus <span class="math inline">\(r=3\)</span> - instead check robustness: do the substantive conclusions change drastically between the two? Try alternative subsets of variables (only real indicators, only financial ones), alternative transformations (levels, growth rates, logs), and alternative sample splits, and keep asking whether the loadings and the resulting factor interpretation remain economically sensible and stable over time.</p>
+</section>
+<section id="from-static-to-dynamic-factors" class="level3">
+<h3 class="anchored" data-anchor-id="from-static-to-dynamic-factors">From static to dynamic factors</h3>
+<p>A <strong>static</strong> factor model, <span class="math inline">\(x_t = \Lambda f_t + e_t\)</span>, captures only cross-sectional comovement <em>at each date <span class="math inline">\(t\)</span></em> - it draws no distinction between contemporaneous factors and dynamic latent forces evolving over time, cannot model how today’s shocks affect tomorrow’s factors, imposes no autocorrelation structure on factors that may themselves be highly persistent, and imposes no lag structure between variables (what if employment lags industrial production by four months, or housing leads the cycle?). Forecasting and structural analysis both require a genuine <strong>law of motion</strong> for <span class="math inline">\(f_t\)</span> - the <strong>dynamic factor model (DFM)</strong>, written as a classical state-space system:</p>
+<p><span class="math display">\[
+\text{state equation:} \quad f_t = A_1f_{t-1} + \cdots + A_pf_{t-p} + u_t, \qquad \text{measurement equation:} \quad x_t = \Lambda f_t + e_t,
+\]</span></p>
+<p>with <span class="math inline">\(f_t\)</span> the low-dimensional latent state, <span class="math inline">\(x_t\)</span> the high-dimensional observables, and <span class="math inline">\(e_t\)</span> idiosyncratic noise. Now the common forces have their own dynamics and persistence, and transmit shocks to every observed variable through the loadings <span class="math inline">\(\Lambda\)</span>.</p>
+<p><strong>Two-step (Stock-Watson) estimation.</strong> Step 1: estimate the static factors by PCA, <span class="math inline">\(\hat f_t = V_r'x_t\)</span>, <span class="math inline">\(\hat\Lambda = \frac{1}{T}X\hat F'\)</span> (with <span class="math inline">\(V_r\)</span> the <span class="math inline">\(N \times r\)</span> matrix of eigenvectors of the sample covariance <span class="math inline">\(\hat\Sigma_x = \frac{1}{T}XX'\)</span> associated with the <span class="math inline">\(r\)</span> largest eigenvalues). Step 2: estimate the factor dynamics via an ordinary VAR, <span class="math inline">\(\hat f_t = \hat A_1\hat f_{t-1} + \cdots + \hat A_p\hat f_{t-p} + \hat u_t\)</span>. This is simple, fast, and consistent as <span class="math inline">\(N \to \infty\)</span>, and is easy to use for forecasting or a FAVAR - but it does not optimally handle missing data or a small <span class="math inline">\(N\)</span> (PCA becomes unreliable below roughly <span class="math inline">\(N=20\)</span>).</p>
+<p><strong>Kalman filter and EM estimation.</strong> Using the full state-space form, <span class="math inline">\((f_t, A_i, \Lambda)\)</span> can be estimated jointly via the Kalman filter and smoother together with the EM algorithm for maximum likelihood. This handles missing observations efficiently, is especially useful when <span class="math inline">\(N\)</span> is small or moderate, allows time-varying parameters (a TVP-DFM), and enables applications such as nowcasting and mixed-frequency data (e.g.&nbsp;quarterly GDP alongside monthly prices). Factors can even be estimated in the frequency domain - the generalized dynamic factor model (GDFM) of Forni, Hallin, Lippi, and Reichlin <span class="citation" data-cites="ForniHallinLippiReichlin2000">(<a href="../references.html#ref-ForniHallinLippiReichlin2000" role="doc-biblioref">2000</a>)</span>, via the spectral density - decomposing each factor’s contribution into medium-term (productivity, credit), business-cycle, and high-frequency (financial stress) bands, with different factors potentially dominating different frequency ranges.</p>
+</section>
+</section>
+<section id="sec-favar" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="sec-favar"><span class="header-section-number">5.5</span> Factor-augmented VAR (FAVAR)</h2>
+<p>Suppose the object of interest is a small set of macro variables, <span class="math inline">\((y_t, \pi_t, i_t)\)</span>, but a large information set <span class="math inline">\(x_t = (x_{1t}, \ldots, x_{Nt})'\)</span>, <span class="math inline">\(N \gg 3\)</span>, is also observed. How can that information be incorporated without estimating a huge VAR? The <strong>factor-augmented VAR (FAVAR)</strong> <span class="citation" data-cites="BernankeBoivinEliasz2005">(Bernanke, Boivin, and Eliasz, <a href="../references.html#ref-BernankeBoivinEliasz2005" role="doc-biblioref">2005</a>)</span>: extract factors <span class="math inline">\(\hat f_t\)</span> from <span class="math inline">\(x_t\)</span> by PCA, construct the augmented vector <span class="math inline">\(z_t = (y_t, \pi_t, i_t, \hat f_t)'\)</span>, and estimate a small VAR in <span class="math inline">\(z_t\)</span>. This uses a rich dataset while keeping the estimated VAR itself low-dimensional - and, as a bonus, tends to deliver <strong>more reliable identification</strong>, since the factors absorb omitted variables that would otherwise contaminate the estimated shocks.</p>
+<p>Reduced-form forecasting and structural identification then proceed exactly as in an ordinary SVAR (Cholesky, sign restrictions, narrative shocks; <a href="04-svar-identification.html" class="quarto-xref"><span>Chapter 4</span></a>). What changes is the scope of what a shock affects: now a shock moves both the observables <span class="math inline">\((y_t,\pi_t,i_t)\)</span> <em>and</em> the latent factors <span class="math inline">\(\hat f_t\)</span> summarizing the other <span class="math inline">\(N\)</span> variables. This gives, first, ordinary IRFs for <span class="math inline">\(y_t, \pi_t, i_t\)</span>; second, IRFs of the factors themselves to the structural shocks; and third, by mapping factor responses back through the loadings <span class="math inline">\(\hat\Lambda\)</span>,</p>
+<p><span class="math display">\[
+\widehat{\text{IRF}}_{x_{it}}(h) = \hat\lambda_i' \cdot \widehat{\text{IRF}}_f(h),
+\]</span></p>
+<p>an impulse response for <em>every one</em> of the <span class="math inline">\(N\)</span> underlying series - even though none of them appeared directly in the VAR. A single identified shock thus produces impulse responses for 100+ variables at once, letting the analyst ask which factors react most, which individual variables are most sensitive to each factor, how fast effects propagate and decay, and how a shock spreads across sectors, countries, or channels (e.g.&nbsp;detailed monetary-policy transmission).</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="A worked business-cycle and financial-cycle example">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>A worked business-cycle and financial-cycle example
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Building a business-cycle dataset (industrial production, hours worked, employment, sales, consumption indicators, survey indices), PCA typically extracts a first factor that closely tracks GDP growth. Building a financial dataset (credit growth, leverage, corporate bond spreads, equity prices, house prices, volatility indices), the first factor often captures a “financial cycle.” Feeding a monetary policy shock through a FAVAR built on both datasets lets you observe how each cycle factor responds, then how each underlying series responds, and to ask whether the financial cycle leads or lags the business cycle. Because factors are, in effect, a common signal purged of idiosyncratic noise, they typically track the same peaks and troughs as the key underlying macro series, only <em>smoother</em>.</p>
+</div>
+</div>
+</section>
+<section id="core-example-the-global-financial-cycle" class="level2" data-number="5.6">
+<h2 data-number="5.6" class="anchored" data-anchor-id="core-example-the-global-financial-cycle"><span class="header-section-number">5.6</span> Core example: the Global Financial Cycle</h2>
+<p>The classical <strong>Mundell-Fleming trilemma</strong> (“impossible triangle”) says policymakers can choose at most two of: free capital mobility, a fixed exchange rate, and independent monetary policy. Under free capital mobility, the textbook recipe is that a fixed exchange rate forecloses monetary autonomy (the central bank must manage the exchange rate), while a floating exchange rate restores it (the exchange rate absorbs shocks instead).</p>
+<div id="fig-mundell-trilemma" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-mundell-trilemma-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figures/cointegration-dfm/mundell-trilemma-triangle.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mundell-trilemma-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.6: The Mundell-Fleming trilemma: policymakers can be at any one vertex (achieving the two adjacent properties) but not at all three simultaneously.
+</figcaption>
+</figure>
+</div>
+<p>Rey’s <span class="citation" data-cites="Rey2015">(<a href="../references.html#ref-Rey2015" role="doc-biblioref">2015</a>)</span> “dilemma,” rather than trilemma, argues that the <strong>Global Financial Cycle (GFCy)</strong> undermines this classical logic. Miranda-Agrippino and Rey <span class="citation" data-cites="MirandaAgrippinoRey2020">(<a href="../references.html#ref-MirandaAgrippinoRey2020" role="doc-biblioref">2020</a>)</span>, “U.S. Monetary Policy and the Global Financial Cycle,” provide a systematic empirical measurement of the GFCy and quantify its role in global risky asset prices and capital flows (FDI, portfolio, and banking flows). <strong>Method:</strong> build large panels - world risky-asset returns (equity, credit), capital flows (gross inflows and outflows by type) for roughly 80 countries, 1990-2018, and credit and other macro-financial quantities - estimate a DFM extracting a <em>global</em> factor (and possibly group-specific factors) for both prices and quantities, and study its comovement with the VIX and with identified U.S. monetary policy shocks.</p>
+<div id="fig-mar-global-factor" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-mar-global-factor-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figures/cointegration-dfm/miranda-agrippino-rey-global-factor.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mar-global-factor-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.7: The estimated global factor in risky asset prices, alongside the corresponding global factor in capital flows and total world inflows/outflows: a common cycle runs through both prices and quantities (Miranda-Agrippino and Rey 2020).
+</figcaption>
+</figure>
+</div>
+<p><strong>Main results.</strong> A small number of factors explain a large share of the variation in risky asset prices and capital flows - a strong, time-varying Global Financial Cycle. U.S. monetary policy shocks significantly move the global factor (a “center-country” channel). The resulting <strong>dilemma</strong>: with free capital mobility, a floating exchange rate is <em>not</em> enough on its own to guarantee monetary independence - some form of capital-account management, whether direct capital controls or indirect macroprudential tools, becomes necessary. Sensitivity is heterogeneous: emerging-market and financially open economies are considerably more exposed to the global cycle than others. (See also Boyarchenko and Elias, 2024, on decomposing the GFCy into a Global Credit Cycle and a Global Risk Factor.)</p>
+<div id="fig-mar-commodity-factor" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-mar-commodity-factor-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figures/cointegration-dfm/miranda-agrippino-rey-commodity-factor.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mar-commodity-factor-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.8: A second global factor, this time in capital flows, tracked alongside commodity and oil prices (left) and a global factor in private-sector liquidity (right): the financial cycle visibly co-moves with both commodity markets and credit conditions (Miranda-Agrippino and Rey 2020).
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="appendix-further-topics-in-dimension-reduction-and-estimation" class="level2" data-number="5.7">
+<h2 data-number="5.7" class="anchored" data-anchor-id="appendix-further-topics-in-dimension-reduction-and-estimation"><span class="header-section-number">5.7</span> Appendix: further topics in dimension reduction and estimation</h2>
+<section id="regularization-as-an-alternative-to-latent-factors" class="level3">
+<h3 class="anchored" data-anchor-id="regularization-as-an-alternative-to-latent-factors">Regularization as an alternative to latent factors</h3>
+<p>Not all dimensionality reduction relies on latent factors; an alternative is to keep every variable but <em>shrink</em> its coefficient. <strong>Ridge regression</strong>, <span class="math inline">\(\min_\beta \|y-X\beta\|^2 + \lambda\|\beta\|^2\)</span>, shrinks coefficients toward zero (never exactly to zero), reducing variance while retaining every predictor - useful when predictors are highly collinear. <strong>LASSO</strong>, <span class="math inline">\(\min_\beta \|y-X\beta\|^2 + \lambda\|\beta\|_1\)</span>, performs genuine variable <em>selection</em> (some <span class="math inline">\(\beta_j\)</span> set exactly to zero), reducing dimensionality by keeping only a sparse subset of predictors. <strong>Elastic net</strong>, <span class="math inline">\(\min_\beta \|y-X\beta\|^2 + \lambda(\alpha\|\beta\|_1 + (1-\alpha)\|\beta\|^2)\)</span>, combines both penalties, and is particularly useful when many predictors are mutually correlated - the typical macro/finance case.</p>
+</section>
+<section id="the-pca-algorithm-in-full" class="level3">
+<h3 class="anchored" data-anchor-id="the-pca-algorithm-in-full">The PCA algorithm, in full</h3>
+<p>Standardize each series (subtract its mean, divide by its standard deviation); compute the sample covariance matrix <span class="math inline">\(\hat\Sigma_x = \frac{1}{T}\sum_t x_tx_t' = \frac{1}{T}XX'\)</span>; compute its eigenvalues and eigenvectors, and let <span class="math inline">\(V_r\)</span> be the <span class="math inline">\(N \times r\)</span> matrix of eigenvectors associated with the <span class="math inline">\(r\)</span> largest eigenvalues. The estimated factors at each date are <span class="math inline">\(\hat f_t = V_r'x_t\)</span>, and the estimated loadings are <span class="math inline">\(\hat\Lambda = \frac{1}{T}X\hat F'\)</span> with <span class="math inline">\(\hat F = [\hat f_1, \ldots, \hat f_T]\)</span>.</p>
+</section>
+<section id="identification-is-only-up-to-rotation" class="level3">
+<h3 class="anchored" data-anchor-id="identification-is-only-up-to-rotation">Identification is only up to rotation</h3>
+<p>In <span class="math inline">\(x_t = \Lambda f_t + e_t\)</span>, for any invertible <span class="math inline">\(H \in \mathbb{R}^{r \times r}\)</span>, <span class="math inline">\(x_t = (\Lambda H)(H^{-1}f_t) + e_t\)</span>: the pairs <span class="math inline">\((\Lambda, f_t)\)</span> and <span class="math inline">\((\Lambda H, H^{-1}f_t)\)</span> generate exactly the same observables, so only the <em>subspace</em> spanned by the factors is identified, not any particular basis for it. A normalization is imposed to pin one down, typically <span class="math inline">\(\frac{1}{T}\sum_t f_tf_t' = I_r\)</span> together with <span class="math inline">\(\Lambda'\Lambda\)</span> diagonal.</p>
+</section>
+<section id="kalman-filter-and-em-estimation-in-detail" class="level3">
+<h3 class="anchored" data-anchor-id="kalman-filter-and-em-estimation-in-detail">Kalman filter and EM estimation, in detail</h3>
+<p>The goal: given many noisy indicators <span class="math inline">\(x_t\)</span> (industrial production, surveys, spreads), recover the latent factors <span class="math inline">\(f_t\)</span> - “the common state of the economy” - in real time. The <strong>Kalman filter</strong> is, in essence, a recursive, precision-weighted average. In the <strong>prediction step</strong>, before seeing <span class="math inline">\(x_t\)</span>: <span class="math inline">\(\hat f_{t|t-1} = A\hat f_{t-1|t-1}\)</span>, <span class="math inline">\(P_{t|t-1} = AP_{t-1|t-1}A' + Q\)</span>, where <span class="math inline">\(P_{t|t} = \mathrm{Var}(f_t - \hat f_{t|t})\)</span> is the covariance of the estimation error - the factor is predicted from its own VAR dynamics, and predicted uncertainty grows because of the state shock <span class="math inline">\(Q\)</span>: this is the model’s best guess before any new data arrive. In the <strong>update step</strong>, after observing <span class="math inline">\(x_t\)</span>: <span class="math inline">\(K_t = P_{t|t-1}\Lambda'(\Lambda P_{t|t-1}\Lambda' + R)^{-1}\)</span>, <span class="math inline">\(\hat f_{t|t} = \hat f_{t|t-1} + K_t(x_t - \Lambda\hat f_{t|t-1})\)</span>, <span class="math inline">\(P_{t|t} = (I-K_t\Lambda)P_{t|t-1}\)</span>, where <span class="math inline">\(K_t\)</span>, the <strong>Kalman gain</strong>, governs how much to trust the new data relative to the prediction: large measurement noise <span class="math inline">\(R\)</span> means trusting the model more (a small update), while a large and reliable prediction error produces a strong correction, and posterior uncertainty <span class="math inline">\(P_{t|t}\)</span> shrinks whenever the new data are genuinely informative. This is powerful for DFM estimation specifically because noisy series are automatically down-weighted through <span class="math inline">\(R\)</span>, missing observations are handled simply by omitting the corresponding row of <span class="math inline">\(\Lambda\)</span> and <span class="math inline">\(R\)</span> from that period’s update, and under Gaussian assumptions the result is the optimal linear estimator of <span class="math inline">\(f_t\)</span> at every date.</p>
+<p>The Kalman filter and smoother require the parameters <span class="math inline">\(\theta = (\Lambda, A_1, \ldots, A_p, \text{variances})\)</span> - but how are these estimated by maximum likelihood when the factors <span class="math inline">\(f_t\)</span> themselves are unobserved? The <strong>EM algorithm</strong> answers this by alternating: “fill in the factors, then re-estimate.” In the <strong>E-step</strong>, given a current parameter guess <span class="math inline">\(\theta^{(k)}\)</span>, run the Kalman filter and smoother on the data to obtain the conditional expectations <span class="math inline">\(E[f_t \mid x_{1:T}, \theta^{(k)}]\)</span> and <span class="math inline">\(E[f_tf_{t-1}' \mid x_{1:T}, \theta^{(k)}]\)</span> - reconstructing the latent factor paths as well as possible given the current parameters. In the <strong>M-step</strong>, treat these reconstructed factors as if they were observed data and re-estimate: the loadings <span class="math inline">\(\Lambda\)</span> by cross-sectional regressions of <span class="math inline">\(x_t\)</span> on <span class="math inline">\(f_t\)</span>, the dynamics <span class="math inline">\((A_1,\ldots,A_p)\)</span> by running a VAR on <span class="math inline">\(f_t\)</span>, and the noise variances from the residuals of both steps - producing updated parameters <span class="math inline">\(\theta^{(k+1)}\)</span> that increase the likelihood. Repeating the E- and M-steps until <span class="math inline">\(\theta\)</span> (or the log-likelihood) stops changing meaningfully yields maximum-likelihood estimates of <span class="math inline">\((\Lambda, A_i, \text{variances})\)</span> together with smoothed factor estimates <span class="math inline">\(f_t\)</span> - well suited to small <span class="math inline">\(N\)</span>, missing data, and more elaborate DFM specifications.</p>
+</section>
+<section id="mixed-frequency-data" class="level3">
+<h3 class="anchored" data-anchor-id="mixed-frequency-data">Mixed-frequency data</h3>
+<p>Some series arrive often (daily, weekly, or monthly - rates, spreads, surveys), while the target of interest arrives rarely (quarterly GDP, say). <strong>Temporal aggregation bias</strong> (Working, 1960) means that if the true high-frequency process is dynamic (e.g.&nbsp;an AR), naive time-aggregation (summing, averaging, or taking an end-of-period value) alters the dynamics - an AR at high frequency becomes ARMA at low frequency, as serial correlation is created or reallocated by the aggregation itself - distorts timing and persistence (intra-quarter shocks get smeared across low-frequency periods, producing spurious inertia and a distorted lag structure), and effectively low-pass filters the spectrum, discarding genuine within-quarter information.</p>
+<p>Two solutions keep the frequencies as they naturally are. The <strong>DFM</strong> route treats quarterly observations as an aggregation of a <em>latent</em> series specified at the highest available frequency - e.g.&nbsp;<span class="math inline">\(Y_T^{(Q)} = \lambda_Q(F_{3T} + F_{3T-1} + F_{3T-2}) + \varepsilon_T^{(Q)}\)</span> for a quarterly variable built from a latent monthly factor - handled naturally as a missing-data problem via the Kalman filter and smoother, though at the cost of a considerably larger model. The <strong>MIDAS</strong> route is lighter and forecasting-first: rather than aggregating <span class="math inline">\(x\)</span> into a single quarterly number, regress the low-frequency target directly on many high-frequency lags, compressed through a smooth weighting function,</p>
+<p><span class="math display">\[
+y_T = \alpha + \beta\sum_{k=0}^K w(k;\theta)x_{T,k} + e_T, \qquad \sum_{k=0}^K w(k;\theta) = 1,
+\]</span></p>
+<p>learning a distributed-lag profile (do recent lags matter most? Is there a delayed or hump-shaped peak?) with only a handful of parameters <span class="math inline">\(\theta\)</span>.</p>
+
+
+<!-- -->
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-ArellanoBond1991" class="csl-entry" role="listitem">
+Arellano, Manuel, and Stephen Bond. 1991. <span>“Some Tests of Specification for Panel Data: Monte Carlo Evidence and an Application to Employment Equations.”</span> <em>Review of Economic Studies</em> 58 (2): 277–97.
+</div>
+<div id="ref-BaiNg2002" class="csl-entry" role="listitem">
+Bai, Jushan, and Serena Ng. 2002. <span>“Determining the Number of Factors in Approximate Factor Models.”</span> <em>Econometrica</em> 70 (1): 191–221.
+</div>
+<div id="ref-BernankeBoivinEliasz2005" class="csl-entry" role="listitem">
+Bernanke, Ben S., Jean Boivin, and Piotr Eliasz. 2005. <span>“Measuring the Effects of Monetary Policy: A Factor-Augmented Vector Autoregressive (FAVAR) Approach.”</span> <em>Quarterly Journal of Economics</em> 120 (1): 387–422.
+</div>
+<div id="ref-BlundellBond1998" class="csl-entry" role="listitem">
+Blundell, Richard, and Stephen Bond. 1998. <span>“Initial Conditions and Moment Restrictions in Dynamic Panel Data Models.”</span> <em>Journal of Econometrics</em> 87 (1): 115–43.
+</div>
+<div id="ref-ForniHallinLippiReichlin2000" class="csl-entry" role="listitem">
+Forni, Mario, Marc Hallin, Marco Lippi, and Lucrezia Reichlin. 2000. <span>“The Generalized Dynamic-Factor Model: Identification and Estimation.”</span> <em>Review of Economics and Statistics</em> 82 (4): 540–54.
+</div>
+<div id="ref-GiannoneReichlinSmall2008" class="csl-entry" role="listitem">
+Giannone, Domenico, Lucrezia Reichlin, and David Small. 2008. <span>“Nowcasting: The Real-Time Informational Content of Macroeconomic Data.”</span> <em>Journal of Monetary Economics</em> 55 (4): 665–76.
+</div>
+<div id="ref-Johansen1988" class="csl-entry" role="listitem">
+Johansen, Søren. 1988. <span>“Statistical Analysis of Cointegration Vectors.”</span> <em>Journal of Economic Dynamics and Control</em> 12 (2-3): 231–54.
+</div>
+<div id="ref-Johansen1991" class="csl-entry" role="listitem">
+Johansen, Søren. 1991. <span>“Estimation and Hypothesis Testing of Cointegration Vectors in Gaussian Vector Autoregressive Models.”</span> <em>Econometrica</em> 59 (6): 1551–80.
+</div>
+<div id="ref-MirandaAgrippinoRey2020" class="csl-entry" role="listitem">
+Miranda-Agrippino, Silvia, and Hélène Rey. 2020. <span>“U.s. Monetary Policy and the Global Financial Cycle.”</span> <em>Review of Economic Studies</em> 87 (6): 2754–76.
+</div>
+<div id="ref-Nickell1981" class="csl-entry" role="listitem">
+Nickell, Stephen. 1981. <span>“Biases in Dynamic Models with Fixed Effects.”</span> <em>Econometrica</em> 49 (6): 1417–26.
+</div>
+<div id="ref-PesaranSmith1995" class="csl-entry" role="listitem">
+Pesaran, M. Hashem, and Ron Smith. 1995. <span>“Estimating Long-Run Relationships from Dynamic Heterogeneous Panels.”</span> <em>Journal of Econometrics</em> 68 (1): 79–113.
+</div>
+<div id="ref-Rey2015" class="csl-entry" role="listitem">
+Rey, Hélène. 2015. <em>Dilemma Not Trilemma: The Global Financial Cycle and Monetary Policy Independence</em>. NBER Working Paper No. 21162. National Bureau of Economic Research.
+</div>
+</div>
+</section>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>Intuition in the AR(1) case: first-differencing removes <span class="math inline">\(a_i\)</span> but leaves <span class="math inline">\(\Delta y_{i,t} = \rho\Delta y_{i,t-1} + \Delta u_{i,t}\)</span>, with <span class="math inline">\(\Delta u_{i,t} = u_{i,t} - u_{i,t-1}\)</span>. Since <span class="math inline">\(\Delta y_{i,t-1} = y_{i,t-1} - y_{i,t-2}\)</span> contains <span class="math inline">\(u_{i,t-1}\)</span>, it is mechanically correlated with the <span class="math inline">\(-u_{i,t-1}\)</span> term inside <span class="math inline">\(\Delta u_{i,t}\)</span> - so OLS/within estimation is biased even when <span class="math inline">\(u_{i,t}\)</span> is itself serially uncorrelated, and the <span class="math inline">\(O(1/T)\)</span> bias does not vanish as <span class="math inline">\(N \to \infty\)</span> with <span class="math inline">\(T\)</span> fixed.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const cellDetails = window.document.querySelectorAll(".cell details.code-fold");
+        for (let i=0; i<cellDetails.length; i++) {
+          const details = cellDetails[i];
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell div.sourceCode.cell-code");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+            // default icon
+            link.classList.add("external");
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../chapters/04-svar-identification.html" class="pagination-link" aria-label="Structural VARs, Identification, and Policy Shock Assessment">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Structural VARs, Identification, and Policy Shock Assessment</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../chapters/06-nonlinear.html" class="pagination-link" aria-label="Beyond Linearity: Thresholds, Regime Changes, and Local Projections">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Beyond Linearity: Thresholds, Regime Changes, and Local Projections</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Panel VAR, Cointegration, and Dynamic Factor Models {#sec-cointegration-dfm}</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>This chapter closes three loose ends left open by the VAR chapters. First, what to do when the units of observation are themselves a panel - many countries, banks, or sectors - rather than a single economy. Second, the case flagged repeatedly since @sec-var-cointegration: what to do when the variables in a VAR are $I(1)$ *and* cointegrated, where neither a levels VAR nor a differenced VAR is appropriate. Third, what to do when there are far more observed series than any VAR could handle - the dynamic factor model, and its VAR-based cousin, the factor-augmented VAR (FAVAR).</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">## A note on panel VAR</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>A **panel VAR (PVAR)** extends the VAR framework to panel data, modeling dynamic interactions *within* each unit while exploiting repeated observations *across* units - credit, capital, and risk for 100 banks over 10 years, say, or output, inflation, and employment for 20 countries or sectors:</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>y_{i,t} = a_i + \sum_{\ell=1}^p A_{i\ell}y_{i,t-\ell} + u_{i,t}, \qquad i = 1, \ldots, N,</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>with $y_{i,t}$ a $k$-vector of endogenous variables for unit $i$ and $a_i$ a unit-specific fixed effect. The model describes domestic, within-unit dynamics, and is useful for learning common or average dynamic patterns across many comparable units. The central modeling choice is how much heterogeneity to allow in $A_{i\ell}$ across units - should the slopes be pooled, partially pooled, or estimated separately?</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>**Strategy 1: pooled PVAR** (units are homogeneous). Assume identical slopes $A_{i\ell} = A_\ell$ across units, with only the intercepts $a_i$ differing. The estimation challenge is that removing $a_i$ by demeaning or first-differencing interacts badly with the dynamic structure: $y_{i,t-1}$ appears on the right-hand side *and* in the demeaned left-hand side, producing the **Nickell [-@Nickell1981] bias** - the within-group estimator is inconsistent at fixed $T$, with bias of order $-\frac{1+\rho}{T}$ that does *not* vanish as $N \to \infty$.[^nickell-intuition] The standard fix is **GMM estimation** [Arellano and Bond, -@ArellanoBond1991; Blundell and Bond, -@BlundellBond1998]: first-difference to remove $a_i$, then instrument $\Delta y_{i,t-1}$ with levels $y_{i,t-2}, y_{i,t-3}, \ldots$ (valid whenever $u_{i,t}$ is serially uncorrelated); **system GMM** adds a levels equation, instrumented with differences, for better finite-$T$ precision. This strategy suits similar-sized units under a shared institutional framework (banks of similar size, firms in the same sector), but is inconsistent if the slopes genuinely differ across units <span class="co">[</span><span class="ot">@PesaranSmith1995</span><span class="co">]</span>.</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="ot">[^nickell-intuition]: </span>Intuition in the AR(1) case: first-differencing removes $a_i$ but leaves $\Delta y_{i,t} = \rho\Delta y_{i,t-1} + \Delta u_{i,t}$, with $\Delta u_{i,t} = u_{i,t} - u_{i,t-1}$. Since $\Delta y_{i,t-1} = y_{i,t-1} - y_{i,t-2}$ contains $u_{i,t-1}$, it is mechanically correlated with the $-u_{i,t-1}$ term inside $\Delta u_{i,t}$ - so OLS/within estimation is biased even when $u_{i,t}$ is itself serially uncorrelated, and the $O(1/T)$ bias does not vanish as $N \to \infty$ with $T$ fixed.</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>**Strategy 2: hierarchical panel VAR** (units heterogeneous but structurally related). Each unit gets its own slope $A_{i\ell}$, but units are assumed to share a common group structure - countries in a currency union, banks in the same regulatory tier. The natural implementation is Bayesian hierarchical: place a common prior $A_{i\ell} \sim \mathcal{N}(\bar A_\ell, \Sigma_A)$ and estimate via MCMC/Gibbs sampling (Canova and Ciccarelli, 2004; Jarociński, 2010), giving **partial pooling** - units with little data are shrunk toward the global mean, while data-rich units stay close to their own estimates. This suits heterogeneous units with small $T$, where fully separate VARs would be too noisy.</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>**Strategy 3: Mean Group (MG) estimator** <span class="co">[</span><span class="ot">Pesaran and Smith, -@PesaranSmith1995</span><span class="co">]</span> (units fully heterogeneous). Slopes are assumed fully heterogeneous, with no common structure beyond a common *mean*: estimate a separate VAR for each unit ($\hat A_{\ell,i}$, by OLS or GMM), then average, $\hat A_\ell^{MG} = \frac{1}{N}\sum_i \hat A_{\ell,i}$. The MG estimator is consistent under slope heterogeneity (unlike the pooled estimator), and $\bar A_\ell$ has a natural interpretation as the cross-unit average dynamic - but it is noisy when $T$ is small, with no shrinkage toward a common value; hierarchical pooling is preferable in that case.</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Strategy <span class="pp">|</span> Slope assumption <span class="pp">|</span> When to use <span class="pp">|</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>-<span class="pp">|</span>-<span class="pp">|</span>-<span class="pp">|</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Pooled + GMM <span class="pp">|</span> Identical <span class="pp">|</span> Homogeneous units, small $T$ <span class="pp">|</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Hierarchical <span class="pp">|</span> Heterogeneous, common structure <span class="pp">|</span> Heterogeneous units, small $T$ <span class="pp">|</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Mean Group <span class="pp">|</span> Fully heterogeneous <span class="pp">|</span> Heterogeneous units, large $T$ <span class="pp">|</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>: Panel VAR strategies, by slope-heterogeneity assumption {#tbl-pvar-strategies}</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>A related tool, the **Global VAR (GVAR)**, models an interconnected multi-economy system with spillovers across units. Each unit gets a country-specific VARX, $y_{i,t} = a_i + \sum_\ell A_{i\ell}y_{i,t-\ell} + \sum_\ell B_{i\ell}y^*_{i,t-\ell} + e_{i,t}$, with foreign aggregates $y^*_{i,t} = \sum_{j\ne i} w_{ij}y_{j,t}$ built from trade, financial, or input-output weights $w_{ij}$. This captures spillovers and network propagation while scaling far better than one huge unrestricted VAR: each country-specific VARX is estimated on its own (often treating $y^*$ as weakly exogenous for that unit), and the units are then stacked into a single global system, with any identification scheme respecting the cross-country structure.</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="fu">## Cointegration {#sec-cointegration}</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>Return to the diagnostic question from @sec-var-cointegration: each series must first be checked for stationarity via unit-root tests (ADF, PP, ERS, KPSS). If all variables are $I(0)$, a standard VAR in levels is valid. If variables are $I(1)$ but *not* cointegrated, a VAR in first differences (or growth rates, if the levels were in logs) is needed - though its IRFs then describe only short-run dynamics, with long-run levels left unidentified. This chapter takes up the third and most interesting case in full.</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>::: {.callout-important title="What is cointegration?"}</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>Cointegration means that several non-stationary variables share a common long-run equilibrium relation despite short-run deviations, so that a specific linear combination of them is stationary even though each series individually is not: there exists $\beta$, the **cointegrating vector** (or long-run equilibrium vector), such that</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>\beta'y_t = \sum_{i=1}^k \beta_i y_{i,t} \quad \text{is stationary,}</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>even though each $y_{i,t}$ is $I(1)$.</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip title="A canonical example: consumption and income"}</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>Both consumption $C_t$ and income $Y_t$ individually look like random walks in levels, but households smooth consumption toward income in the long run, $C_t \approx \beta_0 + \beta_1 Y_t$, and the gap $u_t = C_t - \beta_0 - \beta_1 Y_t$ is stationary. More generally, if $y_{1,t}, y_{2,t} \sim I(1)$ but $y_{1,t} - \beta y_{2,t} \sim I(0)$, the two series are cointegrated: they may each drift, but they cannot drift *too far* apart.</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a><span class="al">![Two $I(1)$ interest-rate series (12- and 24-month zero-coupon yields) whose spread nonetheless looks stationary: a textbook cointegration pattern.](../figures/cointegration-dfm/yield-spread-cointegration-example.png)</span>{#fig-coint-example}</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>Cointegration is a genuinely common pattern in macro and finance data. In the **term structure of interest rates**, $i^{\text{long}}_t - \beta i^{\text{short}}_t$ is stationary - long and short rates move together in the long run, consistent with the expectations hypothesis.</span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a><span class="al">![Government bond yields at several maturities, moving together over decades: a term-structure cointegration pattern.](../figures/cointegration-dfm/yield-curve-cointegration.png)</span>{#fig-yield-curve-coint}</span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>In **purchasing power parity (PPP)**, $e_t + p_t - p_t^*$ is stationary - the nominal exchange rate and relative price levels co-move in the long run (loosely: if domestic inflation raises money supply and depresses exports, a compensating nominal depreciation should follow).</span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a><span class="al">![Bilateral exchange rates against their PPP-implied paths, and the resulting deviations from PPP, across several currency pairs.](../figures/cointegration-dfm/ppp-cointegration.png)</span>{#fig-ppp-coint}</span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>Thirlwall's law - the **balance-of-payments-constrained growth** relation - ties exports, imports, and domestic and foreign income together, $X_t - \beta_1 M_t - \beta_2 Y_t - \beta_3 Y_t^* \sim I(0)$, with the implication that a country's long-run growth rate is approximately bounded by the growth of its exports divided by the income elasticity of its imports: if income grows and imports rise faster than exports can pay for them, the country hits an external constraint and must slow down.</span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>In **housing markets**, $P_t^{\text{house}} - \theta_1 R_t - \theta_2 Y_t \sim I(0)$ ties house prices to rents and income through long-run affordability - though it is worth asking whether that relationship still holds as tightly as it once did.</span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a><span class="al">![House prices, rents, and household income (rebased to 2000 = 100): house prices pull increasingly away from both rents and income after 2000, raising the question of whether the affordability relationship still cointegrates as cleanly as in earlier decades.](../figures/cointegration-dfm/housing-price-rent-income-cointegration.png)</span>{#fig-housing-coint}</span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a>Finally, the **dividend discount model** for stock prices, $P_t - \phi D_t$ stationary, is a theoretically motivated but empirically fragile cointegration claim: prices should reflect the discounted present value of dividends and expected returns; dividends have a unit root but expected returns are (in the simplest version of the theory) stationary, so essentially all long-run price variation should trace back to dividend variation rather than to time-varying discount rates. In practice the relationship looks progressively less stable, plausibly reflecting buybacks, quantitative easing, and genuinely time-varying discount rates.</span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a><span class="al">![Log price and log dividends for the CRSP market portfolio, 1926-2015: broadly co-trending, but with visibly widening and narrowing gaps that a simple constant-$\phi$ cointegrating relation cannot fully explain.](../figures/cointegration-dfm/price-dividend-cointegration.png)</span>{#fig-dividend-coint}</span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a><span class="fu">## The error-correction representation {#sec-vecm}</span></span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a>Start with a bivariate long-run relation, $y_t = \gamma_0 + \gamma_1 y_{t-1} + \gamma_2 x_{t-1} + u_t$, with $y_t, x_t \sim I(1)$ and cointegrated. Subtracting $y_{t-1}$ from both sides and rearranging,</span>
+<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a>\Delta y_t = \gamma_0 - \alpha\underbrace{(y_{t-1} - \beta x_{t-1})}_{\text{error-correction term}} + u_t,</span>
+<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a>$$ {#eq-ecm}</span>
+<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a>with $\alpha = 1-\gamma_1$ and $\beta = \gamma_2/(1-\gamma_1)$. The term $e_{t-1} = y_{t-1} - \beta x_{t-1}$ is last period's deviation from the long-run equilibrium (with $E<span class="co">[</span><span class="ot">e_{t-1}</span><span class="co">]</span> = 0$ if the relation is genuinely stationary), and $-\alpha$ is the **speed of adjustment** back toward it: if $e_{t-1} &gt; 0$ ($y_{t-1}$ too high relative to $x_{t-1}$), then $-\alpha e_{t-1} &lt; 0$ and $y_t$ is pushed downward next period, and conversely if $e_{t-1} &lt; 0$. With $\alpha &gt; 0$, this is a systematic restoring force pulling $y_t$ back toward the long-run relationship.</span>
+<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a>::: {.callout-important title="The VECM in general form"}</span>
+<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a>For $y_t$ a $k \times 1$ vector of $I(1)$ variables, the **vector error-correction model (VECM)** of order $p$ - also called the Johansen model - is</span>
+<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a>\Delta y_t = \Pi y_{t-1} + \Gamma_1\Delta y_{t-1} + \cdots + \Gamma_{p-1}\Delta y_{t-p+1} + u_t, \qquad \Pi = \alpha\beta', \quad \alpha, \beta \in \mathbb{R}^{k \times r}.</span>
+<span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a>$\beta'y_{t-1}$ gives $r$ long-run equilibrium relations (cointegrating combinations); $\alpha$ gives the adjustment (loading) coefficients describing how each variable reacts to short-run deviations from each equilibrium; and $\Gamma_i$ captures the short-run dynamics in differences (relevant once $p \ge 2$).</span>
+<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a><span class="fu">### The cointegration rank</span></span>
+<span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a>The rank $r = \mathrm{rank}(\Pi)$ tells us how many independent long-run equilibrium relations exist among the $k$ variables, and equivalently how many common stochastic trends remain ($k-r$ of them). Three cases:</span>
+<span id="cb1-94"><a href="#cb1-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**$r = 0$: no cointegration.** No stationary linear combination of $y_t$ exists; model in differences, a VAR in $\Delta y_t$ with no error-correction term.</span>
+<span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**$0 &lt; r &lt; k$: cointegration present.** There are $r$ long-run relations and $k-r$ common stochastic trends; use a VECM with $\Pi = \alpha\beta'$, $\beta$ containing the $r$ cointegrating vectors and $\alpha$ the loading coefficients.</span>
+<span id="cb1-97"><a href="#cb1-97" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**$r = k$: effectively no unit roots.** All variables are $I(0)$; a standard VAR in levels is appropriate, with no need to difference.</span>
+<span id="cb1-98"><a href="#cb1-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-99"><a href="#cb1-99" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip title="Reading the rank in a 3-variable system"}</span>
+<span id="cb1-100"><a href="#cb1-100" aria-hidden="true" tabindex="-1"></a>For $y_t = (y_{1,t}, y_{2,t}, y_{3,t})'$: at $r=1$, only one stationary combination $\beta_1'y_t \sim I(0)$ exists, and two stochastic trends remain. At $r=2$, two independent stationary combinations $\beta_1'y_t, \beta_2'y_t \sim I(0)$ exist, and only one stochastic trend remains. At $r=3$, three stationary relations span the whole space, which forces $y_{1,t}, y_{2,t}, y_{3,t}$ to each be $I(0)$ individually (each variable can be solved for as a stationary function of the others) - no VECM is needed, and a standard VAR in levels applies.</span>
+<span id="cb1-101"><a href="#cb1-101" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-102"><a href="#cb1-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-103"><a href="#cb1-103" aria-hidden="true" tabindex="-1"></a><span class="fu">### Testing for cointegration: the Johansen procedure</span></span>
+<span id="cb1-104"><a href="#cb1-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-105"><a href="#cb1-105" aria-hidden="true" tabindex="-1"></a>Testing for cointegration is not as simple as running ADF on some residual series $\beta'y_t$ for a guessed $\beta$: there is no way to test every possible linear combination one at a time, and cointegration is a property of the *system* as a whole, not of any single pair of series. A genuinely multivariate method is needed to estimate both the rank $r$ and the vectors $\beta$ jointly - the full-system maximum-likelihood approach of Johansen <span class="co">[</span><span class="ot">-@Johansen1988; -@Johansen1991</span><span class="co">]</span>.</span>
+<span id="cb1-106"><a href="#cb1-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-107"><a href="#cb1-107" aria-hidden="true" tabindex="-1"></a>Since $\Pi$ contains all the long-run information, Johansen's approach estimates its eigenvalues $\lambda_1 \ge \cdots \ge \lambda_k$, which measure the strength of each candidate long-run relation: a large $\lambda_i$ signals a real cointegrating vector (deviations are pulled back strongly), a tiny one signals no further cointegration. Two test statistics are built from these eigenvalues: the **trace test**, $H_0: r \le r_0$ against $H_1: r &gt; r_0$, $\lambda_{\text{trace}}(r_0) = -T\sum_{i=r_0+1}^k \ln(1-\hat\lambda_i)$; and the **maximum-eigenvalue test**, $H_0: r = r_0$ against $H_1: r = r_0+1$, $\lambda_{\max}(r_0) = -T\ln(1-\hat\lambda_{r_0+1})$. The standard procedure starts at $r_0 = 0$ and increases $r_0$ until the test fails to reject; the resulting $r$ is the estimated number of long-run equilibria.</span>
+<span id="cb1-108"><a href="#cb1-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-109"><a href="#cb1-109" aria-hidden="true" tabindex="-1"></a>::: {.callout-note title="Practical workflow with I(1) variables"}</span>
+<span id="cb1-110"><a href="#cb1-110" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Run unit-root tests on each variable ($I(0)$ versus $I(1)$).</span>
+<span id="cb1-111"><a href="#cb1-111" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>If all series are $I(0)$: estimate a VAR in levels directly.</span>
+<span id="cb1-112"><a href="#cb1-112" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>If some are $I(1)$: test for the cointegration rank $r$ (Johansen trace/max-eigenvalue tests).</span>
+<span id="cb1-113"><a href="#cb1-113" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>If $r = 0$: a VAR in differences, short-run dynamics only.</span>
+<span id="cb1-114"><a href="#cb1-114" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>If $0 &lt; r &lt; k$: estimate a VECM, then interpret $\beta$ (the long-run relations) and $\alpha$ (who adjusts to whom), and recover IRFs and FEVDs via the equivalent levels VAR.</span>
+<span id="cb1-115"><a href="#cb1-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-116"><a href="#cb1-116" aria-hidden="true" tabindex="-1"></a>$I(0)$ variables can coexist with $I(1)$ ones in the system; they simply do not participate in any cointegrating relation, which reduces the effective rank $r$ available among the genuinely $I(1)$ variables.</span>
+<span id="cb1-117"><a href="#cb1-117" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-118"><a href="#cb1-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-119"><a href="#cb1-119" aria-hidden="true" tabindex="-1"></a><span class="fu">### Interpreting $\beta$ and $\alpha$</span></span>
+<span id="cb1-120"><a href="#cb1-120" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-121"><a href="#cb1-121" aria-hidden="true" tabindex="-1"></a>**The cointegrating vector $\beta$** defines the stationary long-run relation and the fixed proportion in which variables move together - e.g. $C_t - 0.85Y_t$ stationary means consumption and income move together in an 0.85:1 long-run ratio. Only *relative* coefficients matter: if $\beta = (1,-2)$, then $p_t - 2c_t \sim I(0)$, meaning $p_t$ must be roughly twice $c_t$ in the long run - a 1-point rise in $c_t$ requires $\Delta p_t = 2$ to stay on the long-run path, a 0.5-point rise requires $\Delta p_t = 1$. Two caveats: with only $r=1$ cointegrating relation among 3 or more variables, $\beta$ gives only the equilibrium proportion, not which variable does the adjusting to restore it (that is $\alpha$'s job); and if $\beta_i = 0$ for a given variable in every cointegrating vector, that variable plays no role in the long-run equilibrium at all - **long-run exclusion** - even though it may still appear in the short-run dynamics $\Gamma$ through its first difference.</span>
+<span id="cb1-122"><a href="#cb1-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-123"><a href="#cb1-123" aria-hidden="true" tabindex="-1"></a>**The loading matrix $\alpha$** describes how each variable reacts once the system deviates from equilibrium: $\alpha_i &lt; 0$ means variable $i$ falls to correct a positive disequilibrium, $\alpha_i &gt; 0$ means it rises to correct it, $\alpha_i = 0$ means variable $i$ does not adjust at all - it is **weakly exogenous** for the long run - and a larger $|\alpha_i|$ means faster adjustment. A standard example: prices adjust to costs, not the reverse, so $\alpha_{\text{price}} &gt; 0$ while $\alpha_{\text{cost}} \approx 0$ - costs are weakly exogenous for the long-run relationship.</span>
+<span id="cb1-124"><a href="#cb1-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-125"><a href="#cb1-125" aria-hidden="true" tabindex="-1"></a>Three distinct restrictions can be tested within a VECM: **weak exogeneity** ($\alpha_i = 0$, variable $i$ does not adjust to long-run disequilibrium), **long-run exclusion** ($\beta_i = 0$ in every cointegrating vector, variable $i$ plays no role in the long-run relation), and **short-run exclusion / Granger non-causality** (the relevant row or column of $\Gamma$ is zero, variable $i$ does not affect the others' short-run dynamics).</span>
+<span id="cb1-126"><a href="#cb1-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-127"><a href="#cb1-127" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip title="Long-run anchors: in the cointegrating relation but weakly exogenous"}</span>
+<span id="cb1-128"><a href="#cb1-128" aria-hidden="true" tabindex="-1"></a>A variable can enter the long-run relation ($\beta_i \ne 0$) while never adjusting to it ($\alpha_i = 0$) - it is then part of the equilibrium but acts as its **external anchor**, not something the rest of the system pulls back into line. Examples: the foreign interest rate in a small open economy enters the uncovered interest parity relation ($\beta \ne 0$) but does not react to domestic deviations ($\alpha=0$) - it is the *domestic* rate that adjusts, through depreciation, capital flight, or bond yields. The world oil price drives domestic costs for energy-importing countries but is unaffected by local imbalances. A productivity trend anchors long-run wages (wages adjust to productivity, not the reverse - barring a Kaldor-Verdoorn feedback through demand and increasing returns). Foreign GDP anchors long-run export volumes (and hence, under Thirlwall's law, domestic growth) without adjusting to home-country exports. And potential output anchors the long-run gap in Phillips-curve systems without moving in response to short-run inflation or output imbalances.</span>
+<span id="cb1-129"><a href="#cb1-129" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-130"><a href="#cb1-130" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-131"><a href="#cb1-131" aria-hidden="true" tabindex="-1"></a><span class="fu">### Correlation is not cointegration</span></span>
+<span id="cb1-132"><a href="#cb1-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-133"><a href="#cb1-133" aria-hidden="true" tabindex="-1"></a>Ordinary correlation measures linear association *at a point in time*; it can be high simply because two series both trend over time, with no genuine economic relation at all (spurious correlation), and it ignores both the order of integration and long-run behavior entirely. Cointegration, by contrast, is about *common stochastic trends*, not contemporaneous covariation - two cointegrated series can even be weakly correlated in the short run. Two unrelated random walks can show high correlation with no cointegration whatsoever (both simply trend upward); conversely, two series can be cointegrated even with weak short-run correlation, wandering independently period to period while never drifting apart *permanently*. The standard image: two drunk walkers taking independent steps each moment have low or even zero correlation in their individual movements, but if they are tied together by a rope, they cannot drift apart indefinitely - their *distance* is stationary, even though neither walker's own path is.</span>
+<span id="cb1-134"><a href="#cb1-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-135"><a href="#cb1-135" aria-hidden="true" tabindex="-1"></a><span class="fu">### Two empirical illustrations</span></span>
+<span id="cb1-136"><a href="#cb1-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-137"><a href="#cb1-137" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip title="Is U.S. growth wage-led or profit-led? (Barrales-Ruiz et al., 2025)"}</span>
+<span id="cb1-138"><a href="#cb1-138" aria-hidden="true" tabindex="-1"></a>**Question:** why did U.S. long-run growth and the labor share decline together since the 1970s - is long-run growth wage-led or profit-led? **Data:** U.S., 1948Q1-2023Q4, real GDP growth $g_t$, labor share $\psi_t$, unemployment $u_t$. **Method:** a time-varying-parameter VECM with stochastic volatility (@sec-tvp-var) - TVP because the postwar U.S. has passed through very different eras (the Golden Age, neoliberalism, financialization) that evolved only gradually - with a long-run equilibrium of the form $g_t = B_{1,t}\psi_t + B_{3,t}u_t$, applying Johansen's logic within a Bayesian VECM.</span>
+<span id="cb1-139"><a href="#cb1-139" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-140"><a href="#cb1-140" aria-hidden="true" tabindex="-1"></a>**Results.** The long-run coefficient $B_{1,t} &gt; 0$ for most of 1948-2023: a 1 percentage-point fall in the labor share is associated with a 0.25 to 0.40 percentage-point fall in long-run GDP growth - long-run U.S. growth is **wage-led**. The effect essentially disappears during 1975-1995 (the neoliberal transition, a profit-led interlude) before reappearing after the mid-1990s. Two further VECMs trace the transmission channels: the labor share strongly and robustly affects consumption growth, and affects labor productivity positively but only significantly after 2000 - so the pattern is short-run profit-led but long-run wage-led, with the consumption channel dominating any induced-technical-change channel.</span>
+<span id="cb1-141"><a href="#cb1-141" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-142"><a href="#cb1-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-143"><a href="#cb1-143" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip title="Cointegration of output, capital, labor, and energy (Stresing, Lindenberger, and Kümmel, 2008)"}</span>
+<span id="cb1-144"><a href="#cb1-144" aria-hidden="true" tabindex="-1"></a>**Question:** do the production factors $(K, L, E)$ and output $Q$ form a long-run equilibrium relation - and if so, does the cointegrating vector match the Cobb-Douglas elasticities implied by neoclassical theory? **Data:** Germany, Japan, and the USA, 1960s-1990s, $\ln Q_t, \ln K_t, \ln L_t, \ln E_t$. **Method:** all series are $I(1)$, so the study tests cointegration of $u_t = \ln Q_t - \alpha\ln K_t - \beta\ln L_t - \gamma\ln E_t$, imposing the Cobb-Douglas structure $\alpha, \beta, \gamma \ge 0$, $\alpha+\beta+\gamma=1$, and identifying $(\alpha,\beta,\gamma)$ via Engle-Granger residual-stationarity tests together with RSS and Durbin-Watson criteria to pick the best candidate vector. The resulting cointegrating vector is interpreted as an *empirical output elasticity*, not a cost share - these need not coincide (cf. the cost-share theorem's documented failures).</span>
+<span id="cb1-145"><a href="#cb1-145" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-146"><a href="#cb1-146" aria-hidden="true" tabindex="-1"></a>**Results.** $(Q,K,L,E)$ are cointegrated for Germany and the USA, more weakly so for Japan, with estimated long-run elasticities that differ sharply from neoclassical predictions: $\alpha_K \approx 0.4$ to $0.6$, $\beta_L \approx 0.05$ to $0.2$, $\gamma_E \approx 0.3$ to $0.6$ - a strikingly large energy elasticity and a small labor elasticity relative to capital's. This supports heterodox production theories built on thermodynamic constraints, challenges the neoclassical assumption that cost shares equal output elasticities, and offers an alternative reading of the 1973 and 1979 energy crises as genuine productivity shocks - output highly sensitive to energy - in contrast to the real-business-cycle literature's tendency (e.g. Shapiro and Watson, 1988) to attribute roughly half of output volatility to labor-supply shifts, effectively reversing the direction of causality.</span>
+<span id="cb1-147"><a href="#cb1-147" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-148"><a href="#cb1-148" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-149"><a href="#cb1-149" aria-hidden="true" tabindex="-1"></a><span class="fu">## Dynamic factor models {#sec-dfm}</span></span>
+<span id="cb1-150"><a href="#cb1-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-151"><a href="#cb1-151" aria-hidden="true" tabindex="-1"></a>Modern macro-finance datasets contain dozens or hundreds of indicators - production, employment, sales, prices, wages across many sectors; credit, spreads, house prices, equity indices; surveys, confidence indicators, expectations - and the goal is to exploit all of it for analysis, forecasting, and structural work. But a VAR with $k$ variables and $p$ lags has roughly $k^2p$ parameters: with $k=20$ and $p=4$, that is 1,600 parameters - the **curse of dimensionality** makes an unrestricted VAR on the full dataset hopeless.</span>
+<span id="cb1-152"><a href="#cb1-152" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-153"><a href="#cb1-153" aria-hidden="true" tabindex="-1"></a>The escape route rests on a stylized fact: most macro and financial variables co-move because of a handful of underlying forces - domestic and global business cycles, domestic and global financial cycles, inflation regimes, uncertainty cycles, market sentiment - and not a great deal else. Idiosyncratic components obviously differ series by series, but the cross-sectional comovement is strong. The core idea of the **dynamic factor model (DFM)**: if $N$ is large, most of the variance of $x_{1t}, \ldots, x_{Nt}$ can be explained by a small number of hidden drivers, and the goal is to extract those few latent common components.</span>
+<span id="cb1-154"><a href="#cb1-154" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-155"><a href="#cb1-155" aria-hidden="true" tabindex="-1"></a><span class="fu">### From hundreds of observables to a few factors</span></span>
+<span id="cb1-156"><a href="#cb1-156" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-157"><a href="#cb1-157" aria-hidden="true" tabindex="-1"></a>Instead of modeling $x_t \in \mathbb{R}^N$ directly, assume</span>
+<span id="cb1-158"><a href="#cb1-158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-159"><a href="#cb1-159" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-160"><a href="#cb1-160" aria-hidden="true" tabindex="-1"></a>x_t = \Lambda f_t + e_t, \qquad x_t \in \mathbb{R}^N,\ f_t \in \mathbb{R}^r,\ \Lambda \in \mathbb{R}^{N \times r},\ e_t \in \mathbb{R}^N,</span>
+<span id="cb1-161"><a href="#cb1-161" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-162"><a href="#cb1-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-163"><a href="#cb1-163" aria-hidden="true" tabindex="-1"></a>with $N$ large and $r \ll N$ (often $r=1$ to $4$). $f_t$ is the vector of **latent factors** (a business cycle, a financial cycle); $\Lambda$ is the matrix of **factor loadings** linking each $x_{it}$ to each factor; $e_t$ is **idiosyncratic** noise (variable-specific components and measurement error). This compresses $N$ series into $r$ factors, lets dynamics be modeled on $f_t$ with a small VAR, and lets the impact of $f_t$ on each $x_{it}$ be recovered through its loadings - a low-dimensional, state-space representation of a high-dimensional system.</span>
+<span id="cb1-164"><a href="#cb1-164" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-165"><a href="#cb1-165" aria-hidden="true" tabindex="-1"></a>Dynamic factor models serve several distinct purposes. **Forecasting**: GDP, inflation, or credit growth can be forecast using factors that summarize 100+ variables at once. **Nowcasting** [Giannone, Reichlin, and Small, -@GiannoneReichlinSmall2008]: a real-time estimate of the current state of the economy (e.g. GDP) before official statistics are released, handling missing or late data releases naturally through the state-space representation - a Kalman filter updates the factor estimate as monthly indicators (industrial production, PMI, retail sales, credit) arrive. **Structural analysis via the factor-augmented VAR (FAVAR)**: identify shocks in a VAR augmented with factors, and observe the responses of hundreds of underlying series through the factor loadings (below). **Macro-financial cycle analysis** <span class="co">[</span><span class="ot">Miranda-Agrippino and Rey, -@MirandaAgrippinoRey2020</span><span class="co">]</span>: uncover common global or cross-country factors to study spillovers, comovement, and systemic risk across a panel of countries or assets.</span>
+<span id="cb1-166"><a href="#cb1-166" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-167"><a href="#cb1-167" aria-hidden="true" tabindex="-1"></a>In short, the DFM pipeline: represent each $x_{it}$ as driven by a small number of common factors; estimate the factors by principal component analysis (PCA), exploiting large-$N$ consistency to average out idiosyncratic noise; model the factor dynamics with a small VAR (for forecasting, analysis, or identification); and map factor shocks back onto every original series via the loadings.</span>
+<span id="cb1-168"><a href="#cb1-168" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-169"><a href="#cb1-169" aria-hidden="true" tabindex="-1"></a>::: {.callout-note title="Exact versus approximate factor models"}</span>
+<span id="cb1-170"><a href="#cb1-170" aria-hidden="true" tabindex="-1"></a>The textbook **exact** factor model assumes the idiosyncratic components $e_{it}$ are cross-sectionally uncorrelated. In macro/finance practice, the **approximate** factor model is more realistic: $e_{it}$ may be weakly correlated across both $i$ and $t$, but the *dominant* cross-sectional dependence still comes from $f_t$ - most of the covariance of $x_t$ across $i=1,\ldots,N$ is driven by the small number of common factors. This weaker assumption is what allows the factor space to be estimated consistently when $N$ is large; the typical asymptotics are large $N$, moderate-to-large $T$.</span>
+<span id="cb1-171"><a href="#cb1-171" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-172"><a href="#cb1-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-173"><a href="#cb1-173" aria-hidden="true" tabindex="-1"></a><span class="fu">### Estimating the factors by PCA</span></span>
+<span id="cb1-174"><a href="#cb1-174" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-175"><a href="#cb1-175" aria-hidden="true" tabindex="-1"></a>Let $X = <span class="co">[</span><span class="ot">x_1, \ldots, x_T</span><span class="co">]</span>$ be the $N \times T$ data matrix. The objective is to find low-dimensional $f_t$ and $\Lambda$ such that $x_t \approx \Lambda f_t$ for every $t$, minimizing the sum of squared idiosyncratic components, $\min_{\Lambda,(f_t)} \frac{1}{NT}\sum_t <span class="sc">\|</span>x_t - \Lambda f_t<span class="sc">\|</span>^2$, subject to a normalization on $(f_t)$ - exactly what **principal component analysis** does, by choosing $r$ linear combinations of $x_t$ that maximize explained variance. PCA chooses $\hat f_t$ and $\hat\Lambda$ so that the first factor explains as much of $x_t$'s variance as possible, the second explains as much of the *remaining* variance as possible, and so on, with all factors mutually orthogonal - so the first few factors capture the main comovements in the data, and the idiosyncratic components absorb what is left as variable-specific noise.</span>
+<span id="cb1-176"><a href="#cb1-176" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-177"><a href="#cb1-177" aria-hidden="true" tabindex="-1"></a>::: {.callout-note title="Interpreting factors and loadings"}</span>
+<span id="cb1-178"><a href="#cb1-178" aria-hidden="true" tabindex="-1"></a>Once $\hat f_t$ is estimated, check its correlation with known macro series (GDP growth, credit spreads, trade flows); inspect it visually - do its peaks and troughs coincide with recessions or crises? The **sign** of a loading $\lambda_{ik}$ tells you whether series $i$ moves with or against factor $k$; its **magnitude** tells you how strongly series $i$ is driven by that factor, and the high-loading series collectively suggest how to interpret the factor. The cross-section of loadings $\lambda_i$ tells you which economic block a given factor corresponds to (real activity, credit, confidence, prices, financial stress). Interpretation matters: a factor is only useful insofar as it corresponds to an economically meaningful latent force, not merely a statistically convenient summary.</span>
+<span id="cb1-179"><a href="#cb1-179" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-180"><a href="#cb1-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-181"><a href="#cb1-181" aria-hidden="true" tabindex="-1"></a>**Choosing the number of factors** is, in practice, never fully settled: look at the share of variance explained by the first few components (e.g. if factor 1 explains 75 percent, factor 2 an additional 15 percent, and factor 3 only 3 percent more, $r=2$ is a reasonable choice), or minimize the Bai and Ng <span class="co">[</span><span class="ot">-@BaiNg2002</span><span class="co">]</span> information criteria ($IC(r)$, $PC(r)$) for static factors (for the dynamic case, compare with the Hallin and Liška, 2007, spectral-density test). In practice, do not obsess over $r=2$ versus $r=3$ - instead check robustness: do the substantive conclusions change drastically between the two? Try alternative subsets of variables (only real indicators, only financial ones), alternative transformations (levels, growth rates, logs), and alternative sample splits, and keep asking whether the loadings and the resulting factor interpretation remain economically sensible and stable over time.</span>
+<span id="cb1-182"><a href="#cb1-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-183"><a href="#cb1-183" aria-hidden="true" tabindex="-1"></a><span class="fu">### From static to dynamic factors</span></span>
+<span id="cb1-184"><a href="#cb1-184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-185"><a href="#cb1-185" aria-hidden="true" tabindex="-1"></a>A **static** factor model, $x_t = \Lambda f_t + e_t$, captures only cross-sectional comovement *at each date $t$* - it draws no distinction between contemporaneous factors and dynamic latent forces evolving over time, cannot model how today's shocks affect tomorrow's factors, imposes no autocorrelation structure on factors that may themselves be highly persistent, and imposes no lag structure between variables (what if employment lags industrial production by four months, or housing leads the cycle?). Forecasting and structural analysis both require a genuine **law of motion** for $f_t$ - the **dynamic factor model (DFM)**, written as a classical state-space system:</span>
+<span id="cb1-186"><a href="#cb1-186" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-187"><a href="#cb1-187" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-188"><a href="#cb1-188" aria-hidden="true" tabindex="-1"></a>\text{state equation:} \quad f_t = A_1f_{t-1} + \cdots + A_pf_{t-p} + u_t, \qquad \text{measurement equation:} \quad x_t = \Lambda f_t + e_t,</span>
+<span id="cb1-189"><a href="#cb1-189" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-190"><a href="#cb1-190" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-191"><a href="#cb1-191" aria-hidden="true" tabindex="-1"></a>with $f_t$ the low-dimensional latent state, $x_t$ the high-dimensional observables, and $e_t$ idiosyncratic noise. Now the common forces have their own dynamics and persistence, and transmit shocks to every observed variable through the loadings $\Lambda$.</span>
+<span id="cb1-192"><a href="#cb1-192" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-193"><a href="#cb1-193" aria-hidden="true" tabindex="-1"></a>**Two-step (Stock-Watson) estimation.** Step 1: estimate the static factors by PCA, $\hat f_t = V_r'x_t$, $\hat\Lambda = \frac{1}{T}X\hat F'$ (with $V_r$ the $N \times r$ matrix of eigenvectors of the sample covariance $\hat\Sigma_x = \frac{1}{T}XX'$ associated with the $r$ largest eigenvalues). Step 2: estimate the factor dynamics via an ordinary VAR, $\hat f_t = \hat A_1\hat f_{t-1} + \cdots + \hat A_p\hat f_{t-p} + \hat u_t$. This is simple, fast, and consistent as $N \to \infty$, and is easy to use for forecasting or a FAVAR - but it does not optimally handle missing data or a small $N$ (PCA becomes unreliable below roughly $N=20$).</span>
+<span id="cb1-194"><a href="#cb1-194" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-195"><a href="#cb1-195" aria-hidden="true" tabindex="-1"></a>**Kalman filter and EM estimation.** Using the full state-space form, $(f_t, A_i, \Lambda)$ can be estimated jointly via the Kalman filter and smoother together with the EM algorithm for maximum likelihood. This handles missing observations efficiently, is especially useful when $N$ is small or moderate, allows time-varying parameters (a TVP-DFM), and enables applications such as nowcasting and mixed-frequency data (e.g. quarterly GDP alongside monthly prices). Factors can even be estimated in the frequency domain - the generalized dynamic factor model (GDFM) of Forni, Hallin, Lippi, and Reichlin <span class="co">[</span><span class="ot">-@ForniHallinLippiReichlin2000</span><span class="co">]</span>, via the spectral density - decomposing each factor's contribution into medium-term (productivity, credit), business-cycle, and high-frequency (financial stress) bands, with different factors potentially dominating different frequency ranges.</span>
+<span id="cb1-196"><a href="#cb1-196" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-197"><a href="#cb1-197" aria-hidden="true" tabindex="-1"></a><span class="fu">## Factor-augmented VAR (FAVAR) {#sec-favar}</span></span>
+<span id="cb1-198"><a href="#cb1-198" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-199"><a href="#cb1-199" aria-hidden="true" tabindex="-1"></a>Suppose the object of interest is a small set of macro variables, $(y_t, \pi_t, i_t)$, but a large information set $x_t = (x_{1t}, \ldots, x_{Nt})'$, $N \gg 3$, is also observed. How can that information be incorporated without estimating a huge VAR? The **factor-augmented VAR (FAVAR)** [Bernanke, Boivin, and Eliasz, -@BernankeBoivinEliasz2005]: extract factors $\hat f_t$ from $x_t$ by PCA, construct the augmented vector $z_t = (y_t, \pi_t, i_t, \hat f_t)'$, and estimate a small VAR in $z_t$. This uses a rich dataset while keeping the estimated VAR itself low-dimensional - and, as a bonus, tends to deliver **more reliable identification**, since the factors absorb omitted variables that would otherwise contaminate the estimated shocks.</span>
+<span id="cb1-200"><a href="#cb1-200" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-201"><a href="#cb1-201" aria-hidden="true" tabindex="-1"></a>Reduced-form forecasting and structural identification then proceed exactly as in an ordinary SVAR (Cholesky, sign restrictions, narrative shocks; @sec-svar). What changes is the scope of what a shock affects: now a shock moves both the observables $(y_t,\pi_t,i_t)$ *and* the latent factors $\hat f_t$ summarizing the other $N$ variables. This gives, first, ordinary IRFs for $y_t, \pi_t, i_t$; second, IRFs of the factors themselves to the structural shocks; and third, by mapping factor responses back through the loadings $\hat\Lambda$,</span>
+<span id="cb1-202"><a href="#cb1-202" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-203"><a href="#cb1-203" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-204"><a href="#cb1-204" aria-hidden="true" tabindex="-1"></a>\widehat{\text{IRF}}_{x_{it}}(h) = \hat\lambda_i' \cdot \widehat{\text{IRF}}_f(h),</span>
+<span id="cb1-205"><a href="#cb1-205" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-206"><a href="#cb1-206" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-207"><a href="#cb1-207" aria-hidden="true" tabindex="-1"></a>an impulse response for *every one* of the $N$ underlying series - even though none of them appeared directly in the VAR. A single identified shock thus produces impulse responses for 100+ variables at once, letting the analyst ask which factors react most, which individual variables are most sensitive to each factor, how fast effects propagate and decay, and how a shock spreads across sectors, countries, or channels (e.g. detailed monetary-policy transmission).</span>
+<span id="cb1-208"><a href="#cb1-208" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-209"><a href="#cb1-209" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip title="A worked business-cycle and financial-cycle example"}</span>
+<span id="cb1-210"><a href="#cb1-210" aria-hidden="true" tabindex="-1"></a>Building a business-cycle dataset (industrial production, hours worked, employment, sales, consumption indicators, survey indices), PCA typically extracts a first factor that closely tracks GDP growth. Building a financial dataset (credit growth, leverage, corporate bond spreads, equity prices, house prices, volatility indices), the first factor often captures a "financial cycle." Feeding a monetary policy shock through a FAVAR built on both datasets lets you observe how each cycle factor responds, then how each underlying series responds, and to ask whether the financial cycle leads or lags the business cycle. Because factors are, in effect, a common signal purged of idiosyncratic noise, they typically track the same peaks and troughs as the key underlying macro series, only *smoother*.</span>
+<span id="cb1-211"><a href="#cb1-211" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-212"><a href="#cb1-212" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-213"><a href="#cb1-213" aria-hidden="true" tabindex="-1"></a><span class="fu">## Core example: the Global Financial Cycle</span></span>
+<span id="cb1-214"><a href="#cb1-214" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-215"><a href="#cb1-215" aria-hidden="true" tabindex="-1"></a>The classical **Mundell-Fleming trilemma** ("impossible triangle") says policymakers can choose at most two of: free capital mobility, a fixed exchange rate, and independent monetary policy. Under free capital mobility, the textbook recipe is that a fixed exchange rate forecloses monetary autonomy (the central bank must manage the exchange rate), while a floating exchange rate restores it (the exchange rate absorbs shocks instead).</span>
+<span id="cb1-216"><a href="#cb1-216" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-217"><a href="#cb1-217" aria-hidden="true" tabindex="-1"></a><span class="al">![The Mundell-Fleming trilemma: policymakers can be at any one vertex (achieving the two adjacent properties) but not at all three simultaneously.](../figures/cointegration-dfm/mundell-trilemma-triangle.png)</span>{#fig-mundell-trilemma}</span>
+<span id="cb1-218"><a href="#cb1-218" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-219"><a href="#cb1-219" aria-hidden="true" tabindex="-1"></a>Rey's <span class="co">[</span><span class="ot">-@Rey2015</span><span class="co">]</span> "dilemma," rather than trilemma, argues that the **Global Financial Cycle (GFCy)** undermines this classical logic. Miranda-Agrippino and Rey [-@MirandaAgrippinoRey2020], "U.S. Monetary Policy and the Global Financial Cycle," provide a systematic empirical measurement of the GFCy and quantify its role in global risky asset prices and capital flows (FDI, portfolio, and banking flows). **Method:** build large panels - world risky-asset returns (equity, credit), capital flows (gross inflows and outflows by type) for roughly 80 countries, 1990-2018, and credit and other macro-financial quantities - estimate a DFM extracting a *global* factor (and possibly group-specific factors) for both prices and quantities, and study its comovement with the VIX and with identified U.S. monetary policy shocks.</span>
+<span id="cb1-220"><a href="#cb1-220" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-221"><a href="#cb1-221" aria-hidden="true" tabindex="-1"></a><span class="al">![The estimated global factor in risky asset prices, alongside the corresponding global factor in capital flows and total world inflows/outflows: a common cycle runs through both prices and quantities (Miranda-Agrippino and Rey 2020).](../figures/cointegration-dfm/miranda-agrippino-rey-global-factor.png)</span>{#fig-mar-global-factor}</span>
+<span id="cb1-222"><a href="#cb1-222" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-223"><a href="#cb1-223" aria-hidden="true" tabindex="-1"></a>**Main results.** A small number of factors explain a large share of the variation in risky asset prices and capital flows - a strong, time-varying Global Financial Cycle. U.S. monetary policy shocks significantly move the global factor (a "center-country" channel). The resulting **dilemma**: with free capital mobility, a floating exchange rate is *not* enough on its own to guarantee monetary independence - some form of capital-account management, whether direct capital controls or indirect macroprudential tools, becomes necessary. Sensitivity is heterogeneous: emerging-market and financially open economies are considerably more exposed to the global cycle than others. (See also Boyarchenko and Elias, 2024, on decomposing the GFCy into a Global Credit Cycle and a Global Risk Factor.)</span>
+<span id="cb1-224"><a href="#cb1-224" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-225"><a href="#cb1-225" aria-hidden="true" tabindex="-1"></a><span class="al">![A second global factor, this time in capital flows, tracked alongside commodity and oil prices (left) and a global factor in private-sector liquidity (right): the financial cycle visibly co-moves with both commodity markets and credit conditions (Miranda-Agrippino and Rey 2020).](../figures/cointegration-dfm/miranda-agrippino-rey-commodity-factor.png)</span>{#fig-mar-commodity-factor}</span>
+<span id="cb1-226"><a href="#cb1-226" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-227"><a href="#cb1-227" aria-hidden="true" tabindex="-1"></a><span class="fu">## Appendix: further topics in dimension reduction and estimation</span></span>
+<span id="cb1-228"><a href="#cb1-228" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-229"><a href="#cb1-229" aria-hidden="true" tabindex="-1"></a><span class="fu">### Regularization as an alternative to latent factors</span></span>
+<span id="cb1-230"><a href="#cb1-230" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-231"><a href="#cb1-231" aria-hidden="true" tabindex="-1"></a>Not all dimensionality reduction relies on latent factors; an alternative is to keep every variable but *shrink* its coefficient. **Ridge regression**, $\min_\beta \|y-X\beta\|^2 + \lambda\|\beta\|^2$, shrinks coefficients toward zero (never exactly to zero), reducing variance while retaining every predictor - useful when predictors are highly collinear. **LASSO**, $\min_\beta \|y-X\beta\|^2 + \lambda\|\beta\|_1$, performs genuine variable *selection* (some $\beta_j$ set exactly to zero), reducing dimensionality by keeping only a sparse subset of predictors. **Elastic net**, $\min_\beta <span class="sc">\|</span>y-X\beta<span class="sc">\|</span>^2 + \lambda(\alpha<span class="sc">\|</span>\beta<span class="sc">\|</span>_1 + (1-\alpha)<span class="sc">\|</span>\beta<span class="sc">\|</span>^2)$, combines both penalties, and is particularly useful when many predictors are mutually correlated - the typical macro/finance case.</span>
+<span id="cb1-232"><a href="#cb1-232" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-233"><a href="#cb1-233" aria-hidden="true" tabindex="-1"></a><span class="fu">### The PCA algorithm, in full</span></span>
+<span id="cb1-234"><a href="#cb1-234" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-235"><a href="#cb1-235" aria-hidden="true" tabindex="-1"></a>Standardize each series (subtract its mean, divide by its standard deviation); compute the sample covariance matrix $\hat\Sigma_x = \frac{1}{T}\sum_t x_tx_t' = \frac{1}{T}XX'$; compute its eigenvalues and eigenvectors, and let $V_r$ be the $N \times r$ matrix of eigenvectors associated with the $r$ largest eigenvalues. The estimated factors at each date are $\hat f_t = V_r'x_t$, and the estimated loadings are $\hat\Lambda = \frac{1}{T}X\hat F'$ with $\hat F = <span class="co">[</span><span class="ot">\hat f_1, \ldots, \hat f_T</span><span class="co">]</span>$.</span>
+<span id="cb1-236"><a href="#cb1-236" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-237"><a href="#cb1-237" aria-hidden="true" tabindex="-1"></a><span class="fu">### Identification is only up to rotation</span></span>
+<span id="cb1-238"><a href="#cb1-238" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-239"><a href="#cb1-239" aria-hidden="true" tabindex="-1"></a>In $x_t = \Lambda f_t + e_t$, for any invertible $H \in \mathbb{R}^{r \times r}$, $x_t = (\Lambda H)(H^{-1}f_t) + e_t$: the pairs $(\Lambda, f_t)$ and $(\Lambda H, H^{-1}f_t)$ generate exactly the same observables, so only the *subspace* spanned by the factors is identified, not any particular basis for it. A normalization is imposed to pin one down, typically $\frac{1}{T}\sum_t f_tf_t' = I_r$ together with $\Lambda'\Lambda$ diagonal.</span>
+<span id="cb1-240"><a href="#cb1-240" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-241"><a href="#cb1-241" aria-hidden="true" tabindex="-1"></a><span class="fu">### Kalman filter and EM estimation, in detail</span></span>
+<span id="cb1-242"><a href="#cb1-242" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-243"><a href="#cb1-243" aria-hidden="true" tabindex="-1"></a>The goal: given many noisy indicators $x_t$ (industrial production, surveys, spreads), recover the latent factors $f_t$ - "the common state of the economy" - in real time. The **Kalman filter** is, in essence, a recursive, precision-weighted average. In the **prediction step**, before seeing $x_t$: $\hat f_{t|t-1} = A\hat f_{t-1|t-1}$, $P_{t|t-1} = AP_{t-1|t-1}A' + Q$, where $P_{t|t} = \mathrm{Var}(f_t - \hat f_{t|t})$ is the covariance of the estimation error - the factor is predicted from its own VAR dynamics, and predicted uncertainty grows because of the state shock $Q$: this is the model's best guess before any new data arrive. In the **update step**, after observing $x_t$: $K_t = P_{t|t-1}\Lambda'(\Lambda P_{t|t-1}\Lambda' + R)^{-1}$, $\hat f_{t|t} = \hat f_{t|t-1} + K_t(x_t - \Lambda\hat f_{t|t-1})$, $P_{t|t} = (I-K_t\Lambda)P_{t|t-1}$, where $K_t$, the **Kalman gain**, governs how much to trust the new data relative to the prediction: large measurement noise $R$ means trusting the model more (a small update), while a large and reliable prediction error produces a strong correction, and posterior uncertainty $P_{t|t}$ shrinks whenever the new data are genuinely informative. This is powerful for DFM estimation specifically because noisy series are automatically down-weighted through $R$, missing observations are handled simply by omitting the corresponding row of $\Lambda$ and $R$ from that period's update, and under Gaussian assumptions the result is the optimal linear estimator of $f_t$ at every date.</span>
+<span id="cb1-244"><a href="#cb1-244" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-245"><a href="#cb1-245" aria-hidden="true" tabindex="-1"></a>The Kalman filter and smoother require the parameters $\theta = (\Lambda, A_1, \ldots, A_p, \text{variances})$ - but how are these estimated by maximum likelihood when the factors $f_t$ themselves are unobserved? The **EM algorithm** answers this by alternating: "fill in the factors, then re-estimate." In the **E-step**, given a current parameter guess $\theta^{(k)}$, run the Kalman filter and smoother on the data to obtain the conditional expectations $E[f_t \mid x_{1:T}, \theta^{(k)}]$ and $E[f_tf_{t-1}' \mid x_{1:T}, \theta^{(k)}]$ - reconstructing the latent factor paths as well as possible given the current parameters. In the **M-step**, treat these reconstructed factors as if they were observed data and re-estimate: the loadings $\Lambda$ by cross-sectional regressions of $x_t$ on $f_t$, the dynamics $(A_1,\ldots,A_p)$ by running a VAR on $f_t$, and the noise variances from the residuals of both steps - producing updated parameters $\theta^{(k+1)}$ that increase the likelihood. Repeating the E- and M-steps until $\theta$ (or the log-likelihood) stops changing meaningfully yields maximum-likelihood estimates of $(\Lambda, A_i, \text{variances})$ together with smoothed factor estimates $f_t$ - well suited to small $N$, missing data, and more elaborate DFM specifications.</span>
+<span id="cb1-246"><a href="#cb1-246" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-247"><a href="#cb1-247" aria-hidden="true" tabindex="-1"></a><span class="fu">### Mixed-frequency data</span></span>
+<span id="cb1-248"><a href="#cb1-248" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-249"><a href="#cb1-249" aria-hidden="true" tabindex="-1"></a>Some series arrive often (daily, weekly, or monthly - rates, spreads, surveys), while the target of interest arrives rarely (quarterly GDP, say). **Temporal aggregation bias** (Working, 1960) means that if the true high-frequency process is dynamic (e.g. an AR), naive time-aggregation (summing, averaging, or taking an end-of-period value) alters the dynamics - an AR at high frequency becomes ARMA at low frequency, as serial correlation is created or reallocated by the aggregation itself - distorts timing and persistence (intra-quarter shocks get smeared across low-frequency periods, producing spurious inertia and a distorted lag structure), and effectively low-pass filters the spectrum, discarding genuine within-quarter information.</span>
+<span id="cb1-250"><a href="#cb1-250" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-251"><a href="#cb1-251" aria-hidden="true" tabindex="-1"></a>Two solutions keep the frequencies as they naturally are. The **DFM** route treats quarterly observations as an aggregation of a *latent* series specified at the highest available frequency - e.g. $Y_T^{(Q)} = \lambda_Q(F_{3T} + F_{3T-1} + F_{3T-2}) + \varepsilon_T^{(Q)}$ for a quarterly variable built from a latent monthly factor - handled naturally as a missing-data problem via the Kalman filter and smoother, though at the cost of a considerably larger model. The **MIDAS** route is lighter and forecasting-first: rather than aggregating $x$ into a single quarterly number, regress the low-frequency target directly on many high-frequency lags, compressed through a smooth weighting function,</span>
+<span id="cb1-252"><a href="#cb1-252" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-253"><a href="#cb1-253" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-254"><a href="#cb1-254" aria-hidden="true" tabindex="-1"></a>y_T = \alpha + \beta\sum_{k=0}^K w(k;\theta)x_{T,k} + e_T, \qquad \sum_{k=0}^K w(k;\theta) = 1,</span>
+<span id="cb1-255"><a href="#cb1-255" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-256"><a href="#cb1-256" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-257"><a href="#cb1-257" aria-hidden="true" tabindex="-1"></a>learning a distributed-lag profile (do recent lags matter most? Is there a delayed or hump-shaped peak?) with only a handful of parameters $\theta$.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Camille Souffron, Ecole Normale Supérieure &amp; Paris School of Economics</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/Camille-Souffron/macroeconometrics-course/edit/main/chapters/05-cointegration-dfm.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/Camille-Souffron/macroeconometrics-course/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+<p>Built with Quarto</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
