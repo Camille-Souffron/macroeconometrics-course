@@ -350,7 +350,11 @@ window.Quarto = {
   </ul></li>
   <li><a href="#sec-spectral-estimation" id="toc-sec-spectral-estimation" class="nav-link" data-scroll-target="#sec-spectral-estimation"><span class="header-section-number">3.2</span> Estimating a spectrum</a>
   <ul class="collapse">
-  <li><a href="#cross-spectra-co-movement-by-frequency" id="toc-cross-spectra-co-movement-by-frequency" class="nav-link" data-scroll-target="#cross-spectra-co-movement-by-frequency">Cross-spectra: co-movement by frequency</a></li>
+  <li><a href="#sec-spectral-peaks" id="toc-sec-spectral-peaks" class="nav-link" data-scroll-target="#sec-spectral-peaks">A spectral fact about business cycles: a peak near ten years?</a></li>
+  <li><a href="#sec-dsge-spectral-test" id="toc-sec-dsge-spectral-test" class="nav-link" data-scroll-target="#sec-dsge-spectral-test">What the usual DSGE benchmark misses</a></li>
+  <li><a href="#financial-cycles-an-application-with-an-even-lower-frequency" id="toc-financial-cycles-an-application-with-an-even-lower-frequency" class="nav-link" data-scroll-target="#financial-cycles-an-application-with-an-even-lower-frequency">Financial cycles: an application with an even lower frequency</a></li>
+  <li><a href="#sec-cross-spectrum" id="toc-sec-cross-spectrum" class="nav-link" data-scroll-target="#sec-cross-spectrum">Cross-spectrum, coherence, and phase: co-movement by frequency</a></li>
+  <li><a href="#spectral-regression-a-frequency-specific-distributed-lag" id="toc-spectral-regression-a-frequency-specific-distributed-lag" class="nav-link" data-scroll-target="#spectral-regression-a-frequency-specific-distributed-lag">Spectral regression: a frequency-specific distributed lag</a></li>
   </ul></li>
   <li><a href="#sec-linear-filters" id="toc-sec-linear-filters" class="nav-link" data-scroll-target="#sec-linear-filters"><span class="header-section-number">3.3</span> Linear filters as frequency-dependent weights</a>
   <ul class="collapse">
@@ -448,6 +452,65 @@ I(\omega_j)=\frac{1}{2\pi T}\left|\sum_{t=1}^{T}(X_t-\bar X)e^{-i\omega_jt}\righ
 \tag{3.4}\]</span></span></p>
 <p>It is a natural sample analogue of the spectrum, but a crucial warning is often missed: at an individual frequency, <span class="math inline">\(I(\omega_j)\)</span> is <strong>not consistent</strong> for <span class="math inline">\(f_X(\omega_j)\)</span>. Increasing <span class="math inline">\(T\)</span> gives more Fourier ordinates, not a less variable ordinate. A usable non-parametric estimator therefore averages neighbouring ordinates (a <strong>smoothed periodogram</strong>) or smooths the sample autocovariances before transforming them. The smoothing bandwidth is a bias–variance choice: a narrow window preserves narrow features but is noisy; a wide window is stable but can erase them.</p>
 <p>Leakage is the finite-sample companion of this problem. The sample contains a truncated portion of the process; a component that does not fit an integer number of cycles into the sample spills power into nearby frequencies. Tapers (Bartlett, Hanning, etc.) soften the artificial discontinuity at the sample boundaries, reducing leakage at the cost of resolution. A spectral graph without a stated detrending, taper, and smoothing choice is therefore not fully reproducible.</p>
+<section id="sec-spectral-peaks" class="level3">
+<h3 class="anchored" data-anchor-id="sec-spectral-peaks">A spectral fact about business cycles: a peak near ten years?</h3>
+<p>The usual 6–32-quarter definition of the business cycle is a useful convention, but it is not an empirical law. Beaudry, Galizia, and Portier <span class="citation" data-cites="BeaudryGaliziaPortier2020">(<a href="../references.html#ref-BeaudryGaliziaPortier2020" role="doc-biblioref">Beaudry et al. 2020</a>)</span> ask a deliberately simple question: after isolating the low-frequency trend problem, do <em>cyclically sensitive</em> U.S. variables contain an unusually large amount of variance at a particular period? Their answer is a robust local peak around 32–50 quarters (roughly 8–12.5 years) for labour-market utilisation, unemployment, investment relative to GDP, and financial-risk measures.</p>
+<div id="fig-bgp-empirical-spectra" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-bgp-empirical-spectra-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figures/frequency/beaudry-galizia-portier-spectra.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-bgp-empirical-spectra-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.2: Spectral densities of U.S. employment, unemployment, and investment relative to GDP in Beaudry, Galizia, and Portier (2020, Figure 3). The shaded range is 32–50 quarters. The black curve uses the level series; the grey curves remove only movements with periods above 100–200 quarters. The persistence of the local hump under those alternatives is the substantive point. Source figure reproduced from the supplied PDF; extraction script: <code>code/python/extract_paper_figures.py</code>.
+</figcaption>
+</figure>
+</div>
+<p>The methodological lesson is at least as important as the peak itself. Their online appendix constructs the Schuster periodogram, evaluates the DFT on a fine grid by <strong>zero-padding</strong> to 1,024 points, and smooths it with a Hamming window of width 13 <span class="citation" data-cites="BeaudryGaliziaPortier2020">(<a href="../references.html#ref-BeaudryGaliziaPortier2020" role="doc-biblioref">Beaudry et al. 2020</a>)</span>. Zero-padding makes a long-period graph easier to read because it fills in the frequency grid; it does <strong>not</strong> create extra observations or turn an inconsistent raw periodogram into a precise estimator. The appendix then varies the smoothing window, padding, detrending rule, and covariance-based estimator. This is the right standard for a claim about a peak: show that it survives defensible estimation choices, and report uncertainty rather than selecting a single attractive graph.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="A local peak is the relevant claim">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>A local peak is the relevant claim
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>All persistent macro series have much low-frequency power. The distinctive claim is not that there is variance at 40 quarters, but that the spectrum rises and then falls locally around that region, relative to nearby periods and to a benchmark such as an AR(1). A monotone spectrum in period has the familiar “Granger shape” of a persistent shock-driven process; a hump suggests a preferred recurrent timescale. The latter is suggestive evidence for endogenous propagation, not proof of a deterministic clock.</p>
+</div>
+</div>
+</section>
+<section id="sec-dsge-spectral-test" class="level3">
+<h3 class="anchored" data-anchor-id="sec-dsge-spectral-test">What the usual DSGE benchmark misses</h3>
+<p>This perspective gives a sharp model diagnostic. A model should not merely match volatility, correlations, or an impulse response at a few horizons: it should allocate variance over frequencies in a way that resembles the data. Beaudry, Galizia, and Portier simulate six benchmark DSGE specifications and compare the spectrum of hours: a basic RBC model, an augmented RBC model, the Smets–Wouters New Keynesian model, and three financial-frictions models, including the Bernanke–Gertler–Gilchrist financial accelerator.</p>
+<div id="fig-bgp-dsge-spectra" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-bgp-dsge-spectra-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figures/frequency/beaudry-galizia-portier-dsge-spectra.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-bgp-dsge-spectra-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.3: Spectra of hours implied by six benchmark DSGE models in Beaudry, Galizia, and Portier (2020, Figure 4). None has an isolated local maximum in the highlighted 32–50-quarter region; their spectral densities mainly rise with the period, as a persistent-shock process does. The comparison is based on 10,000 simulations of 270 quarters in the source paper. Source figure reproduced from the supplied PDF; extraction script: <code>code/python/extract_paper_figures.py</code>.
+</figcaption>
+</figure>
+</div>
+<p>The conclusion must be read at the right level. Figure <a href="#fig-bgp-dsge-spectra" class="quarto-xref">Figure&nbsp;<span>3.3</span></a> does <strong>not</strong> prove that every RBC, NK, or financial-accelerator model is unable to generate a spectral hump. It shows that the standard calibrated or estimated versions in that comparison do not reproduce this fact: their internal propagation is too weak, so persistence largely inherits the monotone spectrum of their exogenous shocks. In the authors’ account, stronger endogenous feedback, including demand complementarities interacting with financial conditions, can instead produce damped or stochastic limit-cycle behaviour. For teaching purposes, the key distinction is simple: <em>persistent shocks</em> can make a series slow; <em>complex internal roots close to the unit circle</em> can make it oscillate around a preferred period.</p>
+<p>For an AR(2), this distinction is already visible without a full DSGE model. Complex roots yield a spectrum with a potential interior maximum. In the parameterization</p>
+<p><span class="math display">\[
+X_t=\phi_1X_{t-1}+\phi_2X_{t-2}+\varepsilon_t,
+\]</span></p>
+<p>the spectrum is <span class="math inline">\(f_X(\omega)=\sigma_\varepsilon^2/[2\pi|1-\phi_1e^{-i\omega}-\phi_2e^{-2i\omega}|^2]\)</span>. A positive, slowly decaying AR(1) instead concentrates power progressively toward long periods. Thus a spectral comparison asks a model to match more than “persistence”: it asks whether its propagation mechanism has the right <em>shape</em>.</p>
+</section>
+<section id="financial-cycles-an-application-with-an-even-lower-frequency" class="level3">
+<h3 class="anchored" data-anchor-id="financial-cycles-an-application-with-an-even-lower-frequency">Financial cycles: an application with an even lower frequency</h3>
+<p>The same logic guards against defining a financial cycle by a filter before examining the data. Strohsal, Proaño, and Wolters <span class="citation" data-cites="StrohsalProanoWolters2019">(<a href="../references.html#ref-StrohsalProanoWolters2019" role="doc-biblioref">Strohsal et al. 2019</a>)</span> estimate univariate and multivariate spectra parametrically, rather than imposing a band in advance. They find that the U.S. and U.K. financial-cycle indicators have a dominant period close to 15 years in their post-1985 sample, longer than a conventional business cycle, while the evidence is much weaker for Germany. Their result is deliberately conditional on country, measure, and sample split: “the financial cycle” is an empirical proposition to test, not a universal 8–32-year filter setting.</p>
+<p>For long financial cycles, a parametric spectrum can be particularly useful because a finite sample contains few complete low-frequency oscillations. If an invertible ARMA model is adequate,</p>
+<p><span id="eq-arma-spectrum"><span class="math display">\[
+X_t=\frac{\theta(L)}{\phi(L)}\varepsilon_t
+\quad\Longrightarrow\quad
+f_X(\omega)=\frac{\sigma_\varepsilon^2}{2\pi}
+\frac{|\theta(e^{-i\omega})|^2}{|\phi(e^{-i\omega})|^2}.
+\tag{3.5}\]</span></span></p>
+<p>Estimating the ARMA coefficients pools information across frequencies and supplies a smooth spectrum, but moves the risk to specification error. The practical complement is transparent non-parametric evidence, sensitivity to the sample, and confidence intervals or bootstrap tests, as in the supplied papers.</p>
 <div class="callout callout-style-default callout-important callout-titled" title="Before estimating a spectrum">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -461,17 +524,56 @@ I(\omega_j)=\frac{1}{2\pi T}\left|\sum_{t=1}^{T}(X_t-\bar X)e^{-i\omega_jt}\righ
 <p>The standard stationary spectrum is a property of an <span class="math inline">\(I(0)\)</span> process. A level series with a unit root has an enormous and sample-dependent mass near frequency zero; a trend can masquerade as a low-frequency cycle. First decide whether the economic object is a level, a growth rate, a detrended series, or a filtered component. The transformation is part of the estimand, not cosmetic pre-processing.</p>
 </div>
 </div>
-<section id="cross-spectra-co-movement-by-frequency" class="level3">
-<h3 class="anchored" data-anchor-id="cross-spectra-co-movement-by-frequency">Cross-spectra: co-movement by frequency</h3>
-<p>For two stationary series, the cross-spectrum is</p>
-<p><span class="math display">\[
-f_{XY}(\omega)=\frac{1}{2\pi}\sum_h \gamma_{XY}(h)e^{-i\omega h}.
-\]</span></p>
+</section>
+<section id="sec-cross-spectrum" class="level3">
+<h3 class="anchored" data-anchor-id="sec-cross-spectrum">Cross-spectrum, coherence, and phase: co-movement by frequency</h3>
+<p>For two jointly stationary series, define the cross-covariance <span class="math inline">\(\gamma_{XY}(h)=\mathrm{Cov}(X_{t+h},Y_t)\)</span>. Its Fourier transform, the <strong>cross-spectrum</strong>, is complex-valued:</p>
+<p><span id="eq-cross-spectrum"><span class="math display">\[
+f_{XY}(\omega)=\frac{1}{2\pi}\sum_h\gamma_{XY}(h)e^{-i\omega h}
+=c_{XY}(\omega)-iq_{XY}(\omega).
+\tag{3.6}\]</span></span></p>
+<p>The real part <span class="math inline">\(c_{XY}\)</span> is the <strong>co-spectrum</strong>, the in-phase part of co-movement; the imaginary part <span class="math inline">\(q_{XY}\)</span> is the <strong>quadrature spectrum</strong>, the quarter-cycle-shifted part. The cross-spectrum is therefore richer than a correlation coefficient: it can say that two variables are related only at medium frequencies, or move together but with one systematically delayed.</p>
 <p>Its squared coherence,</p>
-<p><span class="math display">\[
+<p><span id="eq-coherence"><span class="math display">\[
 \mathcal C_{XY}(\omega)=\frac{|f_{XY}(\omega)|^2}{f_X(\omega)f_Y(\omega)}\in[0,1],
+\tag{3.7}\]</span></span></p>
+<p>is the frequency-specific analogue of <span class="math inline">\(R^2\)</span>. It equals one under a perfect linear relation at that frequency, and zero if there is no linear relation there. The phase <span class="math inline">\(\vartheta_{XY}(\omega)=\arg f_{XY}(\omega)\)</span> can be converted into an approximate timing difference, <span class="math inline">\(\vartheta_{XY}(\omega)/\omega\)</span>, measured in observations. The sign depends on the convention used for <span class="math inline">\(f_{XY}\)</span>, so it must always be stated; more fundamentally, a phase is meaningful only where coherence is materially different from zero.</p>
+<div class="callout callout-style-default callout-warning callout-titled" title="High coherence is neither causality nor a common shock">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>High coherence is neither causality nor a common shock
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Coherence records stable linear co-movement at a frequency. It cannot tell whether <span class="math inline">\(X\)</span> causes <span class="math inline">\(Y\)</span>, <span class="math inline">\(Y\)</span> causes <span class="math inline">\(X\)</span>, both react to a third shock, or a common filter manufactured the relation. It is especially vulnerable to pre-filtering: applying the same narrow band-pass filter to two unrelated persistent series can make their filtered paths look compellingly similar. Granger’s original work connects cross-spectra to predictability, not structural causation <span class="citation" data-cites="Granger1969">(<a href="../references.html#ref-Granger1969" role="doc-biblioref">Granger 1969</a>)</span>.</p>
+</div>
+</div>
+</section>
+<section id="spectral-regression-a-frequency-specific-distributed-lag" class="level3">
+<h3 class="anchored" data-anchor-id="spectral-regression-a-frequency-specific-distributed-lag">Spectral regression: a frequency-specific distributed lag</h3>
+<p>Suppose the relation of interest is a stable linear distributed lag,</p>
+<p><span class="math display">\[
+Y_t=B(L)X_t+u_t,\qquad \mathrm{Cov}(u_t,X_{t-h})=0\ \forall h.
 \]</span></p>
-<p>is the frequency-specific analogue of <span class="math inline">\(R^2\)</span>: it measures linear co-movement at a given frequency, not overall correlation. The argument (phase) of <span class="math inline">\(f_{XY}\)</span> measures lead–lag at that frequency. This is useful, for example, when output and credit move together at medium frequencies but not at business-cycle frequencies. It is not a substitute for a structural restriction; indeed, Granger’s original paper links cross-spectra to predictability, not to structural causality <span class="citation" data-cites="Granger1969">(<a href="../references.html#ref-Granger1969" role="doc-biblioref">Granger 1969</a>)</span>.</p>
+<p>At each frequency, the <strong>spectral-regression coefficient</strong> is</p>
+<p><span id="eq-spectral-regression"><span class="math display">\[
+\beta_{Y\leftarrow X}(\omega)=\frac{f_{YX}(\omega)}{f_X(\omega)}=B(e^{-i\omega}).
+\tag{3.8}\]</span></span></p>
+<p>It is generally complex. Its modulus is the frequency-specific gain (how strongly an oscillation in <span class="math inline">\(X\)</span> is transmitted to <span class="math inline">\(Y\)</span>); its argument is the phase delay. Equation <a href="#eq-spectral-regression" class="quarto-xref">Equation&nbsp;<span>3.8</span></a> is the frequency-domain counterpart of estimating all distributed-lag coefficients at once. It is most useful when paired with coherence: a large estimated gain in a band where <span class="math inline">\(X\)</span> has almost no power, or where coherence is near zero, is numerically unstable and economically uninformative.</p>
+<div id="fig-hours-spread-cross-spectrum" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-hours-spread-cross-spectrum-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figures/frequency/hours-spread-cross-spectrum.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-hours-spread-cross-spectrum-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.4: A reproducible illustration using U.S. business-sector hours and the Baa minus 10-year Treasury spread, quarterly 1954Q1 onward. The top panel normalises each estimated spectrum to compare <em>shape</em>, not units. The lower panel reports squared coherence and the modulus of the spectral-regression coefficient (rescaled solely for display and masked when coherence is below 0.20). Both series have substantial spectral mass and strong linear co-movement near the 32–50-quarter band, but this descriptive fact does not establish the direction of causality. Data: FRED HOANBS and BAA10YM; estimation: zero-padded DFT with a 13-point Hamming smoother; code: <code>code/python/make_frequency_figures.py</code>.
+</figcaption>
+</figure>
+</div>
+<p>This simple example mirrors the economic intuition in Beaudry, Galizia, and Portier’s appendix, where the risk spread is counter-cyclical and coherence with hours is largest around 38 quarters. It also illustrates why the cross-spectrum is more informative than an unconditional correlation: the relationship is concentrated in a particular range of periodicities. Strohsal, Proaño, and Wolters <span class="citation" data-cites="StrohsalProanoWolters2019">(<a href="../references.html#ref-StrohsalProanoWolters2019" role="doc-biblioref">Strohsal et al. 2019</a>)</span> take the next step with a multivariate parametric model, reporting coherence and frequency-specific Granger-causality measures for U.S. and U.K. financial-cycle indices. In a VAR, this is the frequency-domain version of asking whether a lagged variable improves prediction at short, business-cycle, or financial-cycle horizons separately.</p>
 </section>
 </section>
 <section id="sec-linear-filters" class="level2" data-number="3.3">
@@ -481,11 +583,11 @@ f_{XY}(\omega)=\frac{1}{2\pi}\sum_h \gamma_{XY}(h)e^{-i\omega h}.
 <p>A two-sided linear time-invariant filter is</p>
 <p><span id="eq-linear-filter"><span class="math display">\[
 Y_t=B(L)X_t=\sum_{j=-\infty}^{\infty}b_jX_{t-j}.
-\tag{3.5}\]</span></span></p>
+\tag{3.9}\]</span></span></p>
 <p>Its transfer function is <span class="math inline">\(B(e^{-i\omega})=\sum_jb_je^{-i\omega j}\)</span>. Provided the coefficients are square-summable,</p>
 <p><span id="eq-filtered-spectrum"><span class="math display">\[
 f_Y(\omega)=\left|B(e^{-i\omega})\right|^2f_X(\omega).
-\tag{3.6}\]</span></span></p>
+\tag{3.10}\]</span></span></p>
 <p>The <strong>squared gain</strong> <span class="math inline">\(|B(e^{-i\omega})|^2\)</span> tells us how much variance at <span class="math inline">\(\omega\)</span> is retained or amplified. The argument of <span class="math inline">\(B(e^{-i\omega})\)</span> is the <strong>phase shift</strong>: it tells us whether the filtered movement is displaced in time. A symmetric filter has zero phase (apart from a possible sign flip), a valuable property for historical business-cycle dating. But symmetry uses future as well as past observations, so it cannot be a real-time filter.</p>
 <div id="tbl-filter-taxonomy" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
@@ -550,8 +652,8 @@ Table&nbsp;3.1: A filter is defined by its frequency response, not by its label.
 <p><span id="eq-hp-gain"><span class="math display">\[
 G_T(\omega)=\frac{1}{1+16\lambda\sin^4(\omega/2)},\qquad
 G_C(\omega)=\frac{16\lambda\sin^4(\omega/2)}{1+16\lambda\sin^4(\omega/2)}.
-\tag{3.7}\]</span></span></p>
-<p>HP is consequently a smooth high-pass filter, not a literal 6–32-quarter band-pass filter. The conventional quarterly value <span class="math inline">\(\lambda=1600\)</span> encodes a particular cut-off, and changing data frequency requires changing <span class="math inline">\(\lambda\)</span> <span class="citation" data-cites="RavnUhlig2002">(<a href="../references.html#ref-RavnUhlig2002" role="doc-biblioref">Ravn and Uhlig 2002</a>)</span>. The rule is transparent in <a href="#eq-hp-gain" class="quarto-xref">Equation&nbsp;<span>3.7</span></a>; it is not universally economically justified.</p>
+\tag{3.11}\]</span></span></p>
+<p>HP is consequently a smooth high-pass filter, not a literal 6–32-quarter band-pass filter. The conventional quarterly value <span class="math inline">\(\lambda=1600\)</span> encodes a particular cut-off, and changing data frequency requires changing <span class="math inline">\(\lambda\)</span> <span class="citation" data-cites="RavnUhlig2002">(<a href="../references.html#ref-RavnUhlig2002" role="doc-biblioref">Ravn and Uhlig 2002</a>)</span>. The rule is transparent in <a href="#eq-hp-gain" class="quarto-xref">Equation&nbsp;<span>3.11</span></a>; it is not universally economically justified.</p>
 </section>
 <section id="ideal-filters-and-feasible-approximations" class="level3">
 <h3 class="anchored" data-anchor-id="ideal-filters-and-feasible-approximations">Ideal filters and feasible approximations</h3>
@@ -567,7 +669,7 @@ G_C(\omega)=\frac{16\lambda\sin^4(\omega/2)}{1+16\lambda\sin^4(\omega/2)}.
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The most policy-relevant dates are often the latest ones, exactly where two-sided filters are least reliable. A historical decomposition using the full sample is <strong>ex post</strong>: it can use information that was unavailable at the date in question. A real-time assessment must use one-sided filters, real-time data vintages, or explicitly show revisions. The disagreement in <a href="#fig-endpoint-revisions" class="quarto-xref">Figure&nbsp;<span>3.3</span></a> is not a numerical accident; it follows from the use of future data in the HP trend.</p>
+<p>The most policy-relevant dates are often the latest ones, exactly where two-sided filters are least reliable. A historical decomposition using the full sample is <strong>ex post</strong>: it can use information that was unavailable at the date in question. A real-time assessment must use one-sided filters, real-time data vintages, or explicitly show revisions. The disagreement in <a href="#fig-endpoint-revisions" class="quarto-xref">Figure&nbsp;<span>3.6</span></a> is not a numerical accident; it follows from the use of future data in the HP trend.</p>
 </div>
 </div>
 <div id="fig-gdp-filter-comparison" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -576,7 +678,7 @@ G_C(\omega)=\frac{16\lambda\sin^4(\omega/2)}{1+16\lambda\sin^4(\omega/2)}.
 <img src="../figures/frequency/us-gdp-filter-comparison.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-gdp-filter-comparison-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3.2: The same real-GDP history produces different estimated cyclical components under HP, the Hamilton h-step regression, and a 6–32-quarter band-pass approximation. The comparison is deliberately empirical rather than a contest with a unique winner: each line answers a different filtering question. Data: U.S. real GDP (GDPC1), FRED; code and data download are reproducible in <code>code/python/make_frequency_figures.py</code>.
+Figure&nbsp;3.5: The same real-GDP history produces different estimated cyclical components under HP, the Hamilton h-step regression, and a 6–32-quarter band-pass approximation. The comparison is deliberately empirical rather than a contest with a unique winner: each line answers a different filtering question. Data: U.S. real GDP (GDPC1), FRED; code and data download are reproducible in <code>code/python/make_frequency_figures.py</code>.
 </figcaption>
 </figure>
 </div>
@@ -586,7 +688,7 @@ Figure&nbsp;3.2: The same real-GDP history produces different estimated cyclical
 <img src="../figures/frequency/hp-endpoint-revisions.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-endpoint-revisions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3.3: A pseudo-real-time exercise: truncating the sample in 2019Q4 changes the HP estimate of the immediately preceding cycle. Later observations alter the estimate of the earlier state of the economy, demonstrating why endpoint uncertainty should be reported rather than hidden. Data: FRED GDPC1.
+Figure&nbsp;3.6: A pseudo-real-time exercise: truncating the sample in 2019Q4 changes the HP estimate of the immediately preceding cycle. Later observations alter the estimate of the earlier state of the economy, demonstrating why endpoint uncertainty should be reported rather than hidden. Data: FRED GDPC1.
 </figcaption>
 </figure>
 </div>
@@ -643,6 +745,9 @@ Figure&nbsp;3.3: A pseudo-real-time exercise: truncating the sample in 2019Q4 ch
 <div id="ref-BaxterKing1999" class="csl-entry" role="listitem">
 Baxter, Marianne, and Robert G. King. 1999. <span>“Measuring Business Cycles: Approximate Band-Pass Filters for Economic Time Series.”</span> <em>Review of Economics and Statistics</em> 81 (4): 575–93.
 </div>
+<div id="ref-BeaudryGaliziaPortier2020" class="csl-entry" role="listitem">
+Beaudry, Paul, Dana Galizia, and Franck Portier. 2020. <span>“Putting the Cycle Back into Business Cycle Analysis.”</span> <em>American Economic Review</em> 110 (1): 1–47. <a href="https://doi.org/10.1257/aer.20190789">https://doi.org/10.1257/aer.20190789</a>.
+</div>
 <div id="ref-ChristianoFitzgerald2003" class="csl-entry" role="listitem">
 Christiano, Lawrence J., and Terry J. Fitzgerald. 2003. <span>“The Band Pass Filter.”</span> <em>International Economic Review</em> 44 (2): 435–65.
 </div>
@@ -660,6 +765,9 @@ Priestley, M. B. 1981. <em>Spectral Analysis and Time Series</em>. Academic Pres
 </div>
 <div id="ref-RavnUhlig2002" class="csl-entry" role="listitem">
 Ravn, Morten O., and Harald Uhlig. 2002. <span>“On Adjusting the Hodrick-Prescott Filter for the Frequency of Observations.”</span> <em>Review of Economics and Statistics</em> 84 (2): 371–76.
+</div>
+<div id="ref-StrohsalProanoWolters2019" class="csl-entry" role="listitem">
+Strohsal, Till, Christian R. Proaño, and Jürgen Wolters. 2019. <span>“Assessing the Cross-Country Interaction of Financial Cycles: Evidence from a Multivariate Spectral Analysis of the <span>USA</span> and the <span>UK</span>.”</span> <em>Empirical Economics</em> 57: 385–98. <a href="https://doi.org/10.1007/s00181-018-1471-2">https://doi.org/10.1007/s00181-018-1471-2</a>.
 </div>
 </div>
 </section>
@@ -1191,128 +1299,198 @@ Ravn, Morten O., and Harald Uhlig. 2002. <span>“On Adjusting the Hodrick-Presc
 <span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>I(\omega_j)=\frac{1}{2\pi T}\left|\sum_{t=1}^{T}(X_t-\bar X)e^{-i\omega_jt}\right|^2.</span>
 <span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a>$$ {#eq-periodogram}</span>
 <span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>It is a natural sample analogue of the spectrum, but a crucial warning is often missed: at an individual frequency, $I(\omega_j)$ is **not consistent** for $f_X(\omega_j)$. Increasing $T$ gives more Fourier ordinates, not a less variable ordinate. A usable non-parametric estimator therefore averages neighbouring ordinates (a **smoothed periodogram**) or smooths the sample autocovariances before transforming them. The smoothing bandwidth is a bias--variance choice: a narrow window preserves narrow features but is noisy; a wide window is stable but can erase them.</span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>It is a natural sample analogue of the spectrum, but a crucial warning is often missed: at an individual frequency, $I(\omega_j)$ is **not consistent** for $f_X(\omega_j)$. Increasing $T$ gives more Fourier ordinates, not a less variable ordinate. A usable non-parametric estimator therefore averages neighbouring ordinates (a **smoothed periodogram**) or smooths the sample autocovariances before transforming them. The smoothing bandwidth is a bias–variance choice: a narrow window preserves narrow features but is noisy; a wide window is stable but can erase them.</span>
 <span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a>Leakage is the finite-sample companion of this problem. The sample contains a truncated portion of the process; a component that does not fit an integer number of cycles into the sample spills power into nearby frequencies. Tapers (Bartlett, Hanning, etc.) soften the artificial discontinuity at the sample boundaries, reducing leakage at the cost of resolution. A spectral graph without a stated detrending, taper, and smoothing choice is therefore not fully reproducible.</span>
 <span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a>::: {.callout-important title="Before estimating a spectrum"}</span>
-<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a>The standard stationary spectrum is a property of an $I(0)$ process. A level series with a unit root has an enormous and sample-dependent mass near frequency zero; a trend can masquerade as a low-frequency cycle. First decide whether the economic object is a level, a growth rate, a detrended series, or a filtered component. The transformation is part of the estimand, not cosmetic pre-processing.</span>
-<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a><span class="fu">### A spectral fact about business cycles: a peak near ten years? {#sec-spectral-peaks}</span></span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>The usual 6–32-quarter definition of the business cycle is a useful convention, but it is not an empirical law. Beaudry, Galizia, and Portier <span class="co">[</span><span class="ot">@BeaudryGaliziaPortier2020</span><span class="co">]</span> ask a deliberately simple question: after isolating the low-frequency trend problem, do *cyclically sensitive* U.S. variables contain an unusually large amount of variance at a particular period? Their answer is a robust local peak around 32–50 quarters (roughly 8–12.5 years) for labour-market utilisation, unemployment, investment relative to GDP, and financial-risk measures.</span>
 <span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a><span class="fu">### Cross-spectra: co-movement by frequency</span></span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a><span class="al">![Spectral densities of U.S. employment, unemployment, and investment relative to GDP in Beaudry, Galizia, and Portier (2020, Figure 3). The shaded range is 32–50 quarters. The black curve uses the level series; the grey curves remove only movements with periods above 100–200 quarters. The persistence of the local hump under those alternatives is the substantive point. Source figure reproduced from the supplied PDF; extraction script: `code/python/extract_paper_figures.py`.](../figures/frequency/beaudry-galizia-portier-spectra.png)</span>{#fig-bgp-empirical-spectra}</span>
 <span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a>For two stationary series, the cross-spectrum is</span>
+<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a>The methodological lesson is at least as important as the peak itself. Their online appendix constructs the Schuster periodogram, evaluates the DFT on a fine grid by **zero-padding** to 1,024 points, and smooths it with a Hamming window of width 13 [@BeaudryGaliziaPortier2020]. Zero-padding makes a long-period graph easier to read because it fills in the frequency grid; it does **not** create extra observations or turn an inconsistent raw periodogram into a precise estimator. The appendix then varies the smoothing window, padding, detrending rule, and covariance-based estimator. This is the right standard for a claim about a peak: show that it survives defensible estimation choices, and report uncertainty rather than selecting a single attractive graph.</span>
 <span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a>f_{XY}(\omega)=\frac{1}{2\pi}\sum_h \gamma_{XY}(h)e^{-i\omega h}.</span>
-<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a>::: {.callout-important title="A local peak is the relevant claim"}</span>
+<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a>All persistent macro series have much low-frequency power. The distinctive claim is not that there is variance at 40 quarters, but that the spectrum rises and then falls locally around that region, relative to nearby periods and to a benchmark such as an AR(1). A monotone spectrum in period has the familiar “Granger shape” of a persistent shock-driven process; a hump suggests a preferred recurrent timescale. The latter is suggestive evidence for endogenous propagation, not proof of a deterministic clock.</span>
+<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a>Its squared coherence,</span>
+<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a><span class="fu">### What the usual DSGE benchmark misses {#sec-dsge-spectral-test}</span></span>
 <span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a>\mathcal C_{XY}(\omega)=\frac{|f_{XY}(\omega)|^2}{f_X(\omega)f_Y(\omega)}\in<span class="co">[</span><span class="ot">0,1</span><span class="co">]</span>,</span>
-<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a>This perspective gives a sharp model diagnostic. A model should not merely match volatility, correlations, or an impulse response at a few horizons: it should allocate variance over frequencies in a way that resembles the data. Beaudry, Galizia, and Portier simulate six benchmark DSGE specifications and compare the spectrum of hours: a basic RBC model, an augmented RBC model, the Smets–Wouters New Keynesian model, and three financial-frictions models, including the Bernanke–Gertler–Gilchrist financial accelerator.</span>
+<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a><span class="al">![Spectra of hours implied by six benchmark DSGE models in Beaudry, Galizia, and Portier (2020, Figure 4). None has an isolated local maximum in the highlighted 32–50-quarter region; their spectral densities mainly rise with the period, as a persistent-shock process does. The comparison is based on 10,000 simulations of 270 quarters in the source paper. Source figure reproduced from the supplied PDF; extraction script: `code/python/extract_paper_figures.py`.](../figures/frequency/beaudry-galizia-portier-dsge-spectra.png)</span>{#fig-bgp-dsge-spectra}</span>
 <span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a>is the frequency-specific analogue of $R^2$: it measures linear co-movement at a given frequency, not overall correlation. The argument (phase) of $f_{XY}$ measures lead--lag at that frequency. This is useful, for example, when output and credit move together at medium frequencies but not at business-cycle frequencies. It is not a substitute for a structural restriction; indeed, Granger’s original paper links cross-spectra to predictability, not to structural causality <span class="co">[</span><span class="ot">@Granger1969</span><span class="co">]</span>.</span>
+<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a>The conclusion must be read at the right level. Figure @fig-bgp-dsge-spectra does **not** prove that every RBC, NK, or financial-accelerator model is unable to generate a spectral hump. It shows that the standard calibrated or estimated versions in that comparison do not reproduce this fact: their internal propagation is too weak, so persistence largely inherits the monotone spectrum of their exogenous shocks. In the authors' account, stronger endogenous feedback, including demand complementarities interacting with financial conditions, can instead produce damped or stochastic limit-cycle behaviour. For teaching purposes, the key distinction is simple: *persistent shocks* can make a series slow; *complex internal roots close to the unit circle* can make it oscillate around a preferred period.</span>
 <span id="cb2-80"><a href="#cb2-80" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-81"><a href="#cb2-81" aria-hidden="true" tabindex="-1"></a><span class="fu">## Linear filters as frequency-dependent weights {#sec-linear-filters}</span></span>
+<span id="cb2-81"><a href="#cb2-81" aria-hidden="true" tabindex="-1"></a>For an AR(2), this distinction is already visible without a full DSGE model. Complex roots yield a spectrum with a potential interior maximum. In the parameterization</span>
 <span id="cb2-82"><a href="#cb2-82" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-83"><a href="#cb2-83" aria-hidden="true" tabindex="-1"></a><span class="fu">### The transfer function</span></span>
-<span id="cb2-84"><a href="#cb2-84" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-85"><a href="#cb2-85" aria-hidden="true" tabindex="-1"></a>A two-sided linear time-invariant filter is</span>
+<span id="cb2-83"><a href="#cb2-83" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-84"><a href="#cb2-84" aria-hidden="true" tabindex="-1"></a>X_t=\phi_1X_{t-1}+\phi_2X_{t-2}+\varepsilon_t,</span>
+<span id="cb2-85"><a href="#cb2-85" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb2-86"><a href="#cb2-86" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-87"><a href="#cb2-87" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-88"><a href="#cb2-88" aria-hidden="true" tabindex="-1"></a>Y_t=B(L)X_t=\sum_{j=-\infty}^{\infty}b_jX_{t-j}.</span>
-<span id="cb2-89"><a href="#cb2-89" aria-hidden="true" tabindex="-1"></a>$$ {#eq-linear-filter}</span>
+<span id="cb2-87"><a href="#cb2-87" aria-hidden="true" tabindex="-1"></a>the spectrum is $f_X(\omega)=\sigma_\varepsilon^2/<span class="co">[</span><span class="ot">2\pi|1-\phi_1e^{-i\omega}-\phi_2e^{-2i\omega}|^2</span><span class="co">]</span>$. A positive, slowly decaying AR(1) instead concentrates power progressively toward long periods. Thus a spectral comparison asks a model to match more than “persistence”: it asks whether its propagation mechanism has the right *shape*.</span>
+<span id="cb2-88"><a href="#cb2-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-89"><a href="#cb2-89" aria-hidden="true" tabindex="-1"></a><span class="fu">### Financial cycles: an application with an even lower frequency</span></span>
 <span id="cb2-90"><a href="#cb2-90" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-91"><a href="#cb2-91" aria-hidden="true" tabindex="-1"></a>Its transfer function is $B(e^{-i\omega})=\sum_jb_je^{-i\omega j}$. Provided the coefficients are square-summable,</span>
+<span id="cb2-91"><a href="#cb2-91" aria-hidden="true" tabindex="-1"></a>The same logic guards against defining a financial cycle by a filter before examining the data. Strohsal, Proaño, and Wolters <span class="co">[</span><span class="ot">@StrohsalProanoWolters2019</span><span class="co">]</span> estimate univariate and multivariate spectra parametrically, rather than imposing a band in advance. They find that the U.S. and U.K. financial-cycle indicators have a dominant period close to 15 years in their post-1985 sample, longer than a conventional business cycle, while the evidence is much weaker for Germany. Their result is deliberately conditional on country, measure, and sample split: “the financial cycle” is an empirical proposition to test, not a universal 8–32-year filter setting.</span>
 <span id="cb2-92"><a href="#cb2-92" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-93"><a href="#cb2-93" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-94"><a href="#cb2-94" aria-hidden="true" tabindex="-1"></a>f_Y(\omega)=\left|B(e^{-i\omega})\right|^2f_X(\omega).</span>
-<span id="cb2-95"><a href="#cb2-95" aria-hidden="true" tabindex="-1"></a>$$ {#eq-filtered-spectrum}</span>
-<span id="cb2-96"><a href="#cb2-96" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-97"><a href="#cb2-97" aria-hidden="true" tabindex="-1"></a>The **squared gain** $|B(e^{-i\omega})|^2$ tells us how much variance at $\omega$ is retained or amplified. The argument of $B(e^{-i\omega})$ is the **phase shift**: it tells us whether the filtered movement is displaced in time. A symmetric filter has zero phase (apart from a possible sign flip), a valuable property for historical business-cycle dating. But symmetry uses future as well as past observations, so it cannot be a real-time filter.</span>
-<span id="cb2-98"><a href="#cb2-98" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-99"><a href="#cb2-99" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Goal <span class="pp">|</span> Frequencies retained <span class="pp">|</span> Typical example <span class="pp">|</span> Main caution <span class="pp">|</span></span>
-<span id="cb2-100"><a href="#cb2-100" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>-<span class="pp">|</span>-<span class="pp">|</span>-<span class="pp">|</span>-<span class="pp">|</span></span>
-<span id="cb2-101"><a href="#cb2-101" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Low-pass <span class="pp">|</span> slow / long-period <span class="pp">|</span> smooth trend <span class="pp">|</span> trend is a modelling choice <span class="pp">|</span></span>
-<span id="cb2-102"><a href="#cb2-102" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> High-pass <span class="pp">|</span> rapid / short-period <span class="pp">|</span> first difference, HP cycle <span class="pp">|</span> may turn persistent dynamics into apparent cycles <span class="pp">|</span></span>
-<span id="cb2-103"><a href="#cb2-103" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Band-pass <span class="pp">|</span> an intermediate range <span class="pp">|</span> BK or CF business-cycle filter <span class="pp">|</span> cut-offs impose a definition of cycle <span class="pp">|</span></span>
-<span id="cb2-104"><a href="#cb2-104" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Seasonal adjustment <span class="pp">|</span> seasonal harmonics excluded <span class="pp">|</span> X-13-type seasonal filters <span class="pp">|</span> revisions and calendar effects remain <span class="pp">|</span></span>
-<span id="cb2-105"><a href="#cb2-105" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-106"><a href="#cb2-106" aria-hidden="true" tabindex="-1"></a>: A filter is defined by its frequency response, not by its label. {#tbl-filter-taxonomy}</span>
+<span id="cb2-93"><a href="#cb2-93" aria-hidden="true" tabindex="-1"></a>For long financial cycles, a parametric spectrum can be particularly useful because a finite sample contains few complete low-frequency oscillations. If an invertible ARMA model is adequate,</span>
+<span id="cb2-94"><a href="#cb2-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-95"><a href="#cb2-95" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-96"><a href="#cb2-96" aria-hidden="true" tabindex="-1"></a>X_t=\frac{\theta(L)}{\phi(L)}\varepsilon_t</span>
+<span id="cb2-97"><a href="#cb2-97" aria-hidden="true" tabindex="-1"></a>\quad\Longrightarrow\quad</span>
+<span id="cb2-98"><a href="#cb2-98" aria-hidden="true" tabindex="-1"></a>f_X(\omega)=\frac{\sigma_\varepsilon^2}{2\pi}</span>
+<span id="cb2-99"><a href="#cb2-99" aria-hidden="true" tabindex="-1"></a>\frac{|\theta(e^{-i\omega})|^2}{|\phi(e^{-i\omega})|^2}.</span>
+<span id="cb2-100"><a href="#cb2-100" aria-hidden="true" tabindex="-1"></a>$$ {#eq-arma-spectrum}</span>
+<span id="cb2-101"><a href="#cb2-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-102"><a href="#cb2-102" aria-hidden="true" tabindex="-1"></a>Estimating the ARMA coefficients pools information across frequencies and supplies a smooth spectrum, but moves the risk to specification error. The practical complement is transparent non-parametric evidence, sensitivity to the sample, and confidence intervals or bootstrap tests, as in the supplied papers.</span>
+<span id="cb2-103"><a href="#cb2-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-104"><a href="#cb2-104" aria-hidden="true" tabindex="-1"></a>::: {.callout-important title="Before estimating a spectrum"}</span>
+<span id="cb2-105"><a href="#cb2-105" aria-hidden="true" tabindex="-1"></a>The standard stationary spectrum is a property of an $I(0)$ process. A level series with a unit root has an enormous and sample-dependent mass near frequency zero; a trend can masquerade as a low-frequency cycle. First decide whether the economic object is a level, a growth rate, a detrended series, or a filtered component. The transformation is part of the estimand, not cosmetic pre-processing.</span>
+<span id="cb2-106"><a href="#cb2-106" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb2-107"><a href="#cb2-107" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-108"><a href="#cb2-108" aria-hidden="true" tabindex="-1"></a><span class="fu">### Differencing and HP in the frequency domain</span></span>
+<span id="cb2-108"><a href="#cb2-108" aria-hidden="true" tabindex="-1"></a><span class="fu">### Cross-spectrum, coherence, and phase: co-movement by frequency {#sec-cross-spectrum}</span></span>
 <span id="cb2-109"><a href="#cb2-109" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-110"><a href="#cb2-110" aria-hidden="true" tabindex="-1"></a>The first difference is $(1-L)X_t$. Its gain is</span>
+<span id="cb2-110"><a href="#cb2-110" aria-hidden="true" tabindex="-1"></a>For two jointly stationary series, define the cross-covariance $\gamma_{XY}(h)=\mathrm{Cov}(X_{t+h},Y_t)$. Its Fourier transform, the **cross-spectrum**, is complex-valued:</span>
 <span id="cb2-111"><a href="#cb2-111" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-112"><a href="#cb2-112" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-113"><a href="#cb2-113" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>1-e^{-i\omega}<span class="pp">|</span>^2=4\sin^2(\omega/2).</span>
-<span id="cb2-114"><a href="#cb2-114" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-115"><a href="#cb2-115" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-116"><a href="#cb2-116" aria-hidden="true" tabindex="-1"></a>It is exactly zero at $\omega=0$ and large near $\pi$: differencing is a high-pass filter. This is why it removes a stochastic trend, but also why it accentuates high-frequency measurement noise. “Making a series stationary” and “extracting a business cycle” are therefore different goals.</span>
-<span id="cb2-117"><a href="#cb2-117" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-118"><a href="#cb2-118" aria-hidden="true" tabindex="-1"></a>For the HP criterion introduced in @sec-ts-transformations, the trend’s gain and the cycle’s gain are, away from finite-sample endpoints,</span>
-<span id="cb2-119"><a href="#cb2-119" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-120"><a href="#cb2-120" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-121"><a href="#cb2-121" aria-hidden="true" tabindex="-1"></a>G_T(\omega)=\frac{1}{1+16\lambda\sin^4(\omega/2)},\qquad</span>
-<span id="cb2-122"><a href="#cb2-122" aria-hidden="true" tabindex="-1"></a>G_C(\omega)=\frac{16\lambda\sin^4(\omega/2)}{1+16\lambda\sin^4(\omega/2)}.</span>
-<span id="cb2-123"><a href="#cb2-123" aria-hidden="true" tabindex="-1"></a>$$ {#eq-hp-gain}</span>
+<span id="cb2-113"><a href="#cb2-113" aria-hidden="true" tabindex="-1"></a>f_{XY}(\omega)=\frac{1}{2\pi}\sum_h\gamma_{XY}(h)e^{-i\omega h}</span>
+<span id="cb2-114"><a href="#cb2-114" aria-hidden="true" tabindex="-1"></a>=c_{XY}(\omega)-iq_{XY}(\omega).</span>
+<span id="cb2-115"><a href="#cb2-115" aria-hidden="true" tabindex="-1"></a>$$ {#eq-cross-spectrum}</span>
+<span id="cb2-116"><a href="#cb2-116" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-117"><a href="#cb2-117" aria-hidden="true" tabindex="-1"></a>The real part $c_{XY}$ is the **co-spectrum**, the in-phase part of co-movement; the imaginary part $q_{XY}$ is the **quadrature spectrum**, the quarter-cycle-shifted part. The cross-spectrum is therefore richer than a correlation coefficient: it can say that two variables are related only at medium frequencies, or move together but with one systematically delayed.</span>
+<span id="cb2-118"><a href="#cb2-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-119"><a href="#cb2-119" aria-hidden="true" tabindex="-1"></a>Its squared coherence,</span>
+<span id="cb2-120"><a href="#cb2-120" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-121"><a href="#cb2-121" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-122"><a href="#cb2-122" aria-hidden="true" tabindex="-1"></a>\mathcal C_{XY}(\omega)=\frac{|f_{XY}(\omega)|^2}{f_X(\omega)f_Y(\omega)}\in<span class="co">[</span><span class="ot">0,1</span><span class="co">]</span>,</span>
+<span id="cb2-123"><a href="#cb2-123" aria-hidden="true" tabindex="-1"></a>$$ {#eq-coherence}</span>
 <span id="cb2-124"><a href="#cb2-124" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-125"><a href="#cb2-125" aria-hidden="true" tabindex="-1"></a>HP is consequently a smooth high-pass filter, not a literal 6--32-quarter band-pass filter. The conventional quarterly value $\lambda=1600$ encodes a particular cut-off, and changing data frequency requires changing $\lambda$ <span class="co">[</span><span class="ot">@RavnUhlig2002</span><span class="co">]</span>. The rule is transparent in @eq-hp-gain; it is not universally economically justified.</span>
+<span id="cb2-125"><a href="#cb2-125" aria-hidden="true" tabindex="-1"></a>is the frequency-specific analogue of $R^2$. It equals one under a perfect linear relation at that frequency, and zero if there is no linear relation there. The phase $\vartheta_{XY}(\omega)=\arg f_{XY}(\omega)$ can be converted into an approximate timing difference, $\vartheta_{XY}(\omega)/\omega$, measured in observations. The sign depends on the convention used for $f_{XY}$, so it must always be stated; more fundamentally, a phase is meaningful only where coherence is materially different from zero.</span>
 <span id="cb2-126"><a href="#cb2-126" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-127"><a href="#cb2-127" aria-hidden="true" tabindex="-1"></a><span class="fu">### Ideal filters and feasible approximations</span></span>
-<span id="cb2-128"><a href="#cb2-128" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-129"><a href="#cb2-129" aria-hidden="true" tabindex="-1"></a>An **ideal** band-pass filter would retain exactly the interval $\omega\in<span class="co">[</span><span class="ot">2\pi/32,2\pi/6</span><span class="co">]</span>$ and discard everything else. Its impulse-response weights extend infinitely far in both directions: it needs observations from the indefinite future and past. No finite sample can implement it exactly.</span>
+<span id="cb2-127"><a href="#cb2-127" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning title="High coherence is neither causality nor a common shock"}</span>
+<span id="cb2-128"><a href="#cb2-128" aria-hidden="true" tabindex="-1"></a>Coherence records stable linear co-movement at a frequency. It cannot tell whether $X$ causes $Y$, $Y$ causes $X$, both react to a third shock, or a common filter manufactured the relation. It is especially vulnerable to pre-filtering: applying the same narrow band-pass filter to two unrelated persistent series can make their filtered paths look compellingly similar. Granger's original work connects cross-spectra to predictability, not structural causation <span class="co">[</span><span class="ot">@Granger1969</span><span class="co">]</span>.</span>
+<span id="cb2-129"><a href="#cb2-129" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb2-130"><a href="#cb2-130" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-131"><a href="#cb2-131" aria-hidden="true" tabindex="-1"></a>Baxter and King <span class="co">[</span><span class="ot">@BaxterKing1999</span><span class="co">]</span> approximate it with a finite, symmetric moving average. This has an appealing nearly zero phase shift but loses $K$ observations at each end for a $2K+1$-term filter. Christiano and Fitzgerald <span class="co">[</span><span class="ot">@ChristianoFitzgerald2003</span><span class="co">]</span> construct sample-specific weights that use all observations and are optimal under a random-walk benchmark, but the result is asymmetric near the ends and may be revised as new data arrive. Neither procedure discovers a cycle in the data; each approximates a chosen target response.</span>
+<span id="cb2-131"><a href="#cb2-131" aria-hidden="true" tabindex="-1"></a><span class="fu">### Spectral regression: a frequency-specific distributed lag</span></span>
 <span id="cb2-132"><a href="#cb2-132" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-133"><a href="#cb2-133" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning title="The endpoint problem is an economic problem"}</span>
-<span id="cb2-134"><a href="#cb2-134" aria-hidden="true" tabindex="-1"></a>The most policy-relevant dates are often the latest ones, exactly where two-sided filters are least reliable. A historical decomposition using the full sample is **ex post**: it can use information that was unavailable at the date in question. A real-time assessment must use one-sided filters, real-time data vintages, or explicitly show revisions. The disagreement in @fig-endpoint-revisions is not a numerical accident; it follows from the use of future data in the HP trend.</span>
-<span id="cb2-135"><a href="#cb2-135" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb2-136"><a href="#cb2-136" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-137"><a href="#cb2-137" aria-hidden="true" tabindex="-1"></a><span class="al">![The same real-GDP history produces different estimated cyclical components under HP, the Hamilton h-step regression, and a 6--32-quarter band-pass approximation. The comparison is deliberately empirical rather than a contest with a unique winner: each line answers a different filtering question. Data: U.S. real GDP (GDPC1), FRED; code and data download are reproducible in `code/python/make_frequency_figures.py`.](../figures/frequency/us-gdp-filter-comparison.png)</span>{#fig-gdp-filter-comparison}</span>
+<span id="cb2-133"><a href="#cb2-133" aria-hidden="true" tabindex="-1"></a>Suppose the relation of interest is a stable linear distributed lag,</span>
+<span id="cb2-134"><a href="#cb2-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-135"><a href="#cb2-135" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-136"><a href="#cb2-136" aria-hidden="true" tabindex="-1"></a>Y_t=B(L)X_t+u_t,\qquad \mathrm{Cov}(u_t,X_{t-h})=0\ \forall h.</span>
+<span id="cb2-137"><a href="#cb2-137" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb2-138"><a href="#cb2-138" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-139"><a href="#cb2-139" aria-hidden="true" tabindex="-1"></a><span class="al">![A pseudo-real-time exercise: truncating the sample in 2019Q4 changes the HP estimate of the immediately preceding cycle. Later observations alter the estimate of the earlier state of the economy, demonstrating why endpoint uncertainty should be reported rather than hidden. Data: FRED GDPC1.](../figures/frequency/hp-endpoint-revisions.png)</span>{#fig-endpoint-revisions}</span>
+<span id="cb2-139"><a href="#cb2-139" aria-hidden="true" tabindex="-1"></a>At each frequency, the **spectral-regression coefficient** is</span>
 <span id="cb2-140"><a href="#cb2-140" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-141"><a href="#cb2-141" aria-hidden="true" tabindex="-1"></a><span class="fu">## An empirical workflow {#sec-frequency-workflow}</span></span>
-<span id="cb2-142"><a href="#cb2-142" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-143"><a href="#cb2-143" aria-hidden="true" tabindex="-1"></a>For a serious spectral or filtering exercise, the following order avoids the most common mistakes:</span>
+<span id="cb2-141"><a href="#cb2-141" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-142"><a href="#cb2-142" aria-hidden="true" tabindex="-1"></a>\beta_{Y\leftarrow X}(\omega)=\frac{f_{YX}(\omega)}{f_X(\omega)}=B(e^{-i\omega}).</span>
+<span id="cb2-143"><a href="#cb2-143" aria-hidden="true" tabindex="-1"></a>$$ {#eq-spectral-regression}</span>
 <span id="cb2-144"><a href="#cb2-144" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-145"><a href="#cb2-145" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**State the economic object first.** Is the question about long-run growth, short-run demand slack, seasonal variation, or a financial cycle? Choose the data frequency accordingly; a 6--32-quarter business-cycle band is not meaningful for annual data.</span>
-<span id="cb2-146"><a href="#cb2-146" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Document the transformation.** Plot levels and transformed data; deal with seasonal adjustment, breaks, and stationarity before interpreting low-frequency power.</span>
-<span id="cb2-147"><a href="#cb2-147" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Estimate rather than merely plot.** Report the sample period, detrending, taper, and smoothing bandwidth. Check whether apparent peaks survive reasonable choices.</span>
-<span id="cb2-148"><a href="#cb2-148" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Translate a filter into its gain and phase.** Report its cut-offs, order, and the observations lost or revised at the endpoints. Compare credible alternatives if the conclusion depends on the extraction rule.</span>
-<span id="cb2-149"><a href="#cb2-149" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**Separate description from identification.** A cycle extracted mechanically is not potential output, an output gap, or a causal shock without an additional model.</span>
+<span id="cb2-145"><a href="#cb2-145" aria-hidden="true" tabindex="-1"></a>It is generally complex. Its modulus is the frequency-specific gain (how strongly an oscillation in $X$ is transmitted to $Y$); its argument is the phase delay. Equation @eq-spectral-regression is the frequency-domain counterpart of estimating all distributed-lag coefficients at once. It is most useful when paired with coherence: a large estimated gain in a band where $X$ has almost no power, or where coherence is near zero, is numerically unstable and economically uninformative.</span>
+<span id="cb2-146"><a href="#cb2-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-147"><a href="#cb2-147" aria-hidden="true" tabindex="-1"></a><span class="al">![A reproducible illustration using U.S. business-sector hours and the Baa minus 10-year Treasury spread, quarterly 1954Q1 onward. The top panel normalises each estimated spectrum to compare *shape*, not units. The lower panel reports squared coherence and the modulus of the spectral-regression coefficient (rescaled solely for display and masked when coherence is below 0.20). Both series have substantial spectral mass and strong linear co-movement near the 32–50-quarter band, but this descriptive fact does not establish the direction of causality. Data: FRED HOANBS and BAA10YM; estimation: zero-padded DFT with a 13-point Hamming smoother; code: `code/python/make_frequency_figures.py`.](../figures/frequency/hours-spread-cross-spectrum.png)</span>{#fig-hours-spread-cross-spectrum}</span>
+<span id="cb2-148"><a href="#cb2-148" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-149"><a href="#cb2-149" aria-hidden="true" tabindex="-1"></a>This simple example mirrors the economic intuition in Beaudry, Galizia, and Portier's appendix, where the risk spread is counter-cyclical and coherence with hours is largest around 38 quarters. It also illustrates why the cross-spectrum is more informative than an unconditional correlation: the relationship is concentrated in a particular range of periodicities. Strohsal, Proaño, and Wolters <span class="co">[</span><span class="ot">@StrohsalProanoWolters2019</span><span class="co">]</span> take the next step with a multivariate parametric model, reporting coherence and frequency-specific Granger-causality measures for U.S. and U.K. financial-cycle indices. In a VAR, this is the frequency-domain version of asking whether a lagged variable improves prediction at short, business-cycle, or financial-cycle horizons separately.</span>
 <span id="cb2-150"><a href="#cb2-150" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-151"><a href="#cb2-151" aria-hidden="true" tabindex="-1"></a>The code below gives a minimal, reproducible spectrum. The smoothing choice is exposed rather than delegated silently to a default.</span>
+<span id="cb2-151"><a href="#cb2-151" aria-hidden="true" tabindex="-1"></a><span class="fu">## Linear filters as frequency-dependent weights {#sec-linear-filters}</span></span>
 <span id="cb2-152"><a href="#cb2-152" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-153"><a href="#cb2-153" aria-hidden="true" tabindex="-1"></a><span class="in">```{.python}</span></span>
-<span id="cb2-154"><a href="#cb2-154" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb2-155"><a href="#cb2-155" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> signal</span>
+<span id="cb2-153"><a href="#cb2-153" aria-hidden="true" tabindex="-1"></a><span class="fu">### The transfer function</span></span>
+<span id="cb2-154"><a href="#cb2-154" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-155"><a href="#cb2-155" aria-hidden="true" tabindex="-1"></a>A two-sided linear time-invariant filter is</span>
 <span id="cb2-156"><a href="#cb2-156" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-157"><a href="#cb2-157" aria-hidden="true" tabindex="-1"></a><span class="co"># y: stationary quarterly series, e.g. log-GDP growth or a justified residual</span></span>
-<span id="cb2-158"><a href="#cb2-158" aria-hidden="true" tabindex="-1"></a>frequencies, raw <span class="op">=</span> signal.periodogram(y <span class="op">-</span> y.mean(), fs<span class="op">=</span><span class="dv">1</span>, scaling<span class="op">=</span><span class="st">"density"</span>)</span>
-<span id="cb2-159"><a href="#cb2-159" aria-hidden="true" tabindex="-1"></a>frequencies, smooth <span class="op">=</span> signal.welch(</span>
-<span id="cb2-160"><a href="#cb2-160" aria-hidden="true" tabindex="-1"></a>    y <span class="op">-</span> y.mean(), fs<span class="op">=</span><span class="dv">1</span>, window<span class="op">=</span><span class="st">"hann"</span>, nperseg<span class="op">=</span><span class="bu">min</span>(<span class="dv">64</span>, <span class="bu">len</span>(y)),</span>
-<span id="cb2-161"><a href="#cb2-161" aria-hidden="true" tabindex="-1"></a>    noverlap<span class="op">=</span><span class="dv">32</span>, detrend<span class="op">=</span><span class="st">"constant"</span>, scaling<span class="op">=</span><span class="st">"density"</span></span>
-<span id="cb2-162"><a href="#cb2-162" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb2-163"><a href="#cb2-163" aria-hidden="true" tabindex="-1"></a>periods <span class="op">=</span> <span class="dv">1</span> <span class="op">/</span> frequencies[<span class="dv">1</span>:]       <span class="co"># quarters per cycle; omit frequency zero</span></span>
-<span id="cb2-164"><a href="#cb2-164" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb2-165"><a href="#cb2-165" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-166"><a href="#cb2-166" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip title="Reading the output"}</span>
-<span id="cb2-167"><a href="#cb2-167" aria-hidden="true" tabindex="-1"></a>Plotting against period is often more intuitive for macroeconomics, but reverses the usual frequency axis: long periods lie at low frequency. Do not read a local maximum mechanically. With quarterly samples of a few decades, the number of independent long cycles is small, and its apparent period can be very imprecise. Bootstrap bands or a parametric ARMA/state-space model are often more informative than a highly smoothed periodogram.</span>
-<span id="cb2-168"><a href="#cb2-168" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb2-169"><a href="#cb2-169" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-170"><a href="#cb2-170" aria-hidden="true" tabindex="-1"></a><span class="fu">## What filtering can and cannot answer {#sec-filtering-conclusion}</span></span>
-<span id="cb2-171"><a href="#cb2-171" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-172"><a href="#cb2-172" aria-hidden="true" tabindex="-1"></a>Frequency-domain analysis is powerful because it makes a modelling decision auditable: every linear filter has a gain, a phase, and an endpoint behaviour. It connects ARMA dynamics, detrending, seasonal adjustment, and cycle extraction through one common language.</span>
-<span id="cb2-173"><a href="#cb2-173" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-174"><a href="#cb2-174" aria-hidden="true" tabindex="-1"></a>Its limit is equally important. Spectral evidence is a description of the covariance structure of a particular transformed series. It neither separates supply from demand nor identifies structural shocks. A filtered GDP “gap” becomes an estimate of economic slack only after adding a model of potential output, capacity, labour-market frictions, and so on. Hamilton’s critique of routine HP use <span class="co">[</span><span class="ot">@Hamilton2018</span><span class="co">]</span> is therefore best read not as a ban on looking at cycles, but as a demand for explicit assumptions and honest uncertainty.</span>
+<span id="cb2-157"><a href="#cb2-157" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-158"><a href="#cb2-158" aria-hidden="true" tabindex="-1"></a>Y_t=B(L)X_t=\sum_{j=-\infty}^{\infty}b_jX_{t-j}.</span>
+<span id="cb2-159"><a href="#cb2-159" aria-hidden="true" tabindex="-1"></a>$$ {#eq-linear-filter}</span>
+<span id="cb2-160"><a href="#cb2-160" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-161"><a href="#cb2-161" aria-hidden="true" tabindex="-1"></a>Its transfer function is $B(e^{-i\omega})=\sum_jb_je^{-i\omega j}$. Provided the coefficients are square-summable,</span>
+<span id="cb2-162"><a href="#cb2-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-163"><a href="#cb2-163" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-164"><a href="#cb2-164" aria-hidden="true" tabindex="-1"></a>f_Y(\omega)=\left|B(e^{-i\omega})\right|^2f_X(\omega).</span>
+<span id="cb2-165"><a href="#cb2-165" aria-hidden="true" tabindex="-1"></a>$$ {#eq-filtered-spectrum}</span>
+<span id="cb2-166"><a href="#cb2-166" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-167"><a href="#cb2-167" aria-hidden="true" tabindex="-1"></a>The **squared gain** $|B(e^{-i\omega})|^2$ tells us how much variance at $\omega$ is retained or amplified. The argument of $B(e^{-i\omega})$ is the **phase shift**: it tells us whether the filtered movement is displaced in time. A symmetric filter has zero phase (apart from a possible sign flip), a valuable property for historical business-cycle dating. But symmetry uses future as well as past observations, so it cannot be a real-time filter.</span>
+<span id="cb2-168"><a href="#cb2-168" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-169"><a href="#cb2-169" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Goal <span class="pp">|</span> Frequencies retained <span class="pp">|</span> Typical example <span class="pp">|</span> Main caution <span class="pp">|</span></span>
+<span id="cb2-170"><a href="#cb2-170" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>-<span class="pp">|</span>-<span class="pp">|</span>-<span class="pp">|</span>-<span class="pp">|</span></span>
+<span id="cb2-171"><a href="#cb2-171" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Low-pass <span class="pp">|</span> slow / long-period <span class="pp">|</span> smooth trend <span class="pp">|</span> trend is a modelling choice <span class="pp">|</span></span>
+<span id="cb2-172"><a href="#cb2-172" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> High-pass <span class="pp">|</span> rapid / short-period <span class="pp">|</span> first difference, HP cycle <span class="pp">|</span> may turn persistent dynamics into apparent cycles <span class="pp">|</span></span>
+<span id="cb2-173"><a href="#cb2-173" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Band-pass <span class="pp">|</span> an intermediate range <span class="pp">|</span> BK or CF business-cycle filter <span class="pp">|</span> cut-offs impose a definition of cycle <span class="pp">|</span></span>
+<span id="cb2-174"><a href="#cb2-174" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Seasonal adjustment <span class="pp">|</span> seasonal harmonics excluded <span class="pp">|</span> X-13-type seasonal filters <span class="pp">|</span> revisions and calendar effects remain <span class="pp">|</span></span>
 <span id="cb2-175"><a href="#cb2-175" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-176"><a href="#cb2-176" aria-hidden="true" tabindex="-1"></a><span class="fu">## Further reading</span></span>
+<span id="cb2-176"><a href="#cb2-176" aria-hidden="true" tabindex="-1"></a>: A filter is defined by its frequency response, not by its label. {#tbl-filter-taxonomy}</span>
 <span id="cb2-177"><a href="#cb2-177" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-178"><a href="#cb2-178" aria-hidden="true" tabindex="-1"></a>Hamilton <span class="co">[</span><span class="ot">@Hamilton1994, ch. 6</span><span class="co">]</span> and Priestley <span class="co">[</span><span class="ot">@Priestley1981</span><span class="co">]</span> provide the theoretical foundations. For macroeconomic cycle filters, see Baxter and King <span class="co">[</span><span class="ot">@BaxterKing1999</span><span class="co">]</span>, Christiano and Fitzgerald <span class="co">[</span><span class="ot">@ChristianoFitzgerald2003</span><span class="co">]</span>, and the critical discussion in Hamilton <span class="co">[</span><span class="ot">@Hamilton2018</span><span class="co">]</span>. The papers supplied with these notes are especially useful complements for reflecting on how filtering choices shape the object called a business cycle.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb2-178"><a href="#cb2-178" aria-hidden="true" tabindex="-1"></a><span class="fu">### Differencing and HP in the frequency domain</span></span>
+<span id="cb2-179"><a href="#cb2-179" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-180"><a href="#cb2-180" aria-hidden="true" tabindex="-1"></a>The first difference is $(1-L)X_t$. Its gain is</span>
+<span id="cb2-181"><a href="#cb2-181" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-182"><a href="#cb2-182" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-183"><a href="#cb2-183" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>1-e^{-i\omega}<span class="pp">|</span>^2=4\sin^2(\omega/2).</span>
+<span id="cb2-184"><a href="#cb2-184" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-185"><a href="#cb2-185" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-186"><a href="#cb2-186" aria-hidden="true" tabindex="-1"></a>It is exactly zero at $\omega=0$ and large near $\pi$: differencing is a high-pass filter. This is why it removes a stochastic trend, but also why it accentuates high-frequency measurement noise. “Making a series stationary” and “extracting a business cycle” are therefore different goals.</span>
+<span id="cb2-187"><a href="#cb2-187" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-188"><a href="#cb2-188" aria-hidden="true" tabindex="-1"></a>For the HP criterion introduced in @sec-ts-transformations, the trend’s gain and the cycle’s gain are, away from finite-sample endpoints,</span>
+<span id="cb2-189"><a href="#cb2-189" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-190"><a href="#cb2-190" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-191"><a href="#cb2-191" aria-hidden="true" tabindex="-1"></a>G_T(\omega)=\frac{1}{1+16\lambda\sin^4(\omega/2)},\qquad</span>
+<span id="cb2-192"><a href="#cb2-192" aria-hidden="true" tabindex="-1"></a>G_C(\omega)=\frac{16\lambda\sin^4(\omega/2)}{1+16\lambda\sin^4(\omega/2)}.</span>
+<span id="cb2-193"><a href="#cb2-193" aria-hidden="true" tabindex="-1"></a>$$ {#eq-hp-gain}</span>
+<span id="cb2-194"><a href="#cb2-194" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-195"><a href="#cb2-195" aria-hidden="true" tabindex="-1"></a>HP is consequently a smooth high-pass filter, not a literal 6–32-quarter band-pass filter. The conventional quarterly value $\lambda=1600$ encodes a particular cut-off, and changing data frequency requires changing $\lambda$ <span class="co">[</span><span class="ot">@RavnUhlig2002</span><span class="co">]</span>. The rule is transparent in @eq-hp-gain; it is not universally economically justified.</span>
+<span id="cb2-196"><a href="#cb2-196" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-197"><a href="#cb2-197" aria-hidden="true" tabindex="-1"></a><span class="fu">### Ideal filters and feasible approximations</span></span>
+<span id="cb2-198"><a href="#cb2-198" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-199"><a href="#cb2-199" aria-hidden="true" tabindex="-1"></a>An **ideal** band-pass filter would retain exactly the interval $\omega\in<span class="co">[</span><span class="ot">2\pi/32,2\pi/6</span><span class="co">]</span>$ and discard everything else. Its impulse-response weights extend infinitely far in both directions: it needs observations from the indefinite future and past. No finite sample can implement it exactly.</span>
+<span id="cb2-200"><a href="#cb2-200" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-201"><a href="#cb2-201" aria-hidden="true" tabindex="-1"></a>Baxter and King <span class="co">[</span><span class="ot">@BaxterKing1999</span><span class="co">]</span> approximate it with a finite, symmetric moving average. This has an appealing nearly zero phase shift but loses $K$ observations at each end for a $2K+1$-term filter. Christiano and Fitzgerald <span class="co">[</span><span class="ot">@ChristianoFitzgerald2003</span><span class="co">]</span> construct sample-specific weights that use all observations and are optimal under a random-walk benchmark, but the result is asymmetric near the ends and may be revised as new data arrive. Neither procedure discovers a cycle in the data; each approximates a chosen target response.</span>
+<span id="cb2-202"><a href="#cb2-202" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-203"><a href="#cb2-203" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning title="The endpoint problem is an economic problem"}</span>
+<span id="cb2-204"><a href="#cb2-204" aria-hidden="true" tabindex="-1"></a>The most policy-relevant dates are often the latest ones, exactly where two-sided filters are least reliable. A historical decomposition using the full sample is **ex post**: it can use information that was unavailable at the date in question. A real-time assessment must use one-sided filters, real-time data vintages, or explicitly show revisions. The disagreement in @fig-endpoint-revisions is not a numerical accident; it follows from the use of future data in the HP trend.</span>
+<span id="cb2-205"><a href="#cb2-205" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb2-206"><a href="#cb2-206" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-207"><a href="#cb2-207" aria-hidden="true" tabindex="-1"></a><span class="al">![The same real-GDP history produces different estimated cyclical components under HP, the Hamilton h-step regression, and a 6–32-quarter band-pass approximation. The comparison is deliberately empirical rather than a contest with a unique winner: each line answers a different filtering question. Data: U.S. real GDP (GDPC1), FRED; code and data download are reproducible in `code/python/make_frequency_figures.py`.](../figures/frequency/us-gdp-filter-comparison.png)</span>{#fig-gdp-filter-comparison}</span>
+<span id="cb2-208"><a href="#cb2-208" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-209"><a href="#cb2-209" aria-hidden="true" tabindex="-1"></a><span class="al">![A pseudo-real-time exercise: truncating the sample in 2019Q4 changes the HP estimate of the immediately preceding cycle. Later observations alter the estimate of the earlier state of the economy, demonstrating why endpoint uncertainty should be reported rather than hidden. Data: FRED GDPC1.](../figures/frequency/hp-endpoint-revisions.png)</span>{#fig-endpoint-revisions}</span>
+<span id="cb2-210"><a href="#cb2-210" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-211"><a href="#cb2-211" aria-hidden="true" tabindex="-1"></a><span class="fu">## An empirical workflow {#sec-frequency-workflow}</span></span>
+<span id="cb2-212"><a href="#cb2-212" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-213"><a href="#cb2-213" aria-hidden="true" tabindex="-1"></a>For a serious spectral or filtering exercise, the following order avoids the most common mistakes:</span>
+<span id="cb2-214"><a href="#cb2-214" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-215"><a href="#cb2-215" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**State the economic object first.** Is the question about long-run growth, short-run demand slack, seasonal variation, or a financial cycle? Choose the data frequency accordingly; a 6–32-quarter business-cycle band is not meaningful for annual data.</span>
+<span id="cb2-216"><a href="#cb2-216" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Document the transformation.** Plot levels and transformed data; deal with seasonal adjustment, breaks, and stationarity before interpreting low-frequency power.</span>
+<span id="cb2-217"><a href="#cb2-217" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Estimate rather than merely plot.** Report the sample period, detrending, taper, and smoothing bandwidth. Check whether apparent peaks survive reasonable choices.</span>
+<span id="cb2-218"><a href="#cb2-218" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Translate a filter into its gain and phase.** Report its cut-offs, order, and the observations lost or revised at the endpoints. Compare credible alternatives if the conclusion depends on the extraction rule.</span>
+<span id="cb2-219"><a href="#cb2-219" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**Separate description from identification.** A cycle extracted mechanically is not potential output, an output gap, or a causal shock without an additional model.</span>
+<span id="cb2-220"><a href="#cb2-220" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-221"><a href="#cb2-221" aria-hidden="true" tabindex="-1"></a>The code below gives a minimal, reproducible spectrum. The smoothing choice is exposed rather than delegated silently to a default.</span>
+<span id="cb2-222"><a href="#cb2-222" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-223"><a href="#cb2-223" aria-hidden="true" tabindex="-1"></a><span class="in">```{.python}</span></span>
+<span id="cb2-224"><a href="#cb2-224" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-225"><a href="#cb2-225" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> signal</span>
+<span id="cb2-226"><a href="#cb2-226" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-227"><a href="#cb2-227" aria-hidden="true" tabindex="-1"></a><span class="co"># y: stationary quarterly series, e.g. log-GDP growth or a justified residual</span></span>
+<span id="cb2-228"><a href="#cb2-228" aria-hidden="true" tabindex="-1"></a>frequencies, raw <span class="op">=</span> signal.periodogram(y <span class="op">-</span> y.mean(), fs<span class="op">=</span><span class="dv">1</span>, scaling<span class="op">=</span><span class="st">"density"</span>)</span>
+<span id="cb2-229"><a href="#cb2-229" aria-hidden="true" tabindex="-1"></a>frequencies, smooth <span class="op">=</span> signal.welch(</span>
+<span id="cb2-230"><a href="#cb2-230" aria-hidden="true" tabindex="-1"></a>    y <span class="op">-</span> y.mean(), fs<span class="op">=</span><span class="dv">1</span>, window<span class="op">=</span><span class="st">"hann"</span>, nperseg<span class="op">=</span><span class="bu">min</span>(<span class="dv">64</span>, <span class="bu">len</span>(y)),</span>
+<span id="cb2-231"><a href="#cb2-231" aria-hidden="true" tabindex="-1"></a>    noverlap<span class="op">=</span><span class="dv">32</span>, detrend<span class="op">=</span><span class="st">"constant"</span>, scaling<span class="op">=</span><span class="st">"density"</span></span>
+<span id="cb2-232"><a href="#cb2-232" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-233"><a href="#cb2-233" aria-hidden="true" tabindex="-1"></a>periods <span class="op">=</span> <span class="dv">1</span> <span class="op">/</span> frequencies[<span class="dv">1</span>:]       <span class="co"># quarters per cycle; omit frequency zero</span></span>
+<span id="cb2-234"><a href="#cb2-234" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb2-235"><a href="#cb2-235" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-236"><a href="#cb2-236" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip title="Reading the output"}</span>
+<span id="cb2-237"><a href="#cb2-237" aria-hidden="true" tabindex="-1"></a>Plotting against period is often more intuitive for macroeconomics, but reverses the usual frequency axis: long periods lie at low frequency. Do not read a local maximum mechanically. With quarterly samples of a few decades, the number of independent long cycles is small, and its apparent period can be very imprecise. Bootstrap bands or a parametric ARMA/state-space model are often more informative than a highly smoothed periodogram.</span>
+<span id="cb2-238"><a href="#cb2-238" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb2-239"><a href="#cb2-239" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-240"><a href="#cb2-240" aria-hidden="true" tabindex="-1"></a><span class="fu">## What filtering can and cannot answer {#sec-filtering-conclusion}</span></span>
+<span id="cb2-241"><a href="#cb2-241" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-242"><a href="#cb2-242" aria-hidden="true" tabindex="-1"></a>Frequency-domain analysis is powerful because it makes a modelling decision auditable: every linear filter has a gain, a phase, and an endpoint behaviour. It connects ARMA dynamics, detrending, seasonal adjustment, and cycle extraction through one common language.</span>
+<span id="cb2-243"><a href="#cb2-243" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-244"><a href="#cb2-244" aria-hidden="true" tabindex="-1"></a>Its limit is equally important. Spectral evidence is a description of the covariance structure of a particular transformed series. It neither separates supply from demand nor identifies structural shocks. A filtered GDP “gap” becomes an estimate of economic slack only after adding a model of potential output, capacity, labour-market frictions, and so on. Hamilton’s critique of routine HP use <span class="co">[</span><span class="ot">@Hamilton2018</span><span class="co">]</span> is therefore best read not as a ban on looking at cycles, but as a demand for explicit assumptions and honest uncertainty.</span>
+<span id="cb2-245"><a href="#cb2-245" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-246"><a href="#cb2-246" aria-hidden="true" tabindex="-1"></a><span class="fu">## Further reading</span></span>
+<span id="cb2-247"><a href="#cb2-247" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-248"><a href="#cb2-248" aria-hidden="true" tabindex="-1"></a>Hamilton <span class="co">[</span><span class="ot">@Hamilton1994, ch. 6</span><span class="co">]</span> and Priestley <span class="co">[</span><span class="ot">@Priestley1981</span><span class="co">]</span> provide the theoretical foundations. For macroeconomic cycle filters, see Baxter and King <span class="co">[</span><span class="ot">@BaxterKing1999</span><span class="co">]</span>, Christiano and Fitzgerald <span class="co">[</span><span class="ot">@ChristianoFitzgerald2003</span><span class="co">]</span>, and the critical discussion in Hamilton <span class="co">[</span><span class="ot">@Hamilton2018</span><span class="co">]</span>. The papers supplied with these notes are especially useful complements for reflecting on how filtering choices shape the object called a business cycle.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 <footer class="footer">
