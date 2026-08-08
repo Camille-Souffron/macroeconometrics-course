@@ -150,8 +150,7 @@ For a serious spectral or filtering exercise, the following order avoids the mos
 
 The code below gives a minimal, reproducible spectrum. The smoothing choice is exposed rather than delegated silently to a default.
 
-```{python}
-#| eval: false
+```{.python}
 import numpy as np
 from scipy import signal
 
