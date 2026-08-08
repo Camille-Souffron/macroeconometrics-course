@@ -41,6 +41,20 @@ $$
 
 Orthogonality, $a'b=0$, means that the directions have no linear overlap. This geometry is not decorative: least squares, principal components, and structural-shock orthogonalization are all problems of projection onto orthogonal directions.
 
+The useful abstraction is an **inner-product space**: a collection of objects that can be added, multiplied by scalars, and compared through a notion of angle and length. Ordinary vectors are the first example, but random variables with inner product $\langle X,Y\rangle=E[XY]$ form another. There, orthogonality means zero covariance after centring. This is why the language of projection works in both linear algebra and probability.
+
+### Subspaces, rank, and the information a matrix loses
+
+Start with a simple data problem. If two columns of a regression matrix are exact multiples of one another, changing the coefficient of the first column can be undone by changing the coefficient of the second. The data cannot distinguish the two effects. The issue is not computational inconvenience; it is absence of identification.
+
+The **column space** of $A$ is the span of its columns: every outcome $Ax$ that the transformation can generate. The **null space** is the set of inputs that disappear, $\{x:Ax=0\}$. The rank–nullity theorem says
+
+$$
+\mathrm{rank}(A)+\dim\mathcal N(A)=n,
+$$
+
+for an $m\times n$ matrix. Every missing rank dimension is a direction in which the input cannot be recovered. A square matrix is invertible precisely when its null space contains only zero, its rank is $n$, and its determinant is non-zero. These are different faces of the same fact.
+
 ### Matrices are transformations, not tables {#sec-matrices-transformations}
 
 A matrix is often introduced as a rectangular table of numbers. Its useful meaning is more active: an $m\times n$ matrix $A$ is a linear rule that takes each $n$-vector $x$ into an $m$-vector $Ax$. It can rotate, stretch, compress, shear, or project a space. The columns of $A$ are simply the images of the basis vectors.
@@ -50,6 +64,8 @@ A matrix is often introduced as a rectangular table of numbers. Its useful meani
 Matrix multiplication is composition of transformations. If $z=Bx$ and $y=Az$, then $y=(AB)x$: $B$ acts first, then $A$. The order matters because economic mechanisms need not commute. In a VAR, for example, multiplying the companion matrix repeatedly traces how today’s state propagates through future dates.
 
 The identity matrix $I$ leaves every vector unchanged. A transpose $A'$ exchanges rows and columns. A symmetric matrix satisfies $A=A'$; covariance matrices are the most important example. The **rank** of $A$ is the number of independent directions that survive its transformation. If rank is below $n$, some distinct input vectors produce the same output, so information has been lost.
+
+Rows and columns play different roles. The $j$th column describes what happens when only the $j$th input coordinate is activated; the $i$th row gives the weights used to construct output coordinate $i$. This makes matrix notation economical without making it mysterious. For a VAR, each row of a coefficient matrix is one equation, while each column traces how one lagged variable enters all equations.
 
 ### Systems, inversion, determinant, and projection
 
@@ -63,6 +79,17 @@ Inversion is a strong condition, not a routine operation. It fails when the colu
 
 The **determinant** of a square matrix gives a geometric test. In two dimensions, $|\det A|$ is the factor by which areas are scaled; in $n$ dimensions it scales volume. A determinant of zero means that an area or volume has been flattened into a lower-dimensional object, hence no inverse exists. The sign records an orientation reversal. Determinants are useful for theory, though numerical work normally solves $Ax=b$ directly rather than forming $A^{-1}$.
 
+For a two-equation system,
+
+$$
+\begin{pmatrix}a&b\\c&d\end{pmatrix}
+\begin{pmatrix}x_1\\x_2\end{pmatrix}
+=\begin{pmatrix}r_1\\r_2\end{pmatrix},
+\qquad \det A=ad-bc,
+$$
+
+the two equations are two lines. If $ad-bc\neq0$, they meet once. If it is zero, they are parallel or identical: no solution or infinitely many. **Gaussian elimination** generalises this picture. It uses row operations, which preserve the solution set, to expose pivots and reduce a system to triangular form. Numerically, QR or LU decompositions are preferred to explicit inversion because they are more stable.
+
 Many econometric systems have no exact solution because data contain noise: $X\beta\approx y$. Ordinary least squares chooses the coefficient vector whose fitted value $X\hat\beta$ is closest to $y$ in Euclidean distance. The residual $y-X\hat\beta$ is orthogonal to every column of $X$,
 
 $$
@@ -72,6 +99,17 @@ X'(y-X\hat\beta)=0,
 $$ {#eq-ols-projection}
 
 when $X$ has full column rank. Equation @eq-ols-projection is a projection theorem: regression decomposes data into the component explained by the regressors and an orthogonal remainder. It is not, by itself, a causal theorem.
+
+![OLS has two complementary readings. In a scatter plot it selects the line with the smallest sum of squared vertical residuals. In vector space it projects the data vector onto the column space generated by the regressors; the residual is perpendicular to that space.](../figures/mathematics/ols-geometry-projection.png){#fig-ols-geometry}
+
+The matrix derivation is short and worth knowing. Define the sum of squared residuals
+
+$$
+S(\beta)=(y-X\beta)'(y-X\beta)
+=y'y-2\beta'X'y+\beta'X'X\beta.
+$$
+
+Differentiating with respect to $\beta$ gives $\partial S/\partial\beta=-2X'y+2X'X\beta$. Setting the derivative to zero yields the **normal equations** $X'X\hat\beta=X'y$, and full column rank makes $X'X$ invertible. The second derivative is $2X'X$, positive definite under the same condition, so the stationary point is the unique minimum. The formula is a consequence of geometry, not an assumption about Gaussian errors.
 
 ### Eigenvalues: the directions a dynamic system recognises {#sec-eigenvalues-stability}
 
@@ -83,9 +121,21 @@ $$
 
 The scalar $\lambda$ is its **eigenvalue**. Along that direction, $A^hv=\lambda^h v$. In discrete time, $|\lambda|<1$ means decay, $|\lambda|>1$ explosion, and $|\lambda|=1$ persistence without decay. A negative eigenvalue flips the sign each period. A complex-conjugate pair creates rotation, so that trajectories oscillate; its modulus governs whether the oscillation is damped or amplified.
 
+Eigenvalues are obtained from the **characteristic equation** $\det(A-\lambda I)=0$. For a $2\times2$ matrix, the roots satisfy
+
+$$
+\lambda_1+\lambda_2=\mathrm{tr}(A),
+\qquad
+\lambda_1\lambda_2=\det(A),
+$$
+
+where $\mathrm{tr}(A)$ is the sum of diagonal elements. Trace records the total local self-feedback; determinant records the product of eigenvalues and the local area scaling. The discriminant decides whether the roots are real or complex. In a second-order scalar recurrence or a two-variable system, this gives a direct way to diagnose monotone adjustment, sign alternation, or oscillation before simulation.
+
 ![Two systems with complex eigenvalues. On the left, the modulus is below one and all trajectories spiral back to the origin. On the right, the modulus exceeds one and the same qualitative motion becomes explosive.](../figures/mathematics/matrix-stability-phase-portraits.png){#fig-matrix-stability}
 
 The matrix is stable precisely when its **spectral radius** $\rho(A)=\max_i|\lambda_i|$ is below one. This condition appears throughout the course: stationarity of a VAR, convergence of an impulse response, stability of a state-space model, and local determinacy of a linearized DSGE model. For a continuous-time system $\dot x_t=Ax_t$, the corresponding condition is $\mathrm{Re}(\lambda_i)<0$.
+
+The distinction between an eigenvalue and a singular value is worth retaining. Eigenvalues describe a square transformation acting repeatedly on its own state, hence stability. Singular values describe how much a general matrix stretches lengths in its most and least amplified directions. A non-normal matrix can have stable eigenvalues while producing large temporary amplification; this matters for short-horizon responses even when long-run stability holds.
 
 For a nonlinear law $x_{t+1}=g(x_t)$, a steady state $x^*$ satisfies $g(x^*)=x^*$. Near it,
 
@@ -129,6 +179,15 @@ The formal object is a probability space $(\Omega,\mathcal F,\mathbb P)$. The co
 
 This small dose of measure theory is the foundation, not an obstacle course. It makes the following objects precise: conditional expectation, likelihoods, stochastic processes, and convergence in probability. In most applied work, the central question is simpler: which probability law plausibly generated the variable we observe?
 
+Probability obeys three rules. It assigns zero to the impossible event and one to the whole sample space; it is non-negative; and it adds over mutually exclusive events. From these rules follow familiar identities:
+
+$$
+\Pr(A^c)=1-\Pr(A),\qquad
+\Pr(A\cup B)=\Pr(A)+\Pr(B)-\Pr(A\cap B).
+$$
+
+The subtraction prevents double-counting outcomes which belong to both events. Events are **independent** when $\Pr(A\cap B)=\Pr(A)\Pr(B)$. Independence is a statement about the full joint probability law, not merely zero correlation. It is much stronger than “no linear relationship.”
+
 ### Distribution, expectation, variance, and conditioning
 
 A distribution tells us how probability is allocated. For a discrete variable, $Pr(X=x)$ can be positive. For a continuous variable with density $f_X$, individual points have probability zero and intervals have probability
@@ -139,6 +198,41 @@ $$
 
 The expectation is a probability-weighted average, $E[X]=\sum_xxp(x)$ or $E[X]=\int xf_X(x)dx$. It need not be an outcome that will occur; it is the centre of a probability law. Variance $\mathrm{Var}(X)=E[(X-E[X])^2]$ measures dispersion. Covariance $\mathrm{Cov}(X,Y)$ records joint linear variation, and correlation rescales it to lie between minus one and one.
 
+Variance has a concrete unit. If GDP growth is measured in percentage points, its variance is measured in squared percentage points, which is hard to read. The **standard deviation** $\sigma=\sqrt{\mathrm{Var}(X)}$ returns to the original unit. A standard deviation of two percentage points means that a typical draw lies on a scale of two percentage points around the mean. It does not mean that every draw lies in that interval, nor that a large realization is impossible.
+
+Four summaries are especially useful when a distribution is not fully specified:
+
+$$
+\begin{aligned}
+\text{mean:}&\quad \mu=E[X],\\
+\text{variance:}&\quad \sigma^2=E[(X-\mu)^2],\\
+\text{skewness:}&\quad E[(X-\mu)^3]/\sigma^3,\\
+\text{kurtosis:}&\quad E[(X-\mu)^4]/\sigma^4.
+\end{aligned}
+$$
+
+The first moment locates a distribution; the second records its spread; the third records asymmetry; the fourth records the weight in its tails and centre. A right-skewed income distribution has rare large values that pull its mean above its median. A heavy-tailed return distribution makes extreme observations more common than a Normal approximation predicts. Moments are summaries, not a substitute for plotting the distribution itself.
+
+![The first four moments answer distinct questions. Location and dispersion can change while symmetry remains; two distributions can have the same first two moments yet differ sharply in asymmetry or tail risk.](../figures/mathematics/distribution-four-moments.png){#fig-distribution-moments}
+
+### Elementary probability laws begin with economic situations
+
+The **Bernoulli** law describes one yes-or-no event: a firm defaults, a respondent is employed, a recession occurs. If $X\sim\mathrm{Bernoulli}(p)$, then $\Pr(X=1)=p$, $E[X]=p$, and $\mathrm{Var}(X)=p(1-p)$. The **Binomial** law counts successes in $n$ independent Bernoulli trials. It is appropriate for a fixed number of opportunities, such as defaults in a homogeneous portfolio under a simple benchmark.
+
+The **Poisson** law counts events in a fixed interval when events arrive independently at a constant average rate: insurance claims per month or rare operational failures. Its defining feature is $E[X]=\mathrm{Var}(X)=\lambda$. The equality is often empirically restrictive: extra dispersion signals heterogeneity, contagion, or omitted dynamics.
+
+The **Exponential** law describes a waiting time until the next Poisson arrival. With rate $\lambda$, its density is $f(x)=\lambda e^{-\lambda x}$ for $x\geq0$, mean $1/\lambda$, and survival probability $\Pr(X>x)=e^{-\lambda x}$. Its memoryless property,
+
+$$
+\Pr(X>s+t\mid X>s)=\Pr(X>t),
+$$
+
+means that surviving until today does not change the expected remaining wait. That is plausible for a constant-hazard benchmark, but not for unemployment duration, firm failure, or credit distress when duration changes the hazard.
+
+![Discrete laws assign probability to countable outcomes; the Exponential law assigns density over waiting times. The graphs show why a density’s height is not itself a probability: probability is an area under the curve.](../figures/mathematics/basic-distributions.png){#fig-basic-distributions}
+
+The Normal law deserves special care. It is symmetric, determined by mean and variance, and mathematically convenient. It is not a default description of all economic uncertainty. It arises exactly in some models and approximately for properly aggregated quantities through the CLT. Counts, waiting times, bounded probabilities, and heavy-tailed financial returns often call for other laws.
+
 Conditional probability updates a description after information arrives. If $B$ has positive probability, $\Pr(A\mid B)=\Pr(A\cap B)/\Pr(B)$. Conditional expectation $E[X\mid\mathcal I]$ is the best mean-square prediction of $X$ using the information set $\mathcal I$. The law of iterated expectations,
 
 $$
@@ -146,6 +240,14 @@ E\big[E(X\mid\mathcal I)\big]=E[X],
 $$
 
 is the logic behind forecasts, regressions, and filtering.
+
+Bayes’ rule already follows from the definition of conditioning:
+
+$$
+\Pr(A\mid B)=\frac{\Pr(B\mid A)\Pr(A)}{\Pr(B)}.
+$$
+
+The same identity later updates a prior on a parameter after observing data. The law of total probability, $\Pr(B)=\sum_j\Pr(B\mid A_j)\Pr(A_j)$ for a partition $(A_j)$, supplies its denominator. The algebra is elementary; the difficulty in applications lies in choosing the events, the model, and the relevant information set.
 
 ### Probability is not statistics {#sec-probability-versus-statistics}
 
@@ -175,6 +277,25 @@ The parent distribution need not be Normal. Averages of many finite-variance con
 
 Time series are not i.i.d., so the theorem cannot simply be invoked. Stationarity, ergodicity, and sufficiently weak dependence replace independence in time-series LLNs and CLTs. Persistent data contain less independent information than equally many independent observations, which is why naive standard errors are too small in serially correlated settings.
 
+### Convergence is a language for increasingly informative samples
+
+Asymptotics do not say that a finite sample is infinite. They provide a controlled approximation by describing what happens along a sequence of larger samples. Three forms of convergence recur throughout econometrics:
+
+- $X_n\xrightarrow{p}X$, **convergence in probability**: for any fixed tolerance, the probability of being farther away than that tolerance tends to zero. Consistency is this property with $X=\theta_0$.
+- $X_n\xrightarrow{d}X$, **convergence in distribution**: the distribution functions converge at continuity points. The CLT is of this kind. It permits approximation of quantiles and rejection probabilities, but does not say that the realised values become close path by path.
+- $X_n\xrightarrow{a.s.}X$, **almost sure convergence**: with probability one, a realized sequence eventually approaches $X$. It is stronger than convergence in probability and is a natural formalization of a long-run average settling down along one path.
+
+Two results make these statements usable. The **continuous mapping theorem** says that if $X_n\to X$ and $g$ is continuous, then $g(X_n)\to g(X)$. **Slutsky’s theorem** says that a consistent estimated nuisance quantity can replace its population counterpart in a limiting distribution: if $X_n\xrightarrow{d}X$ and $Y_n\xrightarrow{p}c$, then $X_nY_n\xrightarrow{d}cX$. Studentising a mean by an estimated standard deviation is the familiar example.
+
+The **delta method** linearises a smooth transformation. If $\sqrt n(\hat\theta-\theta_0)\xrightarrow{d}\mathcal N(0,V)$ and $g$ is differentiable, then
+
+$$
+\sqrt n\big(g(\hat\theta)-g(\theta_0)\big)
+\xrightarrow{d}\mathcal N\big(0,\nabla g(\theta_0)'V\nabla g(\theta_0)\big).
+$$ {#eq-delta-method}
+
+For a scalar $g$, this is the familiar rule $\mathrm{Var}(g(\hat\theta))\approx[g'(\theta_0)]^2\mathrm{Var}(\hat\theta)$. It produces standard errors for elasticities, ratios, correlations, long-run multipliers, and impulse-response transformations. The approximation can fail near a boundary, a kink, or a weakly identified denominator; differentiability is doing real work.
+
 ### Why Normal, Student, chi-square, and Fisher distributions appear {#sec-sampling-distributions}
 
 These distributions are not an arbitrary taxonomy. They arise from different unknown pieces of a model.
@@ -201,6 +322,69 @@ $$
 where $\mathcal I$ is information. This asymptotic statement supplies standard errors, confidence intervals, Wald tests, score tests, and likelihood-ratio tests.
 
 A 95 percent confidence interval is a procedure which covers the fixed true parameter in 95 percent of repeated samples under the model. A $p$-value is the probability, under a specified null hypothesis, of a statistic at least as incompatible with that null as the realized one. Neither is the probability that the parameter or hypothesis itself is true.
+
+### OLS as an inferential model, not only a minimisation problem {#sec-ols-assumptions}
+
+The projection in @eq-ols-projection exists with few assumptions. Interpreting $\hat\beta$ as evidence about an economic relation requires more. Write the linear model as
+
+$$
+y=X\beta+u,\qquad X=(x_1',\ldots,x_T')'.
+$$ {#eq-ols-model}
+
+Here “linear” means linear in the unknown coefficients, not necessarily linear in observed variables: $y=\beta_0+\beta_1x+\beta_2x^2+u$ is linear in $\beta$. The usual assumptions can be separated by what they buy us.
+
+| Assumption | Technical statement | Economic reading | If relaxed |
+|-|-|-|-|
+| Correct conditional mean | $E[u\mid X]=0$ | regressors contain no systematically omitted force moving $y$ | omitted variables, simultaneity, selection, or measurement error can bias and invalidate consistency |
+| No exact collinearity | $X'X$ invertible | the sample contains independent variation in each regressor | coefficients are not separately identified |
+| Finite, well-behaved moments | $E\|x_tu_t\|^2<\infty$ | no observation dominates the sample permanently | LLN and CLT can fail or converge slowly |
+| Homoskedasticity | $\mathrm{Var}(u\mid X)=\sigma^2I$ | conditional uncertainty is constant and uncorrelated across observations | OLS remains conditionally unbiased under exogeneity, but classical standard errors and efficiency fail |
+| Independent observations | observations are independent conditional on $X$ | one observation gives no residual information about another | serial, spatial, or cluster dependence requires adapted inference |
+| Normal errors, when invoked | $u\mid X\sim\mathcal N(0,\sigma^2I)$ | a fully specified finite-sample error law | not needed for OLS consistency; exact small-sample $t$ and $F$ results no longer follow |
+
+The first two assumptions govern identification. Homoskedasticity and Normality do not repair endogeneity. Conversely, a non-Normal but exogenous, sufficiently regular error can still support large-sample inference. This hierarchy prevents a common mistake: treating a normality test as if it validated a causal regression.
+
+Substituting @eq-ols-model into the OLS formula gives the estimator’s basic decomposition,
+
+$$
+\hat\beta-\beta=(X'X)^{-1}X'u.
+$$ {#eq-ols-error-decomposition}
+
+Conditional mean zero implies $E[\hat\beta\mid X]=\beta$. Under spherical errors, its conditional variance is
+
+$$
+\mathrm{Var}(\hat\beta\mid X)=\sigma^2(X'X)^{-1}.
+$$ {#eq-ols-variance}
+
+The Gauss–Markov theorem says that among linear unbiased estimators, OLS has the smallest variance under these spherical-error assumptions. With heteroskedasticity, the correct asymptotic covariance takes the sandwich form,
+
+$$
+(X'X)^{-1}\left(\sum_{t=1}^T x_tx_t'\hat u_t^2\right)(X'X)^{-1},
+$$
+
+up to the relevant $T$ scaling. HAC estimators extend this middle term to serially correlated residuals. Clustered estimators allow arbitrary dependence within a cluster. These corrections address the uncertainty calculation, not the bias caused by $E[u\mid X]\neq0$.
+
+### Confidence intervals and tests are constructed from a reference distribution
+
+To test $H_0:\beta_j=\beta_{j,0}$ against a two-sided alternative $H_1:\beta_j\neq\beta_{j,0}$, first choose a statistic that would be near zero if $H_0$ were true,
+
+$$
+t=\frac{\hat\beta_j-\beta_{j,0}}{\mathrm{se}(\hat\beta_j)}.
+$$
+
+Under the null and the maintained assumptions, this statistic has either an exact Student distribution in the Gaussian finite-sample model or an approximately Normal distribution asymptotically. A significance level $\alpha$, often .05, is chosen *before* seeing the statistic. The rejection region is selected so that $\Pr(\text{reject }H_0\mid H_0)\leq\alpha$. This is the **Type I error** or false-alarm probability.
+
+If $H_1$ is true, failure to reject is a **Type II error**. Its probability is $\beta$; power is $1-\beta$. Power rises with sample size, signal size, regressor variation, and lower noise. A non-significant estimate can mean “no economically relevant effect,” but it can also mean that the data are too imprecise to distinguish the effect from zero. Report the interval, not only the star.
+
+![A significance test compares the realised statistic with a distribution implied by the null. Choosing a five-percent rejection region controls the false-alarm probability, while the overlap with an alternative distribution determines the chance of missing an existing effect.](../figures/mathematics/hypothesis-testing-errors.png){#fig-hypothesis-testing}
+
+A two-sided $(1-\alpha)$ confidence interval,
+
+$$
+\hat\beta_j\pm c_{1-\alpha/2}\,\mathrm{se}(\hat\beta_j),
+$$
+
+contains exactly the parameter values not rejected by the corresponding two-sided test. Its width is an estimand-relevant measure of precision. Statistical significance is therefore not effect size, economic importance, or model validity.
 
 ## Stochastic processes: probability arranged through time {#sec-stochastic-processes-foundations}
 
