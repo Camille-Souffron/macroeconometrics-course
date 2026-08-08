@@ -44,6 +44,8 @@ $$ {#eq-var-def}
 where $c$ is a deterministic intercept vector, each $A_i$ is a $k \times k$ autoregressive coefficient matrix, $x_t$ is an optional $r \times 1$ vector of exogenous controls with coefficient matrix $B \in \mathbb{R}^{k \times r}$ (a "VARX" when included), and $u_t$ are reduced-form innovations with $u_t \sim (0, \Sigma_u)$. Each variable depends on its own lags *and* on the lags of every other variable; all variables are treated symmetrically, with no *a priori* endogenous/exogenous distinction imposed.
 :::
 
+This standard formulation is primarily a model for conditional means and second moments. When the question is instead about the joint conditional distribution, tail co-movement, or a response that changes the whole forecast distribution, the distributional VAR extension is developed in @sec-distributional-var.
+
 ::: {.callout-tip title="Example: a 3-variable VARX(1)"}
 Let the endogenous vector be $y_t = (g_t, \pi_t, i_t)'$ - GDP growth, inflation, and the interest rate - and the exogenous controls be $x_t = (\Delta \text{Oil}_t, \text{Policy}_t)'$, so $r = 2$. A VARX(1) is $y_t = c + A_1 y_{t-1} + B x_t + u_t$ with $c \in \mathbb{R}^{3 \times 1}$, $A_1 \in \mathbb{R}^{3 \times 3}$, $B \in \mathbb{R}^{3 \times 2}$. Written out equation by equation:
 

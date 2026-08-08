@@ -14,6 +14,7 @@ from urllib.request import urlopen
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+from matplotlib.patches import FancyBboxPatch
 from scipy.optimize import linprog
 
 
@@ -266,6 +267,42 @@ def backtest_figure(frame):
     plt.close(fig)
 
 
+def distributional_var_diagram():
+    """A course-native map from marginal distribution models to a DIRF."""
+    fig, axes = plt.subplots(1, 2, figsize=(11.5, 4.35), gridspec_kw={"width_ratios": [1.15, 1]})
+    ax = axes[0]
+    ax.set(xlim=(0, 10), ylim=(0, 6.2)); ax.axis("off")
+
+    def box(x, y, text, colour):
+        patch = FancyBboxPatch((x, y), 2.5, .85, boxstyle="round,pad=.08", facecolor=colour, edgecolor="#333333", linewidth=1)
+        ax.add_patch(patch)
+        ax.text(x + 1.25, y + .425, text, ha="center", va="center", fontsize=9)
+
+    box(.3, 4.55, r"lags $Z_t$", "#e5e5e5")
+    box(3.6, 4.55, r"$F_{Y_1\mid Z}$", "#d1e5f0")
+    box(3.6, 2.3, r"$F_{Y_2\mid Y_1,Z}$", "#fddbc7")
+    box(7.0, 3.42, r"joint $F_{Y\mid Z}$", "#d9f0d3")
+    for start, end in [((2.85, 4.98), (3.55, 4.98)), ((6.15, 4.85), (6.95, 3.95)), ((6.15, 2.72), (6.95, 3.82)), ((4.85, 4.48), (4.85, 3.2))]:
+        ax.annotate("", xy=end, xytext=start, arrowprops={"arrowstyle": "->", "lw": 1.4, "color": "#333333"})
+    ax.text(4.85, 3.75, r"sample $Y_1$", ha="center", va="center", fontsize=8.2)
+    ax.text(5, .75, "Factorise the joint distribution, then simulate coherent joint draws.", ha="center", fontsize=9.2)
+    ax.set_title("From marginal conditional CDFs to a joint forecast", fontsize=11)
+
+    ax = axes[1]
+    grid = np.linspace(-3.2, 3.2, 400)
+    baseline = 1 / (1 + np.exp(-1.25 * grid))
+    counterfactual = 1 / (1 + np.exp(-1.25 * (grid + .8)))
+    ax.plot(grid, baseline, color=BLUE, lw=2.3, label=r"baseline $F_{t+h\mid Z_t}$")
+    ax.plot(grid, counterfactual, color=RED, lw=2.3, label=r"counterfactual $F^*_{t+h\mid Z_t}$")
+    ax.fill_between(grid, baseline, counterfactual, where=counterfactual >= baseline, color=PURPLE, alpha=.16, label=r"difference: DIR$_h$")
+    ax.axhline(.05, color=GREY, lw=.8, ls=":")
+    ax.set(xlabel="future outcome", ylabel="conditional CDF", ylim=(0, 1), title="A distributional response is a difference between CDFs")
+    ax.legend(frameon=True, fontsize=8.1, loc="upper left")
+    fig.tight_layout()
+    fig.savefig(FIGURES / "distributional-var-factorization.png", bbox_inches="tight")
+    plt.close(fig)
+
+
 def main():
     frame = prepare_data()
     beta = fit_grid(frame)
@@ -276,6 +313,7 @@ def main():
     fan_chart_figure(frame, beta)
     term_structure_figure(frame)
     backtest_figure(frame)
+    distributional_var_diagram()
     print(f"saved {len(frame)} observations to {DATA}")
 
 
