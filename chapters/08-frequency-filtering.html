@@ -358,6 +358,7 @@ window.Quarto = {
   </ul></li>
   <li><a href="#sec-linear-filters" id="toc-sec-linear-filters" class="nav-link" data-scroll-target="#sec-linear-filters"><span class="header-section-number">3.3</span> Linear filters as frequency-dependent weights</a>
   <ul class="collapse">
+  <li><a href="#sec-why-filter" id="toc-sec-why-filter" class="nav-link" data-scroll-target="#sec-why-filter">Why filter at all?</a></li>
   <li><a href="#the-transfer-function" id="toc-the-transfer-function" class="nav-link" data-scroll-target="#the-transfer-function">The transfer function</a></li>
   <li><a href="#differencing-and-hp-in-the-frequency-domain" id="toc-differencing-and-hp-in-the-frequency-domain" class="nav-link" data-scroll-target="#differencing-and-hp-in-the-frequency-domain">Differencing and HP in the frequency domain</a></li>
   <li><a href="#ideal-filters-and-feasible-approximations" id="toc-ideal-filters-and-feasible-approximations" class="nav-link" data-scroll-target="#ideal-filters-and-feasible-approximations">Ideal filters and feasible approximations</a></li>
@@ -521,7 +522,7 @@ f_X(\omega)=\frac{\sigma_\varepsilon^2}{2\pi}
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The standard stationary spectrum is a property of an <span class="math inline">\(I(0)\)</span> process. A level series with a unit root has an enormous and sample-dependent mass near frequency zero; a trend can masquerade as a low-frequency cycle. First decide whether the economic object is a level, a growth rate, a detrended series, or a filtered component. The transformation is part of the estimand, not cosmetic pre-processing.</p>
+<p>Everything in this chapter’s ordinary spectral analysis is built on <strong>weak (covariance) stationarity</strong>: a constant mean and a covariance <span class="math inline">\(\gamma(h)\)</span> that depends only on the lag. In practice the target therefore has to be <span class="math inline">\(I(0)\)</span> after a justified transformation. A level series with a unit root has an enormous and sample-dependent mass near frequency zero; a trend can masquerade as a low-frequency cycle. First decide whether the economic object is a level, a growth rate, a detrended series, or a filtered component. The transformation is part of the estimand, not cosmetic pre-processing. Cross-spectra and coherence additionally require the pair of series to be <em>jointly</em> covariance stationary.</p>
 </div>
 </div>
 </section>
@@ -578,6 +579,29 @@ Figure&nbsp;3.4: A reproducible illustration using U.S. business-sector hours an
 </section>
 <section id="sec-linear-filters" class="level2" data-number="3.3">
 <h2 data-number="3.3" class="anchored" data-anchor-id="sec-linear-filters"><span class="header-section-number">3.3</span> Linear filters as frequency-dependent weights</h2>
+<section id="sec-why-filter" class="level3">
+<h3 class="anchored" data-anchor-id="sec-why-filter">Why filter at all?</h3>
+<p>Filtering begins with an economic question, not a software command. Macroeconomic levels mix movements that occur on radically different horizons: a slow rise in productivity or population, a recession, a seasonal pattern, a measurement error, and possibly a financial boom. The aim is to construct a series that matches the object one wants to analyse. There are three very different tasks which are too often collapsed into “remove the trend”:</p>
+<ol type="1">
+<li><strong>Making a statistical model admissible.</strong> ARMA, VAR, and the ordinary spectral density above need a covariance-stationary object. Differencing a unit-root level, or removing a well-supported deterministic trend, can produce such an <span class="math inline">\(I(0)\)</span> series. The goal is valid inference about a specified process, not an estimate of potential output.</li>
+<li><strong>Describing cyclical fluctuations.</strong> A researcher may want a dated account of medium-run expansions and contractions. A band-pass or high-pass filter then defines which periodicities are called “cycle.” This is descriptive, and can be useful, but the frequency band is an assumption.</li>
+<li><strong>Measuring an economically structural latent object.</strong> Calling the remainder an “output gap,” a demand shortfall, or a fall in potential output is much stronger. It requires a model of technology, capacity, labour supply, inflation, or other structural restrictions. A univariate statistical filter alone does not supply them.</li>
+</ol>
+<p>The distinction is consequential in a crisis. If a smooth trend is allowed to fall with observed GDP, a persistent slump is recorded partly as a <strong>structural</strong> loss of potential output. If the trend is held nearly fixed, the same shortfall is recorded chiefly as a large <strong>conjunctural</strong> output gap. Neither conclusion is contained in the GDP series by itself. The filter places a prior on how quickly potential output is allowed to move.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="There is no data-only trend-cycle decomposition">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>There is no data-only trend-cycle decomposition
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Writing <span class="math inline">\(Y_t=T_t+C_t\)</span> creates two unknown series from one observation at every date. Without restrictions, there are infinitely many decompositions. A filter supplies those restrictions: smoothness for HP, a pass band for BK/CF, an ARIMA benchmark for CF, or a state equation and signal-to-noise ratio for a Kalman filter. Filtering is thus an explicit modelling choice, and its parameters must be reported with the result.</p>
+</div>
+</div>
+</section>
 <section id="the-transfer-function" class="level3">
 <h3 class="anchored" data-anchor-id="the-transfer-function">The transfer function</h3>
 <p>A two-sided linear time-invariant filter is</p>
@@ -653,7 +677,31 @@ Table&nbsp;3.1: A filter is defined by its frequency response, not by its label.
 G_T(\omega)=\frac{1}{1+16\lambda\sin^4(\omega/2)},\qquad
 G_C(\omega)=\frac{16\lambda\sin^4(\omega/2)}{1+16\lambda\sin^4(\omega/2)}.
 \tag{3.11}\]</span></span></p>
-<p>HP is consequently a smooth high-pass filter, not a literal 6–32-quarter band-pass filter. The conventional quarterly value <span class="math inline">\(\lambda=1600\)</span> encodes a particular cut-off, and changing data frequency requires changing <span class="math inline">\(\lambda\)</span> <span class="citation" data-cites="RavnUhlig2002">(<a href="../references.html#ref-RavnUhlig2002" role="doc-biblioref">Ravn and Uhlig 2002</a>)</span>. The rule is transparent in <a href="#eq-hp-gain" class="quarto-xref">Equation&nbsp;<span>3.11</span></a>; it is not universally economically justified.</p>
+<p>HP is consequently a smooth high-pass filter, not a literal 6–32-quarter band-pass filter. Crucially, its parameter is a <em>choice</em>. At <span class="math inline">\(\lambda=0\)</span>, the fitted trend is exactly <span class="math inline">\(T_t=Y_t\)</span> and the cycle is zero: <strong>everything is trend</strong>. As <span class="math inline">\(\lambda\to\infty\)</span>, the fitted trend approaches a straight line: all departures from that line are <strong>cycle</strong>. The conventional quarterly value <span class="math inline">\(\lambda=1600\)</span> is one intermediate prior, not a result selected by the data; changing data frequency requires changing it <span class="citation" data-cites="RavnUhlig2002">(<a href="../references.html#ref-RavnUhlig2002" role="doc-biblioref">Ravn and Uhlig 2002</a>)</span>.</p>
+<div id="fig-hp-lambda-sensitivity" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-hp-lambda-sensitivity-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figures/frequency/hp-lambda-sensitivity.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-hp-lambda-sensitivity-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.5: The same log real-GDP series, 2000 onward, under three HP smoothness choices. A low <span class="math inline">\(\lambda\)</span> lets “trend” follow the recession and recovery closely, shrinking the estimated gap; a high <span class="math inline">\(\lambda\)</span> holds potential nearly linear, enlarging and prolonging the estimated cyclical shortfall. The omitted limiting cases sharpen the point: at <span class="math inline">\(\lambda=0\)</span> there is no cycle, while as <span class="math inline">\(\lambda\to\infty\)</span> every non-linear movement is cycle. Data: FRED GDPC1; code: <code>code/python/make_frequency_figures.py</code>.
+</figcaption>
+</figure>
+</div>
+<p>Hamilton <span class="citation" data-cites="Hamilton2018">(<a href="../references.html#ref-Hamilton2018" role="doc-biblioref">Hamilton 2018</a>)</span> shows why this discretion is not the only concern. First, the conventional HP filter induces a particular oscillatory dynamic relation even when it is applied to data whose underlying changes are close to unpredictable: apparent persistence, cross-correlation, and “cycles” can be properties of the filter rather than of the data-generating process. Second, the two-sided estimate of <span class="math inline">\(T_t\)</span> uses future observations. An ex post HP decomposition can therefore label a crash temporary after observing a later recovery, whereas a real-time observer would have judged much more of it permanent. Finally, a likelihood-based interpretation of the HP state-space model would estimate the signal-to-noise ratio rather than assume 1,600; Hamilton finds that data-coherent values can be far smaller. His practical alternative for quarterly data is a regression of <span class="math inline">\(Y_{t+8}\)</span> on a constant and the four most recent observations, using an 8-quarter forecast residual as the cyclical component.</p>
+<div class="callout callout-style-default callout-warning callout-titled" title="Do not infer the nature of a crisis from one HP line">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Do not infer the nature of a crisis from one HP line
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>An HP decomposition cannot decide whether a recession is a demand-driven, temporary shortfall or a permanent supply-side loss. If the policy question is precisely this distinction, report the sensitivity to <span class="math inline">\(\lambda\)</span>, use real-time vintages and one-sided estimates, and bring in structural evidence such as inflation, unemployment, capacity use, productivity, and a model with an explicit potential-output concept. The line labelled “trend” is an estimate conditional on those assumptions, not observed potential GDP.</p>
+</div>
+</div>
 </section>
 <section id="ideal-filters-and-feasible-approximations" class="level3">
 <h3 class="anchored" data-anchor-id="ideal-filters-and-feasible-approximations">Ideal filters and feasible approximations</h3>
@@ -669,7 +717,7 @@ G_C(\omega)=\frac{16\lambda\sin^4(\omega/2)}{1+16\lambda\sin^4(\omega/2)}.
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The most policy-relevant dates are often the latest ones, exactly where two-sided filters are least reliable. A historical decomposition using the full sample is <strong>ex post</strong>: it can use information that was unavailable at the date in question. A real-time assessment must use one-sided filters, real-time data vintages, or explicitly show revisions. The disagreement in <a href="#fig-endpoint-revisions" class="quarto-xref">Figure&nbsp;<span>3.6</span></a> is not a numerical accident; it follows from the use of future data in the HP trend.</p>
+<p>The most policy-relevant dates are often the latest ones, exactly where two-sided filters are least reliable. A historical decomposition using the full sample is <strong>ex post</strong>: it can use information that was unavailable at the date in question. A real-time assessment must use one-sided filters, real-time data vintages, or explicitly show revisions. The disagreement in <a href="#fig-endpoint-revisions" class="quarto-xref">Figure&nbsp;<span>3.7</span></a> is not a numerical accident; it follows from the use of future data in the HP trend.</p>
 </div>
 </div>
 <div id="fig-gdp-filter-comparison" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -678,7 +726,7 @@ G_C(\omega)=\frac{16\lambda\sin^4(\omega/2)}{1+16\lambda\sin^4(\omega/2)}.
 <img src="../figures/frequency/us-gdp-filter-comparison.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-gdp-filter-comparison-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3.5: The same real-GDP history produces different estimated cyclical components under HP, the Hamilton h-step regression, and a 6–32-quarter band-pass approximation. The comparison is deliberately empirical rather than a contest with a unique winner: each line answers a different filtering question. Data: U.S. real GDP (GDPC1), FRED; code and data download are reproducible in <code>code/python/make_frequency_figures.py</code>.
+Figure&nbsp;3.6: The same real-GDP history produces different estimated cyclical components under HP, the Hamilton h-step regression, and a 6–32-quarter band-pass approximation. The comparison is deliberately empirical rather than a contest with a unique winner: each line answers a different filtering question. Data: U.S. real GDP (GDPC1), FRED; code and data download are reproducible in <code>code/python/make_frequency_figures.py</code>.
 </figcaption>
 </figure>
 </div>
@@ -688,7 +736,7 @@ Figure&nbsp;3.5: The same real-GDP history produces different estimated cyclical
 <img src="../figures/frequency/hp-endpoint-revisions.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-endpoint-revisions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3.6: A pseudo-real-time exercise: truncating the sample in 2019Q4 changes the HP estimate of the immediately preceding cycle. Later observations alter the estimate of the earlier state of the economy, demonstrating why endpoint uncertainty should be reported rather than hidden. Data: FRED GDPC1.
+Figure&nbsp;3.7: A pseudo-real-time exercise: truncating the sample in 2019Q4 changes the HP estimate of the immediately preceding cycle. Later observations alter the estimate of the earlier state of the economy, demonstrating why endpoint uncertainty should be reported rather than hidden. Data: FRED GDPC1.
 </figcaption>
 </figure>
 </div>
@@ -1347,7 +1395,7 @@ Strohsal, Till, Christian R. Proaño, and Jürgen Wolters. 2019. <span>“Assess
 <span id="cb2-102"><a href="#cb2-102" aria-hidden="true" tabindex="-1"></a>Estimating the ARMA coefficients pools information across frequencies and supplies a smooth spectrum, but moves the risk to specification error. The practical complement is transparent non-parametric evidence, sensitivity to the sample, and confidence intervals or bootstrap tests, as in the supplied papers.</span>
 <span id="cb2-103"><a href="#cb2-103" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-104"><a href="#cb2-104" aria-hidden="true" tabindex="-1"></a>::: {.callout-important title="Before estimating a spectrum"}</span>
-<span id="cb2-105"><a href="#cb2-105" aria-hidden="true" tabindex="-1"></a>The standard stationary spectrum is a property of an $I(0)$ process. A level series with a unit root has an enormous and sample-dependent mass near frequency zero; a trend can masquerade as a low-frequency cycle. First decide whether the economic object is a level, a growth rate, a detrended series, or a filtered component. The transformation is part of the estimand, not cosmetic pre-processing.</span>
+<span id="cb2-105"><a href="#cb2-105" aria-hidden="true" tabindex="-1"></a>Everything in this chapter's ordinary spectral analysis is built on **weak (covariance) stationarity**: a constant mean and a covariance $\gamma(h)$ that depends only on the lag. In practice the target therefore has to be $I(0)$ after a justified transformation. A level series with a unit root has an enormous and sample-dependent mass near frequency zero; a trend can masquerade as a low-frequency cycle. First decide whether the economic object is a level, a growth rate, a detrended series, or a filtered component. The transformation is part of the estimand, not cosmetic pre-processing. Cross-spectra and coherence additionally require the pair of series to be *jointly* covariance stationary.</span>
 <span id="cb2-106"><a href="#cb2-106" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb2-107"><a href="#cb2-107" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-108"><a href="#cb2-108" aria-hidden="true" tabindex="-1"></a><span class="fu">### Cross-spectrum, coherence, and phase: co-movement by frequency {#sec-cross-spectrum}</span></span>
@@ -1395,102 +1443,124 @@ Strohsal, Till, Christian R. Proaño, and Jürgen Wolters. 2019. <span>“Assess
 <span id="cb2-150"><a href="#cb2-150" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-151"><a href="#cb2-151" aria-hidden="true" tabindex="-1"></a><span class="fu">## Linear filters as frequency-dependent weights {#sec-linear-filters}</span></span>
 <span id="cb2-152"><a href="#cb2-152" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-153"><a href="#cb2-153" aria-hidden="true" tabindex="-1"></a><span class="fu">### The transfer function</span></span>
+<span id="cb2-153"><a href="#cb2-153" aria-hidden="true" tabindex="-1"></a><span class="fu">### Why filter at all? {#sec-why-filter}</span></span>
 <span id="cb2-154"><a href="#cb2-154" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-155"><a href="#cb2-155" aria-hidden="true" tabindex="-1"></a>A two-sided linear time-invariant filter is</span>
+<span id="cb2-155"><a href="#cb2-155" aria-hidden="true" tabindex="-1"></a>Filtering begins with an economic question, not a software command. Macroeconomic levels mix movements that occur on radically different horizons: a slow rise in productivity or population, a recession, a seasonal pattern, a measurement error, and possibly a financial boom. The aim is to construct a series that matches the object one wants to analyse. There are three very different tasks which are too often collapsed into “remove the trend”:</span>
 <span id="cb2-156"><a href="#cb2-156" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-157"><a href="#cb2-157" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-158"><a href="#cb2-158" aria-hidden="true" tabindex="-1"></a>Y_t=B(L)X_t=\sum_{j=-\infty}^{\infty}b_jX_{t-j}.</span>
-<span id="cb2-159"><a href="#cb2-159" aria-hidden="true" tabindex="-1"></a>$$ {#eq-linear-filter}</span>
+<span id="cb2-157"><a href="#cb2-157" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Making a statistical model admissible.** ARMA, VAR, and the ordinary spectral density above need a covariance-stationary object. Differencing a unit-root level, or removing a well-supported deterministic trend, can produce such an $I(0)$ series. The goal is valid inference about a specified process, not an estimate of potential output.</span>
+<span id="cb2-158"><a href="#cb2-158" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Describing cyclical fluctuations.** A researcher may want a dated account of medium-run expansions and contractions. A band-pass or high-pass filter then defines which periodicities are called “cycle.” This is descriptive, and can be useful, but the frequency band is an assumption.</span>
+<span id="cb2-159"><a href="#cb2-159" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Measuring an economically structural latent object.** Calling the remainder an “output gap,” a demand shortfall, or a fall in potential output is much stronger. It requires a model of technology, capacity, labour supply, inflation, or other structural restrictions. A univariate statistical filter alone does not supply them.</span>
 <span id="cb2-160"><a href="#cb2-160" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-161"><a href="#cb2-161" aria-hidden="true" tabindex="-1"></a>Its transfer function is $B(e^{-i\omega})=\sum_jb_je^{-i\omega j}$. Provided the coefficients are square-summable,</span>
+<span id="cb2-161"><a href="#cb2-161" aria-hidden="true" tabindex="-1"></a>The distinction is consequential in a crisis. If a smooth trend is allowed to fall with observed GDP, a persistent slump is recorded partly as a **structural** loss of potential output. If the trend is held nearly fixed, the same shortfall is recorded chiefly as a large **conjunctural** output gap. Neither conclusion is contained in the GDP series by itself. The filter places a prior on how quickly potential output is allowed to move.</span>
 <span id="cb2-162"><a href="#cb2-162" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-163"><a href="#cb2-163" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-164"><a href="#cb2-164" aria-hidden="true" tabindex="-1"></a>f_Y(\omega)=\left|B(e^{-i\omega})\right|^2f_X(\omega).</span>
-<span id="cb2-165"><a href="#cb2-165" aria-hidden="true" tabindex="-1"></a>$$ {#eq-filtered-spectrum}</span>
+<span id="cb2-163"><a href="#cb2-163" aria-hidden="true" tabindex="-1"></a>::: {.callout-important title="There is no data-only trend-cycle decomposition"}</span>
+<span id="cb2-164"><a href="#cb2-164" aria-hidden="true" tabindex="-1"></a>Writing $Y_t=T_t+C_t$ creates two unknown series from one observation at every date. Without restrictions, there are infinitely many decompositions. A filter supplies those restrictions: smoothness for HP, a pass band for BK/CF, an ARIMA benchmark for CF, or a state equation and signal-to-noise ratio for a Kalman filter. Filtering is thus an explicit modelling choice, and its parameters must be reported with the result.</span>
+<span id="cb2-165"><a href="#cb2-165" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb2-166"><a href="#cb2-166" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-167"><a href="#cb2-167" aria-hidden="true" tabindex="-1"></a>The **squared gain** $|B(e^{-i\omega})|^2$ tells us how much variance at $\omega$ is retained or amplified. The argument of $B(e^{-i\omega})$ is the **phase shift**: it tells us whether the filtered movement is displaced in time. A symmetric filter has zero phase (apart from a possible sign flip), a valuable property for historical business-cycle dating. But symmetry uses future as well as past observations, so it cannot be a real-time filter.</span>
+<span id="cb2-167"><a href="#cb2-167" aria-hidden="true" tabindex="-1"></a><span class="fu">### The transfer function</span></span>
 <span id="cb2-168"><a href="#cb2-168" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-169"><a href="#cb2-169" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Goal <span class="pp">|</span> Frequencies retained <span class="pp">|</span> Typical example <span class="pp">|</span> Main caution <span class="pp">|</span></span>
-<span id="cb2-170"><a href="#cb2-170" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>-<span class="pp">|</span>-<span class="pp">|</span>-<span class="pp">|</span>-<span class="pp">|</span></span>
-<span id="cb2-171"><a href="#cb2-171" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Low-pass <span class="pp">|</span> slow / long-period <span class="pp">|</span> smooth trend <span class="pp">|</span> trend is a modelling choice <span class="pp">|</span></span>
-<span id="cb2-172"><a href="#cb2-172" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> High-pass <span class="pp">|</span> rapid / short-period <span class="pp">|</span> first difference, HP cycle <span class="pp">|</span> may turn persistent dynamics into apparent cycles <span class="pp">|</span></span>
-<span id="cb2-173"><a href="#cb2-173" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Band-pass <span class="pp">|</span> an intermediate range <span class="pp">|</span> BK or CF business-cycle filter <span class="pp">|</span> cut-offs impose a definition of cycle <span class="pp">|</span></span>
-<span id="cb2-174"><a href="#cb2-174" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Seasonal adjustment <span class="pp">|</span> seasonal harmonics excluded <span class="pp">|</span> X-13-type seasonal filters <span class="pp">|</span> revisions and calendar effects remain <span class="pp">|</span></span>
-<span id="cb2-175"><a href="#cb2-175" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-176"><a href="#cb2-176" aria-hidden="true" tabindex="-1"></a>: A filter is defined by its frequency response, not by its label. {#tbl-filter-taxonomy}</span>
-<span id="cb2-177"><a href="#cb2-177" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-178"><a href="#cb2-178" aria-hidden="true" tabindex="-1"></a><span class="fu">### Differencing and HP in the frequency domain</span></span>
-<span id="cb2-179"><a href="#cb2-179" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-180"><a href="#cb2-180" aria-hidden="true" tabindex="-1"></a>The first difference is $(1-L)X_t$. Its gain is</span>
-<span id="cb2-181"><a href="#cb2-181" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-182"><a href="#cb2-182" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-183"><a href="#cb2-183" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>1-e^{-i\omega}<span class="pp">|</span>^2=4\sin^2(\omega/2).</span>
-<span id="cb2-184"><a href="#cb2-184" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-185"><a href="#cb2-185" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-186"><a href="#cb2-186" aria-hidden="true" tabindex="-1"></a>It is exactly zero at $\omega=0$ and large near $\pi$: differencing is a high-pass filter. This is why it removes a stochastic trend, but also why it accentuates high-frequency measurement noise. “Making a series stationary” and “extracting a business cycle” are therefore different goals.</span>
-<span id="cb2-187"><a href="#cb2-187" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-188"><a href="#cb2-188" aria-hidden="true" tabindex="-1"></a>For the HP criterion introduced in @sec-ts-transformations, the trend’s gain and the cycle’s gain are, away from finite-sample endpoints,</span>
+<span id="cb2-169"><a href="#cb2-169" aria-hidden="true" tabindex="-1"></a>A two-sided linear time-invariant filter is</span>
+<span id="cb2-170"><a href="#cb2-170" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-171"><a href="#cb2-171" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-172"><a href="#cb2-172" aria-hidden="true" tabindex="-1"></a>Y_t=B(L)X_t=\sum_{j=-\infty}^{\infty}b_jX_{t-j}.</span>
+<span id="cb2-173"><a href="#cb2-173" aria-hidden="true" tabindex="-1"></a>$$ {#eq-linear-filter}</span>
+<span id="cb2-174"><a href="#cb2-174" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-175"><a href="#cb2-175" aria-hidden="true" tabindex="-1"></a>Its transfer function is $B(e^{-i\omega})=\sum_jb_je^{-i\omega j}$. Provided the coefficients are square-summable,</span>
+<span id="cb2-176"><a href="#cb2-176" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-177"><a href="#cb2-177" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-178"><a href="#cb2-178" aria-hidden="true" tabindex="-1"></a>f_Y(\omega)=\left|B(e^{-i\omega})\right|^2f_X(\omega).</span>
+<span id="cb2-179"><a href="#cb2-179" aria-hidden="true" tabindex="-1"></a>$$ {#eq-filtered-spectrum}</span>
+<span id="cb2-180"><a href="#cb2-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-181"><a href="#cb2-181" aria-hidden="true" tabindex="-1"></a>The **squared gain** $|B(e^{-i\omega})|^2$ tells us how much variance at $\omega$ is retained or amplified. The argument of $B(e^{-i\omega})$ is the **phase shift**: it tells us whether the filtered movement is displaced in time. A symmetric filter has zero phase (apart from a possible sign flip), a valuable property for historical business-cycle dating. But symmetry uses future as well as past observations, so it cannot be a real-time filter.</span>
+<span id="cb2-182"><a href="#cb2-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-183"><a href="#cb2-183" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Goal <span class="pp">|</span> Frequencies retained <span class="pp">|</span> Typical example <span class="pp">|</span> Main caution <span class="pp">|</span></span>
+<span id="cb2-184"><a href="#cb2-184" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>-<span class="pp">|</span>-<span class="pp">|</span>-<span class="pp">|</span>-<span class="pp">|</span></span>
+<span id="cb2-185"><a href="#cb2-185" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Low-pass <span class="pp">|</span> slow / long-period <span class="pp">|</span> smooth trend <span class="pp">|</span> trend is a modelling choice <span class="pp">|</span></span>
+<span id="cb2-186"><a href="#cb2-186" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> High-pass <span class="pp">|</span> rapid / short-period <span class="pp">|</span> first difference, HP cycle <span class="pp">|</span> may turn persistent dynamics into apparent cycles <span class="pp">|</span></span>
+<span id="cb2-187"><a href="#cb2-187" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Band-pass <span class="pp">|</span> an intermediate range <span class="pp">|</span> BK or CF business-cycle filter <span class="pp">|</span> cut-offs impose a definition of cycle <span class="pp">|</span></span>
+<span id="cb2-188"><a href="#cb2-188" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Seasonal adjustment <span class="pp">|</span> seasonal harmonics excluded <span class="pp">|</span> X-13-type seasonal filters <span class="pp">|</span> revisions and calendar effects remain <span class="pp">|</span></span>
 <span id="cb2-189"><a href="#cb2-189" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-190"><a href="#cb2-190" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-191"><a href="#cb2-191" aria-hidden="true" tabindex="-1"></a>G_T(\omega)=\frac{1}{1+16\lambda\sin^4(\omega/2)},\qquad</span>
-<span id="cb2-192"><a href="#cb2-192" aria-hidden="true" tabindex="-1"></a>G_C(\omega)=\frac{16\lambda\sin^4(\omega/2)}{1+16\lambda\sin^4(\omega/2)}.</span>
-<span id="cb2-193"><a href="#cb2-193" aria-hidden="true" tabindex="-1"></a>$$ {#eq-hp-gain}</span>
-<span id="cb2-194"><a href="#cb2-194" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-195"><a href="#cb2-195" aria-hidden="true" tabindex="-1"></a>HP is consequently a smooth high-pass filter, not a literal 6–32-quarter band-pass filter. The conventional quarterly value $\lambda=1600$ encodes a particular cut-off, and changing data frequency requires changing $\lambda$ <span class="co">[</span><span class="ot">@RavnUhlig2002</span><span class="co">]</span>. The rule is transparent in @eq-hp-gain; it is not universally economically justified.</span>
-<span id="cb2-196"><a href="#cb2-196" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-197"><a href="#cb2-197" aria-hidden="true" tabindex="-1"></a><span class="fu">### Ideal filters and feasible approximations</span></span>
-<span id="cb2-198"><a href="#cb2-198" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-199"><a href="#cb2-199" aria-hidden="true" tabindex="-1"></a>An **ideal** band-pass filter would retain exactly the interval $\omega\in<span class="co">[</span><span class="ot">2\pi/32,2\pi/6</span><span class="co">]</span>$ and discard everything else. Its impulse-response weights extend infinitely far in both directions: it needs observations from the indefinite future and past. No finite sample can implement it exactly.</span>
-<span id="cb2-200"><a href="#cb2-200" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-201"><a href="#cb2-201" aria-hidden="true" tabindex="-1"></a>Baxter and King <span class="co">[</span><span class="ot">@BaxterKing1999</span><span class="co">]</span> approximate it with a finite, symmetric moving average. This has an appealing nearly zero phase shift but loses $K$ observations at each end for a $2K+1$-term filter. Christiano and Fitzgerald <span class="co">[</span><span class="ot">@ChristianoFitzgerald2003</span><span class="co">]</span> construct sample-specific weights that use all observations and are optimal under a random-walk benchmark, but the result is asymmetric near the ends and may be revised as new data arrive. Neither procedure discovers a cycle in the data; each approximates a chosen target response.</span>
-<span id="cb2-202"><a href="#cb2-202" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-203"><a href="#cb2-203" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning title="The endpoint problem is an economic problem"}</span>
-<span id="cb2-204"><a href="#cb2-204" aria-hidden="true" tabindex="-1"></a>The most policy-relevant dates are often the latest ones, exactly where two-sided filters are least reliable. A historical decomposition using the full sample is **ex post**: it can use information that was unavailable at the date in question. A real-time assessment must use one-sided filters, real-time data vintages, or explicitly show revisions. The disagreement in @fig-endpoint-revisions is not a numerical accident; it follows from the use of future data in the HP trend.</span>
-<span id="cb2-205"><a href="#cb2-205" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb2-206"><a href="#cb2-206" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-207"><a href="#cb2-207" aria-hidden="true" tabindex="-1"></a><span class="al">![The same real-GDP history produces different estimated cyclical components under HP, the Hamilton h-step regression, and a 6–32-quarter band-pass approximation. The comparison is deliberately empirical rather than a contest with a unique winner: each line answers a different filtering question. Data: U.S. real GDP (GDPC1), FRED; code and data download are reproducible in `code/python/make_frequency_figures.py`.](../figures/frequency/us-gdp-filter-comparison.png)</span>{#fig-gdp-filter-comparison}</span>
+<span id="cb2-190"><a href="#cb2-190" aria-hidden="true" tabindex="-1"></a>: A filter is defined by its frequency response, not by its label. {#tbl-filter-taxonomy}</span>
+<span id="cb2-191"><a href="#cb2-191" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-192"><a href="#cb2-192" aria-hidden="true" tabindex="-1"></a><span class="fu">### Differencing and HP in the frequency domain</span></span>
+<span id="cb2-193"><a href="#cb2-193" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-194"><a href="#cb2-194" aria-hidden="true" tabindex="-1"></a>The first difference is $(1-L)X_t$. Its gain is</span>
+<span id="cb2-195"><a href="#cb2-195" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-196"><a href="#cb2-196" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-197"><a href="#cb2-197" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>1-e^{-i\omega}<span class="pp">|</span>^2=4\sin^2(\omega/2).</span>
+<span id="cb2-198"><a href="#cb2-198" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-199"><a href="#cb2-199" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-200"><a href="#cb2-200" aria-hidden="true" tabindex="-1"></a>It is exactly zero at $\omega=0$ and large near $\pi$: differencing is a high-pass filter. This is why it removes a stochastic trend, but also why it accentuates high-frequency measurement noise. “Making a series stationary” and “extracting a business cycle” are therefore different goals.</span>
+<span id="cb2-201"><a href="#cb2-201" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-202"><a href="#cb2-202" aria-hidden="true" tabindex="-1"></a>For the HP criterion introduced in @sec-ts-transformations, the trend’s gain and the cycle’s gain are, away from finite-sample endpoints,</span>
+<span id="cb2-203"><a href="#cb2-203" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-204"><a href="#cb2-204" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-205"><a href="#cb2-205" aria-hidden="true" tabindex="-1"></a>G_T(\omega)=\frac{1}{1+16\lambda\sin^4(\omega/2)},\qquad</span>
+<span id="cb2-206"><a href="#cb2-206" aria-hidden="true" tabindex="-1"></a>G_C(\omega)=\frac{16\lambda\sin^4(\omega/2)}{1+16\lambda\sin^4(\omega/2)}.</span>
+<span id="cb2-207"><a href="#cb2-207" aria-hidden="true" tabindex="-1"></a>$$ {#eq-hp-gain}</span>
 <span id="cb2-208"><a href="#cb2-208" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-209"><a href="#cb2-209" aria-hidden="true" tabindex="-1"></a><span class="al">![A pseudo-real-time exercise: truncating the sample in 2019Q4 changes the HP estimate of the immediately preceding cycle. Later observations alter the estimate of the earlier state of the economy, demonstrating why endpoint uncertainty should be reported rather than hidden. Data: FRED GDPC1.](../figures/frequency/hp-endpoint-revisions.png)</span>{#fig-endpoint-revisions}</span>
+<span id="cb2-209"><a href="#cb2-209" aria-hidden="true" tabindex="-1"></a>HP is consequently a smooth high-pass filter, not a literal 6–32-quarter band-pass filter. Crucially, its parameter is a *choice*. At $\lambda=0$, the fitted trend is exactly $T_t=Y_t$ and the cycle is zero: **everything is trend**. As $\lambda\to\infty$, the fitted trend approaches a straight line: all departures from that line are **cycle**. The conventional quarterly value $\lambda=1600$ is one intermediate prior, not a result selected by the data; changing data frequency requires changing it <span class="co">[</span><span class="ot">@RavnUhlig2002</span><span class="co">]</span>.</span>
 <span id="cb2-210"><a href="#cb2-210" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-211"><a href="#cb2-211" aria-hidden="true" tabindex="-1"></a><span class="fu">## An empirical workflow {#sec-frequency-workflow}</span></span>
+<span id="cb2-211"><a href="#cb2-211" aria-hidden="true" tabindex="-1"></a><span class="al">![The same log real-GDP series, 2000 onward, under three HP smoothness choices. A low $\lambda$ lets “trend” follow the recession and recovery closely, shrinking the estimated gap; a high $\lambda$ holds potential nearly linear, enlarging and prolonging the estimated cyclical shortfall. The omitted limiting cases sharpen the point: at $\lambda=0$ there is no cycle, while as $\lambda\to\infty$ every non-linear movement is cycle. Data: FRED GDPC1; code: `code/python/make_frequency_figures.py`.](../figures/frequency/hp-lambda-sensitivity.png)</span>{#fig-hp-lambda-sensitivity}</span>
 <span id="cb2-212"><a href="#cb2-212" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-213"><a href="#cb2-213" aria-hidden="true" tabindex="-1"></a>For a serious spectral or filtering exercise, the following order avoids the most common mistakes:</span>
+<span id="cb2-213"><a href="#cb2-213" aria-hidden="true" tabindex="-1"></a>Hamilton <span class="co">[</span><span class="ot">@Hamilton2018</span><span class="co">]</span> shows why this discretion is not the only concern. First, the conventional HP filter induces a particular oscillatory dynamic relation even when it is applied to data whose underlying changes are close to unpredictable: apparent persistence, cross-correlation, and “cycles” can be properties of the filter rather than of the data-generating process. Second, the two-sided estimate of $T_t$ uses future observations. An ex post HP decomposition can therefore label a crash temporary after observing a later recovery, whereas a real-time observer would have judged much more of it permanent. Finally, a likelihood-based interpretation of the HP state-space model would estimate the signal-to-noise ratio rather than assume 1,600; Hamilton finds that data-coherent values can be far smaller. His practical alternative for quarterly data is a regression of $Y_{t+8}$ on a constant and the four most recent observations, using an 8-quarter forecast residual as the cyclical component.</span>
 <span id="cb2-214"><a href="#cb2-214" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-215"><a href="#cb2-215" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**State the economic object first.** Is the question about long-run growth, short-run demand slack, seasonal variation, or a financial cycle? Choose the data frequency accordingly; a 6–32-quarter business-cycle band is not meaningful for annual data.</span>
-<span id="cb2-216"><a href="#cb2-216" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Document the transformation.** Plot levels and transformed data; deal with seasonal adjustment, breaks, and stationarity before interpreting low-frequency power.</span>
-<span id="cb2-217"><a href="#cb2-217" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Estimate rather than merely plot.** Report the sample period, detrending, taper, and smoothing bandwidth. Check whether apparent peaks survive reasonable choices.</span>
-<span id="cb2-218"><a href="#cb2-218" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Translate a filter into its gain and phase.** Report its cut-offs, order, and the observations lost or revised at the endpoints. Compare credible alternatives if the conclusion depends on the extraction rule.</span>
-<span id="cb2-219"><a href="#cb2-219" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**Separate description from identification.** A cycle extracted mechanically is not potential output, an output gap, or a causal shock without an additional model.</span>
+<span id="cb2-215"><a href="#cb2-215" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning title="Do not infer the nature of a crisis from one HP line"}</span>
+<span id="cb2-216"><a href="#cb2-216" aria-hidden="true" tabindex="-1"></a>An HP decomposition cannot decide whether a recession is a demand-driven, temporary shortfall or a permanent supply-side loss. If the policy question is precisely this distinction, report the sensitivity to $\lambda$, use real-time vintages and one-sided estimates, and bring in structural evidence such as inflation, unemployment, capacity use, productivity, and a model with an explicit potential-output concept. The line labelled “trend” is an estimate conditional on those assumptions, not observed potential GDP.</span>
+<span id="cb2-217"><a href="#cb2-217" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb2-218"><a href="#cb2-218" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-219"><a href="#cb2-219" aria-hidden="true" tabindex="-1"></a><span class="fu">### Ideal filters and feasible approximations</span></span>
 <span id="cb2-220"><a href="#cb2-220" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-221"><a href="#cb2-221" aria-hidden="true" tabindex="-1"></a>The code below gives a minimal, reproducible spectrum. The smoothing choice is exposed rather than delegated silently to a default.</span>
+<span id="cb2-221"><a href="#cb2-221" aria-hidden="true" tabindex="-1"></a>An **ideal** band-pass filter would retain exactly the interval $\omega\in<span class="co">[</span><span class="ot">2\pi/32,2\pi/6</span><span class="co">]</span>$ and discard everything else. Its impulse-response weights extend infinitely far in both directions: it needs observations from the indefinite future and past. No finite sample can implement it exactly.</span>
 <span id="cb2-222"><a href="#cb2-222" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-223"><a href="#cb2-223" aria-hidden="true" tabindex="-1"></a><span class="in">```{.python}</span></span>
-<span id="cb2-224"><a href="#cb2-224" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb2-225"><a href="#cb2-225" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> signal</span>
-<span id="cb2-226"><a href="#cb2-226" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-227"><a href="#cb2-227" aria-hidden="true" tabindex="-1"></a><span class="co"># y: stationary quarterly series, e.g. log-GDP growth or a justified residual</span></span>
-<span id="cb2-228"><a href="#cb2-228" aria-hidden="true" tabindex="-1"></a>frequencies, raw <span class="op">=</span> signal.periodogram(y <span class="op">-</span> y.mean(), fs<span class="op">=</span><span class="dv">1</span>, scaling<span class="op">=</span><span class="st">"density"</span>)</span>
-<span id="cb2-229"><a href="#cb2-229" aria-hidden="true" tabindex="-1"></a>frequencies, smooth <span class="op">=</span> signal.welch(</span>
-<span id="cb2-230"><a href="#cb2-230" aria-hidden="true" tabindex="-1"></a>    y <span class="op">-</span> y.mean(), fs<span class="op">=</span><span class="dv">1</span>, window<span class="op">=</span><span class="st">"hann"</span>, nperseg<span class="op">=</span><span class="bu">min</span>(<span class="dv">64</span>, <span class="bu">len</span>(y)),</span>
-<span id="cb2-231"><a href="#cb2-231" aria-hidden="true" tabindex="-1"></a>    noverlap<span class="op">=</span><span class="dv">32</span>, detrend<span class="op">=</span><span class="st">"constant"</span>, scaling<span class="op">=</span><span class="st">"density"</span></span>
-<span id="cb2-232"><a href="#cb2-232" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb2-233"><a href="#cb2-233" aria-hidden="true" tabindex="-1"></a>periods <span class="op">=</span> <span class="dv">1</span> <span class="op">/</span> frequencies[<span class="dv">1</span>:]       <span class="co"># quarters per cycle; omit frequency zero</span></span>
-<span id="cb2-234"><a href="#cb2-234" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb2-235"><a href="#cb2-235" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-236"><a href="#cb2-236" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip title="Reading the output"}</span>
-<span id="cb2-237"><a href="#cb2-237" aria-hidden="true" tabindex="-1"></a>Plotting against period is often more intuitive for macroeconomics, but reverses the usual frequency axis: long periods lie at low frequency. Do not read a local maximum mechanically. With quarterly samples of a few decades, the number of independent long cycles is small, and its apparent period can be very imprecise. Bootstrap bands or a parametric ARMA/state-space model are often more informative than a highly smoothed periodogram.</span>
-<span id="cb2-238"><a href="#cb2-238" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb2-239"><a href="#cb2-239" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-240"><a href="#cb2-240" aria-hidden="true" tabindex="-1"></a><span class="fu">## What filtering can and cannot answer {#sec-filtering-conclusion}</span></span>
-<span id="cb2-241"><a href="#cb2-241" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-242"><a href="#cb2-242" aria-hidden="true" tabindex="-1"></a>Frequency-domain analysis is powerful because it makes a modelling decision auditable: every linear filter has a gain, a phase, and an endpoint behaviour. It connects ARMA dynamics, detrending, seasonal adjustment, and cycle extraction through one common language.</span>
-<span id="cb2-243"><a href="#cb2-243" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-244"><a href="#cb2-244" aria-hidden="true" tabindex="-1"></a>Its limit is equally important. Spectral evidence is a description of the covariance structure of a particular transformed series. It neither separates supply from demand nor identifies structural shocks. A filtered GDP “gap” becomes an estimate of economic slack only after adding a model of potential output, capacity, labour-market frictions, and so on. Hamilton’s critique of routine HP use <span class="co">[</span><span class="ot">@Hamilton2018</span><span class="co">]</span> is therefore best read not as a ban on looking at cycles, but as a demand for explicit assumptions and honest uncertainty.</span>
-<span id="cb2-245"><a href="#cb2-245" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-246"><a href="#cb2-246" aria-hidden="true" tabindex="-1"></a><span class="fu">## Further reading</span></span>
-<span id="cb2-247"><a href="#cb2-247" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-248"><a href="#cb2-248" aria-hidden="true" tabindex="-1"></a>Hamilton <span class="co">[</span><span class="ot">@Hamilton1994, ch. 6</span><span class="co">]</span> and Priestley <span class="co">[</span><span class="ot">@Priestley1981</span><span class="co">]</span> provide the theoretical foundations. For macroeconomic cycle filters, see Baxter and King <span class="co">[</span><span class="ot">@BaxterKing1999</span><span class="co">]</span>, Christiano and Fitzgerald <span class="co">[</span><span class="ot">@ChristianoFitzgerald2003</span><span class="co">]</span>, and the critical discussion in Hamilton <span class="co">[</span><span class="ot">@Hamilton2018</span><span class="co">]</span>. The papers supplied with these notes are especially useful complements for reflecting on how filtering choices shape the object called a business cycle.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb2-223"><a href="#cb2-223" aria-hidden="true" tabindex="-1"></a>Baxter and King <span class="co">[</span><span class="ot">@BaxterKing1999</span><span class="co">]</span> approximate it with a finite, symmetric moving average. This has an appealing nearly zero phase shift but loses $K$ observations at each end for a $2K+1$-term filter. Christiano and Fitzgerald <span class="co">[</span><span class="ot">@ChristianoFitzgerald2003</span><span class="co">]</span> construct sample-specific weights that use all observations and are optimal under a random-walk benchmark, but the result is asymmetric near the ends and may be revised as new data arrive. Neither procedure discovers a cycle in the data; each approximates a chosen target response.</span>
+<span id="cb2-224"><a href="#cb2-224" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-225"><a href="#cb2-225" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning title="The endpoint problem is an economic problem"}</span>
+<span id="cb2-226"><a href="#cb2-226" aria-hidden="true" tabindex="-1"></a>The most policy-relevant dates are often the latest ones, exactly where two-sided filters are least reliable. A historical decomposition using the full sample is **ex post**: it can use information that was unavailable at the date in question. A real-time assessment must use one-sided filters, real-time data vintages, or explicitly show revisions. The disagreement in @fig-endpoint-revisions is not a numerical accident; it follows from the use of future data in the HP trend.</span>
+<span id="cb2-227"><a href="#cb2-227" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb2-228"><a href="#cb2-228" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-229"><a href="#cb2-229" aria-hidden="true" tabindex="-1"></a><span class="al">![The same real-GDP history produces different estimated cyclical components under HP, the Hamilton h-step regression, and a 6–32-quarter band-pass approximation. The comparison is deliberately empirical rather than a contest with a unique winner: each line answers a different filtering question. Data: U.S. real GDP (GDPC1), FRED; code and data download are reproducible in `code/python/make_frequency_figures.py`.](../figures/frequency/us-gdp-filter-comparison.png)</span>{#fig-gdp-filter-comparison}</span>
+<span id="cb2-230"><a href="#cb2-230" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-231"><a href="#cb2-231" aria-hidden="true" tabindex="-1"></a><span class="al">![A pseudo-real-time exercise: truncating the sample in 2019Q4 changes the HP estimate of the immediately preceding cycle. Later observations alter the estimate of the earlier state of the economy, demonstrating why endpoint uncertainty should be reported rather than hidden. Data: FRED GDPC1.](../figures/frequency/hp-endpoint-revisions.png)</span>{#fig-endpoint-revisions}</span>
+<span id="cb2-232"><a href="#cb2-232" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-233"><a href="#cb2-233" aria-hidden="true" tabindex="-1"></a><span class="fu">## An empirical workflow {#sec-frequency-workflow}</span></span>
+<span id="cb2-234"><a href="#cb2-234" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-235"><a href="#cb2-235" aria-hidden="true" tabindex="-1"></a>For a serious spectral or filtering exercise, the following order avoids the most common mistakes:</span>
+<span id="cb2-236"><a href="#cb2-236" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-237"><a href="#cb2-237" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**State the economic object first.** Is the question about long-run growth, short-run demand slack, seasonal variation, or a financial cycle? Choose the data frequency accordingly; a 6–32-quarter business-cycle band is not meaningful for annual data.</span>
+<span id="cb2-238"><a href="#cb2-238" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Document the transformation.** Plot levels and transformed data; deal with seasonal adjustment, breaks, and stationarity before interpreting low-frequency power.</span>
+<span id="cb2-239"><a href="#cb2-239" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Estimate rather than merely plot.** Report the sample period, detrending, taper, and smoothing bandwidth. Check whether apparent peaks survive reasonable choices.</span>
+<span id="cb2-240"><a href="#cb2-240" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Translate a filter into its gain and phase.** Report its cut-offs, order, and the observations lost or revised at the endpoints. Compare credible alternatives if the conclusion depends on the extraction rule.</span>
+<span id="cb2-241"><a href="#cb2-241" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**Separate description from identification.** A cycle extracted mechanically is not potential output, an output gap, or a causal shock without an additional model.</span>
+<span id="cb2-242"><a href="#cb2-242" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-243"><a href="#cb2-243" aria-hidden="true" tabindex="-1"></a>The code below gives a minimal, reproducible spectrum. The smoothing choice is exposed rather than delegated silently to a default.</span>
+<span id="cb2-244"><a href="#cb2-244" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-245"><a href="#cb2-245" aria-hidden="true" tabindex="-1"></a><span class="in">```{.python}</span></span>
+<span id="cb2-246"><a href="#cb2-246" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-247"><a href="#cb2-247" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> signal</span>
+<span id="cb2-248"><a href="#cb2-248" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-249"><a href="#cb2-249" aria-hidden="true" tabindex="-1"></a><span class="co"># y: stationary quarterly series, e.g. log-GDP growth or a justified residual</span></span>
+<span id="cb2-250"><a href="#cb2-250" aria-hidden="true" tabindex="-1"></a>frequencies, raw <span class="op">=</span> signal.periodogram(y <span class="op">-</span> y.mean(), fs<span class="op">=</span><span class="dv">1</span>, scaling<span class="op">=</span><span class="st">"density"</span>)</span>
+<span id="cb2-251"><a href="#cb2-251" aria-hidden="true" tabindex="-1"></a>frequencies, smooth <span class="op">=</span> signal.welch(</span>
+<span id="cb2-252"><a href="#cb2-252" aria-hidden="true" tabindex="-1"></a>    y <span class="op">-</span> y.mean(), fs<span class="op">=</span><span class="dv">1</span>, window<span class="op">=</span><span class="st">"hann"</span>, nperseg<span class="op">=</span><span class="bu">min</span>(<span class="dv">64</span>, <span class="bu">len</span>(y)),</span>
+<span id="cb2-253"><a href="#cb2-253" aria-hidden="true" tabindex="-1"></a>    noverlap<span class="op">=</span><span class="dv">32</span>, detrend<span class="op">=</span><span class="st">"constant"</span>, scaling<span class="op">=</span><span class="st">"density"</span></span>
+<span id="cb2-254"><a href="#cb2-254" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-255"><a href="#cb2-255" aria-hidden="true" tabindex="-1"></a>periods <span class="op">=</span> <span class="dv">1</span> <span class="op">/</span> frequencies[<span class="dv">1</span>:]       <span class="co"># quarters per cycle; omit frequency zero</span></span>
+<span id="cb2-256"><a href="#cb2-256" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb2-257"><a href="#cb2-257" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-258"><a href="#cb2-258" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip title="Reading the output"}</span>
+<span id="cb2-259"><a href="#cb2-259" aria-hidden="true" tabindex="-1"></a>Plotting against period is often more intuitive for macroeconomics, but reverses the usual frequency axis: long periods lie at low frequency. Do not read a local maximum mechanically. With quarterly samples of a few decades, the number of independent long cycles is small, and its apparent period can be very imprecise. Bootstrap bands or a parametric ARMA/state-space model are often more informative than a highly smoothed periodogram.</span>
+<span id="cb2-260"><a href="#cb2-260" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb2-261"><a href="#cb2-261" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-262"><a href="#cb2-262" aria-hidden="true" tabindex="-1"></a><span class="fu">## What filtering can and cannot answer {#sec-filtering-conclusion}</span></span>
+<span id="cb2-263"><a href="#cb2-263" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-264"><a href="#cb2-264" aria-hidden="true" tabindex="-1"></a>Frequency-domain analysis is powerful because it makes a modelling decision auditable: every linear filter has a gain, a phase, and an endpoint behaviour. It connects ARMA dynamics, detrending, seasonal adjustment, and cycle extraction through one common language.</span>
+<span id="cb2-265"><a href="#cb2-265" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-266"><a href="#cb2-266" aria-hidden="true" tabindex="-1"></a>Its limit is equally important. Spectral evidence is a description of the covariance structure of a particular transformed series. It neither separates supply from demand nor identifies structural shocks. A filtered GDP “gap” becomes an estimate of economic slack only after adding a model of potential output, capacity, labour-market frictions, and so on. Hamilton’s critique of routine HP use <span class="co">[</span><span class="ot">@Hamilton2018</span><span class="co">]</span> is therefore best read not as a ban on looking at cycles, but as a demand for explicit assumptions and honest uncertainty.</span>
+<span id="cb2-267"><a href="#cb2-267" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-268"><a href="#cb2-268" aria-hidden="true" tabindex="-1"></a><span class="fu">## Further reading</span></span>
+<span id="cb2-269"><a href="#cb2-269" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-270"><a href="#cb2-270" aria-hidden="true" tabindex="-1"></a>Hamilton <span class="co">[</span><span class="ot">@Hamilton1994, ch. 6</span><span class="co">]</span> and Priestley <span class="co">[</span><span class="ot">@Priestley1981</span><span class="co">]</span> provide the theoretical foundations. For macroeconomic cycle filters, see Baxter and King <span class="co">[</span><span class="ot">@BaxterKing1999</span><span class="co">]</span>, Christiano and Fitzgerald <span class="co">[</span><span class="ot">@ChristianoFitzgerald2003</span><span class="co">]</span>, and the critical discussion in Hamilton <span class="co">[</span><span class="ot">@Hamilton2018</span><span class="co">]</span>. The papers supplied with these notes are especially useful complements for reflecting on how filtering choices shape the object called a business cycle.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 <footer class="footer">
