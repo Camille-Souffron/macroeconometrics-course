@@ -1,0 +1,202 @@
+{
+  "gdp": {
+    "vintage": "Existing course snapshot; original retrieval timestamp was not recorded.",
+    "license": "BEA U.S. government data accessed through FRED; retain source attribution.",
+    "provenance": "Official source series via FRED, Federal Reserve Bank of St. Louis. Existing course data are reused without live refresh.",
+    "title": "U.S. real GDP",
+    "path": "data/us_real_gdp_fred.csv",
+    "frequency": "Quarterly",
+    "sample": "1947Q1–2026Q2",
+    "series": [
+      {
+        "column": "GDPC1",
+        "id": "GDPC1",
+        "definition": "BEA real GDP, billions of chained dollars, SAAR",
+        "transformation": "Levels; source seasonal adjustment retained.",
+        "url": "https://fred.stlouisfed.org/series/GDPC1"
+      }
+    ]
+  },
+  "macro_policy": {
+    "vintage": "Existing course snapshot; original retrieval timestamp was not recorded. Public-series subset prepared 2026-09-08; no data refresh.",
+    "license": "BEA, BLS and Federal Reserve U.S. government/public-domain series accessed through FRED; retain source attribution.",
+    "provenance": "BEA, BLS, Federal Reserve Board and Moody’s via FRED. Constructed by code/python/make_ml_timeseries_figures.py. Committed 2026-08-08. The lab subset preserves the original date and macro observations but excludes Moody’s BAA10YM because its source terms restrict redistribution. Original course files remain unchanged.",
+    "title": "U.S. output, prices and monetary conditions",
+    "path": "interactive/data/macro-policy.csv",
+    "frequency": "Quarterly",
+    "sample": "1961Q1–2024Q4",
+    "series": [
+      {
+        "column": "real_gdp",
+        "id": "GDPC1",
+        "definition": "Real GDP",
+        "transformation": "Levels; source seasonal adjustment retained.",
+        "url": "https://fred.stlouisfed.org/series/GDPC1"
+      },
+      {
+        "column": "gdp_growth",
+        "id": "GDPC1",
+        "definition": "Annualised real GDP growth",
+        "transformation": "400 × Δ log GDP.",
+        "url": "https://fred.stlouisfed.org/series/GDPC1"
+      },
+      {
+        "column": "inflation",
+        "id": "CPIAUCSL",
+        "definition": "Annualised CPI inflation",
+        "transformation": "400 × Δ log quarterly mean CPI.",
+        "url": "https://fred.stlouisfed.org/series/CPIAUCSL"
+      },
+      {
+        "column": "policy_rate",
+        "id": "FEDFUNDS",
+        "definition": "Federal funds rate (%)",
+        "transformation": "Quarterly mean of monthly rates.",
+        "url": "https://fred.stlouisfed.org/series/FEDFUNDS"
+      }
+    ]
+  },
+  "gar": {
+    "vintage": "Existing course snapshot; original retrieval timestamp was not recorded.",
+    "license": "BEA U.S. government data and Federal Reserve Bank of Chicago NFCI data; retain the Chicago Fed source citation.",
+    "provenance": "BEA and Federal Reserve Bank of Chicago via FRED. Prepared by code/python/make_gar_figures.py. Stored future-growth data never enter predictors.",
+    "title": "U.S. growth and financial conditions",
+    "path": "data/us_growth_at_risk_fred.csv",
+    "frequency": "Quarterly",
+    "sample": "1973Q1–2024Q3",
+    "series": [
+      {
+        "column": "real_gdp",
+        "id": "GDPC1",
+        "definition": "Real GDP",
+        "transformation": "Levels; source seasonal adjustment retained.",
+        "url": "https://fred.stlouisfed.org/series/GDPC1"
+      },
+      {
+        "column": "growth_now",
+        "id": "GDPC1",
+        "definition": "Four-quarter GDP growth",
+        "transformation": "100 × four-quarter log change.",
+        "url": "https://fred.stlouisfed.org/series/GDPC1"
+      },
+      {
+        "column": "inflation",
+        "id": "GDPDEF",
+        "definition": "Four-quarter GDP-deflator inflation",
+        "transformation": "100 × four-quarter log change.",
+        "url": "https://fred.stlouisfed.org/series/GDPDEF"
+      },
+      {
+        "column": "nfci",
+        "id": "NFCI",
+        "definition": "Chicago Fed National Financial Conditions Index",
+        "transformation": "Quarterly mean of weekly values; positive = tighter-than-average conditions.",
+        "url": "https://fred.stlouisfed.org/series/NFCI"
+      }
+    ]
+  },
+  "macro_history": {
+    "title": "U.S. consumption and disposable income",
+    "path": "interactive/data/macro.csv",
+    "frequency": "Quarterly",
+    "sample": "1959Q1–2009Q3",
+    "vintage": "FRED/BLS vintage retrieved 2009-12-15 by Skipper Seabold; extracted from statsmodels 0.14.4 on 2026-09-08.",
+    "provenance": "Historical statsmodels macrodata vintage. Real quantities are billions of chained 2005 dollars, seasonally adjusted annual rates.",
+    "license": "Public domain, as documented by statsmodels.",
+    "series": [
+      {
+        "column": "realgdp",
+        "id": "GDPC1",
+        "definition": "Real GDP",
+        "transformation": "Levels; log transform chosen in VECM preset.",
+        "url": "https://www.statsmodels.org/stable/datasets/generated/macrodata.html"
+      },
+      {
+        "column": "realcons",
+        "id": "PCECC96",
+        "definition": "Real personal consumption expenditure",
+        "transformation": "Levels; log transform chosen in VECM preset.",
+        "url": "https://www.statsmodels.org/stable/datasets/generated/macrodata.html"
+      },
+      {
+        "column": "realdpi",
+        "id": "DSPIC96",
+        "definition": "Real disposable personal income",
+        "transformation": "Levels; log transform chosen in VECM preset.",
+        "url": "https://www.statsmodels.org/stable/datasets/generated/macrodata.html"
+      }
+    ]
+  },
+  "panel": {
+    "title": "Grunfeld investment panel (11 firms)",
+    "path": "interactive/data/panel.csv",
+    "frequency": "Annual",
+    "sample": "1935–1954",
+    "vintage": "Extracted from statsmodels 0.14.4 on 2026-09-08.",
+    "provenance": "Grunfeld (1950), original 11-firm data reconstructed by Kleiber and Zeileis (2008), The Grunfeld Data at 50. Actual firm observations; no country-level replication is claimed.",
+    "license": "Public domain, as documented by statsmodels.",
+    "series": [
+      {
+        "column": "log_invest",
+        "id": "invest",
+        "definition": "Log gross investment",
+        "transformation": "Natural logarithm of the original real variable (1947 dollars).",
+        "url": "https://www.statsmodels.org/stable/datasets/generated/grunfeld.html"
+      },
+      {
+        "column": "log_capital",
+        "id": "capital",
+        "definition": "Log capital stock",
+        "transformation": "Natural logarithm of the original real variable (1947 dollars).",
+        "url": "https://www.statsmodels.org/stable/datasets/generated/grunfeld.html"
+      }
+    ]
+  },
+  "macro_shocks": {
+    "vintage": "Shock file retrieved 2026-09-08 from author repository commit b0092c407a74fe0a8f81fba276cda9e2e7e704d5. Public-series subset prepared 2026-09-08; no data refresh.",
+    "license": "Published Romer–Romer/Wieland–Yang shocks retain the authors’ requested citations and no-warranty terms. The joined macro snapshot contains only BEA, BLS and Federal Reserve series.",
+    "provenance": "Romer and Romer (2004); extension by Wieland and Yang (2019). Original resid_full column is preserved and dates converted to quarter starts. Joined to the existing FRED snapshot at run time. The lab subset preserves the original date and macro observations but excludes Moody’s BAA10YM because its source terms restrict redistribution. Original course files remain unchanged.",
+    "title": "U.S. macro data with published narrative shocks",
+    "path": "interactive/data/macro-policy.csv",
+    "frequency": "Quarterly",
+    "sample": "1969Q1–2007Q4, common complete quarters",
+    "series": [
+      {
+        "column": "real_gdp",
+        "id": "GDPC1",
+        "definition": "Real GDP",
+        "transformation": "Levels; source seasonal adjustment retained.",
+        "url": "https://fred.stlouisfed.org/series/GDPC1"
+      },
+      {
+        "column": "gdp_growth",
+        "id": "GDPC1",
+        "definition": "Annualised real GDP growth",
+        "transformation": "400 × Δ log GDP.",
+        "url": "https://fred.stlouisfed.org/series/GDPC1"
+      },
+      {
+        "column": "inflation",
+        "id": "CPIAUCSL",
+        "definition": "Annualised CPI inflation",
+        "transformation": "400 × Δ log quarterly mean CPI.",
+        "url": "https://fred.stlouisfed.org/series/CPIAUCSL"
+      },
+      {
+        "column": "policy_rate",
+        "id": "FEDFUNDS",
+        "definition": "Federal funds rate (%)",
+        "transformation": "Quarterly mean of monthly rates.",
+        "url": "https://fred.stlouisfed.org/series/FEDFUNDS"
+      },
+      {
+        "column": "rr_shock",
+        "id": "resid_full",
+        "definition": "Romer–Romer monetary shock, full 1969–2007 regression extension",
+        "transformation": "Authors’ quarterly aggregation, unchanged numeric values.",
+        "url": "https://github.com/johanneswieland/RomerShocks"
+      }
+    ],
+    "join": "interactive/data/romer-shocks.csv"
+  }
+}

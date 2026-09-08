@@ -2,23 +2,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.10.18">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>1&nbsp; Introduction to Time Series – Macroeconometrics</title>
 <style>
-/* Default styles provided by pandoc.
-** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
-*/
+code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: 1.5em;}
-div.column{flex: auto;}
-@media screen {
-div.columns{gap: min(4vw, 1.5em);}
-div.column{overflow-x: auto;}
-}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -65,6 +59,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging-indent div.csl-entry {
   margin-left:2em;
@@ -94,14 +89,15 @@ div.csl-indent {
 <link href="../chapters/00-mathematical-foundations.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-0a2ba924a51c51b1951dc2bd466f6823.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-a152aae6de2bf247fb73c0e3485cce0a.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -131,7 +127,7 @@ div.csl-indent {
 }</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -169,14 +165,27 @@ window.Quarto = {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
     <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">Macroeconometrics</span>
     </a>
   </div>
-        <div class="quarto-navbar-tools tools-end">
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="../interactive-lab.html" aria-current="page"> 
+<span class="menu-text">Interactive Lab</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
     <a href="https://github.com/Camille-Souffron/macroeconometrics-course" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
 </div>
-          <div id="quarto-search" class="" title="Search"></div>
       </div> <!-- /container-fluid -->
     </nav>
   <nav class="quarto-secondary-nav">
@@ -194,12 +203,22 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="../index.html" class="sidebar-logo-link">
+      </a>
+      </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../interactive-lab.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Interactive Lab</span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -785,6 +804,7 @@ y_t = a + b x_t + c x_{t-1} + \varepsilon_t = z_t' \beta + \varepsilon_t, \qquad
 </section>
 <section id="sec-unit-root-tests" class="level2" data-number="1.4">
 <h2 data-number="1.4" class="anchored" data-anchor-id="sec-unit-root-tests"><span class="header-section-number">1.4</span> Diagnosing nonstationarity</h2>
+<p><a href="../interactive-lab.html?method=stationarity">Open this specification in the Interactive Lab</a>.</p>
 <p>Nonstationarity can arise from several distinct sources, and distinguishing between them matters for how the series should be transformed:</p>
 <ul>
 <li><strong>Deterministic trends</strong>: predictable changes in mean, <span class="math inline">\(X_t = a + bt + Y_t\)</span> with <span class="math inline">\(Y_t\)</span> stationary - e.g.&nbsp;long-run GDP growth.</li>
@@ -829,6 +849,7 @@ Figure&nbsp;1.9: Real GDP levels for four European countries (1960-2015+): all f
 </section>
 <section id="unit-root-and-structural-break-tests" class="level3">
 <h3 class="anchored" data-anchor-id="unit-root-and-structural-break-tests">Unit-root and structural-break tests</h3>
+<p><a href="../interactive-lab.html?method=breaks">Open this specification in the Interactive Lab</a>.</p>
 <p>Formally, the question is whether nonstationarity stems from a <strong>stochastic trend</strong> (unit root - does the series tend to return to a fixed mean/trend after a shock?) or a <strong>deterministic trend</strong> (drift/linear trend - do shocks accumulate permanently?). The choice of a constant vs.&nbsp;a constant-plus-trend in the test equation should match the data pattern: a series fluctuating around a fixed mean needs only a constant; one growing/declining linearly needs a trend as well.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Unit-root tests">
 <div class="callout-header d-flex align-content-center">
@@ -894,6 +915,7 @@ Figure&nbsp;1.10: Structural break vs.&nbsp;stochastic trend, illustrated with a
 <p>The corresponding empirical workflow is: (i) visual inspection to guess the type of trend; (ii) unit-root tests; (iii) apply the appropriate transformation; (iv) test the residual for stationarity (ACF tail decay, formal tests).</p>
 <section id="removing-seasonality" class="level3">
 <h3 class="anchored" data-anchor-id="removing-seasonality">Removing seasonality</h3>
+<p><a href="../interactive-lab.html?method=seasonality">Open this specification in the Interactive Lab</a>.</p>
 <p>Two approaches address a recurring seasonal pattern <span class="math inline">\(s_t\)</span>, so that the residual series has constant mean and time-invariant covariance:</p>
 <div class="callout callout-style-default callout-note callout-titled" title="(a) Deterministic seasonality - regression on seasonal dummies">
 <div class="callout-header d-flex align-content-center">
@@ -1160,7 +1182,7 @@ Figure&nbsp;1.17: A constant (“naive”) forecast compared against an actual p
 
 <!-- -->
 
-<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
 <div id="ref-BaiPerron1998" class="csl-entry" role="listitem">
 Bai, Jushan, and Pierre Perron. 1998. <span>“Estimating and Testing Linear Models with Multiple Structural Changes.”</span> <em>Econometrica</em> 66 (1): 47–78.
 </div>
@@ -1168,7 +1190,7 @@ Bai, Jushan, and Pierre Perron. 1998. <span>“Estimating and Testing Linear Mod
 Brockwell, Peter J., and Richard A. Davis. 2002. <em>Introduction to Time Series and Forecasting</em>. 2nd ed. Springer.
 </div>
 <div id="ref-BrockwellDavis2006" class="csl-entry" role="listitem">
-Brockwell, Peter J., and Richard A. Davis. 2006. <em>Time Series: Theory and Methods</em>. 2nd ed. Springer.
+———. 2006. <em>Time Series: Theory and Methods</em>. 2nd ed. Springer.
 </div>
 <div id="ref-Chow1960" class="csl-entry" role="listitem">
 Chow, Gregory C. 1960. <span>“Tests of Equality Between Sets of Coefficients in Two Linear Regressions.”</span> <em>Econometrica</em> 28 (3): 591–605.
@@ -1177,7 +1199,7 @@ Chow, Gregory C. 1960. <span>“Tests of Equality Between Sets of Coefficients i
 Hamilton, James D. 1994. <em>Time Series Analysis</em>. Princeton University Press.
 </div>
 <div id="ref-Hamilton2018" class="csl-entry" role="listitem">
-Hamilton, James D. 2018. <span>“Why You Should Never Use the Hodrick-Prescott Filter.”</span> <em>Review of Economics and Statistics</em> 100 (5): 831–43.
+———. 2018. <span>“Why You Should Never Use the Hodrick-Prescott Filter.”</span> <em>Review of Economics and Statistics</em> 100 (5): 831–43.
 </div>
 <div id="ref-Lutkepohl2005" class="csl-entry" role="listitem">
 Lütkepohl, Helmut. 2005. <em>New Introduction to Multiple Time Series Analysis</em>. Springer.
@@ -1297,16 +1319,16 @@ Zivot, Eric, and Donald W. K. Andrews. 1992. <span>“Further Evidence on the Gr
     }
     function toggleCodeHandler(show) {
       return function(e) {
-        const cellDetails = window.document.querySelectorAll(".cell details.code-fold");
-        for (let i=0; i<cellDetails.length; i++) {
-          const details = cellDetails[i];
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
           if (show) {
             details.open = true;
           } else {
             details.removeAttribute("open");
           }
         }
-        const cellCodeDivs = window.document.querySelectorAll(".cell div.sourceCode.cell-code");
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
         const fromCls = show ? "hidden" : "unhidden";
         const toCls = show ? "unhidden" : "hidden";
         for (let i=0; i<cellCodeDivs.length; i++) {
@@ -1902,230 +1924,236 @@ Zivot, Eric, and Donald W. K. Andrews. 1992. <span>“Further Evidence on the Gr
 <span id="cb1-225"><a href="#cb1-225" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-226"><a href="#cb1-226" aria-hidden="true" tabindex="-1"></a><span class="fu">## Diagnosing nonstationarity {#sec-unit-root-tests}</span></span>
 <span id="cb1-227"><a href="#cb1-227" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-228"><a href="#cb1-228" aria-hidden="true" tabindex="-1"></a>Nonstationarity can arise from several distinct sources, and distinguishing between them matters for how the series should be transformed:</span>
+<span id="cb1-228"><a href="#cb1-228" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Open this specification in the Interactive Lab</span><span class="co">](../interactive-lab.html?method=stationarity)</span>.</span>
 <span id="cb1-229"><a href="#cb1-229" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-230"><a href="#cb1-230" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Deterministic trends**: predictable changes in mean, $X_t = a + bt + Y_t$ with $Y_t$ stationary - e.g. long-run GDP growth.</span>
-<span id="cb1-231"><a href="#cb1-231" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Seasonality**: $E(X_t)$ changes periodically; typically removed by seasonal differencing, $X_t - X_{t-S}$.</span>
-<span id="cb1-232"><a href="#cb1-232" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Stochastic trends**: accumulation of random shocks, $X_t = X_{t-1} + \varepsilon_t$ - e.g. asset prices, productivity innovations.</span>
-<span id="cb1-233"><a href="#cb1-233" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Structural breaks**: discrete changes in mean, variance (heteroskedasticity), or dynamics (regime-dependence).</span>
-<span id="cb1-234"><a href="#cb1-234" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-235"><a href="#cb1-235" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning title="A cautionary example: the Great Moderation"}</span>
-<span id="cb1-236"><a href="#cb1-236" aria-hidden="true" tabindex="-1"></a>The mid-1980s decline in U.S. macroeconomic volatility (the "Great Moderation") is often attributed to changes in monetary policy or inventory behavior. Romer <span class="co">[</span><span class="ot">-@Romer1986</span><span class="co">]</span> argues this reading is largely an artifact of how the data were constructed and measured, not a genuine change in the underlying process - a reminder that visual and even formal diagnostics of nonstationarity are only as good as the data feeding them. Tools for this diagnosis include visual inspection, the ACF, and formal unit-root tests (ADF, KPSS, and others, below).</span>
-<span id="cb1-237"><a href="#cb1-237" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb1-238"><a href="#cb1-238" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-239"><a href="#cb1-239" aria-hidden="true" tabindex="-1"></a><span class="fu">### Trend-stationary vs. difference-stationary processes</span></span>
+<span id="cb1-230"><a href="#cb1-230" aria-hidden="true" tabindex="-1"></a>Nonstationarity can arise from several distinct sources, and distinguishing between them matters for how the series should be transformed:</span>
+<span id="cb1-231"><a href="#cb1-231" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-232"><a href="#cb1-232" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Deterministic trends**: predictable changes in mean, $X_t = a + bt + Y_t$ with $Y_t$ stationary - e.g. long-run GDP growth.</span>
+<span id="cb1-233"><a href="#cb1-233" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Seasonality**: $E(X_t)$ changes periodically; typically removed by seasonal differencing, $X_t - X_{t-S}$.</span>
+<span id="cb1-234"><a href="#cb1-234" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Stochastic trends**: accumulation of random shocks, $X_t = X_{t-1} + \varepsilon_t$ - e.g. asset prices, productivity innovations.</span>
+<span id="cb1-235"><a href="#cb1-235" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Structural breaks**: discrete changes in mean, variance (heteroskedasticity), or dynamics (regime-dependence).</span>
+<span id="cb1-236"><a href="#cb1-236" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-237"><a href="#cb1-237" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning title="A cautionary example: the Great Moderation"}</span>
+<span id="cb1-238"><a href="#cb1-238" aria-hidden="true" tabindex="-1"></a>The mid-1980s decline in U.S. macroeconomic volatility (the "Great Moderation") is often attributed to changes in monetary policy or inventory behavior. Romer <span class="co">[</span><span class="ot">-@Romer1986</span><span class="co">]</span> argues this reading is largely an artifact of how the data were constructed and measured, not a genuine change in the underlying process - a reminder that visual and even formal diagnostics of nonstationarity are only as good as the data feeding them. Tools for this diagnosis include visual inspection, the ACF, and formal unit-root tests (ADF, KPSS, and others, below).</span>
+<span id="cb1-239"><a href="#cb1-239" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb1-240"><a href="#cb1-240" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-241"><a href="#cb1-241" aria-hidden="true" tabindex="-1"></a>The key practical distinction is between:</span>
+<span id="cb1-241"><a href="#cb1-241" aria-hidden="true" tabindex="-1"></a><span class="fu">### Trend-stationary vs. difference-stationary processes</span></span>
 <span id="cb1-242"><a href="#cb1-242" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-243"><a href="#cb1-243" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-244"><a href="#cb1-244" aria-hidden="true" tabindex="-1"></a>\text{Trend-stationary (TS):} \quad X_t = a + bt + Y_t, \quad Y_t \text{ stationary},</span>
+<span id="cb1-243"><a href="#cb1-243" aria-hidden="true" tabindex="-1"></a>The key practical distinction is between:</span>
+<span id="cb1-244"><a href="#cb1-244" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-245"><a href="#cb1-245" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-246"><a href="#cb1-246" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-247"><a href="#cb1-247" aria-hidden="true" tabindex="-1"></a>where removing the deterministic trend $a + bt$ leaves a stationary residual, and</span>
+<span id="cb1-246"><a href="#cb1-246" aria-hidden="true" tabindex="-1"></a>\text{Trend-stationary (TS):} \quad X_t = a + bt + Y_t, \quad Y_t \text{ stationary},</span>
+<span id="cb1-247"><a href="#cb1-247" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb1-248"><a href="#cb1-248" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-249"><a href="#cb1-249" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-250"><a href="#cb1-250" aria-hidden="true" tabindex="-1"></a>\text{Difference-stationary (DS):} \quad X_t = X_{t-1} + \varepsilon_t, \quad \Delta X_t = \varepsilon_t \text{ stationary},</span>
+<span id="cb1-249"><a href="#cb1-249" aria-hidden="true" tabindex="-1"></a>where removing the deterministic trend $a + bt$ leaves a stationary residual, and</span>
+<span id="cb1-250"><a href="#cb1-250" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-251"><a href="#cb1-251" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-252"><a href="#cb1-252" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-253"><a href="#cb1-253" aria-hidden="true" tabindex="-1"></a>a stochastic trend (unit root), where *differencing* rather than detrending yields a stationary process. The economic interpretation differs sharply: in a TS process shocks are **transitory** and the series reverts to its deterministic trend; in a DS process shocks are **permanent** and shift the level forever. Consequently the two require different stationarizing transformations (detrending vs. differencing), and testing for a unit root is how one decides which applies.</span>
+<span id="cb1-252"><a href="#cb1-252" aria-hidden="true" tabindex="-1"></a>\text{Difference-stationary (DS):} \quad X_t = X_{t-1} + \varepsilon_t, \quad \Delta X_t = \varepsilon_t \text{ stationary},</span>
+<span id="cb1-253"><a href="#cb1-253" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb1-254"><a href="#cb1-254" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-255"><a href="#cb1-255" aria-hidden="true" tabindex="-1"></a><span class="al">![Real GDP levels for four European countries (1960-2015+): all four display persistent upward drift rather than fluctuation around a fixed mean.](../figures/ts/european-gdps-levels.png)</span>{#fig-european-gdp-levels}</span>
+<span id="cb1-255"><a href="#cb1-255" aria-hidden="true" tabindex="-1"></a>a stochastic trend (unit root), where *differencing* rather than detrending yields a stationary process. The economic interpretation differs sharply: in a TS process shocks are **transitory** and the series reverts to its deterministic trend; in a DS process shocks are **permanent** and shift the level forever. Consequently the two require different stationarizing transformations (detrending vs. differencing), and testing for a unit root is how one decides which applies.</span>
 <span id="cb1-256"><a href="#cb1-256" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-257"><a href="#cb1-257" aria-hidden="true" tabindex="-1"></a><span class="fu">### Unit-root and structural-break tests</span></span>
+<span id="cb1-257"><a href="#cb1-257" aria-hidden="true" tabindex="-1"></a><span class="al">![Real GDP levels for four European countries (1960-2015+): all four display persistent upward drift rather than fluctuation around a fixed mean.](../figures/ts/european-gdps-levels.png)</span>{#fig-european-gdp-levels}</span>
 <span id="cb1-258"><a href="#cb1-258" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-259"><a href="#cb1-259" aria-hidden="true" tabindex="-1"></a>Formally, the question is whether nonstationarity stems from a **stochastic trend** (unit root - does the series tend to return to a fixed mean/trend after a shock?) or a **deterministic trend** (drift/linear trend - do shocks accumulate permanently?). The choice of a constant vs. a constant-plus-trend in the test equation should match the data pattern: a series fluctuating around a fixed mean needs only a constant; one growing/declining linearly needs a trend as well.</span>
+<span id="cb1-259"><a href="#cb1-259" aria-hidden="true" tabindex="-1"></a><span class="fu">### Unit-root and structural-break tests</span></span>
 <span id="cb1-260"><a href="#cb1-260" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-261"><a href="#cb1-261" aria-hidden="true" tabindex="-1"></a>::: {.callout-note title="Unit-root tests"}</span>
-<span id="cb1-262"><a href="#cb1-262" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**ADF (Augmented Dickey-Fuller).** Classical regression-based test,</span>
-<span id="cb1-263"><a href="#cb1-263" aria-hidden="true" tabindex="-1"></a>   $$</span>
-<span id="cb1-264"><a href="#cb1-264" aria-hidden="true" tabindex="-1"></a>   \Delta X_t = \alpha + \beta t + (\phi - 1) X_{t-1} + \sum_{i=1}^{p}\delta_i \Delta X_{t-i} + \varepsilon_t,</span>
-<span id="cb1-265"><a href="#cb1-265" aria-hidden="true" tabindex="-1"></a>   $$</span>
-<span id="cb1-266"><a href="#cb1-266" aria-hidden="true" tabindex="-1"></a>   with $H_0$: unit root ($(\phi-1)=0$, nonstationary) against $H_1$: stationary ($(\phi-1)&lt;0$).</span>
-<span id="cb1-267"><a href="#cb1-267" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**PP (Phillips-Perron).** Same null as ADF, with a nonparametric correction for serial correlation via the long-run variance instead of augmenting lags.</span>
-<span id="cb1-268"><a href="#cb1-268" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**DF-GLS (Elliott-Rothenberg-Stock).** A more powerful variant that detrends the series first, then applies the DF test.</span>
-<span id="cb1-269"><a href="#cb1-269" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**KPSS (Kwiatkowski-Phillips-Schmidt-Shin).** The *opposite* null: $H_0$ is stationarity (around a mean or a trend), $H_1$ is a unit root.</span>
-<span id="cb1-270"><a href="#cb1-270" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-271"><a href="#cb1-271" aria-hidden="true" tabindex="-1"></a>**Rule of thumb:** rejecting ADF/PP/DF-GLS points to stationarity; rejecting KPSS points to nonstationarity. Combining ADF and KPSS gives a more robust diagnosis than either alone.</span>
-<span id="cb1-272"><a href="#cb1-272" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb1-273"><a href="#cb1-273" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-274"><a href="#cb1-274" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning title="Unit-root tests have near-zero power against structural breaks"}</span>
-<span id="cb1-275"><a href="#cb1-275" aria-hidden="true" tabindex="-1"></a>ADF, PP, and KPSS systematically conclude "unit root" when the series is actually **stationary around a shifted mean or a broken trend** - a critical caveat for applied work. Three tests address this directly:</span>
-<span id="cb1-276"><a href="#cb1-276" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-277"><a href="#cb1-277" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Chow [-@Chow1960].** Requires a *known* break date $T_b$; splits the sample and tests equality of regression coefficients across sub-samples via an $F$-statistic.</span>
-<span id="cb1-278"><a href="#cb1-278" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Perron [-@Perron1989].** Also requires a known $T_b$; a modified ADF including a shift dummy (level or trend), with $H_0$: unit root with break vs. $H_1$: stationary with break - avoiding Chow's confounding of a mean/trend shift with a stochastic trend.</span>
-<span id="cb1-279"><a href="#cb1-279" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Zivot-Andrews [-@ZivotAndrews1992].** Handles an *unknown* $T_b$ by running a Perron-type ADF at every candidate break date and selecting $T_b$ as the date that minimizes the unit-root $t$-statistic; critical values are adjusted for this data-mining.<span class="ot">[^bai-perron]</span></span>
+<span id="cb1-261"><a href="#cb1-261" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Open this specification in the Interactive Lab</span><span class="co">](../interactive-lab.html?method=breaks)</span>.</span>
+<span id="cb1-262"><a href="#cb1-262" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-263"><a href="#cb1-263" aria-hidden="true" tabindex="-1"></a>Formally, the question is whether nonstationarity stems from a **stochastic trend** (unit root - does the series tend to return to a fixed mean/trend after a shock?) or a **deterministic trend** (drift/linear trend - do shocks accumulate permanently?). The choice of a constant vs. a constant-plus-trend in the test equation should match the data pattern: a series fluctuating around a fixed mean needs only a constant; one growing/declining linearly needs a trend as well.</span>
+<span id="cb1-264"><a href="#cb1-264" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-265"><a href="#cb1-265" aria-hidden="true" tabindex="-1"></a>::: {.callout-note title="Unit-root tests"}</span>
+<span id="cb1-266"><a href="#cb1-266" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**ADF (Augmented Dickey-Fuller).** Classical regression-based test,</span>
+<span id="cb1-267"><a href="#cb1-267" aria-hidden="true" tabindex="-1"></a>   $$</span>
+<span id="cb1-268"><a href="#cb1-268" aria-hidden="true" tabindex="-1"></a>   \Delta X_t = \alpha + \beta t + (\phi - 1) X_{t-1} + \sum_{i=1}^{p}\delta_i \Delta X_{t-i} + \varepsilon_t,</span>
+<span id="cb1-269"><a href="#cb1-269" aria-hidden="true" tabindex="-1"></a>   $$</span>
+<span id="cb1-270"><a href="#cb1-270" aria-hidden="true" tabindex="-1"></a>   with $H_0$: unit root ($(\phi-1)=0$, nonstationary) against $H_1$: stationary ($(\phi-1)&lt;0$).</span>
+<span id="cb1-271"><a href="#cb1-271" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**PP (Phillips-Perron).** Same null as ADF, with a nonparametric correction for serial correlation via the long-run variance instead of augmenting lags.</span>
+<span id="cb1-272"><a href="#cb1-272" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**DF-GLS (Elliott-Rothenberg-Stock).** A more powerful variant that detrends the series first, then applies the DF test.</span>
+<span id="cb1-273"><a href="#cb1-273" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**KPSS (Kwiatkowski-Phillips-Schmidt-Shin).** The *opposite* null: $H_0$ is stationarity (around a mean or a trend), $H_1$ is a unit root.</span>
+<span id="cb1-274"><a href="#cb1-274" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-275"><a href="#cb1-275" aria-hidden="true" tabindex="-1"></a>**Rule of thumb:** rejecting ADF/PP/DF-GLS points to stationarity; rejecting KPSS points to nonstationarity. Combining ADF and KPSS gives a more robust diagnosis than either alone.</span>
+<span id="cb1-276"><a href="#cb1-276" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-277"><a href="#cb1-277" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-278"><a href="#cb1-278" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning title="Unit-root tests have near-zero power against structural breaks"}</span>
+<span id="cb1-279"><a href="#cb1-279" aria-hidden="true" tabindex="-1"></a>ADF, PP, and KPSS systematically conclude "unit root" when the series is actually **stationary around a shifted mean or a broken trend** - a critical caveat for applied work. Three tests address this directly:</span>
 <span id="cb1-280"><a href="#cb1-280" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-281"><a href="#cb1-281" aria-hidden="true" tabindex="-1"></a>**Practical rule:** inspect the series visually for level shifts or trend changes (crises, policy regime changes, wars); if a break is suspected, apply Zivot-Andrews *before* concluding the series is $I(1)$ - it may appear integrated purely because of an unmodeled break.</span>
-<span id="cb1-282"><a href="#cb1-282" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb1-283"><a href="#cb1-283" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-284"><a href="#cb1-284" aria-hidden="true" tabindex="-1"></a><span class="ot">[^bai-perron]: </span>Bai and Perron <span class="co">[</span><span class="ot">-@BaiPerron1998</span><span class="co">]</span> extend this to *multiple* unknown breaks.</span>
-<span id="cb1-285"><a href="#cb1-285" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-286"><a href="#cb1-286" aria-hidden="true" tabindex="-1"></a><span class="al">![Structural break vs. stochastic trend, illustrated with a Perron-type ADF test with a known break date. Left: a genuine deterministic break at $T_b = 85$ (test statistic $-5.751$ against a 5% critical value of about $-5.08$) - the unit-root null is rejected, so the series is trend-stationary around a broken deterministic trend. Right: a genuine stochastic trend, with a candidate break at $T_b = 75$ (test statistic $-3.320$, not below the critical value) - the unit-root null is not rejected, so the apparent break does not remove the stochastic trend. A deterministic break can mimic a unit root, and a genuine stochastic trend can mimic a break.](../figures/ts/structural-break-vs-stochastic-trend.png)</span>{#fig-structural-break}</span>
+<span id="cb1-281"><a href="#cb1-281" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Chow [-@Chow1960].** Requires a *known* break date $T_b$; splits the sample and tests equality of regression coefficients across sub-samples via an $F$-statistic.</span>
+<span id="cb1-282"><a href="#cb1-282" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Perron [-@Perron1989].** Also requires a known $T_b$; a modified ADF including a shift dummy (level or trend), with $H_0$: unit root with break vs. $H_1$: stationary with break - avoiding Chow's confounding of a mean/trend shift with a stochastic trend.</span>
+<span id="cb1-283"><a href="#cb1-283" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Zivot-Andrews [-@ZivotAndrews1992].** Handles an *unknown* $T_b$ by running a Perron-type ADF at every candidate break date and selecting $T_b$ as the date that minimizes the unit-root $t$-statistic; critical values are adjusted for this data-mining.<span class="ot">[^bai-perron]</span></span>
+<span id="cb1-284"><a href="#cb1-284" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-285"><a href="#cb1-285" aria-hidden="true" tabindex="-1"></a>**Practical rule:** inspect the series visually for level shifts or trend changes (crises, policy regime changes, wars); if a break is suspected, apply Zivot-Andrews *before* concluding the series is $I(1)$ - it may appear integrated purely because of an unmodeled break.</span>
+<span id="cb1-286"><a href="#cb1-286" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb1-287"><a href="#cb1-287" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-288"><a href="#cb1-288" aria-hidden="true" tabindex="-1"></a><span class="fu">## Achieving stationarity: transformations and filtering {#sec-ts-transformations}</span></span>
+<span id="cb1-288"><a href="#cb1-288" aria-hidden="true" tabindex="-1"></a><span class="ot">[^bai-perron]: </span>Bai and Perron <span class="co">[</span><span class="ot">-@BaiPerron1998</span><span class="co">]</span> extend this to *multiple* unknown breaks.</span>
 <span id="cb1-289"><a href="#cb1-289" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-290"><a href="#cb1-290" aria-hidden="true" tabindex="-1"></a>Once nonstationarity is detected, four transformations are used, alone or in combination, to stabilize a series:</span>
+<span id="cb1-290"><a href="#cb1-290" aria-hidden="true" tabindex="-1"></a><span class="al">![Structural break vs. stochastic trend, illustrated with a Perron-type ADF test with a known break date. Left: a genuine deterministic break at $T_b = 85$ (test statistic $-5.751$ against a 5% critical value of about $-5.08$) - the unit-root null is rejected, so the series is trend-stationary around a broken deterministic trend. Right: a genuine stochastic trend, with a candidate break at $T_b = 75$ (test statistic $-3.320$, not below the critical value) - the unit-root null is not rejected, so the apparent break does not remove the stochastic trend. A deterministic break can mimic a unit root, and a genuine stochastic trend can mimic a break.](../figures/ts/structural-break-vs-stochastic-trend.png)</span>{#fig-structural-break}</span>
 <span id="cb1-291"><a href="#cb1-291" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-292"><a href="#cb1-292" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Logarithm** - removes exponential growth and stabilizes variance.</span>
-<span id="cb1-293"><a href="#cb1-293" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Detrending (OLS)** - removes deterministic trend components.</span>
-<span id="cb1-294"><a href="#cb1-294" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Differencing** - removes stochastic trends (unit roots).</span>
-<span id="cb1-295"><a href="#cb1-295" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Filtering** - removes specific frequency bands (e.g. HP, BK, CF filters).</span>
-<span id="cb1-296"><a href="#cb1-296" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-297"><a href="#cb1-297" aria-hidden="true" tabindex="-1"></a>The corresponding empirical workflow is: (i) visual inspection to guess the type of trend; (ii) unit-root tests; (iii) apply the appropriate transformation; (iv) test the residual for stationarity (ACF tail decay, formal tests).</span>
-<span id="cb1-298"><a href="#cb1-298" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-299"><a href="#cb1-299" aria-hidden="true" tabindex="-1"></a><span class="fu">### Removing seasonality</span></span>
+<span id="cb1-292"><a href="#cb1-292" aria-hidden="true" tabindex="-1"></a><span class="fu">## Achieving stationarity: transformations and filtering {#sec-ts-transformations}</span></span>
+<span id="cb1-293"><a href="#cb1-293" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-294"><a href="#cb1-294" aria-hidden="true" tabindex="-1"></a>Once nonstationarity is detected, four transformations are used, alone or in combination, to stabilize a series:</span>
+<span id="cb1-295"><a href="#cb1-295" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-296"><a href="#cb1-296" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Logarithm** - removes exponential growth and stabilizes variance.</span>
+<span id="cb1-297"><a href="#cb1-297" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Detrending (OLS)** - removes deterministic trend components.</span>
+<span id="cb1-298"><a href="#cb1-298" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Differencing** - removes stochastic trends (unit roots).</span>
+<span id="cb1-299"><a href="#cb1-299" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Filtering** - removes specific frequency bands (e.g. HP, BK, CF filters).</span>
 <span id="cb1-300"><a href="#cb1-300" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-301"><a href="#cb1-301" aria-hidden="true" tabindex="-1"></a>Two approaches address a recurring seasonal pattern $s_t$, so that the residual series has constant mean and time-invariant covariance:</span>
+<span id="cb1-301"><a href="#cb1-301" aria-hidden="true" tabindex="-1"></a>The corresponding empirical workflow is: (i) visual inspection to guess the type of trend; (ii) unit-root tests; (iii) apply the appropriate transformation; (iv) test the residual for stationarity (ACF tail decay, formal tests).</span>
 <span id="cb1-302"><a href="#cb1-302" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-303"><a href="#cb1-303" aria-hidden="true" tabindex="-1"></a>::: {.callout-note title="(a) Deterministic seasonality - regression on seasonal dummies"}</span>
-<span id="cb1-304"><a href="#cb1-304" aria-hidden="true" tabindex="-1"></a>Assuming a fixed, repeating seasonal pattern,</span>
-<span id="cb1-305"><a href="#cb1-305" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-306"><a href="#cb1-306" aria-hidden="true" tabindex="-1"></a>X_t = \alpha + \sum_{m=1}^{S-1}\beta_m D_{m,t} + u_t, \qquad D_{m,t} = 1 \text{ if period } m,\ 0 \text{ otherwise},</span>
-<span id="cb1-307"><a href="#cb1-307" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-308"><a href="#cb1-308" aria-hidden="true" tabindex="-1"></a>the fitted part $\hat\alpha + \sum \hat\beta_m D_{m,t}$ captures seasonality, and the deseasonalized series is $X_t^* = X_t - (\hat\alpha + \sum_{m=1}^{S-1}\hat\beta_m D_{m,t})$. This works well when the seasonal pattern is stable over time.</span>
-<span id="cb1-309"><a href="#cb1-309" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb1-310"><a href="#cb1-310" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-311"><a href="#cb1-311" aria-hidden="true" tabindex="-1"></a>::: {.callout-note title="(b) Stochastic or time-varying seasonality - seasonal differencing"}</span>
-<span id="cb1-312"><a href="#cb1-312" aria-hidden="true" tabindex="-1"></a>If the seasonal effect's strength changes slowly, $\Delta_S X_t = X_t - X_{t-S}$ removes it directly - e.g. $\Delta_{12}X_t$ for monthly data removes yearly periodicity. Since $E<span class="co">[</span><span class="ot">X_t - X_{t-S}</span><span class="co">]</span> = s_t - s_{t-S} = 0$, the mean becomes constant. This is the standard approach in SARIMA models, and it preserves short-run dynamics.</span>
-<span id="cb1-313"><a href="#cb1-313" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb1-314"><a href="#cb1-314" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-315"><a href="#cb1-315" aria-hidden="true" tabindex="-1"></a><span class="fu">### First transformation: the logarithm {#sec-ts-logs}</span></span>
+<span id="cb1-303"><a href="#cb1-303" aria-hidden="true" tabindex="-1"></a><span class="fu">### Removing seasonality</span></span>
+<span id="cb1-304"><a href="#cb1-304" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-305"><a href="#cb1-305" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Open this specification in the Interactive Lab</span><span class="co">](../interactive-lab.html?method=seasonality)</span>.</span>
+<span id="cb1-306"><a href="#cb1-306" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-307"><a href="#cb1-307" aria-hidden="true" tabindex="-1"></a>Two approaches address a recurring seasonal pattern $s_t$, so that the residual series has constant mean and time-invariant covariance:</span>
+<span id="cb1-308"><a href="#cb1-308" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-309"><a href="#cb1-309" aria-hidden="true" tabindex="-1"></a>::: {.callout-note title="(a) Deterministic seasonality - regression on seasonal dummies"}</span>
+<span id="cb1-310"><a href="#cb1-310" aria-hidden="true" tabindex="-1"></a>Assuming a fixed, repeating seasonal pattern,</span>
+<span id="cb1-311"><a href="#cb1-311" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-312"><a href="#cb1-312" aria-hidden="true" tabindex="-1"></a>X_t = \alpha + \sum_{m=1}^{S-1}\beta_m D_{m,t} + u_t, \qquad D_{m,t} = 1 \text{ if period } m,\ 0 \text{ otherwise},</span>
+<span id="cb1-313"><a href="#cb1-313" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-314"><a href="#cb1-314" aria-hidden="true" tabindex="-1"></a>the fitted part $\hat\alpha + \sum \hat\beta_m D_{m,t}$ captures seasonality, and the deseasonalized series is $X_t^* = X_t - (\hat\alpha + \sum_{m=1}^{S-1}\hat\beta_m D_{m,t})$. This works well when the seasonal pattern is stable over time.</span>
+<span id="cb1-315"><a href="#cb1-315" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb1-316"><a href="#cb1-316" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-317"><a href="#cb1-317" aria-hidden="true" tabindex="-1"></a>Taking $\log(x_t)$ **stabilizes variance** when volatility is level-dependent: many macro series grow roughly exponentially, so their variance grows with their level, and logs turn exponential growth into approximately linear growth (multiplicative changes become additive), making fluctuations more homoscedastic and models better-behaved. It also aids **interpretability**, since log-differences approximate percentage growth rates (made precise below).</span>
-<span id="cb1-318"><a href="#cb1-318" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-319"><a href="#cb1-319" aria-hidden="true" tabindex="-1"></a><span class="al">![European GDPs in logarithm: the exponential growth of @fig-european-gdp-levels becomes approximately linear.](../figures/ts/european-gdps-log.png)</span>{#fig-european-gdp-log}</span>
+<span id="cb1-317"><a href="#cb1-317" aria-hidden="true" tabindex="-1"></a>::: {.callout-note title="(b) Stochastic or time-varying seasonality - seasonal differencing"}</span>
+<span id="cb1-318"><a href="#cb1-318" aria-hidden="true" tabindex="-1"></a>If the seasonal effect's strength changes slowly, $\Delta_S X_t = X_t - X_{t-S}$ removes it directly - e.g. $\Delta_{12}X_t$ for monthly data removes yearly periodicity. Since $E<span class="co">[</span><span class="ot">X_t - X_{t-S}</span><span class="co">]</span> = s_t - s_{t-S} = 0$, the mean becomes constant. This is the standard approach in SARIMA models, and it preserves short-run dynamics.</span>
+<span id="cb1-319"><a href="#cb1-319" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb1-320"><a href="#cb1-320" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-321"><a href="#cb1-321" aria-hidden="true" tabindex="-1"></a><span class="fu">### Second transformation: deviations from a deterministic trend</span></span>
+<span id="cb1-321"><a href="#cb1-321" aria-hidden="true" tabindex="-1"></a><span class="fu">### First transformation: the logarithm {#sec-ts-logs}</span></span>
 <span id="cb1-322"><a href="#cb1-322" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-323"><a href="#cb1-323" aria-hidden="true" tabindex="-1"></a>The idea is to remove the deterministic trend of $\log(x_t)$, estimated by OLS - linearly,</span>
-<span id="cb1-324"><a href="#cb1-324" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-325"><a href="#cb1-325" aria-hidden="true" tabindex="-1"></a>x_t^{*} = \log(x_t) - \hat{\beta}_0 - \hat{\beta}_1 t,</span>
-<span id="cb1-326"><a href="#cb1-326" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-327"><a href="#cb1-327" aria-hidden="true" tabindex="-1"></a>or quadratically,</span>
-<span id="cb1-328"><a href="#cb1-328" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-329"><a href="#cb1-329" aria-hidden="true" tabindex="-1"></a>x_t^{*} = \log(x_t) - \hat{\beta}_0 - \hat{\beta}_1 t - \hat{\beta}_2 t^2.</span>
+<span id="cb1-323"><a href="#cb1-323" aria-hidden="true" tabindex="-1"></a>Taking $\log(x_t)$ **stabilizes variance** when volatility is level-dependent: many macro series grow roughly exponentially, so their variance grows with their level, and logs turn exponential growth into approximately linear growth (multiplicative changes become additive), making fluctuations more homoscedastic and models better-behaved. It also aids **interpretability**, since log-differences approximate percentage growth rates (made precise below).</span>
+<span id="cb1-324"><a href="#cb1-324" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-325"><a href="#cb1-325" aria-hidden="true" tabindex="-1"></a><span class="al">![European GDPs in logarithm: the exponential growth of @fig-european-gdp-levels becomes approximately linear.](../figures/ts/european-gdps-log.png)</span>{#fig-european-gdp-log}</span>
+<span id="cb1-326"><a href="#cb1-326" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-327"><a href="#cb1-327" aria-hidden="true" tabindex="-1"></a><span class="fu">### Second transformation: deviations from a deterministic trend</span></span>
+<span id="cb1-328"><a href="#cb1-328" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-329"><a href="#cb1-329" aria-hidden="true" tabindex="-1"></a>The idea is to remove the deterministic trend of $\log(x_t)$, estimated by OLS - linearly,</span>
 <span id="cb1-330"><a href="#cb1-330" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-331"><a href="#cb1-331" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-332"><a href="#cb1-332" aria-hidden="true" tabindex="-1"></a>For German GDP, the two fits give:</span>
-<span id="cb1-333"><a href="#cb1-333" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-334"><a href="#cb1-334" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Trend <span class="pp">|</span> $\hat{\beta}_0$ <span class="pp">|</span> $\hat{\beta}_1$ <span class="pp">|</span> $\hat{\beta}_2$ <span class="pp">|</span></span>
-<span id="cb1-335"><a href="#cb1-335" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>-<span class="pp">|</span>-:<span class="pp">|</span>-:<span class="pp">|</span>-:<span class="pp">|</span></span>
-<span id="cb1-336"><a href="#cb1-336" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Linear <span class="pp">|</span> 13.78 <span class="pp">|</span> 0.005 <span class="pp">|</span> - <span class="pp">|</span></span>
-<span id="cb1-337"><a href="#cb1-337" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Quadratic <span class="pp">|</span> 13.62 <span class="pp">|</span> 0.010 <span class="pp">|</span> −0.00002 <span class="pp">|</span></span>
-<span id="cb1-338"><a href="#cb1-338" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-339"><a href="#cb1-339" aria-hidden="true" tabindex="-1"></a>: OLS trend estimates, log German GDP {#tbl-german-gdp-trend}</span>
-<span id="cb1-340"><a href="#cb1-340" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-341"><a href="#cb1-341" aria-hidden="true" tabindex="-1"></a><span class="al">![Detrended German GDP (in log): linear vs. quadratic trend removal.](../figures/ts/german-gdp-detrended-linear-quadratic.png)</span>{#fig-german-gdp-detrended}</span>
-<span id="cb1-342"><a href="#cb1-342" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-343"><a href="#cb1-343" aria-hidden="true" tabindex="-1"></a><span class="al">![Detrended log German GDP and its ACF, linear detrending.](../figures/ts/german-gdp-detrended-acf-linear.png)</span>{#fig-german-gdp-detrended-acf-linear}</span>
+<span id="cb1-331"><a href="#cb1-331" aria-hidden="true" tabindex="-1"></a>x_t^{*} = \log(x_t) - \hat{\beta}_0 - \hat{\beta}_1 t,</span>
+<span id="cb1-332"><a href="#cb1-332" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-333"><a href="#cb1-333" aria-hidden="true" tabindex="-1"></a>or quadratically,</span>
+<span id="cb1-334"><a href="#cb1-334" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-335"><a href="#cb1-335" aria-hidden="true" tabindex="-1"></a>x_t^{*} = \log(x_t) - \hat{\beta}_0 - \hat{\beta}_1 t - \hat{\beta}_2 t^2.</span>
+<span id="cb1-336"><a href="#cb1-336" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-337"><a href="#cb1-337" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-338"><a href="#cb1-338" aria-hidden="true" tabindex="-1"></a>For German GDP, the two fits give:</span>
+<span id="cb1-339"><a href="#cb1-339" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-340"><a href="#cb1-340" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Trend <span class="pp">|</span> $\hat{\beta}_0$ <span class="pp">|</span> $\hat{\beta}_1$ <span class="pp">|</span> $\hat{\beta}_2$ <span class="pp">|</span></span>
+<span id="cb1-341"><a href="#cb1-341" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>-<span class="pp">|</span>-:<span class="pp">|</span>-:<span class="pp">|</span>-:<span class="pp">|</span></span>
+<span id="cb1-342"><a href="#cb1-342" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Linear <span class="pp">|</span> 13.78 <span class="pp">|</span> 0.005 <span class="pp">|</span> - <span class="pp">|</span></span>
+<span id="cb1-343"><a href="#cb1-343" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Quadratic <span class="pp">|</span> 13.62 <span class="pp">|</span> 0.010 <span class="pp">|</span> −0.00002 <span class="pp">|</span></span>
 <span id="cb1-344"><a href="#cb1-344" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-345"><a href="#cb1-345" aria-hidden="true" tabindex="-1"></a><span class="al">![Detrended log German GDP and its ACF, quadratic detrending.](../figures/ts/german-gdp-detrended-acf-quadratic.png)</span>{#fig-german-gdp-detrended-acf-quadratic}</span>
+<span id="cb1-345"><a href="#cb1-345" aria-hidden="true" tabindex="-1"></a>: OLS trend estimates, log German GDP {#tbl-german-gdp-trend}</span>
 <span id="cb1-346"><a href="#cb1-346" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-347"><a href="#cb1-347" aria-hidden="true" tabindex="-1"></a><span class="fu">### Third transformation: first differences</span></span>
+<span id="cb1-347"><a href="#cb1-347" aria-hidden="true" tabindex="-1"></a><span class="al">![Detrended German GDP (in log): linear vs. quadratic trend removal.](../figures/ts/german-gdp-detrended-linear-quadratic.png)</span>{#fig-german-gdp-detrended}</span>
 <span id="cb1-348"><a href="#cb1-348" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-349"><a href="#cb1-349" aria-hidden="true" tabindex="-1"></a>If instead the series has a unit root, **first differences of the logarithm** approximate the growth rate:</span>
+<span id="cb1-349"><a href="#cb1-349" aria-hidden="true" tabindex="-1"></a><span class="al">![Detrended log German GDP and its ACF, linear detrending.](../figures/ts/german-gdp-detrended-acf-linear.png)</span>{#fig-german-gdp-detrended-acf-linear}</span>
 <span id="cb1-350"><a href="#cb1-350" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-351"><a href="#cb1-351" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-352"><a href="#cb1-352" aria-hidden="true" tabindex="-1"></a>\Delta \log(x_t) = \log(x_t) - \log(x_{t-1}) \approx \frac{x_t - x_{t-1}}{x_{t-1}}.</span>
-<span id="cb1-353"><a href="#cb1-353" aria-hidden="true" tabindex="-1"></a>$$ {#eq-log-diff-growth}</span>
+<span id="cb1-351"><a href="#cb1-351" aria-hidden="true" tabindex="-1"></a><span class="al">![Detrended log German GDP and its ACF, quadratic detrending.](../figures/ts/german-gdp-detrended-acf-quadratic.png)</span>{#fig-german-gdp-detrended-acf-quadratic}</span>
+<span id="cb1-352"><a href="#cb1-352" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-353"><a href="#cb1-353" aria-hidden="true" tabindex="-1"></a><span class="fu">### Third transformation: first differences</span></span>
 <span id="cb1-354"><a href="#cb1-354" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-355"><a href="#cb1-355" aria-hidden="true" tabindex="-1"></a>To see why, write</span>
+<span id="cb1-355"><a href="#cb1-355" aria-hidden="true" tabindex="-1"></a>If instead the series has a unit root, **first differences of the logarithm** approximate the growth rate:</span>
 <span id="cb1-356"><a href="#cb1-356" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-357"><a href="#cb1-357" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-358"><a href="#cb1-358" aria-hidden="true" tabindex="-1"></a>\Delta \log(x_t) = \log x_t - \log x_{t-1} = \log \frac{x_t}{x_{t-1}}</span>
-<span id="cb1-359"><a href="#cb1-359" aria-hidden="true" tabindex="-1"></a>= \log<span class="sc">\!</span>\left(\frac{x_t - x_{t-1}}{x_{t-1}} + 1\right),</span>
-<span id="cb1-360"><a href="#cb1-360" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-361"><a href="#cb1-361" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-362"><a href="#cb1-362" aria-hidden="true" tabindex="-1"></a>and use $\log(1+\epsilon) \approx \epsilon$ for small relative changes $\epsilon$ to recover @eq-log-diff-growth.</span>
-<span id="cb1-363"><a href="#cb1-363" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-364"><a href="#cb1-364" aria-hidden="true" tabindex="-1"></a><span class="fu">### Centering vs. differencing</span></span>
-<span id="cb1-365"><a href="#cb1-365" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-366"><a href="#cb1-366" aria-hidden="true" tabindex="-1"></a>It is worth being precise about what each transformation does to the mean, since the two are easy to conflate:</span>
+<span id="cb1-358"><a href="#cb1-358" aria-hidden="true" tabindex="-1"></a>\Delta \log(x_t) = \log(x_t) - \log(x_{t-1}) \approx \frac{x_t - x_{t-1}}{x_{t-1}}.</span>
+<span id="cb1-359"><a href="#cb1-359" aria-hidden="true" tabindex="-1"></a>$$ {#eq-log-diff-growth}</span>
+<span id="cb1-360"><a href="#cb1-360" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-361"><a href="#cb1-361" aria-hidden="true" tabindex="-1"></a>To see why, write</span>
+<span id="cb1-362"><a href="#cb1-362" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-363"><a href="#cb1-363" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-364"><a href="#cb1-364" aria-hidden="true" tabindex="-1"></a>\Delta \log(x_t) = \log x_t - \log x_{t-1} = \log \frac{x_t}{x_{t-1}}</span>
+<span id="cb1-365"><a href="#cb1-365" aria-hidden="true" tabindex="-1"></a>= \log<span class="sc">\!</span>\left(\frac{x_t - x_{t-1}}{x_{t-1}} + 1\right),</span>
+<span id="cb1-366"><a href="#cb1-366" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb1-367"><a href="#cb1-367" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-368"><a href="#cb1-368" aria-hidden="true" tabindex="-1"></a>**Trend-stationary**, $X_t = a + bt + Y_t$ with $E[Y_t] = 0$, $Y_t \sim I(0)$: *detrending* gives $Y_t$, stationary and centered on 0; *differencing* gives $\Delta X_t = b + \Delta Y_t$ with $E[\Delta X_t] = b$ - **not** centered (unless $b=0$), since GDP growth is centered above zero precisely because there is long-run growth in levels.</span>
+<span id="cb1-368"><a href="#cb1-368" aria-hidden="true" tabindex="-1"></a>and use $\log(1+\epsilon) \approx \epsilon$ for small relative changes $\epsilon$ to recover @eq-log-diff-growth.</span>
 <span id="cb1-369"><a href="#cb1-369" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-370"><a href="#cb1-370" aria-hidden="true" tabindex="-1"></a>**Difference-stationary (random walk) with drift $\mu$**, $X_t = \mu + X_{t-1} + \varepsilon_t$: *differencing* gives $\Delta X_t = \mu + \varepsilon_t$, stationary but not centered unless $\mu = 0$; without drift, $\Delta X_t = \varepsilon_t$ is centered on 0.</span>
+<span id="cb1-370"><a href="#cb1-370" aria-hidden="true" tabindex="-1"></a><span class="fu">### Centering vs. differencing</span></span>
 <span id="cb1-371"><a href="#cb1-371" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-372"><a href="#cb1-372" aria-hidden="true" tabindex="-1"></a>In short: for a TS series, detrending centers on 0 while differencing leaves mean $b$; for a DS (random-walk) series, differencing leaves mean $\mu$ (often $&gt;0$ in macro data), centered only if $\mu = 0$.</span>
+<span id="cb1-372"><a href="#cb1-372" aria-hidden="true" tabindex="-1"></a>It is worth being precise about what each transformation does to the mean, since the two are easy to conflate:</span>
 <span id="cb1-373"><a href="#cb1-373" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-374"><a href="#cb1-374" aria-hidden="true" tabindex="-1"></a>::: {.callout-important title="Rule of thumb"}</span>
-<span id="cb1-375"><a href="#cb1-375" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-376"><a href="#cb1-376" aria-hidden="true" tabindex="-1"></a>\begin{cases}</span>
-<span id="cb1-377"><a href="#cb1-377" aria-hidden="true" tabindex="-1"></a>x_t^* = x_t - \hat a - \hat b\, t &amp; \Rightarrow \text{trend-stationary (TS)} <span class="sc">\\</span><span class="co">[</span><span class="ot">4pt</span><span class="co">]</span></span>
-<span id="cb1-378"><a href="#cb1-378" aria-hidden="true" tabindex="-1"></a>\Delta x_t = x_t - x_{t-1} &amp; \Rightarrow \text{difference-stationary (DS)}</span>
-<span id="cb1-379"><a href="#cb1-379" aria-hidden="true" tabindex="-1"></a>\end{cases}</span>
-<span id="cb1-380"><a href="#cb1-380" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-381"><a href="#cb1-381" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-382"><a href="#cb1-382" aria-hidden="true" tabindex="-1"></a>A stationary series is said to be **integrated of order 0**, $I(0)$; a series requiring one difference is $I(1)$; a series requiring $d$ differences is $I(d)$.</span>
-<span id="cb1-383"><a href="#cb1-383" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb1-384"><a href="#cb1-384" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-385"><a href="#cb1-385" aria-hidden="true" tabindex="-1"></a><span class="fu">### From detrending to filtering</span></span>
-<span id="cb1-386"><a href="#cb1-386" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-387"><a href="#cb1-387" aria-hidden="true" tabindex="-1"></a>Detrending removes deterministic growth to obtain stationarity. **Filtering** instead separates movements by frequency, for business-cycle extraction. The underlying idea is that a series decomposes into components at different frequencies,</span>
-<span id="cb1-388"><a href="#cb1-388" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-389"><a href="#cb1-389" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-390"><a href="#cb1-390" aria-hidden="true" tabindex="-1"></a>X_t = T_t + C_t + \varepsilon_t,</span>
-<span id="cb1-391"><a href="#cb1-391" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-374"><a href="#cb1-374" aria-hidden="true" tabindex="-1"></a>**Trend-stationary**, $X_t = a + bt + Y_t$ with $E[Y_t] = 0$, $Y_t \sim I(0)$: *detrending* gives $Y_t$, stationary and centered on 0; *differencing* gives $\Delta X_t = b + \Delta Y_t$ with $E[\Delta X_t] = b$ - **not** centered (unless $b=0$), since GDP growth is centered above zero precisely because there is long-run growth in levels.</span>
+<span id="cb1-375"><a href="#cb1-375" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-376"><a href="#cb1-376" aria-hidden="true" tabindex="-1"></a>**Difference-stationary (random walk) with drift $\mu$**, $X_t = \mu + X_{t-1} + \varepsilon_t$: *differencing* gives $\Delta X_t = \mu + \varepsilon_t$, stationary but not centered unless $\mu = 0$; without drift, $\Delta X_t = \varepsilon_t$ is centered on 0.</span>
+<span id="cb1-377"><a href="#cb1-377" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-378"><a href="#cb1-378" aria-hidden="true" tabindex="-1"></a>In short: for a TS series, detrending centers on 0 while differencing leaves mean $b$; for a DS (random-walk) series, differencing leaves mean $\mu$ (often $&gt;0$ in macro data), centered only if $\mu = 0$.</span>
+<span id="cb1-379"><a href="#cb1-379" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-380"><a href="#cb1-380" aria-hidden="true" tabindex="-1"></a>::: {.callout-important title="Rule of thumb"}</span>
+<span id="cb1-381"><a href="#cb1-381" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-382"><a href="#cb1-382" aria-hidden="true" tabindex="-1"></a>\begin{cases}</span>
+<span id="cb1-383"><a href="#cb1-383" aria-hidden="true" tabindex="-1"></a>x_t^* = x_t - \hat a - \hat b\, t &amp; \Rightarrow \text{trend-stationary (TS)} <span class="sc">\\</span><span class="co">[</span><span class="ot">4pt</span><span class="co">]</span></span>
+<span id="cb1-384"><a href="#cb1-384" aria-hidden="true" tabindex="-1"></a>\Delta x_t = x_t - x_{t-1} &amp; \Rightarrow \text{difference-stationary (DS)}</span>
+<span id="cb1-385"><a href="#cb1-385" aria-hidden="true" tabindex="-1"></a>\end{cases}</span>
+<span id="cb1-386"><a href="#cb1-386" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-387"><a href="#cb1-387" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-388"><a href="#cb1-388" aria-hidden="true" tabindex="-1"></a>A stationary series is said to be **integrated of order 0**, $I(0)$; a series requiring one difference is $I(1)$; a series requiring $d$ differences is $I(d)$.</span>
+<span id="cb1-389"><a href="#cb1-389" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-390"><a href="#cb1-390" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-391"><a href="#cb1-391" aria-hidden="true" tabindex="-1"></a><span class="fu">### From detrending to filtering</span></span>
 <span id="cb1-392"><a href="#cb1-392" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-393"><a href="#cb1-393" aria-hidden="true" tabindex="-1"></a>with $T_t$ the slow, low-frequency long-run trend, $C_t$ the medium-frequency business cycle, and $\varepsilon_t$ high-frequency noise. Which component to remove depends on the question: forecasting calls for removing the nonstationary trend; cyclical analysis calls for removing both the high- and low-frequency components. But **what counts as "trend" and what counts as "business cycle" is not given by the data** - it is an assumption built into the choice of filter.</span>
+<span id="cb1-393"><a href="#cb1-393" aria-hidden="true" tabindex="-1"></a>Detrending removes deterministic growth to obtain stationarity. **Filtering** instead separates movements by frequency, for business-cycle extraction. The underlying idea is that a series decomposes into components at different frequencies,</span>
 <span id="cb1-394"><a href="#cb1-394" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-395"><a href="#cb1-395" aria-hidden="true" tabindex="-1"></a>::: {.callout-note title="Main filtering methods"}</span>
-<span id="cb1-396"><a href="#cb1-396" aria-hidden="true" tabindex="-1"></a>**Hodrick-Prescott (HP) filter.** Penalizes variability in the trend,</span>
+<span id="cb1-395"><a href="#cb1-395" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-396"><a href="#cb1-396" aria-hidden="true" tabindex="-1"></a>X_t = T_t + C_t + \varepsilon_t,</span>
 <span id="cb1-397"><a href="#cb1-397" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-398"><a href="#cb1-398" aria-hidden="true" tabindex="-1"></a>\min_T \sum_t (X_t - T_t)^2 + \lambda \sum_t (\Delta^2 T_t)^2,</span>
-<span id="cb1-399"><a href="#cb1-399" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-400"><a href="#cb1-400" aria-hidden="true" tabindex="-1"></a>with $\lambda$ controlling smoothness ($\lambda = 1600$ for quarterly data), giving $X_t = T_t + C_t$ with $C_t$ stationary.</span>
-<span id="cb1-401"><a href="#cb1-401" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-402"><a href="#cb1-402" aria-hidden="true" tabindex="-1"></a>**Baxter-King (BK) filter.** A band-pass filter isolating cycles of 6-32 quarters, implemented as a symmetric moving average - which introduces edge loss, and suppresses genuine cyclicality if the endogenous dynamics actually operate beyond 32 quarters (e.g. medium-run capacity utilization, or longer financial cycles in credit volumes and leverage, à la Borio at the BIS).</span>
-<span id="cb1-403"><a href="#cb1-403" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-404"><a href="#cb1-404" aria-hidden="true" tabindex="-1"></a>**Christiano-Fitzgerald (CF) filter.** Similar band-pass logic to BK, optimized for finite samples, with less edge distortion.</span>
-<span id="cb1-405"><a href="#cb1-405" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb1-406"><a href="#cb1-406" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-407"><a href="#cb1-407" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning title="Detrending and filtering are not neutral"}</span>
-<span id="cb1-408"><a href="#cb1-408" aria-hidden="true" tabindex="-1"></a>The HP filter can mistake a long slump for a fall in potential output, pulling the estimated "trend" down until the economy appears to be back at full employment. In the Great Depression, this misreads a sustained demand shortfall as lower potential output - the filter absorbs the depression into the trend, erasing genuine cyclical slack (Hamilton <span class="co">[</span><span class="ot">-@Hamilton2018</span><span class="co">]</span>, "Why You Should Never Use the Hodrick-Prescott Filter"). Detrending methods are usually discretionary and parametric, with a direct impact on what counts as trend versus cycle.</span>
-<span id="cb1-409"><a href="#cb1-409" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb1-410"><a href="#cb1-410" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-411"><a href="#cb1-411" aria-hidden="true" tabindex="-1"></a><span class="al">![Actual vs. HP-filtered log U.S. GDP, 1919-1939: the filter reads the Great Depression partly as a decline in potential output rather than purely a shortfall in demand.](../figures/ts/hp-filter-great-depression-hamilton2018.png)</span>{#fig-hp-filter-critique}</span>
+<span id="cb1-398"><a href="#cb1-398" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-399"><a href="#cb1-399" aria-hidden="true" tabindex="-1"></a>with $T_t$ the slow, low-frequency long-run trend, $C_t$ the medium-frequency business cycle, and $\varepsilon_t$ high-frequency noise. Which component to remove depends on the question: forecasting calls for removing the nonstationary trend; cyclical analysis calls for removing both the high- and low-frequency components. But **what counts as "trend" and what counts as "business cycle" is not given by the data** - it is an assumption built into the choice of filter.</span>
+<span id="cb1-400"><a href="#cb1-400" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-401"><a href="#cb1-401" aria-hidden="true" tabindex="-1"></a>::: {.callout-note title="Main filtering methods"}</span>
+<span id="cb1-402"><a href="#cb1-402" aria-hidden="true" tabindex="-1"></a>**Hodrick-Prescott (HP) filter.** Penalizes variability in the trend,</span>
+<span id="cb1-403"><a href="#cb1-403" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-404"><a href="#cb1-404" aria-hidden="true" tabindex="-1"></a>\min_T \sum_t (X_t - T_t)^2 + \lambda \sum_t (\Delta^2 T_t)^2,</span>
+<span id="cb1-405"><a href="#cb1-405" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-406"><a href="#cb1-406" aria-hidden="true" tabindex="-1"></a>with $\lambda$ controlling smoothness ($\lambda = 1600$ for quarterly data), giving $X_t = T_t + C_t$ with $C_t$ stationary.</span>
+<span id="cb1-407"><a href="#cb1-407" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-408"><a href="#cb1-408" aria-hidden="true" tabindex="-1"></a>**Baxter-King (BK) filter.** A band-pass filter isolating cycles of 6-32 quarters, implemented as a symmetric moving average - which introduces edge loss, and suppresses genuine cyclicality if the endogenous dynamics actually operate beyond 32 quarters (e.g. medium-run capacity utilization, or longer financial cycles in credit volumes and leverage, à la Borio at the BIS).</span>
+<span id="cb1-409"><a href="#cb1-409" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-410"><a href="#cb1-410" aria-hidden="true" tabindex="-1"></a>**Christiano-Fitzgerald (CF) filter.** Similar band-pass logic to BK, optimized for finite samples, with less edge distortion.</span>
+<span id="cb1-411"><a href="#cb1-411" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb1-412"><a href="#cb1-412" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-413"><a href="#cb1-413" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- REVIEW: possible substantive issue in original slides: the frame "My work" (source: 09-time-series lecture, "Are Cycles Cyclical?") presents ongoing, unpublished research on frequency-domain separation of macro-financial cycles, illustrated by @fig-nfci-leverage-spectrum below. This is explicitly framed as the instructor's current work rather than an established textbook result; kept here as personal/illustrative research context rather than a citable finding. --&gt;</span></span>
-<span id="cb1-414"><a href="#cb1-414" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-415"><a href="#cb1-415" aria-hidden="true" tabindex="-1"></a><span class="al">![Spectral density of NFCI leverage (levels, unfiltered), with confidence bands: illustrates ongoing research into "agnostic" frequency-domain separation of trend and cycle, motivated by the discretionary nature of parametric filters above.](../figures/ts/research-nfci-leverage-spectrum.png)</span>{#fig-nfci-leverage-spectrum}</span>
+<span id="cb1-413"><a href="#cb1-413" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning title="Detrending and filtering are not neutral"}</span>
+<span id="cb1-414"><a href="#cb1-414" aria-hidden="true" tabindex="-1"></a>The HP filter can mistake a long slump for a fall in potential output, pulling the estimated "trend" down until the economy appears to be back at full employment. In the Great Depression, this misreads a sustained demand shortfall as lower potential output - the filter absorbs the depression into the trend, erasing genuine cyclical slack (Hamilton <span class="co">[</span><span class="ot">-@Hamilton2018</span><span class="co">]</span>, "Why You Should Never Use the Hodrick-Prescott Filter"). Detrending methods are usually discretionary and parametric, with a direct impact on what counts as trend versus cycle.</span>
+<span id="cb1-415"><a href="#cb1-415" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb1-416"><a href="#cb1-416" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-417"><a href="#cb1-417" aria-hidden="true" tabindex="-1"></a><span class="fu">### Summary of transformations</span></span>
+<span id="cb1-417"><a href="#cb1-417" aria-hidden="true" tabindex="-1"></a><span class="al">![Actual vs. HP-filtered log U.S. GDP, 1919-1939: the filter reads the Great Depression partly as a decline in potential output rather than purely a shortfall in demand.](../figures/ts/hp-filter-great-depression-hamilton2018.png)</span>{#fig-hp-filter-critique}</span>
 <span id="cb1-418"><a href="#cb1-418" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-419"><a href="#cb1-419" aria-hidden="true" tabindex="-1"></a>Log-transforming stabilizes variance; detrending removes deterministic growth; differencing removes stochastic trends. But filtering is never neutral - it defines what counts as "trend" and what counts as "cycle," and misuse can distort macroeconomic interpretation.</span>
+<span id="cb1-419"><a href="#cb1-419" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- REVIEW: possible substantive issue in original slides: the frame "My work" (source: 09-time-series lecture, "Are Cycles Cyclical?") presents ongoing, unpublished research on frequency-domain separation of macro-financial cycles, illustrated by @fig-nfci-leverage-spectrum below. This is explicitly framed as the instructor's current work rather than an established textbook result; kept here as personal/illustrative research context rather than a citable finding. --&gt;</span></span>
 <span id="cb1-420"><a href="#cb1-420" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-421"><a href="#cb1-421" aria-hidden="true" tabindex="-1"></a><span class="fu">## From stationarity to prediction: the Wold decomposition {#sec-wold}</span></span>
+<span id="cb1-421"><a href="#cb1-421" aria-hidden="true" tabindex="-1"></a><span class="al">![Spectral density of NFCI leverage (levels, unfiltered), with confidence bands: illustrates ongoing research into "agnostic" frequency-domain separation of trend and cycle, motivated by the discretionary nature of parametric filters above.](../figures/ts/research-nfci-leverage-spectrum.png)</span>{#fig-nfci-leverage-spectrum}</span>
 <span id="cb1-422"><a href="#cb1-422" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-423"><a href="#cb1-423" aria-hidden="true" tabindex="-1"></a>::: {.callout-important title="Wold decomposition theorem"}</span>
-<span id="cb1-424"><a href="#cb1-424" aria-hidden="true" tabindex="-1"></a>Any zero-mean, weakly stationary process $<span class="sc">\{</span>X_t<span class="sc">\}</span>$ can be written as</span>
-<span id="cb1-425"><a href="#cb1-425" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-426"><a href="#cb1-426" aria-hidden="true" tabindex="-1"></a>X_t = X_t^{(d)} + X_t^{(s)}, \qquad X_t^{(s)} = \sum_{j=0}^{\infty} \psi_j \varepsilon_{t-j},</span>
-<span id="cb1-427"><a href="#cb1-427" aria-hidden="true" tabindex="-1"></a>$$ {#eq-wold}</span>
-<span id="cb1-428"><a href="#cb1-428" aria-hidden="true" tabindex="-1"></a>where $X_t^{(d)}$ is a **deterministic** (perfectly linearly predictable) component and $X_t^{(s)}$ is the **purely nondeterministic** (stochastic) component, driven by uncorrelated innovations $\varepsilon_t \sim WN(0, \sigma^2)$ with $\sum_j \psi_j^2 &lt; \infty$.</span>
-<span id="cb1-429"><a href="#cb1-429" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb1-430"><a href="#cb1-430" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-431"><a href="#cb1-431" aria-hidden="true" tabindex="-1"></a>The Wold representation describes the *best linear predictor* of $X_t$ from its own past, and it guarantees that any stationary process can be approximated, in mean-square sense, by a linear process - which is exactly what motivates using linear **AR, MA, and ARMA models**, the subject of the next chapter. Wold's theorem does *not* imply that all stationary processes are truly linear (e.g. GARCH processes, or nonlinear Markov chains); only that their second-order structure is linearizable, and thus admits a linear representation.</span>
-<span id="cb1-432"><a href="#cb1-432" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-433"><a href="#cb1-433" aria-hidden="true" tabindex="-1"></a>This has a direct implication for prediction: stationarity ensures that all unconditional moments of $X_{T+h}$, for any horizon $h &gt; 0$, can be estimated from $(X_1, \ldots, X_T)$. A first, simple non-conditional predictor is the sample mean, $\hat X_{T+h} = \bar X_T = \frac{1}{T}\sum_{t=1}^T X_t$ - but this naive predictor is *constant* across all horizons $h$, ignoring any dynamics in the series (@fig-naive-forecast). Capturing those dynamics is exactly what dynamic linear models (AR, MA, ARMA) are for.</span>
-<span id="cb1-434"><a href="#cb1-434" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-435"><a href="#cb1-435" aria-hidden="true" tabindex="-1"></a><span class="al">![A constant ("naive") forecast compared against an actual persistent macro series: the actual series fluctuates well away from its unconditional mean for long stretches, illustrating why a constant predictor ignores exploitable dynamics.](../figures/ts/naive-constant-forecast-vs-actual.png)</span>{#fig-naive-forecast}</span>
+<span id="cb1-423"><a href="#cb1-423" aria-hidden="true" tabindex="-1"></a><span class="fu">### Summary of transformations</span></span>
+<span id="cb1-424"><a href="#cb1-424" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-425"><a href="#cb1-425" aria-hidden="true" tabindex="-1"></a>Log-transforming stabilizes variance; detrending removes deterministic growth; differencing removes stochastic trends. But filtering is never neutral - it defines what counts as "trend" and what counts as "cycle," and misuse can distort macroeconomic interpretation.</span>
+<span id="cb1-426"><a href="#cb1-426" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-427"><a href="#cb1-427" aria-hidden="true" tabindex="-1"></a><span class="fu">## From stationarity to prediction: the Wold decomposition {#sec-wold}</span></span>
+<span id="cb1-428"><a href="#cb1-428" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-429"><a href="#cb1-429" aria-hidden="true" tabindex="-1"></a>::: {.callout-important title="Wold decomposition theorem"}</span>
+<span id="cb1-430"><a href="#cb1-430" aria-hidden="true" tabindex="-1"></a>Any zero-mean, weakly stationary process $<span class="sc">\{</span>X_t<span class="sc">\}</span>$ can be written as</span>
+<span id="cb1-431"><a href="#cb1-431" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-432"><a href="#cb1-432" aria-hidden="true" tabindex="-1"></a>X_t = X_t^{(d)} + X_t^{(s)}, \qquad X_t^{(s)} = \sum_{j=0}^{\infty} \psi_j \varepsilon_{t-j},</span>
+<span id="cb1-433"><a href="#cb1-433" aria-hidden="true" tabindex="-1"></a>$$ {#eq-wold}</span>
+<span id="cb1-434"><a href="#cb1-434" aria-hidden="true" tabindex="-1"></a>where $X_t^{(d)}$ is a **deterministic** (perfectly linearly predictable) component and $X_t^{(s)}$ is the **purely nondeterministic** (stochastic) component, driven by uncorrelated innovations $\varepsilon_t \sim WN(0, \sigma^2)$ with $\sum_j \psi_j^2 &lt; \infty$.</span>
+<span id="cb1-435"><a href="#cb1-435" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb1-436"><a href="#cb1-436" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-437"><a href="#cb1-437" aria-hidden="true" tabindex="-1"></a><span class="fu">### A historical note on stationarity and linearity</span></span>
+<span id="cb1-437"><a href="#cb1-437" aria-hidden="true" tabindex="-1"></a>The Wold representation describes the *best linear predictor* of $X_t$ from its own past, and it guarantees that any stationary process can be approximated, in mean-square sense, by a linear process - which is exactly what motivates using linear **AR, MA, and ARMA models**, the subject of the next chapter. Wold's theorem does *not* imply that all stationary processes are truly linear (e.g. GARCH processes, or nonlinear Markov chains); only that their second-order structure is linearizable, and thus admits a linear representation.</span>
 <span id="cb1-438"><a href="#cb1-438" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-439"><a href="#cb1-439" aria-hidden="true" tabindex="-1"></a>Up to the end of the 1970s, time-series analysis largely assumed a stationary, linear setup. Nelson and Plosser <span class="co">[</span><span class="ot">-@NelsonPlosser1982</span><span class="co">]</span> applied Dickey-Fuller tests and showed that most macroeconomic and financial time series are in fact non-stationary, which meant that statistical inference built on an assumption of stationarity was invalid for these series. More recently, linearity tests and new model classes have emerged - structural-change and threshold models, stochastic-volatility models - motivated in part by the observation that prices, interest rates, and other financial series are often nonlinear. The nonstationarity issue is now widely acknowledged, but it is still frequently addressed within an otherwise linear, univariate framework; nonlinear models are the subject of a later chapter.</span>
+<span id="cb1-439"><a href="#cb1-439" aria-hidden="true" tabindex="-1"></a>This has a direct implication for prediction: stationarity ensures that all unconditional moments of $X_{T+h}$, for any horizon $h &gt; 0$, can be estimated from $(X_1, \ldots, X_T)$. A first, simple non-conditional predictor is the sample mean, $\hat X_{T+h} = \bar X_T = \frac{1}{T}\sum_{t=1}^T X_t$ - but this naive predictor is *constant* across all horizons $h$, ignoring any dynamics in the series (@fig-naive-forecast). Capturing those dynamics is exactly what dynamic linear models (AR, MA, ARMA) are for.</span>
 <span id="cb1-440"><a href="#cb1-440" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-441"><a href="#cb1-441" aria-hidden="true" tabindex="-1"></a><span class="fu">## Summary</span></span>
+<span id="cb1-441"><a href="#cb1-441" aria-hidden="true" tabindex="-1"></a><span class="al">![A constant ("naive") forecast compared against an actual persistent macro series: the actual series fluctuates well away from its unconditional mean for long stretches, illustrating why a constant predictor ignores exploitable dynamics.](../figures/ts/naive-constant-forecast-vs-actual.png)</span>{#fig-naive-forecast}</span>
 <span id="cb1-442"><a href="#cb1-442" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-443"><a href="#cb1-443" aria-hidden="true" tabindex="-1"></a>A time series is one observed realization of a stochastic process, so its dependence structure requires assumptions on stability before any statistics can be done on it. **Stationarity** - constant mean, variance, and covariance - is necessary for estimation, inference, and forecasting.</span>
+<span id="cb1-443"><a href="#cb1-443" aria-hidden="true" tabindex="-1"></a><span class="fu">### A historical note on stationarity and linearity</span></span>
 <span id="cb1-444"><a href="#cb1-444" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-445"><a href="#cb1-445" aria-hidden="true" tabindex="-1"></a>Nonstationarity may stem from deterministic trends, stochastic trends (unit roots), seasonality, or structural breaks. To achieve stationarity: take logs to stabilize variance; check the ACF visually and test formally for unit roots; then detrend to remove a deterministic trend, difference to remove a stochastic trend, or filter to separate frequency components (trend vs. cycle) - keeping in mind that filtering is never neutral, since the choice of filter defines what counts as trend and what counts as cycle.</span>
+<span id="cb1-445"><a href="#cb1-445" aria-hidden="true" tabindex="-1"></a>Up to the end of the 1970s, time-series analysis largely assumed a stationary, linear setup. Nelson and Plosser <span class="co">[</span><span class="ot">-@NelsonPlosser1982</span><span class="co">]</span> applied Dickey-Fuller tests and showed that most macroeconomic and financial time series are in fact non-stationary, which meant that statistical inference built on an assumption of stationarity was invalid for these series. More recently, linearity tests and new model classes have emerged - structural-change and threshold models, stochastic-volatility models - motivated in part by the observation that prices, interest rates, and other financial series are often nonlinear. The nonstationarity issue is now widely acknowledged, but it is still frequently addressed within an otherwise linear, univariate framework; nonlinear models are the subject of a later chapter.</span>
 <span id="cb1-446"><a href="#cb1-446" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-447"><a href="#cb1-447" aria-hidden="true" tabindex="-1"></a>Once a series is stationary, Wold's theorem guarantees it can be represented as a linear combination of past shocks - the foundation for the AR, MA, and ARMA models developed next.</span>
+<span id="cb1-447"><a href="#cb1-447" aria-hidden="true" tabindex="-1"></a><span class="fu">## Summary</span></span>
 <span id="cb1-448"><a href="#cb1-448" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-449"><a href="#cb1-449" aria-hidden="true" tabindex="-1"></a><span class="fu">## Further reading</span></span>
+<span id="cb1-449"><a href="#cb1-449" aria-hidden="true" tabindex="-1"></a>A time series is one observed realization of a stochastic process, so its dependence structure requires assumptions on stability before any statistics can be done on it. **Stationarity** - constant mean, variance, and covariance - is necessary for estimation, inference, and forecasting.</span>
 <span id="cb1-450"><a href="#cb1-450" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-451"><a href="#cb1-451" aria-hidden="true" tabindex="-1"></a>Hamilton <span class="co">[</span><span class="ot">-@Hamilton1994</span><span class="co">]</span>, Lütkepohl <span class="co">[</span><span class="ot">-@Lutkepohl2005</span><span class="co">]</span>, and Brockwell and Davis <span class="co">[</span><span class="ot">-@BrockwellDavis2002; -@BrockwellDavis2006</span><span class="co">]</span> cover time-series analysis in depth, though - as emphasized in the source lectures - none of them alone covers this course's full scope, nor shows how time series methods are used to estimate structural macroeconomic models.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb1-451"><a href="#cb1-451" aria-hidden="true" tabindex="-1"></a>Nonstationarity may stem from deterministic trends, stochastic trends (unit roots), seasonality, or structural breaks. To achieve stationarity: take logs to stabilize variance; check the ACF visually and test formally for unit roots; then detrend to remove a deterministic trend, difference to remove a stochastic trend, or filter to separate frequency components (trend vs. cycle) - keeping in mind that filtering is never neutral, since the choice of filter defines what counts as trend and what counts as cycle.</span>
+<span id="cb1-452"><a href="#cb1-452" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-453"><a href="#cb1-453" aria-hidden="true" tabindex="-1"></a>Once a series is stationary, Wold's theorem guarantees it can be represented as a linear combination of past shocks - the foundation for the AR, MA, and ARMA models developed next.</span>
+<span id="cb1-454"><a href="#cb1-454" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-455"><a href="#cb1-455" aria-hidden="true" tabindex="-1"></a><span class="fu">## Further reading</span></span>
+<span id="cb1-456"><a href="#cb1-456" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-457"><a href="#cb1-457" aria-hidden="true" tabindex="-1"></a>Hamilton <span class="co">[</span><span class="ot">-@Hamilton1994</span><span class="co">]</span>, Lütkepohl <span class="co">[</span><span class="ot">-@Lutkepohl2005</span><span class="co">]</span>, and Brockwell and Davis <span class="co">[</span><span class="ot">-@BrockwellDavis2002; -@BrockwellDavis2006</span><span class="co">]</span> cover time-series analysis in depth, though - as emphasized in the source lectures - none of them alone covers this course's full scope, nor shows how time series methods are used to estimate structural macroeconomic models.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 <footer class="footer">

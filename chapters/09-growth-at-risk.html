@@ -2,23 +2,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.10.18">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>8&nbsp; Quantile Regressions and Growth-at-Risk – Macroeconometrics</title>
 <style>
-/* Default styles provided by pandoc.
-** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
-*/
+code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: 1.5em;}
-div.column{flex: auto;}
-@media screen {
-div.columns{gap: min(4vw, 1.5em);}
-div.column{overflow-x: auto;}
-}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -65,6 +59,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging-indent div.csl-entry {
   margin-left:2em;
@@ -94,14 +89,15 @@ div.csl-indent {
 <link href="../chapters/06-nonlinear.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-0a2ba924a51c51b1951dc2bd466f6823.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-a152aae6de2bf247fb73c0e3485cce0a.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -131,7 +127,7 @@ div.csl-indent {
 }</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -169,14 +165,27 @@ window.Quarto = {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
     <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">Macroeconometrics</span>
     </a>
   </div>
-        <div class="quarto-navbar-tools tools-end">
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="../interactive-lab.html" aria-current="page"> 
+<span class="menu-text">Interactive Lab</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
     <a href="https://github.com/Camille-Souffron/macroeconometrics-course" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
 </div>
-          <div id="quarto-search" class="" title="Search"></div>
       </div> <!-- /container-fluid -->
     </nav>
   <nav class="quarto-secondary-nav">
@@ -194,12 +203,22 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="../index.html" class="sidebar-logo-link">
+      </a>
+      </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../interactive-lab.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Interactive Lab</span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -444,7 +463,7 @@ window.Quarto = {
 
 
 <p>Suppose that two forecasters both expect U.S. output to grow by two percent over the coming year. One puts the fifth percentile of growth at <span class="math inline">\(1.2\)</span> percent; the other puts it at minus <span class="math inline">\(4\)</span> percent. Their central forecasts agree, yet they are describing markedly different economies. For a government deciding how much fiscal space to preserve, a central bank assessing financial fragility, or a firm planning investment, the difference is not a detail around the forecast. It is the risk that matters.</p>
-<p>Growth-at-Risk (GaR) takes that difference seriously. Rather than asking only for the conditional mean of future growth, it estimates selected points of its conditional distribution, especially its lower tail. The empirical result that made the literature influential is equally simple: financial conditions tend to contain more information about bad growth outcomes than about very good ones <span class="citation" data-cites="AdrianBoyarchenkoGiannone2019">(<a href="../references.html#ref-AdrianBoyarchenkoGiannone2019" role="doc-biblioref">Adrian, Boyarchenko, et al. 2019</a>)</span>. Quantile regression supplies a direct way of putting that proposition to the data.</p>
+<p>Growth-at-Risk (GaR) takes that difference seriously. Rather than asking only for the conditional mean of future growth, it estimates selected points of its conditional distribution, especially its lower tail. The empirical result that made the literature influential is equally simple: financial conditions tend to contain more information about bad growth outcomes than about very good ones <span class="citation" data-cites="AdrianBoyarchenkoGiannone2019">(<a href="../references.html#ref-AdrianBoyarchenkoGiannone2019" role="doc-biblioref">Adrian, Boyarchenko, and Giannone 2019</a>)</span>. Quantile regression supplies a direct way of putting that proposition to the data.</p>
 <p>The chapter first builds the estimator from the familiar median, then develops GaR as a conditional tail forecast. It uses a small U.S. exercise with public FRED data, extends it across horizons in the spirit of local projections, and finally discusses the climate-risk application. The point is not that a fifth percentile is an oracle. It is a well-defined forecast object, with its own assumptions, sampling limits, and methods of validation.</p>
 <section id="sec-gar-motivation" class="level2" data-number="8.1">
 <h2 data-number="8.1" class="anchored" data-anchor-id="sec-gar-motivation"><span class="header-section-number">8.1</span> A forecast can miss the risk that matters</h2>
@@ -478,7 +497,7 @@ ES_{t,h}(\tau)=E\left[G_{t,t+h}\mid G_{t,t+h}\leq \operatorname{GaR}_{t,h}(\tau)
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>If tight financial conditions today are associated with a lower future fifth percentile, it does not follow that an exogenous policy tightening would have that estimated effect. Financial conditions move with anticipated growth, risk appetite, and shocks that may not be observed by the econometrician. GaR is first a conditional forecasting framework. Causal claims need an identification design, such as a credible instrument, quasi-experiment, or structural model; see <span class="quarto-unresolved-ref">?sec-svar-identification</span> and <a href="00-mathematical-foundations.html#sec-gmm" class="quarto-xref"><span>Section 4.7</span></a>.</p>
+<p>If tight financial conditions today are associated with a lower future fifth percentile, it does not follow that an exogenous policy tightening would have that estimated effect. Financial conditions move with anticipated growth, risk appetite, and shocks that may not be observed by the econometrician. GaR is first a conditional forecasting framework. Causal claims need an identification design, such as a credible instrument, quasi-experiment, or structural model; see <a href="04-svar-identification.html" class="quarto-xref"><span>Chapter 5</span></a> and <a href="00-mathematical-foundations.html#sec-gmm" class="quarto-xref"><span>Section 4.7</span></a>.</p>
 </div>
 </div>
 </section>
@@ -557,8 +576,8 @@ D_\tau=E\left[f_{u_\tau\mid x}(0\mid x_t)x_tx_t'\right].
 </section>
 <section id="a-distribution-is-more-than-seven-regressions" class="level3">
 <h3 class="anchored" data-anchor-id="a-distribution-is-more-than-seven-regressions">A distribution is more than seven regressions</h3>
-<p>Estimating <span class="math inline">\(\tau=.05,.10,.25,.50,.75,.90,.95\)</span> gives seven points of a conditional quantile function. For a fixed <span class="math inline">\(x_t\)</span>, they should be increasing in <span class="math inline">\(\tau\)</span>. Finite-sample estimates can cross, producing the absurdity that a 10th percentile exceeds a 25th percentile. <strong>Monotone rearrangement</strong> restores the order by sorting the fitted quantiles at each forecast origin. It changes the representation minimally while imposing a logical property that the estimated conditional distribution must possess <span class="citation" data-cites="ChernozhukovFernandezValGalichon2010">(<a href="../references.html#ref-ChernozhukovFernandezValGalichon2010" role="doc-biblioref">Chernozhukov et al. 2010</a>)</span>.</p>
-<p>The ordered points can be linearly interpolated to construct an approximate conditional CDF. A smooth density requires more: it is the derivative of that CDF, so it is sensitive to how the gaps between estimated quantiles are filled. Adrian, Boyarchenko, and Giannone fit a skewed-<span class="math inline">\(t\)</span> distribution to the estimated quantile function in order to obtain a smooth density and tail measures <span class="citation" data-cites="AdrianBoyarchenkoGiannone2019">(<a href="../references.html#ref-AdrianBoyarchenkoGiannone2019" role="doc-biblioref">Adrian, Boyarchenko, et al. 2019</a>)</span>. This can be valuable, since location, dispersion, asymmetry, and tail thickness are all allowed to move. It is also an additional parametric step. A fitted density should therefore be presented as a model-based interpolation of quantile estimates, not as a directly observed object.</p>
+<p>Estimating <span class="math inline">\(\tau=.05,.10,.25,.50,.75,.90,.95\)</span> gives seven points of a conditional quantile function. For a fixed <span class="math inline">\(x_t\)</span>, they should be increasing in <span class="math inline">\(\tau\)</span>. Finite-sample estimates can cross, producing the absurdity that a 10th percentile exceeds a 25th percentile. <strong>Monotone rearrangement</strong> restores the order by sorting the fitted quantiles at each forecast origin. It changes the representation minimally while imposing a logical property that the estimated conditional distribution must possess <span class="citation" data-cites="ChernozhukovFernandezValGalichon2010">(<a href="../references.html#ref-ChernozhukovFernandezValGalichon2010" role="doc-biblioref">Chernozhukov, Fernández-Val, and Galichon 2010</a>)</span>.</p>
+<p>The ordered points can be linearly interpolated to construct an approximate conditional CDF. A smooth density requires more: it is the derivative of that CDF, so it is sensitive to how the gaps between estimated quantiles are filled. Adrian, Boyarchenko, and Giannone fit a skewed-<span class="math inline">\(t\)</span> distribution to the estimated quantile function in order to obtain a smooth density and tail measures <span class="citation" data-cites="AdrianBoyarchenkoGiannone2019">(<a href="../references.html#ref-AdrianBoyarchenkoGiannone2019" role="doc-biblioref">Adrian, Boyarchenko, and Giannone 2019</a>)</span>. This can be valuable, since location, dispersion, asymmetry, and tail thickness are all allowed to move. It is also an additional parametric step. A fitted density should therefore be presented as a model-based interpolation of quantile estimates, not as a directly observed object.</p>
 </section>
 <section id="from-a-quantile-grid-to-a-recession-probability" class="level3">
 <h3 class="anchored" data-anchor-id="from-a-quantile-grid-to-a-recession-probability">From a quantile grid to a recession probability</h3>
@@ -582,6 +601,7 @@ Figure&nbsp;8.3: The curve plots fitted conditional quantiles rather than a dens
 </section>
 <section id="sec-gar-empirical" class="level2" data-number="8.3">
 <h2 data-number="8.3" class="anchored" data-anchor-id="sec-gar-empirical"><span class="header-section-number">8.3</span> An empirical U.S. exercise</h2>
+<p><a href="../interactive-lab.html?method=gar">Open this specification in the Interactive Lab</a>.</p>
 <p>The exercise is deliberately small enough to inspect. It is not a replication of the papers and it makes no claim to be a production forecasting system. Real GDP and the GDP deflator are quarterly FRED series; the Chicago Fed National Financial Conditions Index (NFCI) is weekly and is averaged within each quarter. The estimation sample is 1973Q1–2024Q3. NFCI is positive when financial conditions are tighter than their historical average.</p>
 <p>At date <span class="math inline">\(t\)</span>, all conditioning variables are observable: current year-on-year real growth <span class="math inline">\(g_t\)</span>, year-on-year GDP-deflator inflation <span class="math inline">\(\pi_t\)</span>, and quarterly-average NFCI <span class="math inline">\(f_t\)</span>. The target is cumulative log real-GDP growth over the following four quarters,</p>
 <p><span class="math display">\[
@@ -626,7 +646,7 @@ Q_{G^{(h)}_t\mid\mathcal I_t}(\tau)=x_t'\beta_{\tau,h},
 \qquad h=1,\ldots,H.
 \]</span></p>
 <p>This is the distributional counterpart of the local projections introduced in <a href="06-nonlinear.html#sec-local-projections" class="quarto-xref"><span>Section 7.6</span></a>. It imposes no VAR recursion across horizons: the coefficient at twelve quarters is estimated from a direct twelve-quarter forecasting equation. That flexibility is useful when the question is whether a predictor changes the timing as well as the level of risk.</p>
-<p>Adrian, Grinberg, Liang, Malik, and Yu estimate such term structures for eleven advanced economies out to twelve quarters <span class="citation" data-cites="AdrianGrinbergLiangMalikYu2019">(<a href="../references.html#ref-AdrianGrinbergLiangMalikYu2019" role="doc-biblioref">Adrian, Grinberg, et al. 2019</a>)</span>. Their central mechanism is intertemporal. Loose financial conditions can support near-term growth, while a combination of loose conditions and rapid credit growth can raise downside risk later on. The estimated lower-tail response changes more strongly with the horizon than the median response. This is not a contradiction: today’s favourable financing terms and tomorrow’s accumulated vulnerability can coexist.</p>
+<p>Adrian, Grinberg, Liang, Malik, and Yu estimate such term structures for eleven advanced economies out to twelve quarters <span class="citation" data-cites="AdrianGrinbergLiangMalikYu2019">(<a href="../references.html#ref-AdrianGrinbergLiangMalikYu2019" role="doc-biblioref">Adrian et al. 2019</a>)</span>. Their central mechanism is intertemporal. Loose financial conditions can support near-term growth, while a combination of loose conditions and rapid credit growth can raise downside risk later on. The estimated lower-tail response changes more strongly with the horizon than the median response. This is not a contradiction: today’s favourable financing terms and tomorrow’s accumulated vulnerability can coexist.</p>
 <div id="fig-gar-term-structure" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-gar-term-structure-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -637,7 +657,7 @@ Figure&nbsp;8.5: The U.S. teaching exercise estimates the NFCI coefficient separ
 </figcaption>
 </figure>
 </div>
-<p>The plotted pattern is a useful warning against reducing a forecast to a single horizon. A tight NFCI is associated with a lower short-horizon fifth percentile in this sample. At longer horizons, the estimate becomes much less precise. The cross-country evidence in <span class="citation" data-cites="AdrianGrinbergLiangMalikYu2019">Adrian, Grinberg, et al. (<a href="../references.html#ref-AdrianGrinbergLiangMalikYu2019" role="doc-biblioref">2019</a>)</span> is richer because it studies a panel, credit growth, and the interaction between loose conditions and credit booms; it also examines the causal interpretation with granular instruments. A small single-country regression should not inherit those claims merely by using the same vocabulary.</p>
+<p>The plotted pattern is a useful warning against reducing a forecast to a single horizon. A tight NFCI is associated with a lower short-horizon fifth percentile in this sample. At longer horizons, the estimate becomes much less precise. The cross-country evidence in <span class="citation" data-cites="AdrianGrinbergLiangMalikYu2019">Adrian et al. (<a href="../references.html#ref-AdrianGrinbergLiangMalikYu2019" role="doc-biblioref">2019</a>)</span> is richer because it studies a panel, credit growth, and the interaction between loose conditions and credit booms; it also examines the causal interpretation with granular instruments. A small single-country regression should not inherit those claims merely by using the same vocabulary.</p>
 </section>
 </section>
 <section id="sec-gar-validation" class="level2" data-number="8.4">
@@ -681,7 +701,7 @@ Figure&nbsp;8.6: Recursive 5% forecasts use only data that would have been avail
 <section id="sec-climate-gar" class="level2" data-number="8.5">
 <h2 data-number="8.5" class="anchored" data-anchor-id="sec-climate-gar"><span class="header-section-number">8.5</span> Climate risk as a distributional macroeconomic problem</h2>
 <p>Climate risk brings the logic of GaR into particularly clear focus. A heatwave, flood, drought, or disorderly policy change need not move average output very much in every place and every year. It may instead make severe outcomes more likely for exposed regions, sectors, or households. The relevant empirical question is then not only whether climate risk shifts mean growth, but whether it shifts the lower conditional quantiles and how quickly that shift materialises.</p>
-<p>Yin, Qian, and Ji study this question in a panel of 297 Chinese prefecture-level cities from 2008 to 2023 <span class="citation" data-cites="YinQianJi2026">(<a href="../references.html#ref-YinQianJi2026" role="doc-biblioref">Yin et al. 2026</a>)</span>. They distinguish <strong>physical risk</strong> from extreme temperature, rainfall, and drought measures, and <strong>transition risk</strong> proxied by climate-policy uncertainty. Their baseline relates growth at horizons of one, two, and three years to these risks, controls, city fixed effects, and time fixed effects:</p>
+<p>Yin, Qian, and Ji study this question in a panel of 297 Chinese prefecture-level cities from 2008 to 2023 <span class="citation" data-cites="YinQianJi2026">(<a href="../references.html#ref-YinQianJi2026" role="doc-biblioref">Yin, Qian, and Ji 2026</a>)</span>. They distinguish <strong>physical risk</strong> from extreme temperature, rainfall, and drought measures, and <strong>transition risk</strong> proxied by climate-policy uncertainty. Their baseline relates growth at horizons of one, two, and three years to these risks, controls, city fixed effects, and time fixed effects:</p>
 <p><span class="math display">\[
 Q_{g_{i,t+h}\mid x_{i,t}}(\tau)
 =\beta_{\tau,h}^{P}\operatorname{PhysicalRisk}_{i,t}
@@ -705,13 +725,14 @@ Figure&nbsp;8.7: Figure 3 from Yin, Qian, and Ji (2026): fitted city-level growt
 </section>
 <section id="sec-distributional-var" class="level2" data-number="8.6">
 <h2 data-number="8.6" class="anchored" data-anchor-id="sec-distributional-var"><span class="header-section-number">8.6</span> From Growth-at-Risk to a distributional VAR</h2>
+<p><a href="../interactive-lab.html?method=dvar">Open this specification in the Interactive Lab</a>.</p>
 <p>The GaR regression above forecasts one variable, future growth, conditional on a set of predictors. Financial conditions enter as information about that distribution. Yet macroeconomic risk is often joint: an adverse growth outcome may arrive with tight financial conditions and an unusually low policy rate, while a different state of the world has the same marginal GaR but a different co-movement among those variables. Estimating three separate quantile regressions does not tell us whether their simulated outcomes can occur together.</p>
 <p>A standard VAR starts from a conditional-mean equation,</p>
 <p><span class="math display">\[
 Y_t=c+A_1Y_{t-1}+\cdots+A_pY_{t-p}+u_t,
 \]</span></p>
 <p>where <span class="math inline">\(Y_t\)</span> is a vector. If the innovations are treated as Gaussian with a constant covariance matrix, the conditional forecast distribution is elliptic: its centre moves with the lags, but its shape is tightly prescribed. A residual bootstrap relaxes Gaussianity, but the usual VAR remains designed around the conditional mean and a common shock distribution. This is often a useful approximation. It is not well suited to a crisis forecast with skewness, fat tails, multimodality, or dependence that changes with the state.</p>
-<p>Wang, Oka, and Zhu develop a <strong>distributional VAR</strong> (DVAR) for this wider object <span class="citation" data-cites="WangOkaZhu2026">(<a href="../references.html#ref-WangOkaZhu2026" role="doc-biblioref">Wang et al. 2026</a>)</span>. The aim is to estimate the entire joint conditional distribution</p>
+<p>Wang, Oka, and Zhu develop a <strong>distributional VAR</strong> (DVAR) for this wider object <span class="citation" data-cites="WangOkaZhu2026">(<a href="../references.html#ref-WangOkaZhu2026" role="doc-biblioref">Wang, Oka, and Zhu 2026</a>)</span>. The aim is to estimate the entire joint conditional distribution</p>
 <p><span class="math display">\[
 F_{Y_t\mid Z_t}(y\mid z),
 \]</span></p>
@@ -738,7 +759,7 @@ Figure&nbsp;8.8: A distributional VAR builds a coherent multivariate forecast fr
 </section>
 <section id="distribution-regression-estimating-a-cdf-one-threshold-at-a-time" class="level3">
 <h3 class="anchored" data-anchor-id="distribution-regression-estimating-a-cdf-one-threshold-at-a-time">Distribution regression: estimating a CDF one threshold at a time</h3>
-<p>The DVAR in <span class="citation" data-cites="WangOkaZhu2026">Wang et al. (<a href="../references.html#ref-WangOkaZhu2026" role="doc-biblioref">2026</a>)</span> estimates each conditional marginal distribution through <strong>distribution regression</strong>. Fix an outcome threshold <span class="math inline">\(y\)</span>. The continuous event <span class="math inline">\(Y_{j,t}\leq y\)</span> is now a binary outcome, and one estimates</p>
+<p>The DVAR in <span class="citation" data-cites="WangOkaZhu2026">Wang, Oka, and Zhu (<a href="../references.html#ref-WangOkaZhu2026" role="doc-biblioref">2026</a>)</span> estimates each conditional marginal distribution through <strong>distribution regression</strong>. Fix an outcome threshold <span class="math inline">\(y\)</span>. The continuous event <span class="math inline">\(Y_{j,t}\leq y\)</span> is now a binary outcome, and one estimates</p>
 <p><span class="math display">\[
 \Pr(Y_{j,t}\leq y\mid X_{j,t}=x)
 =\Lambda\left[\phi_j(x)'\theta_j(y)\right].
@@ -794,12 +815,12 @@ QIRF_{j,h}(\tau)=F_{Y_{j,t+h}\mid Z_t}^{*-1}(\tau)-F_{Y_{j,t+h}\mid Z_t}^{-1}(\t
 </section>
 <section id="further-reading" class="level2" data-number="8.8">
 <h2 data-number="8.8" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">8.8</span> Further reading</h2>
-<p>The foundational empirical analysis of changing growth vulnerability is <span class="citation" data-cites="AdrianBoyarchenkoGiannone2019">Adrian, Boyarchenko, et al. (<a href="../references.html#ref-AdrianBoyarchenkoGiannone2019" role="doc-biblioref">2019</a>)</span>. The multi-horizon macro-financial extension is <span class="citation" data-cites="AdrianGrinbergLiangMalikYu2019">Adrian, Grinberg, et al. (<a href="../references.html#ref-AdrianGrinbergLiangMalikYu2019" role="doc-biblioref">2019</a>)</span>. For an application that separates physical and transition climate risks in a local panel, see <span class="citation" data-cites="YinQianJi2026">Yin et al. (<a href="../references.html#ref-YinQianJi2026" role="doc-biblioref">2026</a>)</span>. The distributional-VAR construction and distributional impulse response are developed in <span class="citation" data-cites="WangOkaZhu2026">Wang et al. (<a href="../references.html#ref-WangOkaZhu2026" role="doc-biblioref">2026</a>)</span>. The mathematical foundations for conditional distributions, convergence, bootstrap inference, and lag operators are collected in <a href="00-mathematical-foundations.html#sec-joint-distributions" class="quarto-xref"><span>Section 4.3</span></a>, <a href="00-mathematical-foundations.html#sec-lln-clt" class="quarto-xref"><span>Section 4.6</span></a>, and <a href="00-mathematical-foundations.html#sec-lag-operator-foundations" class="quarto-xref"><span>Section 5.1</span></a>.</p>
+<p>The foundational empirical analysis of changing growth vulnerability is <span class="citation" data-cites="AdrianBoyarchenkoGiannone2019">Adrian, Boyarchenko, and Giannone (<a href="../references.html#ref-AdrianBoyarchenkoGiannone2019" role="doc-biblioref">2019</a>)</span>. The multi-horizon macro-financial extension is <span class="citation" data-cites="AdrianGrinbergLiangMalikYu2019">Adrian et al. (<a href="../references.html#ref-AdrianGrinbergLiangMalikYu2019" role="doc-biblioref">2019</a>)</span>. For an application that separates physical and transition climate risks in a local panel, see <span class="citation" data-cites="YinQianJi2026">Yin, Qian, and Ji (<a href="../references.html#ref-YinQianJi2026" role="doc-biblioref">2026</a>)</span>. The distributional-VAR construction and distributional impulse response are developed in <span class="citation" data-cites="WangOkaZhu2026">Wang, Oka, and Zhu (<a href="../references.html#ref-WangOkaZhu2026" role="doc-biblioref">2026</a>)</span>. The mathematical foundations for conditional distributions, convergence, bootstrap inference, and lag operators are collected in <a href="00-mathematical-foundations.html#sec-joint-distributions" class="quarto-xref"><span>Section 4.3</span></a>, <a href="00-mathematical-foundations.html#sec-lln-clt" class="quarto-xref"><span>Section 4.6</span></a>, and <a href="00-mathematical-foundations.html#sec-lag-operator-foundations" class="quarto-xref"><span>Section 5.1</span></a>.</p>
 
 
 <!-- -->
 
-<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
 <div id="ref-AdrianBoyarchenkoGiannone2019" class="csl-entry" role="listitem">
 Adrian, Tobias, Nina Boyarchenko, and Domenico Giannone. 2019. <span>“Vulnerable Growth.”</span> <em>American Economic Review</em> 109 (4): 1263–89. <a href="https://doi.org/10.1257/aer.20161923">https://doi.org/10.1257/aer.20161923</a>.
 </div>
@@ -807,7 +828,7 @@ Adrian, Tobias, Nina Boyarchenko, and Domenico Giannone. 2019. <span>“Vulnerab
 Adrian, Tobias, Federico Grinberg, Nellie Liang, Sheheryar Malik, and Jie Yu. 2019. <span>“The Term Structure of Growth-at-Risk.”</span> <em>American Economic Journal: Macroeconomics</em> 11 (3): 108–46. <a href="https://doi.org/10.1257/mac.20180120">https://doi.org/10.1257/mac.20180120</a>.
 </div>
 <div id="ref-ChernozhukovFernandezValGalichon2010" class="csl-entry" role="listitem">
-Chernozhukov, Victor, Iván Fernández-Val, and Alfred Galichon. 2010. <span>“Quantile and Probability Curves Without Crossing.”</span> <em>Econometrica</em> 78 (3): 1093–125. <a href="https://doi.org/10.3982/ECTA7880">https://doi.org/10.3982/ECTA7880</a>.
+Chernozhukov, Victor, Iván Fernández-Val, and Alfred Galichon. 2010. <span>“Quantile and Probability Curves Without Crossing.”</span> <em>Econometrica</em> 78 (3): 1093–1125. <a href="https://doi.org/10.3982/ECTA7880">https://doi.org/10.3982/ECTA7880</a>.
 </div>
 <div id="ref-KoenkerBassett1978" class="csl-entry" role="listitem">
 Koenker, Roger, and Gilbert Bassett. 1978. <span>“Regression Quantiles.”</span> <em>Econometrica</em> 46 (1): 33–50. <a href="https://doi.org/10.2307/1913643">https://doi.org/10.2307/1913643</a>.
@@ -816,7 +837,7 @@ Koenker, Roger, and Gilbert Bassett. 1978. <span>“Regression Quantiles.”</sp
 Wang, Yunyun, Tatsushi Oka, and Dan Zhu. 2026. <span>“Distributional Vector Autoregression: Eliciting Macro and Financial Dependence.”</span> <em>Journal of Applied Econometrics</em> 41: 408–24. <a href="https://doi.org/10.1002/jae.70049">https://doi.org/10.1002/jae.70049</a>.
 </div>
 <div id="ref-YinQianJi2026" class="csl-entry" role="listitem">
-Yin, Xingmin, Xiaobo Qian, and Jianyue Ji. 2026. <span>“The Impact of Climate Risks on Growth-at-Risk.”</span> <em>Sustainable Development</em>, ahead of print. <a href="https://doi.org/10.1002/sd.71279">https://doi.org/10.1002/sd.71279</a>.
+Yin, Xingmin, Xiaobo Qian, and Jianyue Ji. 2026. <span>“The Impact of Climate Risks on Growth-at-Risk.”</span> <em>Sustainable Development</em>. <a href="https://doi.org/10.1002/sd.71279">https://doi.org/10.1002/sd.71279</a>.
 </div>
 </div>
 </section>
@@ -914,16 +935,16 @@ Yin, Xingmin, Xiaobo Qian, and Jianyue Ji. 2026. <span>“The Impact of Climate 
     }
     function toggleCodeHandler(show) {
       return function(e) {
-        const cellDetails = window.document.querySelectorAll(".cell details.code-fold");
-        for (let i=0; i<cellDetails.length; i++) {
-          const details = cellDetails[i];
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
           if (show) {
             details.open = true;
           } else {
             details.removeAttribute("open");
           }
         }
-        const cellCodeDivs = window.document.querySelectorAll(".cell div.sourceCode.cell-code");
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
         const fromCls = show ? "hidden" : "unhidden";
         const toCls = show ? "unhidden" : "hidden";
         for (let i=0; i<cellCodeDivs.length; i++) {
@@ -1334,7 +1355,7 @@ Yin, Xingmin, Xiaobo Qian, and Jianyue Ji. 2026. <span>“The Impact of Climate 
 <span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>When GaR is minus three percent, an expected shortfall of minus six percent and one of minus ten percent carry different economic meanings even though their fifth percentiles coincide.</span>
 <span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>::: {.callout-important title="A conditional forecast is not a causal policy effect"}</span>
-<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>If tight financial conditions today are associated with a lower future fifth percentile, it does not follow that an exogenous policy tightening would have that estimated effect. Financial conditions move with anticipated growth, risk appetite, and shocks that may not be observed by the econometrician. GaR is first a conditional forecasting framework. Causal claims need an identification design, such as a credible instrument, quasi-experiment, or structural model; see @sec-svar-identification and @sec-gmm.</span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>If tight financial conditions today are associated with a lower future fifth percentile, it does not follow that an exogenous policy tightening would have that estimated effect. Financial conditions move with anticipated growth, risk appetite, and shocks that may not be observed by the econometrician. GaR is first a conditional forecasting framework. Causal claims need an identification design, such as a credible instrument, quasi-experiment, or structural model; see @sec-svar and @sec-gmm.</span>
 <span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a><span class="fu">## The median is the first quantile regression {#sec-quantile-regression}</span></span>
@@ -1432,225 +1453,229 @@ Yin, Xingmin, Xiaobo Qian, and Jianyue Ji. 2026. <span>“The Impact of Climate 
 <span id="cb2-138"><a href="#cb2-138" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-139"><a href="#cb2-139" aria-hidden="true" tabindex="-1"></a><span class="fu">## An empirical U.S. exercise {#sec-gar-empirical}</span></span>
 <span id="cb2-140"><a href="#cb2-140" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-141"><a href="#cb2-141" aria-hidden="true" tabindex="-1"></a>The exercise is deliberately small enough to inspect. It is not a replication of the papers and it makes no claim to be a production forecasting system. Real GDP and the GDP deflator are quarterly FRED series; the Chicago Fed National Financial Conditions Index (NFCI) is weekly and is averaged within each quarter. The estimation sample is 1973Q1–2024Q3. NFCI is positive when financial conditions are tighter than their historical average.</span>
+<span id="cb2-141"><a href="#cb2-141" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Open this specification in the Interactive Lab</span><span class="co">](../interactive-lab.html?method=gar)</span>.</span>
 <span id="cb2-142"><a href="#cb2-142" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-143"><a href="#cb2-143" aria-hidden="true" tabindex="-1"></a>At date $t$, all conditioning variables are observable: current year-on-year real growth $g_t$, year-on-year GDP-deflator inflation $\pi_t$, and quarterly-average NFCI $f_t$. The target is cumulative log real-GDP growth over the following four quarters,</span>
+<span id="cb2-143"><a href="#cb2-143" aria-hidden="true" tabindex="-1"></a>The exercise is deliberately small enough to inspect. It is not a replication of the papers and it makes no claim to be a production forecasting system. Real GDP and the GDP deflator are quarterly FRED series; the Chicago Fed National Financial Conditions Index (NFCI) is weekly and is averaged within each quarter. The estimation sample is 1973Q1–2024Q3. NFCI is positive when financial conditions are tighter than their historical average.</span>
 <span id="cb2-144"><a href="#cb2-144" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-145"><a href="#cb2-145" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-146"><a href="#cb2-146" aria-hidden="true" tabindex="-1"></a>G_{t,t+4}=100(\log Y_{t+4}-\log Y_t).</span>
+<span id="cb2-145"><a href="#cb2-145" aria-hidden="true" tabindex="-1"></a>At date $t$, all conditioning variables are observable: current year-on-year real growth $g_t$, year-on-year GDP-deflator inflation $\pi_t$, and quarterly-average NFCI $f_t$. The target is cumulative log real-GDP growth over the following four quarters,</span>
+<span id="cb2-146"><a href="#cb2-146" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-147"><a href="#cb2-147" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-148"><a href="#cb2-148" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-149"><a href="#cb2-149" aria-hidden="true" tabindex="-1"></a>For each $\tau$, we estimate</span>
+<span id="cb2-148"><a href="#cb2-148" aria-hidden="true" tabindex="-1"></a>G_{t,t+4}=100(\log Y_{t+4}-\log Y_t).</span>
+<span id="cb2-149"><a href="#cb2-149" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb2-150"><a href="#cb2-150" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-151"><a href="#cb2-151" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-152"><a href="#cb2-152" aria-hidden="true" tabindex="-1"></a>Q_{G_{t,t+4}\mid\mathcal I_t}(\tau)</span>
-<span id="cb2-153"><a href="#cb2-153" aria-hidden="true" tabindex="-1"></a>=\alpha_\tau+\beta_{g,\tau}g_t+\beta_{\pi,\tau}\pi_t</span>
-<span id="cb2-154"><a href="#cb2-154" aria-hidden="true" tabindex="-1"></a>+\beta_{f,\tau}f_t.</span>
-<span id="cb2-155"><a href="#cb2-155" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-156"><a href="#cb2-156" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-157"><a href="#cb2-157" aria-hidden="true" tabindex="-1"></a>Using a four-quarter target is attractive because it reads naturally as growth over the coming year. It creates overlapping observations: $G_{t,t+4}$ and $G_{t+1,t+5}$ share three quarters of output. Treating the rows as independent would overstate precision. The bands in Figures @fig-gar-coefficients and @fig-gar-term-structure are consequently obtained by resampling contiguous blocks of dates, rather than isolated rows. This does not fix every specification issue, but it respects the basic time-series dependence induced by the forecasting exercise.</span>
+<span id="cb2-151"><a href="#cb2-151" aria-hidden="true" tabindex="-1"></a>For each $\tau$, we estimate</span>
+<span id="cb2-152"><a href="#cb2-152" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-153"><a href="#cb2-153" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-154"><a href="#cb2-154" aria-hidden="true" tabindex="-1"></a>Q_{G_{t,t+4}\mid\mathcal I_t}(\tau)</span>
+<span id="cb2-155"><a href="#cb2-155" aria-hidden="true" tabindex="-1"></a>=\alpha_\tau+\beta_{g,\tau}g_t+\beta_{\pi,\tau}\pi_t</span>
+<span id="cb2-156"><a href="#cb2-156" aria-hidden="true" tabindex="-1"></a>+\beta_{f,\tau}f_t.</span>
+<span id="cb2-157"><a href="#cb2-157" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb2-158"><a href="#cb2-158" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-159"><a href="#cb2-159" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
-<span id="cb2-160"><a href="#cb2-160" aria-hidden="true" tabindex="-1"></a><span class="co"># A compact version of the estimator used to generate the figures.</span></span>
-<span id="cb2-161"><a href="#cb2-161" aria-hidden="true" tabindex="-1"></a><span class="co"># The full, independently written script is code/python/make_gar_figures.py.</span></span>
-<span id="cb2-162"><a href="#cb2-162" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-163"><a href="#cb2-163" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> rho(u, tau):</span>
-<span id="cb2-164"><a href="#cb2-164" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.maximum(tau <span class="op">*</span> u, (tau <span class="op">-</span> <span class="dv">1</span>) <span class="op">*</span> u)</span>
-<span id="cb2-165"><a href="#cb2-165" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-166"><a href="#cb2-166" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fit_quantile(x, y, tau):</span>
-<span id="cb2-167"><a href="#cb2-167" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Equivalent linear-programme representation is used in the full script.</span></span>
-<span id="cb2-168"><a href="#cb2-168" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> argmin_beta(np.<span class="bu">sum</span>(rho(y <span class="op">-</span> x <span class="op">@</span> beta, tau)))</span>
-<span id="cb2-169"><a href="#cb2-169" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb2-170"><a href="#cb2-170" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-171"><a href="#cb2-171" aria-hidden="true" tabindex="-1"></a>The fan chart below places the realised growth rate against the fitted quantiles. It is an **in-sample description**: each plotted quantile uses the whole available estimation sample, including information that would not have been available at early dates. Its role is to show what the model says about the changing distribution, not to establish forecasting success. The deep widening and downward movement around the Global Financial Crisis and the pandemic make the tail perspective tangible, but they also remind us how much influence a small number of severe episodes have in a 207-observation sample.</span>
+<span id="cb2-159"><a href="#cb2-159" aria-hidden="true" tabindex="-1"></a>Using a four-quarter target is attractive because it reads naturally as growth over the coming year. It creates overlapping observations: $G_{t,t+4}$ and $G_{t+1,t+5}$ share three quarters of output. Treating the rows as independent would overstate precision. The bands in Figures @fig-gar-coefficients and @fig-gar-term-structure are consequently obtained by resampling contiguous blocks of dates, rather than isolated rows. This does not fix every specification issue, but it respects the basic time-series dependence induced by the forecasting exercise.</span>
+<span id="cb2-160"><a href="#cb2-160" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-161"><a href="#cb2-161" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
+<span id="cb2-162"><a href="#cb2-162" aria-hidden="true" tabindex="-1"></a><span class="co"># A compact version of the estimator used to generate the figures.</span></span>
+<span id="cb2-163"><a href="#cb2-163" aria-hidden="true" tabindex="-1"></a><span class="co"># The full, independently written script is code/python/make_gar_figures.py.</span></span>
+<span id="cb2-164"><a href="#cb2-164" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-165"><a href="#cb2-165" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> rho(u, tau):</span>
+<span id="cb2-166"><a href="#cb2-166" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.maximum(tau <span class="op">*</span> u, (tau <span class="op">-</span> <span class="dv">1</span>) <span class="op">*</span> u)</span>
+<span id="cb2-167"><a href="#cb2-167" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-168"><a href="#cb2-168" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fit_quantile(x, y, tau):</span>
+<span id="cb2-169"><a href="#cb2-169" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Equivalent linear-programme representation is used in the full script.</span></span>
+<span id="cb2-170"><a href="#cb2-170" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> argmin_beta(np.<span class="bu">sum</span>(rho(y <span class="op">-</span> x <span class="op">@</span> beta, tau)))</span>
+<span id="cb2-171"><a href="#cb2-171" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb2-172"><a href="#cb2-172" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-173"><a href="#cb2-173" aria-hidden="true" tabindex="-1"></a><span class="al">![Fitted conditional quantiles of four-quarter-ahead U.S. real GDP growth, together with realised growth. The chart is an in-sample diagnostic; it is not a real-time fan chart.](../figures/growth-at-risk/gar-in-sample-fan-chart.png)</span>{#fig-gar-fan}</span>
+<span id="cb2-173"><a href="#cb2-173" aria-hidden="true" tabindex="-1"></a>The fan chart below places the realised growth rate against the fitted quantiles. It is an **in-sample description**: each plotted quantile uses the whole available estimation sample, including information that would not have been available at early dates. Its role is to show what the model says about the changing distribution, not to establish forecasting success. The deep widening and downward movement around the Global Financial Crisis and the pandemic make the tail perspective tangible, but they also remind us how much influence a small number of severe episodes have in a 207-observation sample.</span>
 <span id="cb2-174"><a href="#cb2-174" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-175"><a href="#cb2-175" aria-hidden="true" tabindex="-1"></a><span class="fu">### The term structure of downside growth</span></span>
+<span id="cb2-175"><a href="#cb2-175" aria-hidden="true" tabindex="-1"></a><span class="al">![Fitted conditional quantiles of four-quarter-ahead U.S. real GDP growth, together with realised growth. The chart is an in-sample diagnostic; it is not a real-time fan chart.](../figures/growth-at-risk/gar-in-sample-fan-chart.png)</span>{#fig-gar-fan}</span>
 <span id="cb2-176"><a href="#cb2-176" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-177"><a href="#cb2-177" aria-hidden="true" tabindex="-1"></a>The one-year forecast is only one horizon. Let</span>
+<span id="cb2-177"><a href="#cb2-177" aria-hidden="true" tabindex="-1"></a><span class="fu">### The term structure of downside growth</span></span>
 <span id="cb2-178"><a href="#cb2-178" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-179"><a href="#cb2-179" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-180"><a href="#cb2-180" aria-hidden="true" tabindex="-1"></a>G^{(h)}_{t}=\frac{400}{h}(\log Y_{t+h}-\log Y_t)</span>
+<span id="cb2-179"><a href="#cb2-179" aria-hidden="true" tabindex="-1"></a>The one-year forecast is only one horizon. Let</span>
+<span id="cb2-180"><a href="#cb2-180" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-181"><a href="#cb2-181" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-182"><a href="#cb2-182" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-183"><a href="#cb2-183" aria-hidden="true" tabindex="-1"></a>be annualised average growth over the next $h$ quarters. Estimating a separate local projection for each horizon gives</span>
+<span id="cb2-182"><a href="#cb2-182" aria-hidden="true" tabindex="-1"></a>G^{(h)}_{t}=\frac{400}{h}(\log Y_{t+h}-\log Y_t)</span>
+<span id="cb2-183"><a href="#cb2-183" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb2-184"><a href="#cb2-184" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-185"><a href="#cb2-185" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-186"><a href="#cb2-186" aria-hidden="true" tabindex="-1"></a>Q_{G^{(h)}_t\mid\mathcal I_t}(\tau)=x_t'\beta_{\tau,h},</span>
-<span id="cb2-187"><a href="#cb2-187" aria-hidden="true" tabindex="-1"></a>\qquad h=1,\ldots,H.</span>
-<span id="cb2-188"><a href="#cb2-188" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-189"><a href="#cb2-189" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-190"><a href="#cb2-190" aria-hidden="true" tabindex="-1"></a>This is the distributional counterpart of the local projections introduced in @sec-local-projections. It imposes no VAR recursion across horizons: the coefficient at twelve quarters is estimated from a direct twelve-quarter forecasting equation. That flexibility is useful when the question is whether a predictor changes the timing as well as the level of risk.</span>
+<span id="cb2-185"><a href="#cb2-185" aria-hidden="true" tabindex="-1"></a>be annualised average growth over the next $h$ quarters. Estimating a separate local projection for each horizon gives</span>
+<span id="cb2-186"><a href="#cb2-186" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-187"><a href="#cb2-187" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-188"><a href="#cb2-188" aria-hidden="true" tabindex="-1"></a>Q_{G^{(h)}_t\mid\mathcal I_t}(\tau)=x_t'\beta_{\tau,h},</span>
+<span id="cb2-189"><a href="#cb2-189" aria-hidden="true" tabindex="-1"></a>\qquad h=1,\ldots,H.</span>
+<span id="cb2-190"><a href="#cb2-190" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb2-191"><a href="#cb2-191" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-192"><a href="#cb2-192" aria-hidden="true" tabindex="-1"></a>Adrian, Grinberg, Liang, Malik, and Yu estimate such term structures for eleven advanced economies out to twelve quarters <span class="co">[</span><span class="ot">@AdrianGrinbergLiangMalikYu2019</span><span class="co">]</span>. Their central mechanism is intertemporal. Loose financial conditions can support near-term growth, while a combination of loose conditions and rapid credit growth can raise downside risk later on. The estimated lower-tail response changes more strongly with the horizon than the median response. This is not a contradiction: today’s favourable financing terms and tomorrow’s accumulated vulnerability can coexist.</span>
+<span id="cb2-192"><a href="#cb2-192" aria-hidden="true" tabindex="-1"></a>This is the distributional counterpart of the local projections introduced in @sec-local-projections. It imposes no VAR recursion across horizons: the coefficient at twelve quarters is estimated from a direct twelve-quarter forecasting equation. That flexibility is useful when the question is whether a predictor changes the timing as well as the level of risk.</span>
 <span id="cb2-193"><a href="#cb2-193" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-194"><a href="#cb2-194" aria-hidden="true" tabindex="-1"></a><span class="al">![The U.S. teaching exercise estimates the NFCI coefficient separately at one to twelve quarters. It is an illustration of a term-structure calculation, not a replication of the advanced-economy panel results.](../figures/growth-at-risk/gar-term-structure.png)</span>{#fig-gar-term-structure}</span>
+<span id="cb2-194"><a href="#cb2-194" aria-hidden="true" tabindex="-1"></a>Adrian, Grinberg, Liang, Malik, and Yu estimate such term structures for eleven advanced economies out to twelve quarters <span class="co">[</span><span class="ot">@AdrianGrinbergLiangMalikYu2019</span><span class="co">]</span>. Their central mechanism is intertemporal. Loose financial conditions can support near-term growth, while a combination of loose conditions and rapid credit growth can raise downside risk later on. The estimated lower-tail response changes more strongly with the horizon than the median response. This is not a contradiction: today’s favourable financing terms and tomorrow’s accumulated vulnerability can coexist.</span>
 <span id="cb2-195"><a href="#cb2-195" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-196"><a href="#cb2-196" aria-hidden="true" tabindex="-1"></a>The plotted pattern is a useful warning against reducing a forecast to a single horizon. A tight NFCI is associated with a lower short-horizon fifth percentile in this sample. At longer horizons, the estimate becomes much less precise. The cross-country evidence in @AdrianGrinbergLiangMalikYu2019 is richer because it studies a panel, credit growth, and the interaction between loose conditions and credit booms; it also examines the causal interpretation with granular instruments. A small single-country regression should not inherit those claims merely by using the same vocabulary.</span>
+<span id="cb2-196"><a href="#cb2-196" aria-hidden="true" tabindex="-1"></a><span class="al">![The U.S. teaching exercise estimates the NFCI coefficient separately at one to twelve quarters. It is an illustration of a term-structure calculation, not a replication of the advanced-economy panel results.](../figures/growth-at-risk/gar-term-structure.png)</span>{#fig-gar-term-structure}</span>
 <span id="cb2-197"><a href="#cb2-197" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-198"><a href="#cb2-198" aria-hidden="true" tabindex="-1"></a><span class="fu">## Validation: a tail forecast earns its place out of sample {#sec-gar-validation}</span></span>
+<span id="cb2-198"><a href="#cb2-198" aria-hidden="true" tabindex="-1"></a>The plotted pattern is a useful warning against reducing a forecast to a single horizon. A tight NFCI is associated with a lower short-horizon fifth percentile in this sample. At longer horizons, the estimate becomes much less precise. The cross-country evidence in @AdrianGrinbergLiangMalikYu2019 is richer because it studies a panel, credit growth, and the interaction between loose conditions and credit booms; it also examines the causal interpretation with granular instruments. A small single-country regression should not inherit those claims merely by using the same vocabulary.</span>
 <span id="cb2-199"><a href="#cb2-199" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-200"><a href="#cb2-200" aria-hidden="true" tabindex="-1"></a>A nominal fifth percentile should be breached roughly five percent of the time. Write</span>
+<span id="cb2-200"><a href="#cb2-200" aria-hidden="true" tabindex="-1"></a><span class="fu">## Validation: a tail forecast earns its place out of sample {#sec-gar-validation}</span></span>
 <span id="cb2-201"><a href="#cb2-201" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-202"><a href="#cb2-202" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-203"><a href="#cb2-203" aria-hidden="true" tabindex="-1"></a>I_{t+h}(\tau)=\mathbf 1<span class="sc">\{</span>G_{t,t+h}\leq \widehat Q_{t,h}(\tau)<span class="sc">\}</span>.</span>
+<span id="cb2-202"><a href="#cb2-202" aria-hidden="true" tabindex="-1"></a>A nominal fifth percentile should be breached roughly five percent of the time. Write</span>
+<span id="cb2-203"><a href="#cb2-203" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-204"><a href="#cb2-204" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-205"><a href="#cb2-205" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-206"><a href="#cb2-206" aria-hidden="true" tabindex="-1"></a>If forecasts are calibrated, the average of $I_{t+h}(\tau)$ should be close to $\tau$. **Unconditional coverage** checks this average. **Conditional coverage** asks more: are breaches clustered after particular financial states, or predictable from information that the forecast had ignored? A model that happens to achieve five percent coverage while missing every crisis is not adequate.</span>
+<span id="cb2-205"><a href="#cb2-205" aria-hidden="true" tabindex="-1"></a>I_{t+h}(\tau)=\mathbf 1<span class="sc">\{</span>G_{t,t+h}\leq \widehat Q_{t,h}(\tau)<span class="sc">\}</span>.</span>
+<span id="cb2-206"><a href="#cb2-206" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb2-207"><a href="#cb2-207" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-208"><a href="#cb2-208" aria-hidden="true" tabindex="-1"></a>One practical conditional-coverage diagnostic regresses $I_{t+h}(\tau)-\tau$ on variables known at the forecast origin, including lags of the hit itself. A jointly significant set of predictors signals information left in the violations. In a macro sample, the reference distribution of that test should again allow for serial dependence and for the overlap of $h$-period targets. Calibration concerns the frequency with which a predictive statement comes true; it is separate from the question of whether the model has the lowest check loss among competing forecasts.</span>
+<span id="cb2-208"><a href="#cb2-208" aria-hidden="true" tabindex="-1"></a>If forecasts are calibrated, the average of $I_{t+h}(\tau)$ should be close to $\tau$. **Unconditional coverage** checks this average. **Conditional coverage** asks more: are breaches clustered after particular financial states, or predictable from information that the forecast had ignored? A model that happens to achieve five percent coverage while missing every crisis is not adequate.</span>
 <span id="cb2-209"><a href="#cb2-209" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-210"><a href="#cb2-210" aria-hidden="true" tabindex="-1"></a>The next figure uses recursive forecasts. At each forecast origin, the model is re-estimated only on outcomes that would already have been observed at that date; the red dots mark realised growth below the predicted fifth percentile. The lower panel reports the rolling breach frequency. This exercise is intentionally severe: the tail is sparse, and four-quarter horizons overlap, so neither a few breaches nor their absence settles the question.</span>
+<span id="cb2-210"><a href="#cb2-210" aria-hidden="true" tabindex="-1"></a>One practical conditional-coverage diagnostic regresses $I_{t+h}(\tau)-\tau$ on variables known at the forecast origin, including lags of the hit itself. A jointly significant set of predictors signals information left in the violations. In a macro sample, the reference distribution of that test should again allow for serial dependence and for the overlap of $h$-period targets. Calibration concerns the frequency with which a predictive statement comes true; it is separate from the question of whether the model has the lowest check loss among competing forecasts.</span>
 <span id="cb2-211"><a href="#cb2-211" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-212"><a href="#cb2-212" aria-hidden="true" tabindex="-1"></a><span class="al">![Recursive 5% forecasts use only data that would have been available at each origin. The realised breach rate and its clustering are part of forecast evaluation, rather than an afterthought to an attractive fan chart.](../figures/growth-at-risk/gar-recursive-backtest.png)</span>{#fig-gar-backtest}</span>
+<span id="cb2-212"><a href="#cb2-212" aria-hidden="true" tabindex="-1"></a>The next figure uses recursive forecasts. At each forecast origin, the model is re-estimated only on outcomes that would already have been observed at that date; the red dots mark realised growth below the predicted fifth percentile. The lower panel reports the rolling breach frequency. This exercise is intentionally severe: the tail is sparse, and four-quarter horizons overlap, so neither a few breaches nor their absence settles the question.</span>
 <span id="cb2-213"><a href="#cb2-213" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-214"><a href="#cb2-214" aria-hidden="true" tabindex="-1"></a>Coverage is necessary but not sufficient. A useful comparison across competing quantile forecasts is average check loss,</span>
+<span id="cb2-214"><a href="#cb2-214" aria-hidden="true" tabindex="-1"></a><span class="al">![Recursive 5% forecasts use only data that would have been available at each origin. The realised breach rate and its clustering are part of forecast evaluation, rather than an afterthought to an attractive fan chart.](../figures/growth-at-risk/gar-recursive-backtest.png)</span>{#fig-gar-backtest}</span>
 <span id="cb2-215"><a href="#cb2-215" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-216"><a href="#cb2-216" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-217"><a href="#cb2-217" aria-hidden="true" tabindex="-1"></a>\frac{1}{T}\sum_t\rho_\tau\left(G_{t,t+h}-\widehat Q_{t,h}(\tau)\right).</span>
+<span id="cb2-216"><a href="#cb2-216" aria-hidden="true" tabindex="-1"></a>Coverage is necessary but not sufficient. A useful comparison across competing quantile forecasts is average check loss,</span>
+<span id="cb2-217"><a href="#cb2-217" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-218"><a href="#cb2-218" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-219"><a href="#cb2-219" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-220"><a href="#cb2-220" aria-hidden="true" tabindex="-1"></a>It rewards a forecast that places the target quantile well and penalises an overly optimistic lower-tail forecast especially sharply. A serious empirical assessment should compare this score, coverage, conditional coverage, and stability across rolling windows against simpler benchmarks: an unconditional historical quantile, an autoregression, and a forecast excluding the financial indicator. It should also distinguish revised data from the real-time data vintage that forecasters actually saw.</span>
+<span id="cb2-219"><a href="#cb2-219" aria-hidden="true" tabindex="-1"></a>\frac{1}{T}\sum_t\rho_\tau\left(G_{t,t+h}-\widehat Q_{t,h}(\tau)\right).</span>
+<span id="cb2-220"><a href="#cb2-220" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb2-221"><a href="#cb2-221" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-222"><a href="#cb2-222" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning title="The five-percent problem"}</span>
-<span id="cb2-223"><a href="#cb2-223" aria-hidden="true" tabindex="-1"></a>With 200 independent forecasts, a five-percent tail contains only about ten expected breaches. Macroeconomic forecasts are not independent and overlapping horizons further reduce effective information. A sharp-looking 5% estimate can therefore be driven by a handful of episodes. Reporting the 10th and 25th percentiles alongside GaR, using block bootstrap inference, and showing out-of-sample performance are safeguards against false precision, not optional refinements.</span>
-<span id="cb2-224"><a href="#cb2-224" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb2-225"><a href="#cb2-225" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-226"><a href="#cb2-226" aria-hidden="true" tabindex="-1"></a><span class="fu">## Climate risk as a distributional macroeconomic problem {#sec-climate-gar}</span></span>
+<span id="cb2-222"><a href="#cb2-222" aria-hidden="true" tabindex="-1"></a>It rewards a forecast that places the target quantile well and penalises an overly optimistic lower-tail forecast especially sharply. A serious empirical assessment should compare this score, coverage, conditional coverage, and stability across rolling windows against simpler benchmarks: an unconditional historical quantile, an autoregression, and a forecast excluding the financial indicator. It should also distinguish revised data from the real-time data vintage that forecasters actually saw.</span>
+<span id="cb2-223"><a href="#cb2-223" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-224"><a href="#cb2-224" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning title="The five-percent problem"}</span>
+<span id="cb2-225"><a href="#cb2-225" aria-hidden="true" tabindex="-1"></a>With 200 independent forecasts, a five-percent tail contains only about ten expected breaches. Macroeconomic forecasts are not independent and overlapping horizons further reduce effective information. A sharp-looking 5% estimate can therefore be driven by a handful of episodes. Reporting the 10th and 25th percentiles alongside GaR, using block bootstrap inference, and showing out-of-sample performance are safeguards against false precision, not optional refinements.</span>
+<span id="cb2-226"><a href="#cb2-226" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb2-227"><a href="#cb2-227" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-228"><a href="#cb2-228" aria-hidden="true" tabindex="-1"></a>Climate risk brings the logic of GaR into particularly clear focus. A heatwave, flood, drought, or disorderly policy change need not move average output very much in every place and every year. It may instead make severe outcomes more likely for exposed regions, sectors, or households. The relevant empirical question is then not only whether climate risk shifts mean growth, but whether it shifts the lower conditional quantiles and how quickly that shift materialises.</span>
+<span id="cb2-228"><a href="#cb2-228" aria-hidden="true" tabindex="-1"></a><span class="fu">## Climate risk as a distributional macroeconomic problem {#sec-climate-gar}</span></span>
 <span id="cb2-229"><a href="#cb2-229" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-230"><a href="#cb2-230" aria-hidden="true" tabindex="-1"></a>Yin, Qian, and Ji study this question in a panel of 297 Chinese prefecture-level cities from 2008 to 2023 <span class="co">[</span><span class="ot">@YinQianJi2026</span><span class="co">]</span>. They distinguish **physical risk** from extreme temperature, rainfall, and drought measures, and **transition risk** proxied by climate-policy uncertainty. Their baseline relates growth at horizons of one, two, and three years to these risks, controls, city fixed effects, and time fixed effects:</span>
+<span id="cb2-230"><a href="#cb2-230" aria-hidden="true" tabindex="-1"></a>Climate risk brings the logic of GaR into particularly clear focus. A heatwave, flood, drought, or disorderly policy change need not move average output very much in every place and every year. It may instead make severe outcomes more likely for exposed regions, sectors, or households. The relevant empirical question is then not only whether climate risk shifts mean growth, but whether it shifts the lower conditional quantiles and how quickly that shift materialises.</span>
 <span id="cb2-231"><a href="#cb2-231" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-232"><a href="#cb2-232" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-233"><a href="#cb2-233" aria-hidden="true" tabindex="-1"></a>Q_{g_{i,t+h}\mid x_{i,t}}(\tau)</span>
-<span id="cb2-234"><a href="#cb2-234" aria-hidden="true" tabindex="-1"></a>=\beta_{\tau,h}^{P}\operatorname{PhysicalRisk}_{i,t}</span>
-<span id="cb2-235"><a href="#cb2-235" aria-hidden="true" tabindex="-1"></a>+\beta_{\tau,h}^{T}\operatorname{TransitionRisk}_{i,t}</span>
-<span id="cb2-236"><a href="#cb2-236" aria-hidden="true" tabindex="-1"></a>+w_{i,t}'\gamma_{\tau,h}+\mu_{i,\tau}+\lambda_{t+h,\tau}.</span>
-<span id="cb2-237"><a href="#cb2-237" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-238"><a href="#cb2-238" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-239"><a href="#cb2-239" aria-hidden="true" tabindex="-1"></a>The distinction is economic as well as statistical. Physical shocks can interrupt production, damage capital, disrupt transport, and tighten local credit precisely when resilience is already weak. Transition risk concerns revaluation and adjustment: carbon-intensive capital, uncertain regulation, and the cost of reallocating labour and investment. A panel is useful here because national aggregates can hide substantial variation in exposure, productive structure, and adaptive capacity.</span>
+<span id="cb2-232"><a href="#cb2-232" aria-hidden="true" tabindex="-1"></a>Yin, Qian, and Ji study this question in a panel of 297 Chinese prefecture-level cities from 2008 to 2023 <span class="co">[</span><span class="ot">@YinQianJi2026</span><span class="co">]</span>. They distinguish **physical risk** from extreme temperature, rainfall, and drought measures, and **transition risk** proxied by climate-policy uncertainty. Their baseline relates growth at horizons of one, two, and three years to these risks, controls, city fixed effects, and time fixed effects:</span>
+<span id="cb2-233"><a href="#cb2-233" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-234"><a href="#cb2-234" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-235"><a href="#cb2-235" aria-hidden="true" tabindex="-1"></a>Q_{g_{i,t+h}\mid x_{i,t}}(\tau)</span>
+<span id="cb2-236"><a href="#cb2-236" aria-hidden="true" tabindex="-1"></a>=\beta_{\tau,h}^{P}\operatorname{PhysicalRisk}_{i,t}</span>
+<span id="cb2-237"><a href="#cb2-237" aria-hidden="true" tabindex="-1"></a>+\beta_{\tau,h}^{T}\operatorname{TransitionRisk}_{i,t}</span>
+<span id="cb2-238"><a href="#cb2-238" aria-hidden="true" tabindex="-1"></a>+w_{i,t}'\gamma_{\tau,h}+\mu_{i,\tau}+\lambda_{t+h,\tau}.</span>
+<span id="cb2-239"><a href="#cb2-239" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb2-240"><a href="#cb2-240" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-241"><a href="#cb2-241" aria-hidden="true" tabindex="-1"></a>Their estimates associate physical climate risk most strongly with lower growth quantiles, with an effect that is strongest at the medium horizon. Transition risk has a different distributional profile, concentrated more in higher-growth quantiles in their city sample. The authors also report credit availability and total-factor productivity as potential transmission channels, and find that green finance is associated with a weaker propagation of climate risks to downside growth. These are substantive findings from one setting, not parameters that can be transferred mechanically to another country.</span>
+<span id="cb2-241"><a href="#cb2-241" aria-hidden="true" tabindex="-1"></a>The distinction is economic as well as statistical. Physical shocks can interrupt production, damage capital, disrupt transport, and tighten local credit precisely when resilience is already weak. Transition risk concerns revaluation and adjustment: carbon-intensive capital, uncertain regulation, and the cost of reallocating labour and investment. A panel is useful here because national aggregates can hide substantial variation in exposure, productive structure, and adaptive capacity.</span>
 <span id="cb2-242"><a href="#cb2-242" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-243"><a href="#cb2-243" aria-hidden="true" tabindex="-1"></a><span class="al">![Figure 3 from Yin, Qian, and Ji (2026): fitted city-level growth distributions under low and high physical-climate-risk scenarios. The red high-risk distribution has a lower mean and a more adverse fifth-percentile threshold. This is the article's fitted skewed-$t$ representation for its 2021 benchmark, not an estimate from the U.S. exercise above.](../figures/growth-at-risk/yin-climate-physical-risk-distribution.png)</span>{#fig-yin-climate-physical-risk}</span>
+<span id="cb2-243"><a href="#cb2-243" aria-hidden="true" tabindex="-1"></a>Their estimates associate physical climate risk most strongly with lower growth quantiles, with an effect that is strongest at the medium horizon. Transition risk has a different distributional profile, concentrated more in higher-growth quantiles in their city sample. The authors also report credit availability and total-factor productivity as potential transmission channels, and find that green finance is associated with a weaker propagation of climate risks to downside growth. These are substantive findings from one setting, not parameters that can be transferred mechanically to another country.</span>
 <span id="cb2-244"><a href="#cb2-244" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-245"><a href="#cb2-245" aria-hidden="true" tabindex="-1"></a>There are two important identification lessons. First, adding fixed effects removes time-invariant city characteristics and common year shocks; it does not by itself make climate-policy uncertainty exogenous. Second, a mediator regression for credit or productivity is evidence about a plausible mechanism, not automatically a decomposition of a causal effect. The paper supplements its analysis with instruments, but the validity of an instrument rests on its own exclusion argument. The general distinction between moment conditions, relevance, and exclusion is developed in @sec-gmm.</span>
+<span id="cb2-245"><a href="#cb2-245" aria-hidden="true" tabindex="-1"></a><span class="al">![Figure 3 from Yin, Qian, and Ji (2026): fitted city-level growth distributions under low and high physical-climate-risk scenarios. The red high-risk distribution has a lower mean and a more adverse fifth-percentile threshold. This is the article's fitted skewed-$t$ representation for its 2021 benchmark, not an estimate from the U.S. exercise above.](../figures/growth-at-risk/yin-climate-physical-risk-distribution.png)</span>{#fig-yin-climate-physical-risk}</span>
 <span id="cb2-246"><a href="#cb2-246" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-247"><a href="#cb2-247" aria-hidden="true" tabindex="-1"></a>The horizon mismatch is also worth keeping in view. Climate change unfolds over decades, whereas GaR usually describes a one- to three-year forecasting window. GaR does not estimate the welfare cost of climate change or replace an integrated assessment model. It asks a narrower and operational question: given current exposure and transition conditions, how vulnerable is growth over a stated near- or medium-term horizon? That is exactly the scale at which resilience investment, credit policy, and prudential supervision often need information.</span>
+<span id="cb2-247"><a href="#cb2-247" aria-hidden="true" tabindex="-1"></a>There are two important identification lessons. First, adding fixed effects removes time-invariant city characteristics and common year shocks; it does not by itself make climate-policy uncertainty exogenous. Second, a mediator regression for credit or productivity is evidence about a plausible mechanism, not automatically a decomposition of a causal effect. The paper supplements its analysis with instruments, but the validity of an instrument rests on its own exclusion argument. The general distinction between moment conditions, relevance, and exclusion is developed in @sec-gmm.</span>
 <span id="cb2-248"><a href="#cb2-248" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-249"><a href="#cb2-249" aria-hidden="true" tabindex="-1"></a><span class="fu">## From Growth-at-Risk to a distributional VAR {#sec-distributional-var}</span></span>
+<span id="cb2-249"><a href="#cb2-249" aria-hidden="true" tabindex="-1"></a>The horizon mismatch is also worth keeping in view. Climate change unfolds over decades, whereas GaR usually describes a one- to three-year forecasting window. GaR does not estimate the welfare cost of climate change or replace an integrated assessment model. It asks a narrower and operational question: given current exposure and transition conditions, how vulnerable is growth over a stated near- or medium-term horizon? That is exactly the scale at which resilience investment, credit policy, and prudential supervision often need information.</span>
 <span id="cb2-250"><a href="#cb2-250" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-251"><a href="#cb2-251" aria-hidden="true" tabindex="-1"></a>The GaR regression above forecasts one variable, future growth, conditional on a set of predictors. Financial conditions enter as information about that distribution. Yet macroeconomic risk is often joint: an adverse growth outcome may arrive with tight financial conditions and an unusually low policy rate, while a different state of the world has the same marginal GaR but a different co-movement among those variables. Estimating three separate quantile regressions does not tell us whether their simulated outcomes can occur together.</span>
+<span id="cb2-251"><a href="#cb2-251" aria-hidden="true" tabindex="-1"></a><span class="fu">## From Growth-at-Risk to a distributional VAR {#sec-distributional-var}</span></span>
 <span id="cb2-252"><a href="#cb2-252" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-253"><a href="#cb2-253" aria-hidden="true" tabindex="-1"></a>A standard VAR starts from a conditional-mean equation,</span>
+<span id="cb2-253"><a href="#cb2-253" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Open this specification in the Interactive Lab</span><span class="co">](../interactive-lab.html?method=dvar)</span>.</span>
 <span id="cb2-254"><a href="#cb2-254" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-255"><a href="#cb2-255" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-256"><a href="#cb2-256" aria-hidden="true" tabindex="-1"></a>Y_t=c+A_1Y_{t-1}+\cdots+A_pY_{t-p}+u_t,</span>
-<span id="cb2-257"><a href="#cb2-257" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-255"><a href="#cb2-255" aria-hidden="true" tabindex="-1"></a>The GaR regression above forecasts one variable, future growth, conditional on a set of predictors. Financial conditions enter as information about that distribution. Yet macroeconomic risk is often joint: an adverse growth outcome may arrive with tight financial conditions and an unusually low policy rate, while a different state of the world has the same marginal GaR but a different co-movement among those variables. Estimating three separate quantile regressions does not tell us whether their simulated outcomes can occur together.</span>
+<span id="cb2-256"><a href="#cb2-256" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-257"><a href="#cb2-257" aria-hidden="true" tabindex="-1"></a>A standard VAR starts from a conditional-mean equation,</span>
 <span id="cb2-258"><a href="#cb2-258" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-259"><a href="#cb2-259" aria-hidden="true" tabindex="-1"></a>where $Y_t$ is a vector. If the innovations are treated as Gaussian with a constant covariance matrix, the conditional forecast distribution is elliptic: its centre moves with the lags, but its shape is tightly prescribed. A residual bootstrap relaxes Gaussianity, but the usual VAR remains designed around the conditional mean and a common shock distribution. This is often a useful approximation. It is not well suited to a crisis forecast with skewness, fat tails, multimodality, or dependence that changes with the state.</span>
-<span id="cb2-260"><a href="#cb2-260" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-261"><a href="#cb2-261" aria-hidden="true" tabindex="-1"></a>Wang, Oka, and Zhu develop a **distributional VAR** (DVAR) for this wider object <span class="co">[</span><span class="ot">@WangOkaZhu2026</span><span class="co">]</span>. The aim is to estimate the entire joint conditional distribution</span>
+<span id="cb2-259"><a href="#cb2-259" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-260"><a href="#cb2-260" aria-hidden="true" tabindex="-1"></a>Y_t=c+A_1Y_{t-1}+\cdots+A_pY_{t-p}+u_t,</span>
+<span id="cb2-261"><a href="#cb2-261" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb2-262"><a href="#cb2-262" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-263"><a href="#cb2-263" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-264"><a href="#cb2-264" aria-hidden="true" tabindex="-1"></a>F_{Y_t\mid Z_t}(y\mid z),</span>
-<span id="cb2-265"><a href="#cb2-265" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-263"><a href="#cb2-263" aria-hidden="true" tabindex="-1"></a>where $Y_t$ is a vector. If the innovations are treated as Gaussian with a constant covariance matrix, the conditional forecast distribution is elliptic: its centre moves with the lags, but its shape is tightly prescribed. A residual bootstrap relaxes Gaussianity, but the usual VAR remains designed around the conditional mean and a common shock distribution. This is often a useful approximation. It is not well suited to a crisis forecast with skewness, fat tails, multimodality, or dependence that changes with the state.</span>
+<span id="cb2-264"><a href="#cb2-264" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-265"><a href="#cb2-265" aria-hidden="true" tabindex="-1"></a>Wang, Oka, and Zhu develop a **distributional VAR** (DVAR) for this wider object <span class="co">[</span><span class="ot">@WangOkaZhu2026</span><span class="co">]</span>. The aim is to estimate the entire joint conditional distribution</span>
 <span id="cb2-266"><a href="#cb2-266" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-267"><a href="#cb2-267" aria-hidden="true" tabindex="-1"></a>where $Z_t=(Y_{t-1}',\ldots,Y_{t-p}')'$ contains the lagged system. The change in target is decisive. Rather than first forecasting a mean and appending a distributional assumption, the method treats probabilities of events, quantiles, joint densities, and dependence as the primitive forecast outputs.</span>
-<span id="cb2-268"><a href="#cb2-268" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-269"><a href="#cb2-269" aria-hidden="true" tabindex="-1"></a><span class="fu">### Why a joint distribution needs more structure than marginal GaR</span></span>
+<span id="cb2-267"><a href="#cb2-267" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-268"><a href="#cb2-268" aria-hidden="true" tabindex="-1"></a>F_{Y_t\mid Z_t}(y\mid z),</span>
+<span id="cb2-269"><a href="#cb2-269" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb2-270"><a href="#cb2-270" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-271"><a href="#cb2-271" aria-hidden="true" tabindex="-1"></a>For two variables, say GDP growth $G_t$ and financial conditions $F_t$, separate models may provide $F_{G\mid Z}$ and $F_{F\mid Z}$. They do not determine $F_{G,F\mid Z}$. The missing ingredient is dependence: knowing the chance of a recession and the chance of tight financial conditions separately does not determine the chance that they happen together. Correlation is not enough when the dependence itself is nonlinear or concentrated in tails.</span>
+<span id="cb2-271"><a href="#cb2-271" aria-hidden="true" tabindex="-1"></a>where $Z_t=(Y_{t-1}',\ldots,Y_{t-p}')'$ contains the lagged system. The change in target is decisive. Rather than first forecasting a mean and appending a distributional assumption, the method treats probabilities of events, quantiles, joint densities, and dependence as the primitive forecast outputs.</span>
 <span id="cb2-272"><a href="#cb2-272" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-273"><a href="#cb2-273" aria-hidden="true" tabindex="-1"></a>The construction in Wang, Oka, and Zhu uses the chain rule for probability. In the bivariate case,</span>
+<span id="cb2-273"><a href="#cb2-273" aria-hidden="true" tabindex="-1"></a><span class="fu">### Why a joint distribution needs more structure than marginal GaR</span></span>
 <span id="cb2-274"><a href="#cb2-274" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-275"><a href="#cb2-275" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-276"><a href="#cb2-276" aria-hidden="true" tabindex="-1"></a>f_{G,F\mid Z}(g,f\mid z)</span>
-<span id="cb2-277"><a href="#cb2-277" aria-hidden="true" tabindex="-1"></a>=f_{G\mid Z}(g\mid z)\,f_{F\mid G,Z}(f\mid g,z).</span>
-<span id="cb2-278"><a href="#cb2-278" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-279"><a href="#cb2-279" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-280"><a href="#cb2-280" aria-hidden="true" tabindex="-1"></a>One first describes the conditional distribution of growth from the lags, then describes financial conditions conditional on those same lags *and* a draw of growth. Repeating this logic gives a joint distribution for any number of variables. It is not a claim that growth contemporaneously causes financial conditions. It is a probability factorisation, a way of building coherent joint draws. An alternative ordering represents the same population joint distribution when every component is known exactly, but finite-sample estimates can differ across orderings. This is therefore a practical modelling choice to examine, not an SVAR identification restriction.</span>
-<span id="cb2-281"><a href="#cb2-281" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-282"><a href="#cb2-282" aria-hidden="true" tabindex="-1"></a><span class="al">![A distributional VAR builds a coherent multivariate forecast from conditional marginal distributions. Its response object compares the entire baseline and counterfactual CDFs, from which mean and quantile responses can be recovered as summaries.](../figures/growth-at-risk/distributional-var-factorization.png)</span>{#fig-dvar-factorization}</span>
+<span id="cb2-275"><a href="#cb2-275" aria-hidden="true" tabindex="-1"></a>For two variables, say GDP growth $G_t$ and financial conditions $F_t$, separate models may provide $F_{G\mid Z}$ and $F_{F\mid Z}$. They do not determine $F_{G,F\mid Z}$. The missing ingredient is dependence: knowing the chance of a recession and the chance of tight financial conditions separately does not determine the chance that they happen together. Correlation is not enough when the dependence itself is nonlinear or concentrated in tails.</span>
+<span id="cb2-276"><a href="#cb2-276" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-277"><a href="#cb2-277" aria-hidden="true" tabindex="-1"></a>The construction in Wang, Oka, and Zhu uses the chain rule for probability. In the bivariate case,</span>
+<span id="cb2-278"><a href="#cb2-278" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-279"><a href="#cb2-279" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-280"><a href="#cb2-280" aria-hidden="true" tabindex="-1"></a>f_{G,F\mid Z}(g,f\mid z)</span>
+<span id="cb2-281"><a href="#cb2-281" aria-hidden="true" tabindex="-1"></a>=f_{G\mid Z}(g\mid z)\,f_{F\mid G,Z}(f\mid g,z).</span>
+<span id="cb2-282"><a href="#cb2-282" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb2-283"><a href="#cb2-283" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-284"><a href="#cb2-284" aria-hidden="true" tabindex="-1"></a><span class="fu">### Distribution regression: estimating a CDF one threshold at a time</span></span>
+<span id="cb2-284"><a href="#cb2-284" aria-hidden="true" tabindex="-1"></a>One first describes the conditional distribution of growth from the lags, then describes financial conditions conditional on those same lags *and* a draw of growth. Repeating this logic gives a joint distribution for any number of variables. It is not a claim that growth contemporaneously causes financial conditions. It is a probability factorisation, a way of building coherent joint draws. An alternative ordering represents the same population joint distribution when every component is known exactly, but finite-sample estimates can differ across orderings. This is therefore a practical modelling choice to examine, not an SVAR identification restriction.</span>
 <span id="cb2-285"><a href="#cb2-285" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-286"><a href="#cb2-286" aria-hidden="true" tabindex="-1"></a>The DVAR in @WangOkaZhu2026 estimates each conditional marginal distribution through **distribution regression**. Fix an outcome threshold $y$. The continuous event $Y_{j,t}\leq y$ is now a binary outcome, and one estimates</span>
+<span id="cb2-286"><a href="#cb2-286" aria-hidden="true" tabindex="-1"></a><span class="al">![A distributional VAR builds a coherent multivariate forecast from conditional marginal distributions. Its response object compares the entire baseline and counterfactual CDFs, from which mean and quantile responses can be recovered as summaries.](../figures/growth-at-risk/distributional-var-factorization.png)</span>{#fig-dvar-factorization}</span>
 <span id="cb2-287"><a href="#cb2-287" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-288"><a href="#cb2-288" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-289"><a href="#cb2-289" aria-hidden="true" tabindex="-1"></a>\Pr(Y_{j,t}\leq y\mid X_{j,t}=x)</span>
-<span id="cb2-290"><a href="#cb2-290" aria-hidden="true" tabindex="-1"></a>=\Lambda\left<span class="co">[</span><span class="ot">\phi_j(x)'\theta_j(y)\right</span><span class="co">]</span>.</span>
-<span id="cb2-291"><a href="#cb2-291" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-292"><a href="#cb2-292" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-293"><a href="#cb2-293" aria-hidden="true" tabindex="-1"></a>Here $\Lambda$ is a logit or probit link, $\phi_j(x)$ may include lags, nonlinear transformations, and interactions, and the coefficient vector $\theta_j(y)$ is allowed to differ with the threshold. Evaluating this binary-regression problem on a fine grid of $y$ values traces the whole conditional CDF. In the empirical application, the authors use the 1st through 99th in-sample percentiles as thresholds, a logit link, and elastic-net regularisation to control the number of lagged predictors.</span>
-<span id="cb2-294"><a href="#cb2-294" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-295"><a href="#cb2-295" aria-hidden="true" tabindex="-1"></a>There is a close relation to quantile regression, but the direction of the construction differs. Quantile regression fixes a probability level $\tau$ and estimates the outcome location $Q(\tau\mid x)$. Distribution regression fixes an outcome location $y$ and estimates its probability $F(y\mid x)$. For a continuous strictly increasing distribution, one is the inverse of the other. In finite samples they have different numerical properties: distribution regression uses smooth binary-choice likelihoods, while quantile regression minimises the nonsmooth check loss. Neither avoids the need to impose monotonicity after separately fitted thresholds or quantiles have introduced small crossings.</span>
+<span id="cb2-288"><a href="#cb2-288" aria-hidden="true" tabindex="-1"></a><span class="fu">### Distribution regression: estimating a CDF one threshold at a time</span></span>
+<span id="cb2-289"><a href="#cb2-289" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-290"><a href="#cb2-290" aria-hidden="true" tabindex="-1"></a>The DVAR in @WangOkaZhu2026 estimates each conditional marginal distribution through **distribution regression**. Fix an outcome threshold $y$. The continuous event $Y_{j,t}\leq y$ is now a binary outcome, and one estimates</span>
+<span id="cb2-291"><a href="#cb2-291" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-292"><a href="#cb2-292" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-293"><a href="#cb2-293" aria-hidden="true" tabindex="-1"></a>\Pr(Y_{j,t}\leq y\mid X_{j,t}=x)</span>
+<span id="cb2-294"><a href="#cb2-294" aria-hidden="true" tabindex="-1"></a>=\Lambda\left<span class="co">[</span><span class="ot">\phi_j(x)'\theta_j(y)\right</span><span class="co">]</span>.</span>
+<span id="cb2-295"><a href="#cb2-295" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb2-296"><a href="#cb2-296" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-297"><a href="#cb2-297" aria-hidden="true" tabindex="-1"></a>For $J$ variables, the conditioning vector expands along the factorisation: $X_{1,t}$ contains the lags, $X_{2,t}$ contains the lags and $Y_{1,t}$, and so forth. Sampling proceeds in the same order. Draw $Y_{1,t}$ from its estimated CDF; conditional on that draw, sample $Y_{2,t}$; then continue through the system. Repeating the procedure generates a cloud of joint forecast outcomes. A fan chart is then only one marginal projection of a richer object: the simulated cloud can also reveal state-dependent correlation, tail co-occurrence, or multiple forecast modes.</span>
+<span id="cb2-297"><a href="#cb2-297" aria-hidden="true" tabindex="-1"></a>Here $\Lambda$ is a logit or probit link, $\phi_j(x)$ may include lags, nonlinear transformations, and interactions, and the coefficient vector $\theta_j(y)$ is allowed to differ with the threshold. Evaluating this binary-regression problem on a fine grid of $y$ values traces the whole conditional CDF. In the empirical application, the authors use the 1st through 99th in-sample percentiles as thresholds, a logit link, and elastic-net regularisation to control the number of lagged predictors.</span>
 <span id="cb2-298"><a href="#cb2-298" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-299"><a href="#cb2-299" aria-hidden="true" tabindex="-1"></a><span class="fu">### Distributional impulse responses</span></span>
+<span id="cb2-299"><a href="#cb2-299" aria-hidden="true" tabindex="-1"></a>There is a close relation to quantile regression, but the direction of the construction differs. Quantile regression fixes a probability level $\tau$ and estimates the outcome location $Q(\tau\mid x)$. Distribution regression fixes an outcome location $y$ and estimates its probability $F(y\mid x)$. For a continuous strictly increasing distribution, one is the inverse of the other. In finite samples they have different numerical properties: distribution regression uses smooth binary-choice likelihoods, while quantile regression minimises the nonsmooth check loss. Neither avoids the need to impose monotonicity after separately fitted thresholds or quantiles have introduced small crossings.</span>
 <span id="cb2-300"><a href="#cb2-300" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-301"><a href="#cb2-301" aria-hidden="true" tabindex="-1"></a>An ordinary impulse response compares conditional means after a shock. A quantile impulse response compares one selected quantile. A **distributional impulse response** compares the entire predicted distribution. Let $F_{Y_t\mid Z_t}$ be the baseline one-step joint forecast distribution and let $G_{Y_t\mid Z_t}$ be a counterfactual distribution that changes the variable of interest at date $t$. Combining each with the direct $h$-step conditional forecast law gives</span>
+<span id="cb2-301"><a href="#cb2-301" aria-hidden="true" tabindex="-1"></a>For $J$ variables, the conditioning vector expands along the factorisation: $X_{1,t}$ contains the lags, $X_{2,t}$ contains the lags and $Y_{1,t}$, and so forth. Sampling proceeds in the same order. Draw $Y_{1,t}$ from its estimated CDF; conditional on that draw, sample $Y_{2,t}$; then continue through the system. Repeating the procedure generates a cloud of joint forecast outcomes. A fan chart is then only one marginal projection of a richer object: the simulated cloud can also reveal state-dependent correlation, tail co-occurrence, or multiple forecast modes.</span>
 <span id="cb2-302"><a href="#cb2-302" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-303"><a href="#cb2-303" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-304"><a href="#cb2-304" aria-hidden="true" tabindex="-1"></a>F_{Y_{t+h}\mid Z_t}</span>
-<span id="cb2-305"><a href="#cb2-305" aria-hidden="true" tabindex="-1"></a>=\int F_{Y_{t+h}\mid Y_t,Z_t}\,dF_{Y_t\mid Z_t},</span>
-<span id="cb2-306"><a href="#cb2-306" aria-hidden="true" tabindex="-1"></a>\qquad</span>
-<span id="cb2-307"><a href="#cb2-307" aria-hidden="true" tabindex="-1"></a>F^*_{Y_{t+h}\mid Z_t}</span>
-<span id="cb2-308"><a href="#cb2-308" aria-hidden="true" tabindex="-1"></a>=\int F_{Y_{t+h}\mid Y_t,Z_t}\,dG_{Y_t\mid Z_t}.</span>
-<span id="cb2-309"><a href="#cb2-309" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-310"><a href="#cb2-310" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-311"><a href="#cb2-311" aria-hidden="true" tabindex="-1"></a>The response is the function</span>
-<span id="cb2-312"><a href="#cb2-312" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-303"><a href="#cb2-303" aria-hidden="true" tabindex="-1"></a><span class="fu">### Distributional impulse responses</span></span>
+<span id="cb2-304"><a href="#cb2-304" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-305"><a href="#cb2-305" aria-hidden="true" tabindex="-1"></a>An ordinary impulse response compares conditional means after a shock. A quantile impulse response compares one selected quantile. A **distributional impulse response** compares the entire predicted distribution. Let $F_{Y_t\mid Z_t}$ be the baseline one-step joint forecast distribution and let $G_{Y_t\mid Z_t}$ be a counterfactual distribution that changes the variable of interest at date $t$. Combining each with the direct $h$-step conditional forecast law gives</span>
+<span id="cb2-306"><a href="#cb2-306" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-307"><a href="#cb2-307" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-308"><a href="#cb2-308" aria-hidden="true" tabindex="-1"></a>F_{Y_{t+h}\mid Z_t}</span>
+<span id="cb2-309"><a href="#cb2-309" aria-hidden="true" tabindex="-1"></a>=\int F_{Y_{t+h}\mid Y_t,Z_t}\,dF_{Y_t\mid Z_t},</span>
+<span id="cb2-310"><a href="#cb2-310" aria-hidden="true" tabindex="-1"></a>\qquad</span>
+<span id="cb2-311"><a href="#cb2-311" aria-hidden="true" tabindex="-1"></a>F^*_{Y_{t+h}\mid Z_t}</span>
+<span id="cb2-312"><a href="#cb2-312" aria-hidden="true" tabindex="-1"></a>=\int F_{Y_{t+h}\mid Y_t,Z_t}\,dG_{Y_t\mid Z_t}.</span>
 <span id="cb2-313"><a href="#cb2-313" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-314"><a href="#cb2-314" aria-hidden="true" tabindex="-1"></a>\operatorname{DIR}_h(y\mid Z_t)</span>
-<span id="cb2-315"><a href="#cb2-315" aria-hidden="true" tabindex="-1"></a>=F^*_{Y_{t+h}\mid Z_t}(y)-F_{Y_{t+h}\mid Z_t}(y).</span>
-<span id="cb2-316"><a href="#cb2-316" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-317"><a href="#cb2-317" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-318"><a href="#cb2-318" aria-hidden="true" tabindex="-1"></a>It shows, at every possible future outcome $y$, how the counterfactual changes cumulative probability. A positive value around very low growth means more probability assigned to outcomes at or below that level; a negative value means less. The familiar objects are summaries: integrating $y$ against the two distributions gives the mean response, while taking inverse CDFs gives the quantile response</span>
-<span id="cb2-319"><a href="#cb2-319" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-314"><a href="#cb2-314" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-315"><a href="#cb2-315" aria-hidden="true" tabindex="-1"></a>The response is the function</span>
+<span id="cb2-316"><a href="#cb2-316" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-317"><a href="#cb2-317" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-318"><a href="#cb2-318" aria-hidden="true" tabindex="-1"></a>\operatorname{DIR}_h(y\mid Z_t)</span>
+<span id="cb2-319"><a href="#cb2-319" aria-hidden="true" tabindex="-1"></a>=F^*_{Y_{t+h}\mid Z_t}(y)-F_{Y_{t+h}\mid Z_t}(y).</span>
 <span id="cb2-320"><a href="#cb2-320" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-321"><a href="#cb2-321" aria-hidden="true" tabindex="-1"></a>QIRF_{j,h}(\tau)=F_{Y_{j,t+h}\mid Z_t}^{*-1}(\tau)-F_{Y_{j,t+h}\mid Z_t}^{-1}(\tau).</span>
-<span id="cb2-322"><a href="#cb2-322" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-321"><a href="#cb2-321" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-322"><a href="#cb2-322" aria-hidden="true" tabindex="-1"></a>It shows, at every possible future outcome $y$, how the counterfactual changes cumulative probability. A positive value around very low growth means more probability assigned to outcomes at or below that level; a negative value means less. The familiar objects are summaries: integrating $y$ against the two distributions gives the mean response, while taking inverse CDFs gives the quantile response</span>
 <span id="cb2-323"><a href="#cb2-323" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-324"><a href="#cb2-324" aria-hidden="true" tabindex="-1"></a>This nesting is valuable. A mean response can be close to zero even when the fifth percentile falls and the ninety-fifth percentile rises, because the two changes offset in the average. Conversely, equal quantile shifts would reveal an almost pure location change. The distributional response lets the data distinguish those cases before a summary is chosen.</span>
-<span id="cb2-325"><a href="#cb2-325" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-326"><a href="#cb2-326" aria-hidden="true" tabindex="-1"></a>Wang, Oka, and Zhu use direct multi-step forecasts, much like local projections: for each horizon they estimate $F_{Y_{t+h}\mid Y_t,Z_t}$ rather than recursively iterating a one-step law. Their U.S. application includes real GDP growth, NFCI, and the interest rate. It finds that the joint forecasts become notably non-Gaussian around the Great Recession, including multimodality in the GDP-growth and financial-condition distribution. In their 2008Q4 scenario, the interest-rate distribution is shifted towards a more accommodative policy path; the estimated counterfactual places less probability on tight financial conditions and temporarily improves lower growth quantiles. That result describes a model-based counterfactual, not an automatically identified monetary-policy effect.</span>
+<span id="cb2-324"><a href="#cb2-324" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-325"><a href="#cb2-325" aria-hidden="true" tabindex="-1"></a>QIRF_{j,h}(\tau)=F_{Y_{j,t+h}\mid Z_t}^{*-1}(\tau)-F_{Y_{j,t+h}\mid Z_t}^{-1}(\tau).</span>
+<span id="cb2-326"><a href="#cb2-326" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb2-327"><a href="#cb2-327" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-328"><a href="#cb2-328" aria-hidden="true" tabindex="-1"></a><span class="fu">### Validation and limits</span></span>
+<span id="cb2-328"><a href="#cb2-328" aria-hidden="true" tabindex="-1"></a>This nesting is valuable. A mean response can be close to zero even when the fifth percentile falls and the ninety-fifth percentile rises, because the two changes offset in the average. Conversely, equal quantile shifts would reveal an almost pure location change. The distributional response lets the data distinguish those cases before a summary is chosen.</span>
 <span id="cb2-329"><a href="#cb2-329" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-330"><a href="#cb2-330" aria-hidden="true" tabindex="-1"></a>A full distribution forecast can be assessed more demanding ways than a point forecast. For a realised value $y_t$, its probability integral transform (PIT), $\widehat F_t(y_t)$, should be Uniform$(0,1)$ under calibration. A PIT histogram or empirical CDF that systematically bends away from uniformity reveals too much or too little probability in some region of the forecast distribution. Quantile scores test particular tails; the continuous ranked probability score (CRPS) evaluates the whole CDF,</span>
+<span id="cb2-330"><a href="#cb2-330" aria-hidden="true" tabindex="-1"></a>Wang, Oka, and Zhu use direct multi-step forecasts, much like local projections: for each horizon they estimate $F_{Y_{t+h}\mid Y_t,Z_t}$ rather than recursively iterating a one-step law. Their U.S. application includes real GDP growth, NFCI, and the interest rate. It finds that the joint forecasts become notably non-Gaussian around the Great Recession, including multimodality in the GDP-growth and financial-condition distribution. In their 2008Q4 scenario, the interest-rate distribution is shifted towards a more accommodative policy path; the estimated counterfactual places less probability on tight financial conditions and temporarily improves lower growth quantiles. That result describes a model-based counterfactual, not an automatically identified monetary-policy effect.</span>
 <span id="cb2-331"><a href="#cb2-331" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-332"><a href="#cb2-332" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-333"><a href="#cb2-333" aria-hidden="true" tabindex="-1"></a>\operatorname{CRPS}(F,y)</span>
-<span id="cb2-334"><a href="#cb2-334" aria-hidden="true" tabindex="-1"></a>=\int_{-\infty}^{\infty}\left<span class="co">[</span><span class="ot">F(a)-\mathbf 1\{y\leq a\}\right</span><span class="co">]</span>^2da.</span>
-<span id="cb2-335"><a href="#cb2-335" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-336"><a href="#cb2-336" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-337"><a href="#cb2-337" aria-hidden="true" tabindex="-1"></a>In the paper, expanding-window forecasts are evaluated with PIT calibration, log predictive scores, CRPS, and quantile scores. This is the correct discipline for a flexible DVAR: estimating many threshold-specific regressions can create an impressive in-sample distribution while degrading genuine forecasts if regularisation, lag selection, and validation are neglected.</span>
-<span id="cb2-338"><a href="#cb2-338" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-339"><a href="#cb2-339" aria-hidden="true" tabindex="-1"></a>Finally, distributional flexibility does not solve structural identification. The support condition for the counterfactual requires $G$ to remain within values that are empirically represented in the data. More importantly, the choice of $G$ must be economically defensible. Replacing the observed policy-rate distribution with a hypothetical one answers a conditional scenario question. Calling it the causal effect of a policy requires the same additional institutional argument, instrument, or identifying restrictions as in an SVAR. The DVAR expands what a response can describe; it does not exempt the researcher from explaining what the disturbance is.</span>
+<span id="cb2-332"><a href="#cb2-332" aria-hidden="true" tabindex="-1"></a><span class="fu">### Validation and limits</span></span>
+<span id="cb2-333"><a href="#cb2-333" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-334"><a href="#cb2-334" aria-hidden="true" tabindex="-1"></a>A full distribution forecast can be assessed more demanding ways than a point forecast. For a realised value $y_t$, its probability integral transform (PIT), $\widehat F_t(y_t)$, should be Uniform$(0,1)$ under calibration. A PIT histogram or empirical CDF that systematically bends away from uniformity reveals too much or too little probability in some region of the forecast distribution. Quantile scores test particular tails; the continuous ranked probability score (CRPS) evaluates the whole CDF,</span>
+<span id="cb2-335"><a href="#cb2-335" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-336"><a href="#cb2-336" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-337"><a href="#cb2-337" aria-hidden="true" tabindex="-1"></a>\operatorname{CRPS}(F,y)</span>
+<span id="cb2-338"><a href="#cb2-338" aria-hidden="true" tabindex="-1"></a>=\int_{-\infty}^{\infty}\left<span class="co">[</span><span class="ot">F(a)-\mathbf 1\{y\leq a\}\right</span><span class="co">]</span>^2da.</span>
+<span id="cb2-339"><a href="#cb2-339" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb2-340"><a href="#cb2-340" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-341"><a href="#cb2-341" aria-hidden="true" tabindex="-1"></a><span class="fu">## A disciplined workflow {#sec-gar-workflow}</span></span>
+<span id="cb2-341"><a href="#cb2-341" aria-hidden="true" tabindex="-1"></a>In the paper, expanding-window forecasts are evaluated with PIT calibration, log predictive scores, CRPS, and quantile scores. This is the correct discipline for a flexible DVAR: estimating many threshold-specific regressions can create an impressive in-sample distribution while degrading genuine forecasts if regularisation, lag selection, and validation are neglected.</span>
 <span id="cb2-342"><a href="#cb2-342" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-343"><a href="#cb2-343" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**State the target before choosing a model.** Specify the growth concept, horizon, conditioning information, and tail probability. A one-quarter annualised rate and four-quarter cumulative growth answer different questions.</span>
+<span id="cb2-343"><a href="#cb2-343" aria-hidden="true" tabindex="-1"></a>Finally, distributional flexibility does not solve structural identification. The support condition for the counterfactual requires $G$ to remain within values that are empirically represented in the data. More importantly, the choice of $G$ must be economically defensible. Replacing the observed policy-rate distribution with a hypothetical one answers a conditional scenario question. Calling it the causal effect of a policy requires the same additional institutional argument, instrument, or identifying restrictions as in an SVAR. The DVAR expands what a response can describe; it does not exempt the researcher from explaining what the disturbance is.</span>
 <span id="cb2-344"><a href="#cb2-344" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-345"><a href="#cb2-345" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Respect the information set.** Every predictor must be observable at the forecast origin. Mixed-frequency variables need an explicit aggregation rule and data releases must be dated correctly.</span>
+<span id="cb2-345"><a href="#cb2-345" aria-hidden="true" tabindex="-1"></a><span class="fu">## A disciplined workflow {#sec-gar-workflow}</span></span>
 <span id="cb2-346"><a href="#cb2-346" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-347"><a href="#cb2-347" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Estimate several quantiles.** A fifth percentile without a median and upper quantiles cannot reveal whether the predictor changes location, scale, skewness, or the whole shape of the distribution.</span>
+<span id="cb2-347"><a href="#cb2-347" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**State the target before choosing a model.** Specify the growth concept, horizon, conditioning information, and tail probability. A one-quarter annualised rate and four-quarter cumulative growth answer different questions.</span>
 <span id="cb2-348"><a href="#cb2-348" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-349"><a href="#cb2-349" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Handle the time-series structure.** Overlapping horizons, serial correlation, and revisions affect inference and backtesting. Use block resampling or another dependence-aware procedure.</span>
+<span id="cb2-349"><a href="#cb2-349" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Respect the information set.** Every predictor must be observable at the forecast origin. Mixed-frequency variables need an explicit aggregation rule and data releases must be dated correctly.</span>
 <span id="cb2-350"><a href="#cb2-350" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-351"><a href="#cb2-351" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**Repair quantile crossing transparently.** Rearrangement is a logical correction; smoothing a full density adds modelling assumptions that should be reported.</span>
+<span id="cb2-351"><a href="#cb2-351" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Estimate several quantiles.** A fifth percentile without a median and upper quantiles cannot reveal whether the predictor changes location, scale, skewness, or the whole shape of the distribution.</span>
 <span id="cb2-352"><a href="#cb2-352" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-353"><a href="#cb2-353" aria-hidden="true" tabindex="-1"></a><span class="ss">6. </span>**Evaluate recursively.** Report coverage, conditional coverage, check loss, benchmarks, and forecast vintages. The aesthetic quality of a fan chart is not evidence of calibration.</span>
+<span id="cb2-353"><a href="#cb2-353" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Handle the time-series structure.** Overlapping horizons, serial correlation, and revisions affect inference and backtesting. Use block resampling or another dependence-aware procedure.</span>
 <span id="cb2-354"><a href="#cb2-354" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-355"><a href="#cb2-355" aria-hidden="true" tabindex="-1"></a><span class="ss">7. </span>**Keep prediction and intervention separate.** A GaR model can flag vulnerability. It cannot alone determine which policy would reduce it, nor how a policy rule changes the distribution after agents respond.</span>
+<span id="cb2-355"><a href="#cb2-355" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**Repair quantile crossing transparently.** Rearrangement is a logical correction; smoothing a full density adds modelling assumptions that should be reported.</span>
 <span id="cb2-356"><a href="#cb2-356" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-357"><a href="#cb2-357" aria-hidden="true" tabindex="-1"></a><span class="fu">## Further reading</span></span>
+<span id="cb2-357"><a href="#cb2-357" aria-hidden="true" tabindex="-1"></a><span class="ss">6. </span>**Evaluate recursively.** Report coverage, conditional coverage, check loss, benchmarks, and forecast vintages. The aesthetic quality of a fan chart is not evidence of calibration.</span>
 <span id="cb2-358"><a href="#cb2-358" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-359"><a href="#cb2-359" aria-hidden="true" tabindex="-1"></a>The foundational empirical analysis of changing growth vulnerability is @AdrianBoyarchenkoGiannone2019. The multi-horizon macro-financial extension is @AdrianGrinbergLiangMalikYu2019. For an application that separates physical and transition climate risks in a local panel, see @YinQianJi2026. The distributional-VAR construction and distributional impulse response are developed in @WangOkaZhu2026. The mathematical foundations for conditional distributions, convergence, bootstrap inference, and lag operators are collected in @sec-joint-distributions, @sec-lln-clt, and @sec-lag-operator-foundations.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb2-359"><a href="#cb2-359" aria-hidden="true" tabindex="-1"></a><span class="ss">7. </span>**Keep prediction and intervention separate.** A GaR model can flag vulnerability. It cannot alone determine which policy would reduce it, nor how a policy rule changes the distribution after agents respond.</span>
+<span id="cb2-360"><a href="#cb2-360" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-361"><a href="#cb2-361" aria-hidden="true" tabindex="-1"></a><span class="fu">## Further reading</span></span>
+<span id="cb2-362"><a href="#cb2-362" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-363"><a href="#cb2-363" aria-hidden="true" tabindex="-1"></a>The foundational empirical analysis of changing growth vulnerability is @AdrianBoyarchenkoGiannone2019. The multi-horizon macro-financial extension is @AdrianGrinbergLiangMalikYu2019. For an application that separates physical and transition climate risks in a local panel, see @YinQianJi2026. The distributional-VAR construction and distributional impulse response are developed in @WangOkaZhu2026. The mathematical foundations for conditional distributions, convergence, bootstrap inference, and lag operators are collected in @sec-joint-distributions, @sec-lln-clt, and @sec-lag-operator-foundations.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 <footer class="footer">
