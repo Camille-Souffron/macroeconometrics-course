@@ -90,6 +90,8 @@ The covariance factorisation, orthogonal rotations, and uniqueness of the Choles
 
 ## Recursive (Cholesky) identification
 
+[Open this specification in the Interactive Lab](../interactive-lab.html?method=svar).
+
 The simplest resolution imposes enough zero restrictions on $C(0)$ to make it unique, through a recursive, hierarchical ordering of the variables $y_t = (y_{1t}, \ldots, y_{kt})'$: variable 1 does not react contemporaneously to any other variable (its innovation is purely its own structural shock - contemporaneously exogenous); variable 2 reacts contemporaneously at most to variable 1 and its own shock; variable 3 reacts at most to variables 1 and 2 and its own shock; and so on. This forces $C(0)$ to be **lower triangular**,
 
 $$
@@ -195,6 +197,8 @@ Given $a_1, b_1$, cyclically adjusted residuals $t'_t = t_t - a_1 x_t$ and $g'_t
 
 ## Long-run restrictions {#sec-long-run-restrictions}
 
+[Open this specification in the Interactive Lab](../interactive-lab.html?method=svar&spec=%7B%22identification%22%3A%22long_run%22%2C%22shock%22%3A0%7D).
+
 Short-run restrictions (Cholesky, Blanchard-Perotti) impose zeros or other constraints on the *impact* matrix $C(0)$, controlling within-period responses. **Long-run restrictions**, following the seminal Blanchard and Quah [-@BlanchardQuah1989] paper, instead impose constraints only on the *cumulative* effect of a shock,
 
 $$
@@ -242,6 +246,8 @@ Measuring the output effects of financial crises via estimated impulse responses
 :::
 
 ## Sign restrictions {#sec-sign-restrictions}
+
+[Open this specification in the Interactive Lab](../interactive-lab.html?method=svar&spec=%7B%22identification%22%3A%22sign%22%7D).
 
 Both short-run and long-run restrictions require *exact zeros*, and often strong functional-form assumptions along with them. **Sign restrictions**, most closely associated with Uhlig [-@Uhlig2005], instead exploit that economic theory often delivers the *sign* of a response without pinning down its exact size or timing. The restriction takes the form $\Psi_h(i,j) \ge 0$ or $\le 0$ for chosen variables $i$, shocks $j$, and horizons $h \in \mathcal{H}$ - no exact zeros, and a correspondingly more agnostic, less parametric identification strategy.
 
@@ -292,6 +298,8 @@ Because $\psi_y < 0$ in most admissible draws, many of the "MP shocks" selected 
 :::
 
 ## The narrative approach {#sec-narrative-approach}
+
+[Open this specification in the Interactive Lab](../interactive-lab.html?method=narrative).
 
 Estimated SVAR shocks can suffer from a serious **omitted-variable bias**: both policy actions and real economic activity are influenced by variables not included in the SVAR. The **narrative approach** instead gathers systematic evidence from contemporaneous qualitative sources - newspapers, official reports, policy transcripts - to date episodes of policy action that were plausibly *not* a systematic response to the state of the economy.
 
@@ -356,6 +364,8 @@ with the sequence of estimated $\beta^h$ across horizons $h$ tracing out the IRF
 A related, complementary narrative strategy (Romer and Romer [-@RomerRomer2004]) defines the shock as the component of a policy instrument $s_t = f(\Omega_t) + \varepsilon_t$ that is *orthogonal to the information the policymaker was reacting to*, where $\Omega_t$ is the central bank's information set and $f(\cdot)$ the systematic component of policy. Concretely, estimate $\Delta i_t = \alpha + \beta i_t + \gamma X_t^f + \varepsilon_t^{RR}$, where $i_t$ is the policy rate and $X_t^f$ are the central bank's own forecasts made at time $t$ (e.g. FOMC "Greenbook" forecasts for the Fed) - so that $\varepsilon_t^{RR}$ is purged both of endogenous responses to current developments and of pre-emptive responses to developments the bank already anticipated. This relies on two assumptions: that the chosen forecasts are a good proxy for the information actually relevant to the decision, and that the mapping from information to decisions, $f(\cdot)$, is well approximated as linear. More recent work (Aruoba and Drechsel, 2023) extends this using natural language processing on FOMC Minutes text to enrich the information set and relax the linearity assumption on $f(\cdot)$ - underscoring that identifying "the" monetary policy shock remains, in no small part, a problem in the sociology of institutions and public officials, not only in statistics.
 
 ## External instruments: the Proxy-VAR {#sec-proxy-var}
+
+[Open this specification in the Interactive Lab](../interactive-lab.html?method=proxy).
 
 Narrative shocks and high-frequency market surprises are rarely a perfect measurement of the true structural shock - they are, at best, noisy proxies for it. Putting such a proxy directly into a VAR as if it *were* the shock (as in the local-projection specifications of the previous section) invites attenuation bias and a misspecified dynamic system whenever the measurement error is non-trivial. The **Proxy-VAR** approach instead treats the proxy series as an *external instrument*, using only its covariance with the VAR's reduced-form residuals to pin down the target shock, rather than treating it as the shock itself.
 

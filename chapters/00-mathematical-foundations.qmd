@@ -27,6 +27,8 @@ The rest of the chapter unpacks these questions in that order.
 
 ## Linear algebra: describing several movements at once {#sec-linear-algebra-foundations}
 
+[Open this specification in the Interactive Lab](../interactive-lab.html?method=linear-projection).
+
 ### Vectors, distances, and directions
 
 Suppose first that an economy is described by output and inflation gaps. Writing the two numbers separately is possible, but it conceals a basic fact: they belong to the same state, at the same date, and later operations will act on them jointly. The column
@@ -434,6 +436,8 @@ The formula says that a parameter changes the system’s residuals directly, and
 
 ## Probability: describing uncertainty before observing data {#sec-probability-foundations}
 
+[Open this specification in the Interactive Lab](../interactive-lab.html?method=sampling).
+
 ### A gamble, an event, and a random variable
 
 Imagine that the next FOMC decision can be a cut, no change, or a hike. Before the meeting, there is a list of possible outcomes and a judgement about their relative plausibility. After the meeting, exactly one outcome is observed. Probability is the language that keeps those two statements separate.
@@ -836,6 +840,8 @@ where $\eta_t$ moves the hidden state and $\varepsilon_t$ is measurement error. 
 With linear Gaussian equations, the Kalman filter alternates a prediction step with an update step. It propagates the previous conditional mean and covariance through the transition equation, compares the predicted observation to the new data, and adjusts the state estimate by a gain that is larger when the observation is precise and smaller when it is noisy. The Kalman smoother then uses the full sample to estimate past states. This distinction matters for real-time output-gap estimates, dynamic factors, missing observations, and time-varying-parameter VARs: an ex post smoothed estimate may use information that was unavailable at the date being described.
 
 ## Bayesian inference: uncertainty about parameters as well as data {#sec-bayes-foundations}
+
+[Open this specification in the Interactive Lab](../interactive-lab.html?method=samplers).
 
 Return to the recession alarm. Suppose recessions occur with prior probability .05, the alarm sounds in .80 of recessions, and it sounds spuriously in .10 of non-recessions. On hearing an alarm, the relevant probability is
 

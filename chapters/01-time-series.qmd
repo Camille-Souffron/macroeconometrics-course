@@ -225,6 +225,8 @@ where $\sum_{h \in \mathbb{Z}} \gamma(h)$ is the process's **long-run variance**
 
 ## Diagnosing nonstationarity {#sec-unit-root-tests}
 
+[Open this specification in the Interactive Lab](../interactive-lab.html?method=stationarity).
+
 Nonstationarity can arise from several distinct sources, and distinguishing between them matters for how the series should be transformed:
 
 - **Deterministic trends**: predictable changes in mean, $X_t = a + bt + Y_t$ with $Y_t$ stationary - e.g. long-run GDP growth.
@@ -255,6 +257,8 @@ a stochastic trend (unit root), where *differencing* rather than detrending yiel
 ![Real GDP levels for four European countries (1960-2015+): all four display persistent upward drift rather than fluctuation around a fixed mean.](../figures/ts/european-gdps-levels.png){#fig-european-gdp-levels}
 
 ### Unit-root and structural-break tests
+
+[Open this specification in the Interactive Lab](../interactive-lab.html?method=breaks).
 
 Formally, the question is whether nonstationarity stems from a **stochastic trend** (unit root - does the series tend to return to a fixed mean/trend after a shock?) or a **deterministic trend** (drift/linear trend - do shocks accumulate permanently?). The choice of a constant vs. a constant-plus-trend in the test equation should match the data pattern: a series fluctuating around a fixed mean needs only a constant; one growing/declining linearly needs a trend as well.
 
@@ -297,6 +301,8 @@ Once nonstationarity is detected, four transformations are used, alone or in com
 The corresponding empirical workflow is: (i) visual inspection to guess the type of trend; (ii) unit-root tests; (iii) apply the appropriate transformation; (iv) test the residual for stationarity (ACF tail decay, formal tests).
 
 ### Removing seasonality
+
+[Open this specification in the Interactive Lab](../interactive-lab.html?method=seasonality).
 
 Two approaches address a recurring seasonal pattern $s_t$, so that the residual series has constant mean and time-invariant covariance:
 

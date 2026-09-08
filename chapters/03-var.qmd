@@ -110,6 +110,8 @@ Choosing the endogenous variable set is a theory-driven choice, trading off seve
 
 ## Estimation and selection {#sec-var-estimation}
 
+[Open this specification in the Interactive Lab](../interactive-lab.html?method=var).
+
 We observe $\{y_t\}_{t=1}^T$ with $y_t \in \mathbb{R}^k$. Forming the regressors $(y_{t-1}, \ldots, y_{t-p})$ requires $p$ initial periods, leaving $T_p = T - p$ usable observations. Let $m = kp + d$ be the number of regressors per equation ($kp$ lag coefficients plus $d$ deterministic or exogenous terms). Stacking all usable observations,
 
 $$
@@ -295,6 +297,8 @@ When reading an impulse response, look at its sign, magnitude, lag or delay, dur
 Because VARs are linear, two properties always hold mechanically, whether or not they are economically realistic. First, a positive shock is always the exact mirror image of a negative shock of the same size - only nonlinear models can produce asymmetric responses. This raises the empirical question of whether macro multipliers really have the same magnitude in an expansion as in a recession (consider, informally, the Greek crisis). Second, the magnitude of the initial shock does not matter for the *shape* of the IRF: a "unit shock" is conventionally a one-standard-deviation shock to a variable's residual, and a $2.3$-unit shock produces exactly $2.3$ times the impulse response of a unit shock. Whether this scale-invariance holds in reality is also an open empirical question - thresholds and tipping points (the Great Moderation, policy-rate effective lower bounds, "Minsky moments") all suggest it may not, always. These are exactly the limitations that motivate the nonlinear models developed in @sec-nonlinear.
 
 ## Forecast error variance decomposition {#sec-fevd}
+
+[Open this specification in the Interactive Lab](../interactive-lab.html?method=svar).
 
 The FEVD answers a complementary question to the IRF: how much of the forecast error variance (uncertainty) of a variable $y_t$ at horizon $h$ is explained by each structural shock in the system? When forecasting $y_{t+h}$, errors arise because future shocks (innovations) are unknown; the FEVD decomposes these forecast errors into shares attributable to each shock.
 

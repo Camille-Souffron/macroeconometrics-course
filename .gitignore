@@ -12,3 +12,10 @@ Thumbs.db
 .RData
 
 **/*.quarto_ipynb
+
+.env
+__pycache__/
+.pytest_cache/
+node_modules/
+test-results/
+playwright-report/

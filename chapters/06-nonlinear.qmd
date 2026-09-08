@@ -39,6 +39,8 @@ If the true DGP is $y_i = f(x_i) + u_i$ with $f$ continuous, the Weierstrass app
 
 ## Threshold models: TAR and TVAR {#sec-tar}
 
+[Open this specification in the Interactive Lab](../interactive-lab.html?method=tar).
+
 Introduced by Tong [-@TongLim1980] (and Tong, 1978), the simplest threshold model has one variable and two regimes - a **threshold AR(1)**:
 
 $$
@@ -72,6 +74,8 @@ The natural null is *no threshold*, $A_j^{(L)} = A_j^{(H)}$ for all $j$. Under $
 :::
 
 ## Smooth transition models and generalized impulse responses {#sec-star}
+
+[Open this specification in the Interactive Lab](../interactive-lab.html?method=star).
 
 A hard threshold forces an unrealistically abrupt regime switch exactly at $z_{t-d} = c$. **Smooth transition autoregression (STAR)** [@Terasvirta1994; also Teräsvirta and Anderson, 1992; Granger and Teräsvirta, 1993] replaces the indicator with a smooth function:
 
@@ -131,6 +135,8 @@ Two IRF scenarios are computed: an **expansion IRF**, starting from $G(z_t) \app
 
 ## Markov-switching VARs {#sec-ms-var}
 
+[Open this specification in the Interactive Lab](../interactive-lab.html?method=markov).
+
 The covariance-stationary Markov-switching (MS) model [@Hamilton1989; also Quandt, 1958; Neftçi, 1982, 1984] succeeds in part because it reproduces the U.S. business cycle without relying on the complex, non-transparent procedure used by the NBER Business Cycle Dating Committee (cf. Burns and Mitchell, 1946, *Measuring Business Cycles*). Unlike TAR models, the state driving the switch is not observed at all - it is assumed to follow a first-order Markov chain.
 
 $$
@@ -162,6 +168,8 @@ The three estimated regimes line up with low, medium, and high activity phases, 
 :::
 
 ## Time-varying-parameter VARs {#sec-tvp-var}
+
+[Open this specification in the Interactive Lab](../interactive-lab.html?method=tvp).
 
 Why should coefficients move at all? Because the underlying relationships are not timeless: the slope of the Phillips curve shifts with bargaining power, globalization, and labor-market institutions; the systematic monetary policy response changes across Fed chairs (Volcker, Greenspan, Bernanke, Powell); the impact of interest rates on demand changes with leverage, financial frictions, and demographics. Crucially, these shifts typically do *not* occur in just two or three discrete regimes, and do *not* happen at a sharp threshold in some single observable - they happen gradually, continuously, and with genuine uncertainty about their pace. This is the case for **time-varying-parameter (TVP) VARs** [seminal: Cogley and Sargent, -@CogleySargent2001], where the economic relationships themselves evolve slowly and stochastically.
 
@@ -212,6 +220,8 @@ The endogenous vector is $y_t = (\text{labour share}, \text{employment rate}, \t
 **TVP-VAR.** Use when you believe the underlying structure drifts *gradually* over time (policy, expectations, institutions) with no clear regimes or triggers at all; coefficients follow a stochastic drift, typically modeled as a random walk.
 
 ## Local projections {#sec-local-projections}
+
+[Open this specification in the Interactive Lab](../interactive-lab.html?method=lp).
 
 So far, every impulse response in this course has been an object *implied* by an estimated (S)VAR - reduced-form or structural. **Local projections (LPs)**, following Jordà [-@Jorda2005] (see Jordà and Taylor, forthcoming, for a state-of-the-art review[^jt-review-note]), estimate IRFs *directly* instead: run a separate regression for each horizon $h$, and read the IRF off the estimated coefficient.
 

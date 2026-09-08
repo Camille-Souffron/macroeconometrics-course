@@ -1,0 +1,4878 @@
+{
+  "version": 1,
+  "runtime": {
+    "pyodide": "0.27.7",
+    "packages": {
+      "numpy": "2.0.2",
+      "scipy": "1.14.1",
+      "pandas": "2.2.3",
+      "statsmodels": "0.14.4",
+      "scikit-learn": "1.6.1",
+      "autograd": "1.7.0"
+    }
+  },
+  "experiments": [
+    {
+      "id": "stationarity",
+      "title": "Stationarity and dependence",
+      "chapter": "01-time-series.qmd",
+      "module": "linear",
+      "method": "foundations",
+      "datasets": [
+        "gdp"
+      ],
+      "controls": [
+        {
+          "key": "variables",
+          "label": "Variables, in model order",
+          "type": "select",
+          "default": "GDPC1",
+          "options": [
+            "GDPC1"
+          ],
+          "help": "Ordering matters for recursive structural identification."
+        },
+        {
+          "key": "transform",
+          "label": "Transformation",
+          "type": "select",
+          "default": "log",
+          "options": [
+            "level",
+            "log",
+            "growth",
+            "difference",
+            "demean",
+            "detrend"
+          ],
+          "help": "Growth = 400 × first log difference for quarterly levels. Do not log already transformed growth or signed rates."
+        },
+        {
+          "key": "lags",
+          "label": "Lag order",
+          "type": "number",
+          "default": 2,
+          "min": 1,
+          "max": 8,
+          "step": 1,
+          "help": "More lags allow richer dynamics but use degrees of freedom."
+        },
+        {
+          "key": "horizon",
+          "label": "Horizon (quarters)",
+          "type": "number",
+          "default": 12,
+          "min": 1,
+          "max": 32,
+          "step": 1,
+          "help": ""
+        },
+        {
+          "key": "deterministic",
+          "label": "Deterministic terms",
+          "type": "select",
+          "default": "c",
+          "options": [
+            "n",
+            "c",
+            "ct"
+          ],
+          "help": "n: none; c: intercept; ct: intercept and linear trend."
+        },
+        {
+          "key": "sample_start",
+          "label": "Sample begins",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        },
+        {
+          "key": "sample_end",
+          "label": "Sample ends",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        }
+      ],
+      "description": "Compare the unit-root null of ADF with the stationarity null of KPSS; inspect serial dependence and an endogenous break.",
+      "reference": "NelsonPlosser1982",
+      "preset": {
+        "label": "Canonical illustration",
+        "retained": "The estimator and assumptions described in the notes.",
+        "changed": "Uses the versioned teaching dataset and the displayed sample and specification; no exact paper replication is claimed."
+      },
+      "terms": [
+        "ACF",
+        "ADF",
+        "KPSS",
+        "Zivot",
+        "stationarity"
+      ],
+      "implementation": "interactive/python/linear.py:estimate",
+      "diagnostics": [
+        "ADF statistic and p-value",
+        "KPSS statistic and tabulated p-value",
+        "Zivot–Andrews statistic, p-value and break",
+        "ACF and PACF"
+      ],
+      "defaults": {
+        "variables": "GDPC1",
+        "transform": "log",
+        "lags": 2,
+        "horizon": 12,
+        "deterministic": "c",
+        "sample_start": "",
+        "sample_end": ""
+      },
+      "citation": "Nelson and Plosser (1982), Trends and Random Walks in Macroeconomic Time Series"
+    },
+    {
+      "id": "arma-simulation",
+      "title": "Persistence, invertibility and sampling",
+      "chapter": "02-arma.qmd",
+      "module": "linear",
+      "method": "simulation",
+      "datasets": [
+        "gdp"
+      ],
+      "controls": [
+        {
+          "key": "root",
+          "label": "AR coefficient ρ",
+          "type": "number",
+          "default": 0.8,
+          "min": -0.99,
+          "max": 0.99,
+          "step": 0.01,
+          "help": ""
+        },
+        {
+          "key": "ma",
+          "label": "MA coefficient θ",
+          "type": "number",
+          "default": 0.3,
+          "min": -1.8,
+          "max": 1.8,
+          "step": 0.1,
+          "help": ""
+        },
+        {
+          "key": "observations",
+          "label": "Simulated observations",
+          "type": "number",
+          "default": 300,
+          "min": 80,
+          "max": 2000,
+          "step": 1,
+          "help": ""
+        },
+        {
+          "key": "horizon",
+          "label": "Horizon (quarters)",
+          "type": "number",
+          "default": 12,
+          "min": 1,
+          "max": 32,
+          "step": 1,
+          "help": ""
+        },
+        {
+          "key": "seed",
+          "label": "Random seed",
+          "type": "number",
+          "default": 2026,
+          "min": 0,
+          "max": 999999,
+          "step": 1,
+          "help": ""
+        }
+      ],
+      "description": "Hold Gaussian innovations fixed while changing AR persistence or MA invertibility. Compare finite-sample dependence with its population counterpart.",
+      "reference": "Hamilton1994",
+      "preset": {
+        "label": "Canonical illustration",
+        "retained": "The estimator and assumptions described in the notes.",
+        "changed": "Uses the versioned teaching dataset and the displayed sample and specification; no exact paper replication is claimed."
+      },
+      "terms": [
+        "AR",
+        "MA",
+        "Wold",
+        "invertibility"
+      ],
+      "implementation": "interactive/python/linear.py:estimate",
+      "diagnostics": [
+        "Analytical versus simulated ACF",
+        "Stationarity and invertibility",
+        "Sample variance"
+      ],
+      "defaults": {
+        "root": 0.8,
+        "ma": 0.3,
+        "observations": 300,
+        "horizon": 12,
+        "seed": 2026
+      },
+      "citation": "Hamilton (1994), Time Series Analysis"
+    },
+    {
+      "id": "arma",
+      "title": "AR, MA, ARMA and ARIMA",
+      "chapter": "02-arma.qmd",
+      "module": "linear",
+      "method": "arma",
+      "datasets": [
+        "macro_policy"
+      ],
+      "controls": [
+        {
+          "key": "lags",
+          "label": "Lag order",
+          "type": "number",
+          "default": 2,
+          "min": 0,
+          "max": 8,
+          "step": 1,
+          "help": "More lags allow richer dynamics but use degrees of freedom."
+        },
+        {
+          "key": "ma_order",
+          "label": "MA order",
+          "type": "number",
+          "default": 1,
+          "min": 0,
+          "max": 5,
+          "step": 1,
+          "help": ""
+        },
+        {
+          "key": "difference_order",
+          "label": "Integration order",
+          "type": "number",
+          "default": 0,
+          "min": 0,
+          "max": 2,
+          "step": 1,
+          "help": ""
+        },
+        {
+          "key": "variables",
+          "label": "Variables, in model order",
+          "type": "select",
+          "default": "gdp_growth",
+          "options": [
+            "gdp_growth",
+            "inflation",
+            "policy_rate"
+          ],
+          "help": "Ordering matters for recursive structural identification."
+        },
+        {
+          "key": "horizon",
+          "label": "Horizon (quarters)",
+          "type": "number",
+          "default": 12,
+          "min": 1,
+          "max": 32,
+          "step": 1,
+          "help": ""
+        },
+        {
+          "key": "deterministic",
+          "label": "Deterministic terms",
+          "type": "select",
+          "default": "c",
+          "options": [
+            "n",
+            "c",
+            "ct"
+          ],
+          "help": "n: none; c: intercept; ct: intercept and linear trend."
+        },
+        {
+          "key": "confidence",
+          "label": "Interval probability",
+          "type": "select",
+          "default": 0.9,
+          "options": [
+            0.68,
+            0.9,
+            0.95
+          ],
+          "help": ""
+        },
+        {
+          "key": "sample_start",
+          "label": "Sample begins",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        },
+        {
+          "key": "sample_end",
+          "label": "Sample ends",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        },
+        {
+          "key": "estimator",
+          "label": "ARMA estimation algorithm",
+          "type": "select",
+          "default": "statespace",
+          "options": [
+            "statespace",
+            "innovations_mle",
+            "hannan_rissanen",
+            "yule_walker",
+            "burg"
+          ]
+        }
+      ],
+      "description": "Estimate Gaussian ARIMA by state-space likelihood. Compare information criteria, residual diagnostics and genuine multi-step prediction intervals.",
+      "reference": "BrockwellDavis2002",
+      "preset": {
+        "label": "Canonical illustration",
+        "retained": "The estimator and assumptions described in the notes.",
+        "changed": "Uses the versioned teaching dataset and the displayed sample and specification; no exact paper replication is claimed."
+      },
+      "terms": [
+        "ARMA",
+        "ARIMA",
+        "maximum likelihood",
+        "AIC",
+        "BIC",
+        "Ljung",
+        "ARCH",
+        "forecast",
+        "Yule",
+        "Burg",
+        "Hannan"
+      ],
+      "implementation": "interactive/python/linear.py:estimate",
+      "diagnostics": [
+        "AIC and BIC",
+        "Ljung–Box residual autocorrelation",
+        "ARCH LM",
+        "Jarque–Bera normality",
+        "Optimizer convergence"
+      ],
+      "defaults": {
+        "lags": 2,
+        "ma_order": 1,
+        "difference_order": 0,
+        "variables": "gdp_growth",
+        "horizon": 12,
+        "deterministic": "c",
+        "confidence": 0.9,
+        "sample_start": "",
+        "sample_end": "",
+        "estimator": "statespace"
+      },
+      "citation": "Brockwell and Davis (2002), Introduction to Time Series and Forecasting"
+    },
+    {
+      "id": "spectrum",
+      "title": "Spectrum and business-cycle frequencies",
+      "chapter": "08-frequency-filtering.qmd",
+      "module": "spectral",
+      "method": "spectrum",
+      "datasets": [
+        "gdp"
+      ],
+      "controls": [
+        {
+          "key": "variables",
+          "label": "Variables, in model order",
+          "type": "select",
+          "default": "GDPC1",
+          "options": [
+            "GDPC1"
+          ],
+          "help": "Ordering matters for recursive structural identification."
+        },
+        {
+          "key": "transform",
+          "label": "Transformation",
+          "type": "select",
+          "default": "growth",
+          "options": [
+            "level",
+            "log",
+            "growth",
+            "difference",
+            "demean",
+            "detrend"
+          ],
+          "help": "Growth = 400 × first log difference for quarterly levels. Do not log already transformed growth or signed rates."
+        },
+        {
+          "key": "window",
+          "label": "Welch segment length",
+          "type": "number",
+          "default": 64,
+          "min": 16,
+          "max": 200,
+          "step": 1,
+          "help": ""
+        },
+        {
+          "key": "sample_start",
+          "label": "Sample begins",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        },
+        {
+          "key": "sample_end",
+          "label": "Sample ends",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        }
+      ],
+      "description": "A longer spectral segment resolves nearby frequencies but leaves fewer segments to average. Compare the smoothed spectrum with the raw periodogram.",
+      "reference": "BeaudryGaliziaPortier2020",
+      "preset": {
+        "label": "Canonical illustration",
+        "retained": "The estimator and assumptions described in the notes.",
+        "changed": "Uses the versioned teaching dataset and the displayed sample and specification; no exact paper replication is claimed."
+      },
+      "terms": [
+        "spectrum",
+        "periodogram",
+        "Welch",
+        "Fourier"
+      ],
+      "implementation": "interactive/python/spectral.py:estimate",
+      "diagnostics": [
+        "Frequency resolution",
+        "Welch spectrum and raw periodogram"
+      ],
+      "defaults": {
+        "variables": "GDPC1",
+        "transform": "growth",
+        "window": 64,
+        "sample_start": "",
+        "sample_end": ""
+      },
+      "citation": "Beaudry, Galizia and Portier (2020), Putting the Cycle Back into Business Cycle Analysis"
+    },
+    {
+      "id": "cross-spectrum",
+      "title": "Coherence, phase and spectral regression",
+      "chapter": "08-frequency-filtering.qmd",
+      "module": "spectral",
+      "method": "cross_spectrum",
+      "datasets": [
+        "macro_policy"
+      ],
+      "controls": [
+        {
+          "key": "variables",
+          "label": "Variables, in model order",
+          "type": "select",
+          "default": "gdp_growth,inflation",
+          "options": [
+            "gdp_growth,inflation",
+            "gdp_growth,policy_rate"
+          ],
+          "help": "Ordering matters for recursive structural identification."
+        },
+        {
+          "key": "transform",
+          "label": "Transformation",
+          "type": "select",
+          "default": "level",
+          "options": [
+            "level",
+            "log",
+            "growth",
+            "difference",
+            "demean",
+            "detrend"
+          ],
+          "help": "Growth = 400 × first log difference for quarterly levels. Do not log already transformed growth or signed rates."
+        },
+        {
+          "key": "window",
+          "label": "Welch segment length",
+          "type": "number",
+          "default": 64,
+          "min": 16,
+          "max": 200,
+          "step": 1,
+          "help": ""
+        },
+        {
+          "key": "sample_start",
+          "label": "Sample begins",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        },
+        {
+          "key": "sample_end",
+          "label": "Sample ends",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        }
+      ],
+      "description": "Measure frequency-specific comovement of hours and credit spreads. Phase and the complex spectral regression coefficient appear below the coherence curve.",
+      "reference": "StrohsalProanoWolters2019",
+      "preset": {
+        "label": "Canonical illustration",
+        "retained": "The estimator and assumptions described in the notes.",
+        "changed": "Uses the versioned teaching dataset and the displayed sample and specification; no exact paper replication is claimed."
+      },
+      "terms": [
+        "cross-spectrum",
+        "coherence",
+        "phase",
+        "spectral regression"
+      ],
+      "implementation": "interactive/python/spectral.py:estimate",
+      "diagnostics": [
+        "Squared coherence",
+        "Phase and spectral regression transfer coefficient"
+      ],
+      "defaults": {
+        "variables": "gdp_growth,inflation",
+        "transform": "level",
+        "window": 64,
+        "sample_start": "",
+        "sample_end": ""
+      },
+      "citation": "Strohsal, Proaño and Wolters (2019), Assessing the Cross-Country Interaction of Financial Cycles"
+    },
+    {
+      "id": "filters",
+      "title": "Filters and endpoint revisions",
+      "chapter": "08-frequency-filtering.qmd",
+      "module": "spectral",
+      "method": "filter",
+      "datasets": [
+        "gdp"
+      ],
+      "controls": [
+        {
+          "key": "variables",
+          "label": "Variables, in model order",
+          "type": "select",
+          "default": "GDPC1",
+          "options": [
+            "GDPC1"
+          ],
+          "help": "Ordering matters for recursive structural identification."
+        },
+        {
+          "key": "transform",
+          "label": "Transformation",
+          "type": "select",
+          "default": "log",
+          "options": [
+            "level",
+            "log",
+            "growth",
+            "difference",
+            "demean",
+            "detrend"
+          ],
+          "help": "Growth = 400 × first log difference for quarterly levels. Do not log already transformed growth or signed rates."
+        },
+        {
+          "key": "filter",
+          "label": "Filter",
+          "type": "select",
+          "default": "hp",
+          "options": [
+            "hp",
+            "bk",
+            "cf",
+            "hamilton",
+            "difference"
+          ],
+          "help": ""
+        },
+        {
+          "key": "smoothing",
+          "label": "HP λ",
+          "type": "number",
+          "default": 1600,
+          "min": 1,
+          "max": 100000,
+          "step": 1,
+          "help": "Larger λ penalises trend curvature more heavily.",
+          "when": {
+            "filter": [
+              "hp"
+            ]
+          }
+        },
+        {
+          "key": "low",
+          "label": "Shortest period (quarters)",
+          "type": "number",
+          "default": 6,
+          "min": 3,
+          "max": 40,
+          "step": 1,
+          "help": "",
+          "when": {
+            "filter": [
+              "bk",
+              "cf"
+            ]
+          }
+        },
+        {
+          "key": "high",
+          "label": "Longest period (quarters)",
+          "type": "number",
+          "default": 32,
+          "min": 8,
+          "max": 160,
+          "step": 1,
+          "help": "",
+          "when": {
+            "filter": [
+              "bk",
+              "cf"
+            ]
+          }
+        },
+        {
+          "key": "truncation",
+          "label": "BK half-window",
+          "type": "number",
+          "default": 12,
+          "min": 4,
+          "max": 32,
+          "step": 1,
+          "help": "",
+          "when": {
+            "filter": [
+              "bk"
+            ]
+          }
+        },
+        {
+          "key": "horizon",
+          "label": "Horizon (quarters)",
+          "type": "number",
+          "default": 8,
+          "min": 1,
+          "max": 32,
+          "step": 1,
+          "help": "",
+          "when": {
+            "filter": [
+              "hamilton"
+            ]
+          }
+        },
+        {
+          "key": "lags",
+          "label": "Lag order",
+          "type": "number",
+          "default": 4,
+          "min": 1,
+          "max": 8,
+          "step": 1,
+          "help": "More lags allow richer dynamics but use degrees of freedom.",
+          "when": {
+            "filter": [
+              "hamilton"
+            ]
+          }
+        },
+        {
+          "key": "sample_start",
+          "label": "Sample begins",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        },
+        {
+          "key": "sample_end",
+          "label": "Sample ends",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        }
+      ],
+      "description": "Compare cycles extracted from the same GDP series. Inspect frequency gains and the revisions to an HP endpoint when later observations are added.",
+      "reference": "Hamilton2018",
+      "preset": {
+        "label": "Canonical illustration",
+        "retained": "The estimator and assumptions described in the notes.",
+        "changed": "Uses the versioned teaching dataset and the displayed sample and specification; no exact paper replication is claimed."
+      },
+      "terms": [
+        "HP",
+        "Hodrick",
+        "Baxter",
+        "Christiano",
+        "Hamilton",
+        "transfer function",
+        "filter"
+      ],
+      "implementation": "interactive/python/spectral.py:estimate",
+      "diagnostics": [
+        "Retained observations",
+        "Cycle standard deviation",
+        "HP endpoint revisions",
+        "Transfer gains for time-invariant filters"
+      ],
+      "defaults": {
+        "variables": "GDPC1",
+        "transform": "log",
+        "filter": "hp",
+        "smoothing": 1600,
+        "low": 6,
+        "high": 32,
+        "truncation": 12,
+        "horizon": 8,
+        "lags": 4,
+        "sample_start": "",
+        "sample_end": ""
+      },
+      "citation": "Hamilton (2018), Why You Should Never Use the Hodrick–Prescott Filter"
+    },
+    {
+      "id": "var",
+      "title": "Reduced-form VAR",
+      "chapter": "03-var.qmd",
+      "module": "linear",
+      "method": "var",
+      "datasets": [
+        "macro_policy",
+        "macro_shocks"
+      ],
+      "controls": [
+        {
+          "key": "variables",
+          "label": "Variables, in model order",
+          "type": "select",
+          "default": "gdp_growth,inflation,policy_rate",
+          "options": [
+            "gdp_growth,inflation,policy_rate",
+            "policy_rate,gdp_growth,inflation"
+          ],
+          "help": "Ordering matters for recursive structural identification."
+        },
+        {
+          "key": "lags",
+          "label": "Lag order",
+          "type": "number",
+          "default": 2,
+          "min": 1,
+          "max": 8,
+          "step": 1,
+          "help": "More lags allow richer dynamics but use degrees of freedom."
+        },
+        {
+          "key": "horizon",
+          "label": "Horizon (quarters)",
+          "type": "number",
+          "default": 12,
+          "min": 1,
+          "max": 32,
+          "step": 1,
+          "help": ""
+        },
+        {
+          "key": "deterministic",
+          "label": "Deterministic terms",
+          "type": "select",
+          "default": "c",
+          "options": [
+            "n",
+            "c",
+            "ct"
+          ],
+          "help": "n: none; c: intercept; ct: intercept and linear trend."
+        },
+        {
+          "key": "output",
+          "label": "Result",
+          "type": "select",
+          "default": "irf",
+          "options": [
+            "irf",
+            "forecast",
+            "fevd"
+          ],
+          "help": ""
+        },
+        {
+          "key": "identification",
+          "label": "Innovation convention",
+          "type": "select",
+          "default": "reduced",
+          "options": [
+            "reduced",
+            "recursive"
+          ],
+          "help": ""
+        },
+        {
+          "key": "shock",
+          "label": "Innovation column (0-based)",
+          "type": "number",
+          "default": 2,
+          "min": 0,
+          "max": 2,
+          "step": 1,
+          "help": ""
+        },
+        {
+          "key": "confidence",
+          "label": "Interval probability",
+          "type": "select",
+          "default": 0.9,
+          "options": [
+            0.68,
+            0.9,
+            0.95
+          ],
+          "help": ""
+        },
+        {
+          "key": "sample_start",
+          "label": "Sample begins",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        },
+        {
+          "key": "sample_end",
+          "label": "Sample ends",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        }
+      ],
+      "description": "Estimate the joint linear dynamics. Stability and residual diagnostics are central; predictive Granger causality alone does not identify policy effects.",
+      "reference": "Sims1980",
+      "preset": {
+        "label": "Canonical illustration",
+        "retained": "The estimator and assumptions described in the notes.",
+        "changed": "Uses the versioned teaching dataset and the displayed sample and specification; no exact paper replication is claimed."
+      },
+      "terms": [
+        "VAR",
+        "OLS",
+        "Granger",
+        "block exogeneity",
+        "FEVD",
+        "Portmanteau",
+        "normality"
+      ],
+      "implementation": "interactive/python/linear.py:estimate",
+      "diagnostics": [
+        "AIC and BIC",
+        "Stability",
+        "Portmanteau whiteness",
+        "Normality",
+        "Granger causality"
+      ],
+      "defaults": {
+        "variables": "gdp_growth,inflation,policy_rate",
+        "lags": 2,
+        "horizon": 12,
+        "deterministic": "c",
+        "output": "irf",
+        "identification": "reduced",
+        "shock": 2,
+        "confidence": 0.9,
+        "sample_start": "",
+        "sample_end": ""
+      },
+      "citation": "Sims (1980), Macroeconomics and Reality"
+    },
+    {
+      "id": "svar",
+      "title": "Structural identification and shock accounting",
+      "chapter": "04-svar-identification.qmd",
+      "module": "structural",
+      "method": "svar",
+      "datasets": [
+        "macro_policy",
+        "macro_shocks"
+      ],
+      "controls": [
+        {
+          "key": "variables",
+          "label": "Variables, in model order",
+          "type": "select",
+          "default": "gdp_growth,inflation,policy_rate",
+          "options": [
+            "gdp_growth,inflation,policy_rate",
+            "policy_rate,gdp_growth,inflation"
+          ],
+          "help": "Ordering matters for recursive structural identification."
+        },
+        {
+          "key": "lags",
+          "label": "Lag order",
+          "type": "number",
+          "default": 2,
+          "min": 1,
+          "max": 8,
+          "step": 1,
+          "help": "More lags allow richer dynamics but use degrees of freedom."
+        },
+        {
+          "key": "horizon",
+          "label": "Horizon (quarters)",
+          "type": "number",
+          "default": 12,
+          "min": 1,
+          "max": 32,
+          "step": 1,
+          "help": ""
+        },
+        {
+          "key": "identification",
+          "label": "Identification",
+          "type": "select",
+          "default": "recursive",
+          "options": [
+            "recursive",
+            "short_run",
+            "long_run",
+            "sign",
+            "heteroskedastic",
+            "max_share"
+          ],
+          "help": ""
+        },
+        {
+          "key": "output",
+          "label": "Result",
+          "type": "select",
+          "default": "irf",
+          "options": [
+            "irf",
+            "fevd",
+            "historical"
+          ],
+          "help": ""
+        },
+        {
+          "key": "shock",
+          "label": "Shock column (0-based)",
+          "type": "number",
+          "default": 2,
+          "min": 0,
+          "max": 2,
+          "step": 1,
+          "help": ""
+        },
+        {
+          "key": "response",
+          "label": "FEVD / historical target (0-based)",
+          "type": "number",
+          "default": 0,
+          "min": 0,
+          "max": 2,
+          "step": 1,
+          "help": "",
+          "when": {
+            "output": [
+              "fevd",
+              "historical"
+            ]
+          }
+        },
+        {
+          "key": "cumulative",
+          "label": "Cumulate responses",
+          "type": "checkbox",
+          "default": false,
+          "help": ""
+        },
+        {
+          "key": "elasticity",
+          "label": "Imposed impact elasticity",
+          "type": "number",
+          "default": 0.5,
+          "min": -2,
+          "max": 2,
+          "step": 0.1,
+          "help": "",
+          "when": {
+            "identification": [
+              "short_run"
+            ]
+          }
+        },
+        {
+          "key": "split",
+          "label": "Variance break fraction",
+          "type": "number",
+          "default": 0.5,
+          "min": 0.2,
+          "max": 0.8,
+          "step": 0.05,
+          "help": "",
+          "when": {
+            "identification": [
+              "heteroskedastic"
+            ]
+          }
+        },
+        {
+          "key": "restriction_horizon",
+          "label": "Sign restrictions through horizon",
+          "type": "number",
+          "default": 0,
+          "min": 0,
+          "max": 8,
+          "step": 1,
+          "help": "",
+          "when": {
+            "identification": [
+              "sign"
+            ]
+          }
+        },
+        {
+          "key": "draws",
+          "label": "Retained draws / simulation paths",
+          "type": "number",
+          "default": 500,
+          "min": 20,
+          "max": 3000,
+          "step": 1,
+          "help": "",
+          "when": {
+            "identification": [
+              "sign"
+            ]
+          }
+        },
+        {
+          "key": "seed",
+          "label": "Random seed",
+          "type": "number",
+          "default": 2026,
+          "min": 0,
+          "max": 999999,
+          "step": 1,
+          "help": "",
+          "when": {
+            "identification": [
+              "sign"
+            ]
+          }
+        },
+        {
+          "key": "sample_start",
+          "label": "Sample begins",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        },
+        {
+          "key": "sample_end",
+          "label": "Sample ends",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        }
+      ],
+      "description": "Identify a structural impact matrix conditional on the reduced-form VAR. Switch restrictions and examine which conclusions depend on the identifying assumptions.",
+      "reference": "Uhlig2005",
+      "preset": {
+        "label": "Canonical illustration",
+        "retained": "The estimator and assumptions described in the notes.",
+        "changed": "Uses the versioned teaching dataset and the displayed sample and specification; no exact paper replication is claimed."
+      },
+      "terms": [
+        "Cholesky",
+        "short-run restrictions",
+        "long-run restrictions",
+        "sign restrictions",
+        "heteroskedasticity",
+        "max share",
+        "historical decomposition"
+      ],
+      "implementation": "interactive/python/structural.py:estimate",
+      "diagnostics": [
+        "stability",
+        "covariance matching",
+        "admissible rotations"
+      ],
+      "defaults": {
+        "variables": "gdp_growth,inflation,policy_rate",
+        "lags": 2,
+        "horizon": 12,
+        "identification": "recursive",
+        "output": "irf",
+        "shock": 2,
+        "response": 0,
+        "cumulative": false,
+        "elasticity": 0.5,
+        "split": 0.5,
+        "restriction_horizon": 0,
+        "draws": 500,
+        "seed": 2026,
+        "sample_start": "",
+        "sample_end": ""
+      },
+      "citation": "Uhlig (2005), What Are the Effects of Monetary Policy on Output?"
+    },
+    {
+      "id": "vecm",
+      "title": "Cointegration and error correction",
+      "chapter": "05-cointegration-dfm.qmd",
+      "module": "linear",
+      "method": "vecm",
+      "datasets": [
+        "macro_history"
+      ],
+      "controls": [
+        {
+          "key": "variables",
+          "label": "Variables, in model order",
+          "type": "select",
+          "default": "realcons,realdpi",
+          "options": [
+            "realcons,realdpi",
+            "realgdp,realcons,realdpi"
+          ],
+          "help": "Ordering matters for recursive structural identification."
+        },
+        {
+          "key": "transform",
+          "label": "Transformation",
+          "type": "select",
+          "default": "log",
+          "options": [
+            "level",
+            "log",
+            "growth",
+            "difference",
+            "demean",
+            "detrend"
+          ],
+          "help": "Growth = 400 × first log difference for quarterly levels. Do not log already transformed growth or signed rates."
+        },
+        {
+          "key": "lags",
+          "label": "Lag order",
+          "type": "number",
+          "default": 2,
+          "min": 1,
+          "max": 8,
+          "step": 1,
+          "help": "More lags allow richer dynamics but use degrees of freedom."
+        },
+        {
+          "key": "rank",
+          "label": "Cointegration rank",
+          "type": "number",
+          "default": 1,
+          "min": 0,
+          "max": 2,
+          "step": 1,
+          "help": ""
+        },
+        {
+          "key": "deterministic",
+          "label": "Deterministic case",
+          "type": "select",
+          "default": "co",
+          "options": [
+            "n",
+            "co"
+          ],
+          "help": ""
+        },
+        {
+          "key": "horizon",
+          "label": "Horizon (quarters)",
+          "type": "number",
+          "default": 12,
+          "min": 1,
+          "max": 32,
+          "step": 1,
+          "help": ""
+        },
+        {
+          "key": "confidence",
+          "label": "Interval probability",
+          "type": "select",
+          "default": 0.9,
+          "options": [
+            0.68,
+            0.9,
+            0.95
+          ],
+          "help": ""
+        },
+        {
+          "key": "sample_start",
+          "label": "Sample begins",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        },
+        {
+          "key": "sample_end",
+          "label": "Sample ends",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        }
+      ],
+      "description": "Model the long-run income–consumption relation together with short-run adjustment. Compare imposed ranks against Johansen statistics and inspect α and β.",
+      "reference": "Johansen1991",
+      "preset": {
+        "label": "Canonical illustration",
+        "retained": "The estimator and assumptions described in the notes.",
+        "changed": "Uses the versioned teaching dataset and the displayed sample and specification; no exact paper replication is claimed."
+      },
+      "terms": [
+        "cointegration",
+        "VECM",
+        "Johansen",
+        "rank",
+        "trace",
+        "maximum eigenvalue",
+        "error correction"
+      ],
+      "implementation": "interactive/python/linear.py:estimate",
+      "diagnostics": [
+        "Imposed rank",
+        "Whiteness",
+        "Johansen trace and maximum-eigenvalue statistics with critical values"
+      ],
+      "defaults": {
+        "variables": "realcons,realdpi",
+        "transform": "log",
+        "lags": 2,
+        "rank": 1,
+        "deterministic": "co",
+        "horizon": 12,
+        "confidence": 0.9,
+        "sample_start": "",
+        "sample_end": ""
+      },
+      "citation": "Johansen (1991), Estimation and Hypothesis Testing of Cointegration Vectors"
+    },
+    {
+      "id": "pca",
+      "title": "Principal components",
+      "chapter": "05-cointegration-dfm.qmd",
+      "module": "linear",
+      "method": "pca",
+      "datasets": [
+        "macro_policy"
+      ],
+      "controls": [
+        {
+          "key": "variables",
+          "label": "Variables, in model order",
+          "type": "select",
+          "default": "gdp_growth,inflation,policy_rate",
+          "options": [
+            "gdp_growth,inflation,policy_rate"
+          ],
+          "help": "Ordering matters for recursive structural identification."
+        },
+        {
+          "key": "factors",
+          "label": "Number of factors",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 2,
+          "step": 1,
+          "help": ""
+        },
+        {
+          "key": "sample_start",
+          "label": "Sample begins",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        },
+        {
+          "key": "sample_end",
+          "label": "Sample ends",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        }
+      ],
+      "description": "Extract common variation after standardisation; factor rotations and policy ordering must be distinguished.",
+      "reference": "BernankeBoivinEliasz2005",
+      "preset": {
+        "label": "Canonical illustration",
+        "retained": "The estimator and assumptions described in the notes.",
+        "changed": "Uses the versioned teaching dataset and the displayed sample and specification; no exact paper replication is claimed."
+      },
+      "terms": [
+        "PCA"
+      ],
+      "implementation": "interactive/python/linear.py:estimate",
+      "diagnostics": [
+        "Variance explained",
+        "PCA loadings"
+      ],
+      "defaults": {
+        "variables": "gdp_growth,inflation,policy_rate",
+        "factors": 1,
+        "sample_start": "",
+        "sample_end": ""
+      },
+      "citation": "Bernanke, Boivin and Eliasz (2005), Measuring the Effects of Monetary Policy"
+    },
+    {
+      "id": "dfm",
+      "title": "Dynamic factor model",
+      "chapter": "05-cointegration-dfm.qmd",
+      "module": "linear",
+      "method": "dfm",
+      "datasets": [
+        "macro_policy"
+      ],
+      "controls": [
+        {
+          "key": "variables",
+          "label": "Variables, in model order",
+          "type": "select",
+          "default": "gdp_growth,inflation,policy_rate",
+          "options": [
+            "gdp_growth,inflation,policy_rate"
+          ],
+          "help": "Ordering matters for recursive structural identification."
+        },
+        {
+          "key": "factors",
+          "label": "Number of factors",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 2,
+          "step": 1,
+          "help": ""
+        },
+        {
+          "key": "lags",
+          "label": "Lag order",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 8,
+          "step": 1,
+          "help": "More lags allow richer dynamics but use degrees of freedom."
+        },
+        {
+          "key": "sample_start",
+          "label": "Sample begins",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        },
+        {
+          "key": "sample_end",
+          "label": "Sample ends",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        }
+      ],
+      "description": "Estimate latent factors in a Gaussian state-space model. Compare smoothed common variation and likelihood convergence.",
+      "reference": "BernankeBoivinEliasz2005",
+      "preset": {
+        "label": "Canonical illustration",
+        "retained": "The estimator and assumptions described in the notes.",
+        "changed": "Uses the versioned teaching dataset and the displayed sample and specification; no exact paper replication is claimed."
+      },
+      "terms": [
+        "DFM",
+        "Kalman",
+        "state-space"
+      ],
+      "implementation": "interactive/python/linear.py:estimate",
+      "diagnostics": [
+        "AIC",
+        "Maximum-likelihood convergence",
+        "State-space parameter estimates"
+      ],
+      "defaults": {
+        "variables": "gdp_growth,inflation,policy_rate",
+        "factors": 1,
+        "lags": 1,
+        "sample_start": "",
+        "sample_end": ""
+      },
+      "citation": "Bernanke, Boivin and Eliasz (2005), Measuring the Effects of Monetary Policy"
+    },
+    {
+      "id": "favar",
+      "title": "Factor-augmented VAR",
+      "chapter": "05-cointegration-dfm.qmd",
+      "module": "linear",
+      "method": "favar",
+      "datasets": [
+        "macro_policy"
+      ],
+      "controls": [
+        {
+          "key": "variables",
+          "label": "Variables, in model order",
+          "type": "select",
+          "default": "gdp_growth,inflation,policy_rate",
+          "options": [
+            "gdp_growth,inflation,policy_rate"
+          ],
+          "help": "Ordering matters for recursive structural identification."
+        },
+        {
+          "key": "factors",
+          "label": "Number of factors",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 1,
+          "step": 1,
+          "help": ""
+        },
+        {
+          "key": "lags",
+          "label": "Lag order",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 8,
+          "step": 1,
+          "help": "More lags allow richer dynamics but use degrees of freedom."
+        },
+        {
+          "key": "horizon",
+          "label": "Horizon (quarters)",
+          "type": "number",
+          "default": 12,
+          "min": 1,
+          "max": 32,
+          "step": 1,
+          "help": ""
+        },
+        {
+          "key": "sample_start",
+          "label": "Sample begins",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        },
+        {
+          "key": "sample_end",
+          "label": "Sample ends",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        }
+      ],
+      "description": "Extract common variation after standardisation; factor rotations and policy ordering must be distinguished.",
+      "reference": "BernankeBoivinEliasz2005",
+      "preset": {
+        "label": "Canonical illustration",
+        "retained": "The estimator and assumptions described in the notes.",
+        "changed": "Uses the versioned teaching dataset and the displayed sample and specification; no exact paper replication is claimed."
+      },
+      "terms": [
+        "FAVAR"
+      ],
+      "implementation": "interactive/python/linear.py:estimate",
+      "diagnostics": [
+        "VAR stability",
+        "Number of factors"
+      ],
+      "defaults": {
+        "variables": "gdp_growth,inflation,policy_rate",
+        "factors": 1,
+        "lags": 1,
+        "horizon": 12,
+        "sample_start": "",
+        "sample_end": ""
+      },
+      "citation": "Bernanke, Boivin and Eliasz (2005), Measuring the Effects of Monetary Policy"
+    },
+    {
+      "id": "panel",
+      "title": "Panel VAR: pooling and moment restrictions",
+      "chapter": "05-cointegration-dfm.qmd",
+      "module": "panel",
+      "method": "panel",
+      "datasets": [
+        "panel"
+      ],
+      "controls": [
+        {
+          "key": "variables",
+          "label": "Variables, in model order",
+          "type": "select",
+          "default": "log_invest,log_capital",
+          "options": [
+            "log_invest,log_capital"
+          ],
+          "help": "Ordering matters for recursive structural identification."
+        },
+        {
+          "key": "lags",
+          "label": "Lag order",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 3,
+          "step": 1,
+          "help": "More lags allow richer dynamics but use degrees of freedom."
+        },
+        {
+          "key": "estimator",
+          "label": "Panel estimator",
+          "type": "select",
+          "default": "within",
+          "options": [
+            "within",
+            "mean_group",
+            "difference_gmm",
+            "system_gmm",
+            "hierarchical",
+            "gvar"
+          ],
+          "help": ""
+        },
+        {
+          "key": "instrument_depth",
+          "label": "Deepest instrument lag",
+          "type": "number",
+          "default": 2,
+          "min": 2,
+          "max": 5,
+          "step": 1,
+          "help": "",
+          "when": {
+            "estimator": [
+              "difference_gmm",
+              "system_gmm"
+            ]
+          }
+        },
+        {
+          "key": "pooling_variance",
+          "label": "Between-unit prior variance",
+          "type": "number",
+          "default": 0.1,
+          "min": 0.01,
+          "max": 10,
+          "step": 0.01,
+          "help": "",
+          "when": {
+            "estimator": [
+              "hierarchical"
+            ]
+          }
+        },
+        {
+          "key": "draws",
+          "label": "Retained draws / simulation paths",
+          "type": "number",
+          "default": 150,
+          "min": 20,
+          "max": 1000,
+          "step": 1,
+          "help": "",
+          "when": {
+            "estimator": [
+              "hierarchical"
+            ]
+          }
+        },
+        {
+          "key": "burn",
+          "label": "Burn-in draws",
+          "type": "number",
+          "default": 50,
+          "min": 0,
+          "max": 500,
+          "step": 1,
+          "help": "",
+          "when": {
+            "estimator": [
+              "hierarchical"
+            ]
+          }
+        },
+        {
+          "key": "seed",
+          "label": "Random seed",
+          "type": "number",
+          "default": 2026,
+          "min": 0,
+          "max": 999999,
+          "step": 1,
+          "help": "",
+          "when": {
+            "estimator": [
+              "hierarchical"
+            ]
+          }
+        },
+        {
+          "key": "sample_start",
+          "label": "Sample begins",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        },
+        {
+          "key": "sample_end",
+          "label": "Sample ends",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        }
+      ],
+      "description": "Compare common, heterogeneous and partially pooled investment–capital dynamics in the historical Grunfeld firm panel. This is a panel-estimator illustration, not a country-level replication.",
+      "reference": "ArellanoBond1991",
+      "preset": {
+        "label": "Canonical illustration",
+        "retained": "The estimator and assumptions described in the notes.",
+        "changed": "Uses the versioned teaching dataset and the displayed sample and specification; no exact paper replication is claimed."
+      },
+      "terms": [
+        "panel VAR",
+        "Nickell",
+        "Mean Group",
+        "GMM",
+        "hierarchical",
+        "GVAR"
+      ],
+      "implementation": "interactive/python/panel.py:estimate",
+      "diagnostics": [
+        "unit count",
+        "identification rank / moment residuals"
+      ],
+      "defaults": {
+        "variables": "log_invest,log_capital",
+        "lags": 1,
+        "estimator": "within",
+        "instrument_depth": 2,
+        "pooling_variance": 0.1,
+        "draws": 150,
+        "burn": 50,
+        "seed": 2026,
+        "sample_start": "",
+        "sample_end": ""
+      },
+      "citation": "Arellano and Bond (1991), Some Tests of Specification for Panel Data"
+    },
+    {
+      "id": "tar",
+      "title": "Threshold autoregressions and TVAR",
+      "chapter": "06-nonlinear.qmd",
+      "module": "nonlinear",
+      "method": "tar",
+      "datasets": [
+        "macro_policy",
+        "macro_shocks"
+      ],
+      "controls": [
+        {
+          "key": "variables",
+          "label": "Variables, in model order",
+          "type": "select",
+          "default": "gdp_growth,inflation,policy_rate",
+          "options": [
+            "gdp_growth,inflation,policy_rate",
+            "policy_rate,gdp_growth,inflation"
+          ],
+          "help": "Ordering matters for recursive structural identification."
+        },
+        {
+          "key": "lags",
+          "label": "Lag order",
+          "type": "number",
+          "default": 2,
+          "min": 1,
+          "max": 8,
+          "step": 1,
+          "help": "More lags allow richer dynamics but use degrees of freedom."
+        },
+        {
+          "key": "horizon",
+          "label": "Horizon (quarters)",
+          "type": "number",
+          "default": 12,
+          "min": 1,
+          "max": 32,
+          "step": 1,
+          "help": "",
+          "when": {
+            "output": [
+              "girf"
+            ]
+          }
+        },
+        {
+          "key": "threshold",
+          "label": "Lagged growth threshold (%)",
+          "type": "number",
+          "default": 0,
+          "min": -5,
+          "max": 8,
+          "step": 0.25,
+          "help": ""
+        },
+        {
+          "key": "delay",
+          "label": "Threshold delay",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 4,
+          "step": 1,
+          "help": ""
+        },
+        {
+          "key": "output",
+          "label": "Result",
+          "type": "select",
+          "default": "fit",
+          "options": [
+            "fit",
+            "girf"
+          ],
+          "help": ""
+        },
+        {
+          "key": "shock",
+          "label": "Shock column (0-based)",
+          "type": "number",
+          "default": 2,
+          "min": 0,
+          "max": 2,
+          "step": 1,
+          "help": "",
+          "when": {
+            "output": [
+              "girf"
+            ]
+          }
+        },
+        {
+          "key": "shock_size",
+          "label": "Shock size (standard deviations)",
+          "type": "number",
+          "default": 1,
+          "min": -3,
+          "max": 3,
+          "step": 0.25,
+          "help": "",
+          "when": {
+            "output": [
+              "girf"
+            ]
+          }
+        },
+        {
+          "key": "draws",
+          "label": "Retained draws / simulation paths",
+          "type": "number",
+          "default": 150,
+          "min": 20,
+          "max": 1000,
+          "step": 1,
+          "help": "",
+          "when": {
+            "output": [
+              "girf"
+            ]
+          }
+        },
+        {
+          "key": "seed",
+          "label": "Random seed",
+          "type": "number",
+          "default": 2026,
+          "min": 0,
+          "max": 999999,
+          "step": 1,
+          "help": "",
+          "when": {
+            "output": [
+              "girf"
+            ]
+          }
+        },
+        {
+          "key": "sample_start",
+          "label": "Sample begins",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        },
+        {
+          "key": "sample_end",
+          "label": "Sample ends",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        }
+      ],
+      "description": "Estimate separate lag coefficients on either side of a lagged-growth threshold. Generalized responses allow future regimes to change along simulated paths.",
+      "reference": "TongLim1980",
+      "preset": {
+        "label": "Canonical illustration",
+        "retained": "The estimator and assumptions described in the notes.",
+        "changed": "Uses the versioned teaching dataset and the displayed sample and specification; no exact paper replication is claimed."
+      },
+      "terms": [
+        "TAR",
+        "TVAR",
+        "threshold",
+        "generalized impulse"
+      ],
+      "implementation": "interactive/python/nonlinear.py:estimate",
+      "diagnostics": [
+        "Regime effective observations",
+        "Residual RMSE",
+        "Generalized-response simulation paths"
+      ],
+      "defaults": {
+        "variables": "gdp_growth,inflation,policy_rate",
+        "lags": 2,
+        "horizon": 12,
+        "threshold": 0,
+        "delay": 1,
+        "output": "fit",
+        "shock": 2,
+        "shock_size": 1,
+        "draws": 150,
+        "seed": 2026,
+        "sample_start": "",
+        "sample_end": ""
+      },
+      "citation": "Tong and Lim (1980), Threshold Autoregression, Limit Cycles and Cyclical Data"
+    },
+    {
+      "id": "star",
+      "title": "Smooth-transition autoregressions",
+      "chapter": "06-nonlinear.qmd",
+      "module": "nonlinear",
+      "method": "star",
+      "datasets": [
+        "macro_policy",
+        "macro_shocks"
+      ],
+      "controls": [
+        {
+          "key": "variables",
+          "label": "Variables, in model order",
+          "type": "select",
+          "default": "gdp_growth,inflation,policy_rate",
+          "options": [
+            "gdp_growth,inflation,policy_rate",
+            "policy_rate,gdp_growth,inflation"
+          ],
+          "help": "Ordering matters for recursive structural identification."
+        },
+        {
+          "key": "lags",
+          "label": "Lag order",
+          "type": "number",
+          "default": 2,
+          "min": 1,
+          "max": 8,
+          "step": 1,
+          "help": "More lags allow richer dynamics but use degrees of freedom."
+        },
+        {
+          "key": "horizon",
+          "label": "Horizon (quarters)",
+          "type": "number",
+          "default": 12,
+          "min": 1,
+          "max": 32,
+          "step": 1,
+          "help": "",
+          "when": {
+            "output": [
+              "girf"
+            ]
+          }
+        },
+        {
+          "key": "threshold",
+          "label": "Lagged growth threshold (%)",
+          "type": "number",
+          "default": 0,
+          "min": -5,
+          "max": 8,
+          "step": 0.25,
+          "help": ""
+        },
+        {
+          "key": "delay",
+          "label": "Threshold delay",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 4,
+          "step": 1,
+          "help": ""
+        },
+        {
+          "key": "speed",
+          "label": "Logistic transition speed",
+          "type": "number",
+          "default": 2,
+          "min": 0.1,
+          "max": 10,
+          "step": 0.1,
+          "help": ""
+        },
+        {
+          "key": "output",
+          "label": "Result",
+          "type": "select",
+          "default": "fit",
+          "options": [
+            "fit",
+            "girf"
+          ],
+          "help": ""
+        },
+        {
+          "key": "shock",
+          "label": "Shock column (0-based)",
+          "type": "number",
+          "default": 2,
+          "min": 0,
+          "max": 2,
+          "step": 1,
+          "help": "",
+          "when": {
+            "output": [
+              "girf"
+            ]
+          }
+        },
+        {
+          "key": "shock_size",
+          "label": "Shock size (standard deviations)",
+          "type": "number",
+          "default": 1,
+          "min": -3,
+          "max": 3,
+          "step": 0.25,
+          "help": "",
+          "when": {
+            "output": [
+              "girf"
+            ]
+          }
+        },
+        {
+          "key": "draws",
+          "label": "Retained draws / simulation paths",
+          "type": "number",
+          "default": 150,
+          "min": 20,
+          "max": 1000,
+          "step": 1,
+          "help": "",
+          "when": {
+            "output": [
+              "girf"
+            ]
+          }
+        },
+        {
+          "key": "seed",
+          "label": "Random seed",
+          "type": "number",
+          "default": 2026,
+          "min": 0,
+          "max": 999999,
+          "step": 1,
+          "help": "",
+          "when": {
+            "output": [
+              "girf"
+            ]
+          }
+        },
+        {
+          "key": "sample_start",
+          "label": "Sample begins",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        },
+        {
+          "key": "sample_end",
+          "label": "Sample ends",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        }
+      ],
+      "description": "Replace the hard threshold by a logistic transition. The speed controls how abruptly coefficients change as the state crosses the threshold.",
+      "reference": "Terasvirta1994",
+      "preset": {
+        "label": "Canonical illustration",
+        "retained": "The estimator and assumptions described in the notes.",
+        "changed": "Uses the versioned teaching dataset and the displayed sample and specification; no exact paper replication is claimed."
+      },
+      "terms": [
+        "STAR",
+        "smooth transition",
+        "GIRF"
+      ],
+      "implementation": "interactive/python/nonlinear.py:estimate",
+      "diagnostics": [
+        "Transition weights and effective observations",
+        "Residual RMSE",
+        "Generalized-response simulation paths"
+      ],
+      "defaults": {
+        "variables": "gdp_growth,inflation,policy_rate",
+        "lags": 2,
+        "horizon": 12,
+        "threshold": 0,
+        "delay": 1,
+        "speed": 2,
+        "output": "fit",
+        "shock": 2,
+        "shock_size": 1,
+        "draws": 150,
+        "seed": 2026,
+        "sample_start": "",
+        "sample_end": ""
+      },
+      "citation": "Teräsvirta (1994), Specification, Estimation, and Evaluation of Smooth Transition Autoregressive Models"
+    },
+    {
+      "id": "markov",
+      "title": "Markov-switching VAR",
+      "chapter": "06-nonlinear.qmd",
+      "module": "nonlinear",
+      "method": "markov",
+      "datasets": [
+        "macro_policy",
+        "macro_shocks"
+      ],
+      "controls": [
+        {
+          "key": "variables",
+          "label": "Variables, in model order",
+          "type": "select",
+          "default": "gdp_growth,inflation,policy_rate",
+          "options": [
+            "gdp_growth,inflation,policy_rate",
+            "policy_rate,gdp_growth,inflation"
+          ],
+          "help": "Ordering matters for recursive structural identification."
+        },
+        {
+          "key": "lags",
+          "label": "Lag order",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 8,
+          "step": 1,
+          "help": "More lags allow richer dynamics but use degrees of freedom."
+        },
+        {
+          "key": "regimes",
+          "label": "Latent regimes",
+          "type": "number",
+          "default": 2,
+          "min": 2,
+          "max": 3,
+          "step": 1,
+          "help": ""
+        },
+        {
+          "key": "iterations",
+          "label": "Maximum EM iterations",
+          "type": "number",
+          "default": 80,
+          "min": 20,
+          "max": 200,
+          "step": 1,
+          "help": ""
+        },
+        {
+          "key": "sample_start",
+          "label": "Sample begins",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        },
+        {
+          "key": "sample_end",
+          "label": "Sample ends",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        }
+      ],
+      "description": "Estimate current-regime coefficients and covariance with a Hamilton filter and EM. Smoothed and filtered probabilities answer different historical and real-time questions.",
+      "reference": "Hamilton1989",
+      "preset": {
+        "label": "Canonical illustration",
+        "retained": "The estimator and assumptions described in the notes.",
+        "changed": "Uses the versioned teaching dataset and the displayed sample and specification; no exact paper replication is claimed."
+      },
+      "terms": [
+        "Markov",
+        "EM",
+        "regime"
+      ],
+      "implementation": "interactive/python/nonlinear.py:estimate",
+      "diagnostics": [
+        "Log likelihood",
+        "EM iterations and stopping",
+        "Transition probabilities and expected durations"
+      ],
+      "defaults": {
+        "variables": "gdp_growth,inflation,policy_rate",
+        "lags": 1,
+        "regimes": 2,
+        "iterations": 80,
+        "sample_start": "",
+        "sample_end": ""
+      },
+      "citation": "Hamilton (1989), A New Approach to the Economic Analysis of Nonstationary Time Series"
+    },
+    {
+      "id": "tvp",
+      "title": "Time-varying coefficients: Kalman filter",
+      "chapter": "06-nonlinear.qmd",
+      "module": "nonlinear",
+      "method": "tvp",
+      "datasets": [
+        "macro_policy",
+        "macro_shocks"
+      ],
+      "controls": [
+        {
+          "key": "variables",
+          "label": "Variables, in model order",
+          "type": "select",
+          "default": "gdp_growth,inflation,policy_rate",
+          "options": [
+            "gdp_growth,inflation,policy_rate",
+            "policy_rate,gdp_growth,inflation"
+          ],
+          "help": "Ordering matters for recursive structural identification."
+        },
+        {
+          "key": "lags",
+          "label": "Lag order",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 8,
+          "step": 1,
+          "help": "More lags allow richer dynamics but use degrees of freedom."
+        },
+        {
+          "key": "state_variance",
+          "label": "Coefficient innovation variance Q",
+          "type": "number",
+          "default": 0.001,
+          "min": 0.00001,
+          "max": 0.2,
+          "step": 0.00001,
+          "help": ""
+        },
+        {
+          "key": "confidence",
+          "label": "Interval probability",
+          "type": "select",
+          "default": 0.9,
+          "options": [
+            0.68,
+            0.9,
+            0.95
+          ],
+          "help": ""
+        },
+        {
+          "key": "sample_start",
+          "label": "Sample begins",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        },
+        {
+          "key": "sample_end",
+          "label": "Sample ends",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        }
+      ],
+      "description": "A random-walk state equation allows lag coefficients to drift. Larger Q makes coefficients respond more to new observations and increases filtering uncertainty.",
+      "reference": "CogleySargent2001",
+      "preset": {
+        "label": "Canonical illustration",
+        "retained": "The estimator and assumptions described in the notes.",
+        "changed": "Uses the versioned teaching dataset and the displayed sample and specification; no exact paper replication is claimed."
+      },
+      "terms": [
+        "time-varying",
+        "TVP",
+        "Kalman"
+      ],
+      "implementation": "interactive/python/nonlinear.py:estimate",
+      "diagnostics": [
+        "State innovation variance",
+        "Conditional filtering intervals"
+      ],
+      "defaults": {
+        "variables": "gdp_growth,inflation,policy_rate",
+        "lags": 1,
+        "state_variance": 0.001,
+        "confidence": 0.9,
+        "sample_start": "",
+        "sample_end": ""
+      },
+      "citation": "Cogley and Sargent (2001), Evolving Post-World War II U.S. Inflation Dynamics"
+    },
+    {
+      "id": "lp",
+      "title": "Local projections",
+      "chapter": "06-nonlinear.qmd",
+      "module": "nonlinear",
+      "method": "lp",
+      "datasets": [
+        "macro_policy",
+        "macro_shocks"
+      ],
+      "controls": [
+        {
+          "key": "variables",
+          "label": "Variables, in model order",
+          "type": "select",
+          "default": "gdp_growth,inflation,policy_rate",
+          "options": [
+            "gdp_growth,inflation,policy_rate",
+            "policy_rate,gdp_growth,inflation"
+          ],
+          "help": "Ordering matters for recursive structural identification."
+        },
+        {
+          "key": "lags",
+          "label": "Lag order",
+          "type": "number",
+          "default": 2,
+          "min": 1,
+          "max": 8,
+          "step": 1,
+          "help": "More lags allow richer dynamics but use degrees of freedom."
+        },
+        {
+          "key": "horizon",
+          "label": "Horizon (quarters)",
+          "type": "number",
+          "default": 12,
+          "min": 1,
+          "max": 32,
+          "step": 1,
+          "help": ""
+        },
+        {
+          "key": "cumulative",
+          "label": "Cumulative growth response",
+          "type": "checkbox",
+          "default": false,
+          "help": ""
+        },
+        {
+          "key": "confidence",
+          "label": "Interval probability",
+          "type": "select",
+          "default": 0.9,
+          "options": [
+            0.68,
+            0.9,
+            0.95
+          ],
+          "help": ""
+        },
+        {
+          "key": "sample_start",
+          "label": "Sample begins",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        },
+        {
+          "key": "sample_end",
+          "label": "Sample ends",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        }
+      ],
+      "description": "Estimate a separate projection at each horizon using an explicitly orthogonalised policy innovation. Compare response flexibility and pointwise HAC uncertainty.",
+      "reference": "Jorda2005",
+      "preset": {
+        "label": "Canonical illustration",
+        "retained": "The estimator and assumptions described in the notes.",
+        "changed": "Uses the versioned teaching dataset and the displayed sample and specification; no exact paper replication is claimed."
+      },
+      "terms": [
+        "local projections",
+        "HAC"
+      ],
+      "implementation": "interactive/python/nonlinear.py:estimate",
+      "diagnostics": [
+        "Pointwise HAC intervals",
+        "Confidence level"
+      ],
+      "defaults": {
+        "variables": "gdp_growth,inflation,policy_rate",
+        "lags": 2,
+        "horizon": 12,
+        "cumulative": false,
+        "confidence": 0.9,
+        "sample_start": "",
+        "sample_end": ""
+      },
+      "citation": "Jordà (2005), Estimation and Inference of Impulse Responses by Local Projections"
+    },
+    {
+      "id": "state_lp",
+      "title": "State-dependent local projections",
+      "chapter": "06-nonlinear.qmd",
+      "module": "nonlinear",
+      "method": "state_lp",
+      "datasets": [
+        "macro_policy",
+        "macro_shocks"
+      ],
+      "controls": [
+        {
+          "key": "variables",
+          "label": "Variables, in model order",
+          "type": "select",
+          "default": "gdp_growth,inflation,policy_rate",
+          "options": [
+            "gdp_growth,inflation,policy_rate",
+            "policy_rate,gdp_growth,inflation"
+          ],
+          "help": "Ordering matters for recursive structural identification."
+        },
+        {
+          "key": "lags",
+          "label": "Lag order",
+          "type": "number",
+          "default": 2,
+          "min": 1,
+          "max": 8,
+          "step": 1,
+          "help": "More lags allow richer dynamics but use degrees of freedom."
+        },
+        {
+          "key": "horizon",
+          "label": "Horizon (quarters)",
+          "type": "number",
+          "default": 12,
+          "min": 1,
+          "max": 32,
+          "step": 1,
+          "help": ""
+        },
+        {
+          "key": "threshold",
+          "label": "Lagged growth state threshold",
+          "type": "number",
+          "default": 0,
+          "min": -5,
+          "max": 8,
+          "step": 0.25,
+          "help": ""
+        },
+        {
+          "key": "cumulative",
+          "label": "Cumulative growth response",
+          "type": "checkbox",
+          "default": false,
+          "help": ""
+        },
+        {
+          "key": "confidence",
+          "label": "Interval probability",
+          "type": "select",
+          "default": 0.9,
+          "options": [
+            0.68,
+            0.9,
+            0.95
+          ],
+          "help": ""
+        },
+        {
+          "key": "sample_start",
+          "label": "Sample begins",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        },
+        {
+          "key": "sample_end",
+          "label": "Sample ends",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        }
+      ],
+      "description": "Estimate a separate projection at each horizon using an explicitly orthogonalised policy innovation. Compare response flexibility and pointwise HAC uncertainty.",
+      "reference": "Jorda2005",
+      "preset": {
+        "label": "Canonical illustration",
+        "retained": "The estimator and assumptions described in the notes.",
+        "changed": "Uses the versioned teaching dataset and the displayed sample and specification; no exact paper replication is claimed."
+      },
+      "terms": [
+        "state-dependent",
+        "HAC"
+      ],
+      "implementation": "interactive/python/nonlinear.py:estimate",
+      "diagnostics": [
+        "Regime design rank checks",
+        "Pointwise HAC intervals"
+      ],
+      "defaults": {
+        "variables": "gdp_growth,inflation,policy_rate",
+        "lags": 2,
+        "horizon": 12,
+        "threshold": 0,
+        "cumulative": false,
+        "confidence": 0.9,
+        "sample_start": "",
+        "sample_end": ""
+      },
+      "citation": "Jordà (2005), Estimation and Inference of Impulse Responses by Local Projections"
+    },
+    {
+      "id": "asymmetric_lp",
+      "title": "Asymmetric local projections",
+      "chapter": "06-nonlinear.qmd",
+      "module": "nonlinear",
+      "method": "asymmetric_lp",
+      "datasets": [
+        "macro_policy",
+        "macro_shocks"
+      ],
+      "controls": [
+        {
+          "key": "variables",
+          "label": "Variables, in model order",
+          "type": "select",
+          "default": "gdp_growth,inflation,policy_rate",
+          "options": [
+            "gdp_growth,inflation,policy_rate",
+            "policy_rate,gdp_growth,inflation"
+          ],
+          "help": "Ordering matters for recursive structural identification."
+        },
+        {
+          "key": "lags",
+          "label": "Lag order",
+          "type": "number",
+          "default": 2,
+          "min": 1,
+          "max": 8,
+          "step": 1,
+          "help": "More lags allow richer dynamics but use degrees of freedom."
+        },
+        {
+          "key": "horizon",
+          "label": "Horizon (quarters)",
+          "type": "number",
+          "default": 12,
+          "min": 1,
+          "max": 32,
+          "step": 1,
+          "help": ""
+        },
+        {
+          "key": "cumulative",
+          "label": "Cumulative growth response",
+          "type": "checkbox",
+          "default": false,
+          "help": ""
+        },
+        {
+          "key": "confidence",
+          "label": "Interval probability",
+          "type": "select",
+          "default": 0.9,
+          "options": [
+            0.68,
+            0.9,
+            0.95
+          ],
+          "help": ""
+        },
+        {
+          "key": "sample_start",
+          "label": "Sample begins",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        },
+        {
+          "key": "sample_end",
+          "label": "Sample ends",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        }
+      ],
+      "description": "Estimate a separate projection at each horizon using an explicitly orthogonalised policy innovation. Compare response flexibility and pointwise HAC uncertainty.",
+      "reference": "Jorda2005",
+      "preset": {
+        "label": "Canonical illustration",
+        "retained": "The estimator and assumptions described in the notes.",
+        "changed": "Uses the versioned teaching dataset and the displayed sample and specification; no exact paper replication is claimed."
+      },
+      "terms": [
+        "asymmetric",
+        "HAC"
+      ],
+      "implementation": "interactive/python/nonlinear.py:estimate",
+      "diagnostics": [
+        "Positive and negative shock slopes",
+        "Pointwise HAC intervals"
+      ],
+      "defaults": {
+        "variables": "gdp_growth,inflation,policy_rate",
+        "lags": 2,
+        "horizon": 12,
+        "cumulative": false,
+        "confidence": 0.9,
+        "sample_start": "",
+        "sample_end": ""
+      },
+      "citation": "Jordà (2005), Estimation and Inference of Impulse Responses by Local Projections"
+    },
+    {
+      "id": "gar",
+      "title": "Quantile regression and Growth-at-Risk",
+      "chapter": "09-growth-at-risk.qmd",
+      "module": "distribution",
+      "method": "gar",
+      "datasets": [
+        "gar"
+      ],
+      "controls": [
+        {
+          "key": "horizon",
+          "label": "Horizon (quarters)",
+          "type": "number",
+          "default": 4,
+          "min": 1,
+          "max": 12,
+          "step": 1,
+          "help": ""
+        },
+        {
+          "key": "quantile",
+          "label": "Target quantile",
+          "type": "number",
+          "default": 0.05,
+          "min": 0.02,
+          "max": 0.98,
+          "step": 0.01,
+          "help": ""
+        },
+        {
+          "key": "financial_conditions",
+          "label": "Conditioning NFCI",
+          "type": "number",
+          "default": 1,
+          "min": -2,
+          "max": 4,
+          "step": 0.1,
+          "help": ""
+        },
+        {
+          "key": "draws",
+          "label": "Retained draws / simulation paths",
+          "type": "number",
+          "default": 40,
+          "min": 0,
+          "max": 200,
+          "step": 1,
+          "help": ""
+        },
+        {
+          "key": "block",
+          "label": "Bootstrap block length",
+          "type": "number",
+          "default": 8,
+          "min": 1,
+          "max": 32,
+          "step": 1,
+          "help": ""
+        },
+        {
+          "key": "confidence",
+          "label": "Interval probability",
+          "type": "select",
+          "default": 0.9,
+          "options": [
+            0.68,
+            0.9,
+            0.95
+          ],
+          "help": ""
+        },
+        {
+          "key": "evaluate",
+          "label": "Chronological tail evaluation",
+          "type": "checkbox",
+          "default": false,
+          "help": ""
+        },
+        {
+          "key": "seed",
+          "label": "Random seed",
+          "type": "number",
+          "default": 2026,
+          "min": 0,
+          "max": 999999,
+          "step": 1,
+          "help": ""
+        },
+        {
+          "key": "sample_start",
+          "label": "Sample begins",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        },
+        {
+          "key": "sample_end",
+          "label": "Sample ends",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        }
+      ],
+      "description": "Condition future GDP growth on current growth, inflation and financial conditions. Tail forecasts require enough tail observations and honest out-of-sample validation.",
+      "reference": "AdrianBoyarchenkoGiannone2019",
+      "preset": {
+        "label": "Canonical illustration",
+        "retained": "The estimator and assumptions described in the notes.",
+        "changed": "Uses the versioned teaching dataset and the displayed sample and specification; no exact paper replication is claimed."
+      },
+      "terms": [
+        "quantile",
+        "Growth-at-Risk",
+        "rearrangement",
+        "check loss"
+      ],
+      "implementation": "interactive/python/distribution.py:estimate",
+      "diagnostics": [
+        "Raw quantile crossings",
+        "Check loss",
+        "Chronological out-of-sample violation rate",
+        "Moving-block bootstrap intervals"
+      ],
+      "defaults": {
+        "horizon": 4,
+        "quantile": 0.05,
+        "financial_conditions": 1,
+        "draws": 40,
+        "block": 8,
+        "confidence": 0.9,
+        "evaluate": false,
+        "seed": 2026,
+        "sample_start": "",
+        "sample_end": ""
+      },
+      "citation": "Adrian, Boyarchenko and Giannone (2019), Vulnerable Growth"
+    },
+    {
+      "id": "distribution-regression",
+      "title": "Conditional distribution regression",
+      "chapter": "09-growth-at-risk.qmd",
+      "module": "distribution",
+      "method": "distribution_regression",
+      "datasets": [
+        "gar"
+      ],
+      "controls": [
+        {
+          "key": "horizon",
+          "label": "Horizon (quarters)",
+          "type": "number",
+          "default": 4,
+          "min": 1,
+          "max": 12,
+          "step": 1,
+          "help": ""
+        },
+        {
+          "key": "financial_conditions",
+          "label": "Conditioning NFCI",
+          "type": "number",
+          "default": 1,
+          "min": -2,
+          "max": 4,
+          "step": 0.1,
+          "help": ""
+        },
+        {
+          "key": "baseline_conditions",
+          "label": "Baseline NFCI",
+          "type": "number",
+          "default": 0,
+          "min": -2,
+          "max": 4,
+          "step": 0.1,
+          "help": ""
+        },
+        {
+          "key": "sample_start",
+          "label": "Sample begins",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        },
+        {
+          "key": "sample_end",
+          "label": "Sample ends",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        },
+        {
+          "key": "evaluate",
+          "label": "Chronological distribution evaluation",
+          "type": "checkbox",
+          "default": false,
+          "help": "Freeze an embargoed training sample; report held-out CRPS and PIT values for an explicitly bounded CDF."
+        }
+      ],
+      "description": "Condition future GDP growth on current growth, inflation and financial conditions. Tail forecasts require enough tail observations and honest out-of-sample validation.",
+      "reference": "AdrianBoyarchenkoGiannone2019",
+      "preset": {
+        "label": "Canonical illustration",
+        "retained": "The estimator and assumptions described in the notes.",
+        "changed": "Uses the versioned teaching dataset and the displayed sample and specification; no exact paper replication is claimed."
+      },
+      "terms": [
+        "distribution regression",
+        "Growth-at-Risk",
+        "rearrangement",
+        "check loss"
+      ],
+      "implementation": "interactive/python/distribution.py:estimate",
+      "diagnostics": [
+        "Raw CDF crossings",
+        "Rearranged conditional CDF",
+        "Chronological held-out CRPS",
+        "Probability integral transforms"
+      ],
+      "defaults": {
+        "horizon": 4,
+        "financial_conditions": 1,
+        "baseline_conditions": 0,
+        "sample_start": "",
+        "sample_end": "",
+        "evaluate": false
+      },
+      "citation": "Adrian, Boyarchenko and Giannone (2019), Vulnerable Growth"
+    },
+    {
+      "id": "ml",
+      "title": "Machine-learning forecast comparison",
+      "chapter": "10-machine-learning-time-series.qmd",
+      "module": "learning",
+      "method": "forecast",
+      "datasets": [
+        "macro_policy",
+        "macro_shocks"
+      ],
+      "controls": [
+        {
+          "key": "variables",
+          "label": "Variables, in model order",
+          "type": "select",
+          "default": "gdp_growth,inflation,policy_rate",
+          "options": [
+            "gdp_growth,inflation,policy_rate"
+          ],
+          "help": "Ordering matters for recursive structural identification."
+        },
+        {
+          "key": "learner",
+          "label": "Forecast learner",
+          "type": "select",
+          "default": "ridge",
+          "options": [
+            "ridge",
+            "lasso",
+            "elastic_net",
+            "tree",
+            "forest",
+            "boosting",
+            "quantile_boosting",
+            "mlp"
+          ],
+          "help": ""
+        },
+        {
+          "key": "lags",
+          "label": "Lag order",
+          "type": "number",
+          "default": 4,
+          "min": 1,
+          "max": 12,
+          "step": 1,
+          "help": "More lags allow richer dynamics but use degrees of freedom."
+        },
+        {
+          "key": "horizon",
+          "label": "Horizon (quarters)",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 12,
+          "step": 1,
+          "help": ""
+        },
+        {
+          "key": "penalty",
+          "label": "Regularisation λ",
+          "type": "number",
+          "default": 1,
+          "min": 0,
+          "max": 100,
+          "step": 0.1,
+          "help": ""
+        },
+        {
+          "key": "validation",
+          "label": "Penalty selection",
+          "type": "select",
+          "default": "fixed",
+          "options": [
+            "fixed",
+            "chronological"
+          ],
+          "help": ""
+        },
+        {
+          "key": "window_type",
+          "label": "Training window",
+          "type": "select",
+          "default": "expanding",
+          "options": [
+            "expanding",
+            "rolling"
+          ],
+          "help": ""
+        },
+        {
+          "key": "rolling_window",
+          "label": "Rolling observations",
+          "type": "number",
+          "default": 100,
+          "min": 60,
+          "max": 180,
+          "step": 1,
+          "help": "",
+          "when": {
+            "window_type": [
+              "rolling"
+            ]
+          }
+        },
+        {
+          "key": "train_fraction",
+          "label": "Initial training share",
+          "type": "number",
+          "default": 0.75,
+          "min": 0.5,
+          "max": 0.85,
+          "step": 0.05,
+          "help": ""
+        },
+        {
+          "key": "evaluation_step",
+          "label": "Forecast-origin spacing",
+          "type": "number",
+          "default": 4,
+          "min": 1,
+          "max": 8,
+          "step": 1,
+          "help": ""
+        },
+        {
+          "key": "l1_ratio",
+          "label": "Elastic-net L1 share",
+          "type": "number",
+          "default": 0.5,
+          "min": 0,
+          "max": 1,
+          "step": 0.1,
+          "help": "",
+          "when": {
+            "learner": [
+              "elastic_net"
+            ]
+          }
+        },
+        {
+          "key": "depth",
+          "label": "Tree depth",
+          "type": "number",
+          "default": 3,
+          "min": 1,
+          "max": 8,
+          "step": 1,
+          "help": "",
+          "when": {
+            "learner": [
+              "tree",
+              "forest",
+              "boosting",
+              "quantile_boosting"
+            ]
+          }
+        },
+        {
+          "key": "trees",
+          "label": "Trees / boosting rounds",
+          "type": "number",
+          "default": 40,
+          "min": 5,
+          "max": 150,
+          "step": 1,
+          "help": "",
+          "when": {
+            "learner": [
+              "tree",
+              "forest",
+              "boosting",
+              "quantile_boosting"
+            ]
+          }
+        },
+        {
+          "key": "hidden",
+          "label": "MLP hidden units",
+          "type": "number",
+          "default": 8,
+          "min": 2,
+          "max": 32,
+          "step": 1,
+          "help": "",
+          "when": {
+            "learner": [
+              "mlp"
+            ]
+          }
+        },
+        {
+          "key": "learning_rate",
+          "label": "Boosting learning rate",
+          "type": "number",
+          "default": 0.05,
+          "min": 0.01,
+          "max": 0.3,
+          "step": 0.01,
+          "help": "",
+          "when": {
+            "learner": [
+              "boosting",
+              "quantile_boosting"
+            ]
+          }
+        },
+        {
+          "key": "quantile",
+          "label": "Boosted quantile",
+          "type": "number",
+          "default": 0.1,
+          "min": 0.05,
+          "max": 0.95,
+          "step": 0.05,
+          "help": "",
+          "when": {
+            "learner": [
+              "quantile_boosting"
+            ]
+          }
+        },
+        {
+          "key": "seed",
+          "label": "Random seed",
+          "type": "number",
+          "default": 2026,
+          "min": 0,
+          "max": 999999,
+          "step": 1,
+          "help": ""
+        },
+        {
+          "key": "sample_start",
+          "label": "Sample begins",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        },
+        {
+          "key": "sample_end",
+          "label": "Sample ends",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        }
+      ],
+      "description": "Compare forecasts on identical historical origins. Each fit standardises its own training window, and chronological validation excludes targets that were not yet observable.",
+      "reference": "DieboldMariano1995",
+      "preset": {
+        "label": "Canonical illustration",
+        "retained": "The estimator and assumptions described in the notes.",
+        "changed": "Uses the versioned teaching dataset and the displayed sample and specification; no exact paper replication is claimed."
+      },
+      "terms": [
+        "ridge",
+        "lasso",
+        "elastic net",
+        "random forest",
+        "boosting",
+        "MLP",
+        "cross-validation",
+        "RMSE",
+        "MAE",
+        "Diebold"
+      ],
+      "implementation": "interactive/python/learning.py:estimate",
+      "diagnostics": [
+        "RMSE",
+        "MAE",
+        "benchmark comparison",
+        "DM"
+      ],
+      "defaults": {
+        "variables": "gdp_growth,inflation,policy_rate",
+        "learner": "ridge",
+        "lags": 4,
+        "horizon": 1,
+        "penalty": 1,
+        "validation": "fixed",
+        "window_type": "expanding",
+        "rolling_window": 100,
+        "train_fraction": 0.75,
+        "evaluation_step": 4,
+        "l1_ratio": 0.5,
+        "depth": 3,
+        "trees": 40,
+        "hidden": 8,
+        "learning_rate": 0.05,
+        "quantile": 0.1,
+        "seed": 2026,
+        "sample_start": "",
+        "sample_end": ""
+      },
+      "citation": "Diebold and Mariano (1995), Comparing Predictive Accuracy"
+    },
+    {
+      "id": "bvar",
+      "title": "Bayesian VAR priors and posterior uncertainty",
+      "chapter": "07-bvar.qmd",
+      "module": "bayesian",
+      "method": "bvar",
+      "datasets": [
+        "macro_policy",
+        "macro_shocks"
+      ],
+      "controls": [
+        {
+          "key": "variables",
+          "label": "Variables, in model order",
+          "type": "select",
+          "default": "gdp_growth,inflation,policy_rate",
+          "options": [
+            "gdp_growth,inflation,policy_rate",
+            "policy_rate,gdp_growth,inflation"
+          ],
+          "help": "Ordering matters for recursive structural identification."
+        },
+        {
+          "key": "lags",
+          "label": "Lag order",
+          "type": "number",
+          "default": 2,
+          "min": 1,
+          "max": 8,
+          "step": 1,
+          "help": "More lags allow richer dynamics but use degrees of freedom."
+        },
+        {
+          "key": "horizon",
+          "label": "Horizon (quarters)",
+          "type": "number",
+          "default": 12,
+          "min": 1,
+          "max": 32,
+          "step": 1,
+          "help": ""
+        },
+        {
+          "key": "prior",
+          "label": "Coefficient / covariance prior",
+          "type": "select",
+          "default": "normal_wishart",
+          "options": [
+            "minnesota",
+            "normal_wishart",
+            "independent",
+            "normal_diffuse"
+          ],
+          "help": ""
+        },
+        {
+          "key": "tightness",
+          "label": "Prior tightness λ",
+          "type": "number",
+          "default": 0.2,
+          "min": 0.01,
+          "max": 2,
+          "step": 0.01,
+          "help": ""
+        },
+        {
+          "key": "decay",
+          "label": "Lag standard-deviation decay λ₃",
+          "type": "number",
+          "default": 1,
+          "min": 0.5,
+          "max": 4,
+          "step": 0.5,
+          "help": ""
+        },
+        {
+          "key": "own_mean",
+          "label": "First own-lag prior mean",
+          "type": "number",
+          "default": 0,
+          "min": 0,
+          "max": 1,
+          "step": 0.1,
+          "help": ""
+        },
+        {
+          "key": "output",
+          "label": "Posterior object",
+          "type": "select",
+          "default": "forecast",
+          "options": [
+            "forecast",
+            "irf"
+          ],
+          "help": ""
+        },
+        {
+          "key": "shock",
+          "label": "Recursive shock column",
+          "type": "number",
+          "default": 2,
+          "min": 0,
+          "max": 2,
+          "step": 1,
+          "help": ""
+        },
+        {
+          "key": "draws",
+          "label": "Retained draws / simulation paths",
+          "type": "number",
+          "default": 150,
+          "min": 20,
+          "max": 1000,
+          "step": 1,
+          "help": ""
+        },
+        {
+          "key": "burn",
+          "label": "Burn-in draws",
+          "type": "number",
+          "default": 50,
+          "min": 0,
+          "max": 1000,
+          "step": 1,
+          "help": ""
+        },
+        {
+          "key": "confidence",
+          "label": "Interval probability",
+          "type": "select",
+          "default": 0.9,
+          "options": [
+            0.68,
+            0.9,
+            0.95
+          ],
+          "help": ""
+        },
+        {
+          "key": "seed",
+          "label": "Random seed",
+          "type": "number",
+          "default": 2026,
+          "min": 0,
+          "max": 999999,
+          "step": 1,
+          "help": ""
+        },
+        {
+          "key": "cross_tightness",
+          "label": "Cross-variable tightness λ₂",
+          "type": "number",
+          "default": 0.5,
+          "min": 0.05,
+          "max": 1,
+          "step": 0.05,
+          "when": {
+            "prior": [
+              "minnesota",
+              "independent",
+              "normal_diffuse"
+            ]
+          }
+        },
+        {
+          "key": "sample_start",
+          "label": "Sample begins",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        },
+        {
+          "key": "sample_end",
+          "label": "Sample ends",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        }
+      ],
+      "description": "Compare four prior structures using actual posterior draws. Smaller λ concentrates lag coefficients more tightly around their prior means.",
+      "reference": "Lutkepohl2005",
+      "preset": {
+        "label": "Canonical illustration",
+        "retained": "The estimator and assumptions described in the notes.",
+        "changed": "Uses the versioned teaching dataset and the displayed sample and specification; no exact paper replication is claimed."
+      },
+      "terms": [
+        "Minnesota",
+        "Normal-Wishart",
+        "Normal-diffuse",
+        "Gibbs",
+        "BVAR",
+        "prior"
+      ],
+      "implementation": "interactive/python/bayesian.py:estimate",
+      "diagnostics": [
+        "Stable posterior draw fraction",
+        "Draw autocorrelation",
+        "Conditional WAIC and DIC",
+        "Conditional conjugate log evidence"
+      ],
+      "defaults": {
+        "variables": "gdp_growth,inflation,policy_rate",
+        "lags": 2,
+        "horizon": 12,
+        "prior": "normal_wishart",
+        "tightness": 0.2,
+        "decay": 1,
+        "own_mean": 0,
+        "output": "forecast",
+        "shock": 2,
+        "draws": 150,
+        "burn": 50,
+        "confidence": 0.9,
+        "seed": 2026,
+        "cross_tightness": 0.5,
+        "sample_start": "",
+        "sample_end": ""
+      },
+      "citation": "Lütkepohl (2005), New Introduction to Multiple Time Series Analysis"
+    },
+    {
+      "id": "tvp-sv",
+      "title": "Bayesian time variation and stochastic volatility",
+      "chapter": "07-bvar.qmd",
+      "module": "bayesian",
+      "method": "tvp_sv",
+      "datasets": [
+        "macro_policy",
+        "macro_shocks"
+      ],
+      "controls": [
+        {
+          "key": "variables",
+          "label": "Variables, in model order",
+          "type": "select",
+          "default": "gdp_growth,inflation,policy_rate",
+          "options": [
+            "gdp_growth,inflation,policy_rate",
+            "policy_rate,gdp_growth,inflation"
+          ],
+          "help": "Ordering matters for recursive structural identification."
+        },
+        {
+          "key": "lags",
+          "label": "Lag order",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 2,
+          "step": 1,
+          "help": "More lags allow richer dynamics but use degrees of freedom."
+        },
+        {
+          "key": "state_variance",
+          "label": "Coefficient innovation variance Q",
+          "type": "number",
+          "default": 0.001,
+          "min": 0.00001,
+          "max": 0.1,
+          "step": 0.00001,
+          "help": ""
+        },
+        {
+          "key": "vol_variance",
+          "label": "Log-volatility innovation variance",
+          "type": "number",
+          "default": 0.02,
+          "min": 0.001,
+          "max": 0.2,
+          "step": 0.001,
+          "help": ""
+        },
+        {
+          "key": "draws",
+          "label": "Retained draws / simulation paths",
+          "type": "number",
+          "default": 80,
+          "min": 20,
+          "max": 300,
+          "step": 1,
+          "help": ""
+        },
+        {
+          "key": "burn",
+          "label": "Burn-in draws",
+          "type": "number",
+          "default": 40,
+          "min": 0,
+          "max": 300,
+          "step": 1,
+          "help": ""
+        },
+        {
+          "key": "confidence",
+          "label": "Interval probability",
+          "type": "select",
+          "default": 0.9,
+          "options": [
+            0.68,
+            0.9,
+            0.95
+          ],
+          "help": ""
+        },
+        {
+          "key": "seed",
+          "label": "Random seed",
+          "type": "number",
+          "default": 2026,
+          "min": 0,
+          "max": 999999,
+          "step": 1,
+          "help": ""
+        },
+        {
+          "key": "sample_start",
+          "label": "Sample begins",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        },
+        {
+          "key": "sample_end",
+          "label": "Sample ends",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        },
+        {
+          "key": "time_coefficients",
+          "label": "Time-varying coefficients",
+          "type": "checkbox",
+          "default": true
+        },
+        {
+          "key": "vol_persistence",
+          "label": "Log-volatility persistence",
+          "type": "number",
+          "default": 1,
+          "min": 0.1,
+          "max": 1,
+          "step": 0.05
+        },
+        {
+          "key": "outlier_probability",
+          "label": "Outlier prior probability",
+          "type": "number",
+          "default": 0,
+          "min": 0,
+          "max": 0.3,
+          "step": 0.01
+        },
+        {
+          "key": "outlier_scale",
+          "label": "Outlier standard-deviation multiplier",
+          "type": "number",
+          "default": 5,
+          "min": 1,
+          "max": 15,
+          "step": 0.5
+        }
+      ],
+      "description": "Sample coefficient paths by forward filtering/backward sampling and log-volatility paths by Metropolis updates. This diagonal-covariance specification keeps browser computation manageable.",
+      "reference": "CogleySargent2001",
+      "preset": {
+        "label": "Canonical illustration",
+        "retained": "The estimator and assumptions described in the notes.",
+        "changed": "Uses the versioned teaching dataset and the displayed sample and specification; no exact paper replication is claimed."
+      },
+      "terms": [
+        "stochastic volatility",
+        "Metropolis",
+        "FFBS",
+        "TVP-BVAR",
+        "outlier",
+        "large-shock",
+        "CCMM",
+        "Cogley",
+        "SV"
+      ],
+      "implementation": "interactive/python/bayesian.py:estimate",
+      "diagnostics": [
+        "MH acceptance",
+        "Retained draws",
+        "Conditional posterior volatility intervals"
+      ],
+      "defaults": {
+        "variables": "gdp_growth,inflation,policy_rate",
+        "lags": 1,
+        "state_variance": 0.001,
+        "vol_variance": 0.02,
+        "draws": 80,
+        "burn": 40,
+        "confidence": 0.9,
+        "seed": 2026,
+        "sample_start": "",
+        "sample_end": "",
+        "time_coefficients": true,
+        "vol_persistence": 1,
+        "outlier_probability": 0,
+        "outlier_scale": 5
+      },
+      "citation": "Cogley and Sargent (2001), Evolving Post-World War II U.S. Inflation Dynamics"
+    },
+    {
+      "id": "unit-roots",
+      "title": "Phillips–Perron and DF–GLS",
+      "chapter": "01-time-series.qmd",
+      "module": "foundations",
+      "method": "unit_roots",
+      "datasets": [
+        "gdp"
+      ],
+      "controls": [
+        {
+          "key": "variables",
+          "label": "Variable",
+          "type": "select",
+          "default": "GDPC1",
+          "options": [
+            "GDPC1"
+          ],
+          "help": ""
+        },
+        {
+          "key": "transform",
+          "label": "Transformation",
+          "type": "select",
+          "default": "log",
+          "options": [
+            "level",
+            "log",
+            "growth",
+            "difference",
+            "detrend"
+          ],
+          "help": ""
+        },
+        {
+          "key": "lags",
+          "label": "Lag order",
+          "type": "number",
+          "default": 2,
+          "min": 0,
+          "max": 8,
+          "step": 1,
+          "help": ""
+        },
+        {
+          "key": "deterministic",
+          "label": "Deterministic terms",
+          "type": "select",
+          "default": "c",
+          "options": [
+            "c",
+            "ct"
+          ],
+          "help": ""
+        },
+        {
+          "key": "bandwidth",
+          "label": "Bartlett bandwidth",
+          "type": "number",
+          "default": 8,
+          "min": 0,
+          "max": 32,
+          "step": 1,
+          "help": ""
+        },
+        {
+          "key": "draws",
+          "label": "Gaussian null simulations",
+          "type": "number",
+          "default": 199,
+          "min": 99,
+          "max": 999,
+          "step": 1,
+          "help": ""
+        },
+        {
+          "key": "seed",
+          "label": "Random seed",
+          "type": "number",
+          "default": 2026,
+          "min": 0,
+          "max": 999999,
+          "step": 1,
+          "help": ""
+        },
+        {
+          "key": "sample_start",
+          "label": "Sample begins",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        },
+        {
+          "key": "sample_end",
+          "label": "Sample ends",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        }
+      ],
+      "description": "Contrast nonparametric long-run variance correction with efficient GLS detrending. The DF–GLS null is simulated at the selected sample size and lag order.",
+      "reference": "NelsonPlosser1982",
+      "preset": {
+        "label": "Canonical illustration",
+        "retained": "Method and central identifying assumptions from the course.",
+        "changed": "Uses the displayed teaching data and specification; no exact replication is claimed."
+      },
+      "terms": [
+        "Phillips",
+        "PP",
+        "DF-GLS",
+        "ERS"
+      ],
+      "implementation": "interactive/python/foundations.py:estimate",
+      "diagnostics": [
+        "Phillips–Perron statistic",
+        "DF–GLS statistic and simulated critical values"
+      ],
+      "defaults": {
+        "variables": "GDPC1",
+        "transform": "log",
+        "lags": 2,
+        "deterministic": "c",
+        "bandwidth": 8,
+        "draws": 199,
+        "seed": 2026,
+        "sample_start": "",
+        "sample_end": ""
+      },
+      "citation": "Nelson and Plosser (1982), Trends and Random Walks in Macroeconomic Time Series"
+    },
+    {
+      "id": "seasonality",
+      "title": "Seasonal means and seasonal differences",
+      "chapter": "01-time-series.qmd",
+      "module": "foundations",
+      "method": "seasonality",
+      "datasets": [
+        "gdp"
+      ],
+      "controls": [
+        {
+          "key": "variables",
+          "label": "Variable",
+          "type": "select",
+          "default": "GDPC1",
+          "options": [
+            "GDPC1"
+          ],
+          "help": ""
+        },
+        {
+          "key": "transform",
+          "label": "Transformation",
+          "type": "select",
+          "default": "log",
+          "options": [
+            "level",
+            "log",
+            "growth",
+            "difference",
+            "detrend"
+          ],
+          "help": ""
+        },
+        {
+          "key": "period",
+          "label": "Seasonal period",
+          "type": "number",
+          "default": 4,
+          "min": 2,
+          "max": 12,
+          "step": 1,
+          "help": ""
+        },
+        {
+          "key": "seasonal_method",
+          "label": "Seasonal transformation",
+          "type": "select",
+          "default": "dummies",
+          "options": [
+            "dummies",
+            "difference"
+          ],
+          "help": ""
+        },
+        {
+          "key": "sample_start",
+          "label": "Sample begins",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        },
+        {
+          "key": "sample_end",
+          "label": "Sample ends",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        }
+      ],
+      "description": "Compare removing periodic means with imposing a seasonal difference. GDP in this snapshot is already seasonally adjusted; this exercise shows what a second adjustment would do.",
+      "reference": "Hamilton1994",
+      "preset": {
+        "label": "Canonical illustration",
+        "retained": "Method and central identifying assumptions from the course.",
+        "changed": "Uses the displayed teaching data and specification; no exact replication is claimed."
+      },
+      "terms": [
+        "seasonality",
+        "seasonal dummies",
+        "seasonal differencing"
+      ],
+      "implementation": "interactive/python/foundations.py:estimate",
+      "diagnostics": [
+        "Seasonal period",
+        "Seasonal coefficients or differenced series"
+      ],
+      "defaults": {
+        "variables": "GDPC1",
+        "transform": "log",
+        "period": 4,
+        "seasonal_method": "dummies",
+        "sample_start": "",
+        "sample_end": ""
+      },
+      "citation": "Hamilton (1994), Time Series Analysis"
+    },
+    {
+      "id": "breaks",
+      "title": "Known and unknown structural breaks",
+      "chapter": "01-time-series.qmd",
+      "module": "foundations",
+      "method": "breaks",
+      "datasets": [
+        "gdp"
+      ],
+      "controls": [
+        {
+          "key": "variables",
+          "label": "Variable",
+          "type": "select",
+          "default": "GDPC1",
+          "options": [
+            "GDPC1"
+          ],
+          "help": ""
+        },
+        {
+          "key": "transform",
+          "label": "Transformation",
+          "type": "select",
+          "default": "log",
+          "options": [
+            "level",
+            "log",
+            "growth",
+            "difference",
+            "detrend"
+          ],
+          "help": ""
+        },
+        {
+          "key": "split",
+          "label": "Known break fraction",
+          "type": "number",
+          "default": 0.5,
+          "min": 0.15,
+          "max": 0.85,
+          "step": 0.05,
+          "help": ""
+        },
+        {
+          "key": "breaks",
+          "label": "Unknown trend breaks",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 3,
+          "step": 1,
+          "help": ""
+        },
+        {
+          "key": "trim",
+          "label": "Minimum segment share",
+          "type": "number",
+          "default": 0.15,
+          "min": 0.1,
+          "max": 0.3,
+          "step": 0.05,
+          "help": ""
+        },
+        {
+          "key": "sample_start",
+          "label": "Sample begins",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        },
+        {
+          "key": "sample_end",
+          "label": "Sample ends",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        }
+      ],
+      "description": "Compare a pre-specified Chow test with global least-squares estimation of unknown break dates. Searching for breaks changes the inferential problem.",
+      "reference": "BaiPerron1998",
+      "preset": {
+        "label": "Canonical illustration",
+        "retained": "Method and central identifying assumptions from the course.",
+        "changed": "Uses the displayed teaching data and specification; no exact replication is claimed."
+      },
+      "terms": [
+        "Chow",
+        "Bai",
+        "structural break"
+      ],
+      "implementation": "interactive/python/foundations.py:estimate",
+      "diagnostics": [
+        "Selected break observations",
+        "Chow statistic and p-value",
+        "Segmented trend fit"
+      ],
+      "defaults": {
+        "variables": "GDPC1",
+        "transform": "log",
+        "split": 0.5,
+        "breaks": 1,
+        "trim": 0.15,
+        "sample_start": "",
+        "sample_end": ""
+      },
+      "citation": "Bai and Perron (1998), Estimating and Testing Linear Models with Multiple Structural Changes"
+    },
+    {
+      "id": "perron",
+      "title": "Known-break unit-root regression",
+      "chapter": "01-time-series.qmd",
+      "module": "foundations",
+      "method": "perron",
+      "datasets": [
+        "gdp"
+      ],
+      "controls": [
+        {
+          "key": "variables",
+          "label": "Variable",
+          "type": "select",
+          "default": "GDPC1",
+          "options": [
+            "GDPC1"
+          ],
+          "help": ""
+        },
+        {
+          "key": "transform",
+          "label": "Transformation",
+          "type": "select",
+          "default": "log",
+          "options": [
+            "level",
+            "log",
+            "growth",
+            "difference",
+            "detrend"
+          ],
+          "help": ""
+        },
+        {
+          "key": "lags",
+          "label": "Lag order",
+          "type": "number",
+          "default": 2,
+          "min": 0,
+          "max": 8,
+          "step": 1,
+          "help": ""
+        },
+        {
+          "key": "split",
+          "label": "Known break fraction",
+          "type": "number",
+          "default": 0.5,
+          "min": 0.15,
+          "max": 0.85,
+          "step": 0.05,
+          "help": ""
+        },
+        {
+          "key": "draws",
+          "label": "Gaussian null simulations",
+          "type": "number",
+          "default": 199,
+          "min": 99,
+          "max": 999,
+          "step": 1,
+          "help": ""
+        },
+        {
+          "key": "seed",
+          "label": "Random seed",
+          "type": "number",
+          "default": 2026,
+          "min": 0,
+          "max": 999999,
+          "step": 1,
+          "help": ""
+        },
+        {
+          "key": "sample_start",
+          "label": "Sample begins",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        },
+        {
+          "key": "sample_end",
+          "label": "Sample ends",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        }
+      ],
+      "description": "Add a known level and slope break to a unit-root regression. Inspect a simulated reference distribution instead of incorrectly using ordinary ADF critical values.",
+      "reference": "Perron1989",
+      "preset": {
+        "label": "Canonical illustration",
+        "retained": "Method and central identifying assumptions from the course.",
+        "changed": "Uses the displayed teaching data and specification; no exact replication is claimed."
+      },
+      "terms": [
+        "Perron"
+      ],
+      "implementation": "interactive/python/foundations.py:estimate",
+      "diagnostics": [
+        "Known-break unit-root statistic",
+        "Gaussian null Monte Carlo critical values"
+      ],
+      "defaults": {
+        "variables": "GDPC1",
+        "transform": "log",
+        "lags": 2,
+        "split": 0.5,
+        "draws": 199,
+        "seed": 2026,
+        "sample_start": "",
+        "sample_end": ""
+      },
+      "citation": "Perron (1989), The Great Crash, the Oil Price Shock, and the Unit Root Hypothesis"
+    },
+    {
+      "id": "linear-projection",
+      "title": "Linear algebra, projection and inference",
+      "chapter": "00-mathematical-foundations.qmd",
+      "module": "foundations",
+      "method": "ols",
+      "datasets": [
+        "macro_policy"
+      ],
+      "controls": [
+        {
+          "key": "variables",
+          "label": "Outcome, predictors",
+          "type": "select",
+          "default": "gdp_growth,inflation",
+          "options": [
+            "gdp_growth,inflation",
+            "gdp_growth,inflation,policy_rate"
+          ],
+          "help": ""
+        },
+        {
+          "key": "lags",
+          "label": "Lag order",
+          "type": "number",
+          "default": 2,
+          "min": 0,
+          "max": 8,
+          "step": 1,
+          "help": ""
+        },
+        {
+          "key": "confidence",
+          "label": "Confidence probability",
+          "type": "select",
+          "default": 0.95,
+          "options": [
+            0.9,
+            0.95
+          ],
+          "help": ""
+        },
+        {
+          "key": "sample_start",
+          "label": "Sample begins",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        },
+        {
+          "key": "sample_end",
+          "label": "Sample ends",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        }
+      ],
+      "description": "Inspect an OLS projection, design rank, covariance eigenvalues and dependence-robust inference. Projection geometry does not itself establish exogeneity.",
+      "reference": "Strang2016",
+      "preset": {
+        "label": "Canonical illustration",
+        "retained": "Method and central identifying assumptions from the course.",
+        "changed": "Uses the displayed teaching data and specification; no exact replication is claimed."
+      },
+      "terms": [
+        "linear algebra",
+        "projection",
+        "OLS",
+        "eigenvalues",
+        "confidence intervals"
+      ],
+      "implementation": "interactive/python/foundations.py:estimate",
+      "diagnostics": [
+        "Regressor rank and condition number",
+        "HAC coefficient inference"
+      ],
+      "defaults": {
+        "variables": "gdp_growth,inflation",
+        "lags": 2,
+        "confidence": 0.95,
+        "sample_start": "",
+        "sample_end": ""
+      },
+      "citation": "Strang (2016), Introduction to Linear Algebra"
+    },
+    {
+      "id": "sequence",
+      "title": "RNN, LSTM, causal convolution and attention",
+      "chapter": "10-machine-learning-time-series.qmd",
+      "module": "sequence",
+      "method": "forecast",
+      "datasets": [
+        "macro_policy",
+        "macro_shocks"
+      ],
+      "controls": [
+        {
+          "key": "variables",
+          "label": "Variables",
+          "type": "select",
+          "default": "gdp_growth,inflation,policy_rate",
+          "options": [
+            "gdp_growth,inflation,policy_rate"
+          ],
+          "help": ""
+        },
+        {
+          "key": "architecture",
+          "label": "Sequence architecture",
+          "type": "select",
+          "default": "rnn",
+          "options": [
+            "rnn",
+            "lstm",
+            "tcn",
+            "transformer"
+          ],
+          "help": ""
+        },
+        {
+          "key": "lags",
+          "label": "Input sequence length",
+          "type": "number",
+          "default": 4,
+          "min": 2,
+          "max": 12,
+          "step": 1,
+          "help": ""
+        },
+        {
+          "key": "horizon",
+          "label": "Horizon (quarters)",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 12,
+          "step": 1,
+          "help": ""
+        },
+        {
+          "key": "hidden",
+          "label": "Hidden width",
+          "type": "number",
+          "default": 4,
+          "min": 2,
+          "max": 12,
+          "step": 1,
+          "help": ""
+        },
+        {
+          "key": "epochs",
+          "label": "Training epochs",
+          "type": "number",
+          "default": 40,
+          "min": 10,
+          "max": 150,
+          "step": 1,
+          "help": ""
+        },
+        {
+          "key": "penalty",
+          "label": "Weight penalty",
+          "type": "number",
+          "default": 0.001,
+          "min": 0,
+          "max": 0.1,
+          "step": 0.001,
+          "help": ""
+        },
+        {
+          "key": "learning_rate",
+          "label": "Adam learning rate",
+          "type": "number",
+          "default": 0.01,
+          "min": 0.001,
+          "max": 0.1,
+          "step": 0.001,
+          "help": ""
+        },
+        {
+          "key": "loss",
+          "label": "Training loss",
+          "type": "select",
+          "default": "squared",
+          "options": [
+            "squared",
+            "quantile"
+          ],
+          "help": ""
+        },
+        {
+          "key": "quantile",
+          "label": "Quantile loss probability",
+          "type": "number",
+          "default": 0.1,
+          "min": 0.05,
+          "max": 0.95,
+          "step": 0.05,
+          "help": "",
+          "when": {
+            "loss": [
+              "quantile"
+            ]
+          }
+        },
+        {
+          "key": "train_fraction",
+          "label": "Chronological training share",
+          "type": "number",
+          "default": 0.75,
+          "min": 0.5,
+          "max": 0.85,
+          "step": 0.05,
+          "help": ""
+        },
+        {
+          "key": "seed",
+          "label": "Random seed",
+          "type": "number",
+          "default": 2026,
+          "min": 0,
+          "max": 999999,
+          "step": 1,
+          "help": ""
+        },
+        {
+          "key": "sample_start",
+          "label": "Sample begins",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        },
+        {
+          "key": "sample_end",
+          "label": "Sample ends",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        }
+      ],
+      "description": "Train all sequence-model weights in the browser. Compare inductive assumptions under a fixed chronological holdout and a strictly lagged input window.",
+      "reference": "HochreiterSchmidhuber1997",
+      "preset": {
+        "label": "Canonical illustration",
+        "retained": "Method and central identifying assumptions from the course.",
+        "changed": "Uses the displayed teaching data and specification; no exact replication is claimed."
+      },
+      "terms": [
+        "RNN",
+        "LSTM",
+        "TCN",
+        "convolution",
+        "attention",
+        "Transformer",
+        "back-propagation",
+        "gradient descent"
+      ],
+      "implementation": "interactive/python/sequence.py:estimate",
+      "diagnostics": [
+        "held-out RMSE",
+        "MAE",
+        "training loss",
+        "parameter count"
+      ],
+      "defaults": {
+        "variables": "gdp_growth,inflation,policy_rate",
+        "architecture": "rnn",
+        "lags": 4,
+        "horizon": 1,
+        "hidden": 4,
+        "epochs": 40,
+        "penalty": 0.001,
+        "learning_rate": 0.01,
+        "loss": "squared",
+        "quantile": 0.1,
+        "train_fraction": 0.75,
+        "seed": 2026,
+        "sample_start": "",
+        "sample_end": ""
+      },
+      "citation": "Hochreiter and Schmidhuber (1997), Long Short-Term Memory"
+    },
+    {
+      "id": "proxy",
+      "title": "External instruments: Proxy-VAR",
+      "chapter": "04-svar-identification.qmd",
+      "module": "instruments",
+      "method": "proxy",
+      "datasets": [
+        "macro_shocks"
+      ],
+      "controls": [
+        {
+          "key": "variables",
+          "label": "Variable order",
+          "type": "select",
+          "default": "gdp_growth,inflation,policy_rate",
+          "options": [
+            "gdp_growth,inflation,policy_rate"
+          ],
+          "help": ""
+        },
+        {
+          "key": "lags",
+          "label": "Lag order",
+          "type": "number",
+          "default": 2,
+          "min": 1,
+          "max": 8,
+          "step": 1,
+          "help": ""
+        },
+        {
+          "key": "horizon",
+          "label": "Horizon (quarters)",
+          "type": "number",
+          "default": 12,
+          "min": 1,
+          "max": 32,
+          "step": 1,
+          "help": ""
+        },
+        {
+          "key": "shock_size",
+          "label": "Policy / narrative shock magnitude",
+          "type": "number",
+          "default": 1,
+          "min": 0.1,
+          "max": 2,
+          "step": 0.1,
+          "help": ""
+        },
+        {
+          "key": "sample_start",
+          "label": "Sample begins",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        },
+        {
+          "key": "sample_end",
+          "label": "Sample ends",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        }
+      ],
+      "description": "Use the published Romer–Romer shock extension, not an estimated reduced-form residual relabelled as an instrument. Relevance and exclusion are separate assumptions.",
+      "reference": "RomerRomer2004",
+      "preset": {
+        "label": "Replication-style exercise",
+        "retained": "Published quarterly Romer–Romer shock extension and the narrative/external-instrument identification logic.",
+        "changed": "Wieland–Yang full-sample shock estimates (1969–2007), quarterly revised macro data, small VAR or local projections; not the original monthly Romer–Romer regression."
+      },
+      "terms": [
+        "external instruments",
+        "Proxy",
+        "narrative"
+      ],
+      "implementation": "interactive/python/instruments.py:estimate",
+      "diagnostics": [
+        "relevance",
+        "stability / HAC uncertainty"
+      ],
+      "defaults": {
+        "variables": "gdp_growth,inflation,policy_rate",
+        "lags": 2,
+        "horizon": 12,
+        "shock_size": 1,
+        "sample_start": "",
+        "sample_end": ""
+      },
+      "citation": "Romer and Romer (2004), A New Measure of Monetary Shocks; shock extension: Wieland and Yang (2019)"
+    },
+    {
+      "id": "narrative",
+      "title": "Narrative monetary-shock projections",
+      "chapter": "04-svar-identification.qmd",
+      "module": "instruments",
+      "method": "narrative",
+      "datasets": [
+        "macro_shocks"
+      ],
+      "controls": [
+        {
+          "key": "variables",
+          "label": "Variable order",
+          "type": "select",
+          "default": "gdp_growth,inflation,policy_rate",
+          "options": [
+            "gdp_growth,inflation,policy_rate"
+          ],
+          "help": ""
+        },
+        {
+          "key": "lags",
+          "label": "Lag order",
+          "type": "number",
+          "default": 2,
+          "min": 1,
+          "max": 8,
+          "step": 1,
+          "help": ""
+        },
+        {
+          "key": "horizon",
+          "label": "Horizon (quarters)",
+          "type": "number",
+          "default": 12,
+          "min": 1,
+          "max": 32,
+          "step": 1,
+          "help": ""
+        },
+        {
+          "key": "shock_size",
+          "label": "Policy / narrative shock magnitude",
+          "type": "number",
+          "default": 1,
+          "min": 0.1,
+          "max": 2,
+          "step": 0.1,
+          "help": ""
+        },
+        {
+          "key": "confidence",
+          "label": "Interval probability",
+          "type": "select",
+          "default": 0.9,
+          "options": [
+            0.68,
+            0.9,
+            0.95
+          ],
+          "help": ""
+        },
+        {
+          "key": "sample_start",
+          "label": "Sample begins",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        },
+        {
+          "key": "sample_end",
+          "label": "Sample ends",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        }
+      ],
+      "description": "Use the published Romer–Romer shock extension, not an estimated reduced-form residual relabelled as an instrument. Relevance and exclusion are separate assumptions.",
+      "reference": "RomerRomer2004",
+      "preset": {
+        "label": "Replication-style exercise",
+        "retained": "Published quarterly Romer–Romer shock extension and the narrative/external-instrument identification logic.",
+        "changed": "Wieland–Yang full-sample shock estimates (1969–2007), quarterly revised macro data, small VAR or local projections; not the original monthly Romer–Romer regression."
+      },
+      "terms": [
+        "external instruments",
+        "Proxy",
+        "narrative"
+      ],
+      "implementation": "interactive/python/instruments.py:estimate",
+      "diagnostics": [
+        "relevance",
+        "stability / HAC uncertainty"
+      ],
+      "defaults": {
+        "variables": "gdp_growth,inflation,policy_rate",
+        "lags": 2,
+        "horizon": 12,
+        "shock_size": 1,
+        "confidence": 0.9,
+        "sample_start": "",
+        "sample_end": ""
+      },
+      "citation": "Romer and Romer (2004), A New Measure of Monetary Shocks; shock extension: Wieland and Yang (2019)"
+    },
+    {
+      "id": "dvar",
+      "title": "Joint distributional VAR and counterfactuals",
+      "chapter": "09-growth-at-risk.qmd",
+      "module": "distribution",
+      "method": "dvar",
+      "datasets": [
+        "gar"
+      ],
+      "controls": [
+        {
+          "key": "lags",
+          "label": "Current and lagged information dates",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 3,
+          "step": 1
+        },
+        {
+          "key": "horizon",
+          "label": "Direct forecast horizons",
+          "type": "number",
+          "default": 4,
+          "min": 1,
+          "max": 8,
+          "step": 1
+        },
+        {
+          "key": "financial_conditions",
+          "label": "Current NFCI scenario shift",
+          "type": "number",
+          "default": 1,
+          "min": -2,
+          "max": 2,
+          "step": 0.1
+        },
+        {
+          "key": "penalty",
+          "label": "Distribution-logit ridge penalty",
+          "type": "number",
+          "default": 1,
+          "min": 0.1,
+          "max": 10,
+          "step": 0.1
+        },
+        {
+          "key": "draws",
+          "label": "Joint forecast simulations",
+          "type": "number",
+          "default": 300,
+          "min": 100,
+          "max": 1000,
+          "step": 1
+        },
+        {
+          "key": "seed",
+          "label": "Random seed",
+          "type": "number",
+          "default": 2026,
+          "min": 0,
+          "max": 999999,
+          "step": 1
+        },
+        {
+          "key": "sample_start",
+          "label": "Sample begins",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        },
+        {
+          "key": "sample_end",
+          "label": "Sample ends",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        }
+      ],
+      "description": "Estimate a joint direct-horizon forecast through a triangular conditional-distribution factorisation. Compare changes in lower, central and upper growth quantiles under an NFCI conditioning scenario.",
+      "reference": "WangOkaZhu2026",
+      "citation": "Wang, Oka and Zhu (2026), Distributional Vector Autoregression",
+      "terms": [
+        "distributional VAR",
+        "distributional impulse",
+        "joint distribution",
+        "CDF",
+        "counterfactual"
+      ],
+      "diagnostics": [
+        "CDF crossings",
+        "simulation size",
+        "regularisation"
+      ],
+      "defaults": {
+        "lags": 1,
+        "horizon": 4,
+        "financial_conditions": 1,
+        "penalty": 1,
+        "draws": 300,
+        "seed": 2026,
+        "sample_start": "",
+        "sample_end": ""
+      },
+      "implementation": "interactive/python/distribution.py:estimate",
+      "preset": {
+        "label": "Canonical illustration",
+        "retained": "The estimation principle in the course.",
+        "changed": "Uses the displayed teaching sample and finite computational limits, not an exact replication."
+      }
+    },
+    {
+      "id": "samplers",
+      "title": "Posterior computation: MH, HMC, NUTS and VI",
+      "chapter": "07-bvar.qmd",
+      "module": "bayesian",
+      "method": "samplers",
+      "datasets": [
+        "macro_policy"
+      ],
+      "controls": [
+        {
+          "key": "variables",
+          "label": "Observed series",
+          "type": "select",
+          "default": "gdp_growth",
+          "options": [
+            "gdp_growth",
+            "inflation"
+          ]
+        },
+        {
+          "key": "sampler",
+          "label": "Posterior algorithm",
+          "type": "select",
+          "default": "hmc",
+          "options": [
+            "mh",
+            "hmc",
+            "nuts",
+            "variational"
+          ]
+        },
+        {
+          "key": "prior_sd",
+          "label": "Coefficient prior standard deviation",
+          "type": "number",
+          "default": 1,
+          "min": 0.1,
+          "max": 5,
+          "step": 0.1
+        },
+        {
+          "key": "own_mean",
+          "label": "Prior AR coefficient mean",
+          "type": "number",
+          "default": 0,
+          "min": -0.9,
+          "max": 1,
+          "step": 0.1
+        },
+        {
+          "key": "draws",
+          "label": "Retained draws",
+          "type": "number",
+          "default": 300,
+          "min": 50,
+          "max": 2000,
+          "step": 1
+        },
+        {
+          "key": "burn",
+          "label": "Burn-in draws",
+          "type": "number",
+          "default": 100,
+          "min": 0,
+          "max": 1000,
+          "step": 1
+        },
+        {
+          "key": "step_size",
+          "label": "Standardised proposal / integration step",
+          "type": "number",
+          "default": 0.25,
+          "min": 0.01,
+          "max": 1,
+          "step": 0.01,
+          "when": {
+            "sampler": [
+              "mh",
+              "hmc",
+              "nuts"
+            ]
+          }
+        },
+        {
+          "key": "leapfrog_steps",
+          "label": "HMC leapfrog steps",
+          "type": "number",
+          "default": 8,
+          "min": 1,
+          "max": 30,
+          "step": 1,
+          "when": {
+            "sampler": [
+              "hmc"
+            ]
+          }
+        },
+        {
+          "key": "seed",
+          "label": "Random seed",
+          "type": "number",
+          "default": 2026,
+          "min": 0,
+          "max": 999999,
+          "step": 1
+        },
+        {
+          "key": "sample_start",
+          "label": "Sample begins",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        },
+        {
+          "key": "sample_end",
+          "label": "Sample ends",
+          "type": "date",
+          "default": "",
+          "help": "Leave blank for the complete snapshot. Dates restrict estimation before constructing lags or targets."
+        }
+      ],
+      "description": "Use a conjugate Gaussian AR regression as an exact benchmark for simulation and variational approximation. Changing the integration step affects mixing and acceptance, not the posterior target.",
+      "reference": "Hamilton1994",
+      "citation": "Hamilton (1994), Time Series Analysis; Bayesian computation section in the notes",
+      "terms": [
+        "HMC",
+        "NUTS",
+        "Variational",
+        "Metropolis",
+        "posterior summaries"
+      ],
+      "diagnostics": [
+        "exact posterior comparison",
+        "Hamiltonian errors",
+        "mixing"
+      ],
+      "defaults": {
+        "variables": "gdp_growth",
+        "sampler": "hmc",
+        "prior_sd": 1,
+        "own_mean": 0,
+        "draws": 300,
+        "burn": 100,
+        "step_size": 0.25,
+        "leapfrog_steps": 8,
+        "seed": 2026,
+        "sample_start": "",
+        "sample_end": ""
+      },
+      "implementation": "interactive/python/bayesian.py:estimate",
+      "preset": {
+        "label": "Canonical illustration",
+        "retained": "The estimation principle in the course.",
+        "changed": "Uses the displayed teaching sample and finite computational limits, not an exact replication."
+      }
+    },
+    {
+      "id": "sampling",
+      "title": "Probability laws, LLN and the CLT",
+      "chapter": "00-mathematical-foundations.qmd",
+      "module": "foundations",
+      "method": "sampling",
+      "datasets": [
+        "macro_policy"
+      ],
+      "controls": [
+        {
+          "key": "variables",
+          "label": "Empirical series",
+          "type": "select",
+          "default": "gdp_growth",
+          "options": [
+            "gdp_growth",
+            "inflation"
+          ]
+        },
+        {
+          "key": "population",
+          "label": "Population law",
+          "type": "select",
+          "default": "empirical",
+          "options": [
+            "empirical",
+            "normal",
+            "student",
+            "bernoulli",
+            "poisson",
+            "exponential",
+            "chi_square",
+            "fisher"
+          ]
+        },
+        {
+          "key": "observations",
+          "label": "Observations in each sample",
+          "type": "number",
+          "default": 80,
+          "min": 10,
+          "max": 500,
+          "step": 1
+        },
+        {
+          "key": "draws",
+          "label": "Repeated samples",
+          "type": "number",
+          "default": 500,
+          "min": 100,
+          "max": 2000,
+          "step": 1
+        },
+        {
+          "key": "block",
+          "label": "Empirical resampling block",
+          "type": "number",
+          "default": 4,
+          "min": 1,
+          "max": 32,
+          "step": 1,
+          "when": {
+            "population": [
+              "empirical"
+            ]
+          }
+        },
+        {
+          "key": "degrees_freedom",
+          "label": "Distribution degrees of freedom",
+          "type": "number",
+          "default": 8,
+          "min": 5,
+          "max": 40,
+          "step": 1,
+          "when": {
+            "population": [
+              "student",
+              "chi_square",
+              "fisher"
+            ]
+          }
+        },
+        {
+          "key": "probability",
+          "label": "Bernoulli success probability",
+          "type": "number",
+          "default": 0.3,
+          "min": 0.01,
+          "max": 0.99,
+          "step": 0.01,
+          "when": {
+            "population": [
+              "bernoulli"
+            ]
+          }
+        },
+        {
+          "key": "rate",
+          "label": "Poisson mean / exponential rate",
+          "type": "number",
+          "default": 2,
+          "min": 0.1,
+          "max": 10,
+          "step": 0.1,
+          "when": {
+            "population": [
+              "poisson",
+              "exponential"
+            ]
+          }
+        },
+        {
+          "key": "seed",
+          "label": "Random seed",
+          "type": "number",
+          "default": 2026,
+          "min": 0,
+          "max": 999999,
+          "step": 1
+        }
+      ],
+      "description": "Compare repeated-sample concentration and the Normal approximation using the empirical macro distribution or explicitly simulated probability laws.",
+      "reference": "CasellaBerger2002",
+      "citation": "Casella and Berger (2002), Statistical Inference",
+      "terms": [
+        "LLN",
+        "CLT",
+        "Normal",
+        "Student",
+        "chi-square",
+        "Fisher",
+        "Bernoulli",
+        "Poisson",
+        "exponential"
+      ],
+      "diagnostics": [
+        "population mean",
+        "sampling error",
+        "density comparison"
+      ],
+      "implementation": "interactive/python/foundations.py:estimate",
+      "preset": {
+        "label": "Canonical illustration",
+        "retained": "Repeated-sampling and probability-law definitions in the mathematical preliminaries.",
+        "changed": "Empirical resampling uses the U.S. macro snapshot; alternative laws are explicitly simulated."
+      },
+      "defaults": {
+        "variables": "gdp_growth",
+        "population": "empirical",
+        "observations": 80,
+        "draws": 500,
+        "block": 4,
+        "degrees_freedom": 8,
+        "probability": 0.3,
+        "rate": 2,
+        "seed": 2026
+      }
+    }
+  ],
+  "chapters": {
+    "00-mathematical-foundations.qmd": "Mathematical foundations",
+    "01-time-series.qmd": "Time-series foundations",
+    "02-arma.qmd": "AR, MA and ARMA processes",
+    "03-var.qmd": "Vector autoregressions",
+    "04-svar-identification.qmd": "Structural VAR identification",
+    "05-cointegration-dfm.qmd": "Panel VAR, cointegration and factors",
+    "06-nonlinear.qmd": "Nonlinear models and local projections",
+    "07-bvar.qmd": "Bayesian estimation and BVARs",
+    "08-frequency-filtering.qmd": "Frequency analysis and filtering",
+    "09-growth-at-risk.qmd": "Quantiles and Growth-at-Risk",
+    "10-machine-learning-time-series.qmd": "Machine learning for time series"
+  }
+}

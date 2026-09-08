@@ -1,0 +1,6 @@
+# Separate desktop environment; not loaded by the site or needed to render.
+pymc==5.28.2
+pandas==2.2.3
+statsmodels==0.14.4
+scipy==1.14.1
+chronos-forecasting==2.3.1

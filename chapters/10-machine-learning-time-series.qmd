@@ -59,6 +59,8 @@ The long-run variance includes autocovariances of $d_t$, rather than treating th
 
 ## Why flexibility needs restraint {#sec-ml-regularisation}
 
+[Open this specification in the Interactive Lab](../interactive-lab.html?method=ml).
+
 A VAR already illustrates the central difficulty. With $k$ variables and $p$ lags, a dense VAR has $k^2p+k$ intercept and slope coefficients. With 20 variables and four lags, that is 1,620 coefficients before the innovation covariance matrix is considered. A quarterly sample of 120 observations has little chance of locating all of them precisely.
 
 ![The number of coefficients in a dense VAR grows with the square of the number of series. A flexible learner faces the same arithmetic, even when its parameters are not called regression coefficients.](../figures/machine-learning/var-parameter-growth.png){#fig-ml-parameter-growth}
@@ -151,6 +153,8 @@ $$
 Back-propagation is the repeated chain rule used to calculate this gradient efficiently through the layers. Its economic interpretation is modest: it is a numerical method for adjusting a flexible forecast function. Dropout, weight decay, early stopping, and data augmentation all serve the familiar purpose of regularisation. They reduce the effective capacity of the fitted rule; they do not create additional business cycles in the historical record.
 
 ## Architectures that preserve temporal order {#sec-ml-sequence-architectures}
+
+[Open this specification in the Interactive Lab](../interactive-lab.html?method=sequence).
 
 Flattening the last $L$ observations into a vector makes a feed-forward network possible, but it does not share any structure across dates. A recurrent, convolutional, or attention-based architecture introduces a particular idea about how temporal information should be reused. Each is a restriction as well as a source of flexibility.
 

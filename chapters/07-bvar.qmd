@@ -71,6 +71,8 @@ automatically penalizes over-parameterization - an Occam's-razor effect built di
 
 ## Bayesian computation {#sec-bayesian-computation}
 
+[Open this specification in the Interactive Lab](../interactive-lab.html?method=samplers).
+
 In some models the posterior has a closed analytical form: a normal likelihood combined with a normal prior on a mean gives a normal posterior (a **conjugate** pair); a Normal-Wishart prior on $(B,\Sigma)$ in a VAR gives a Normal-Wishart posterior. In general, though, the posterior is a high-dimensional integral with no closed form,
 
 $$
@@ -102,6 +104,8 @@ $$
 setting $\theta^{(s)}=\theta^*$ if accepted and $\theta^{(s)}=\theta^{(s-1)}$ otherwise. Plain random-walk MH explores the parameter space slowly; modern alternatives address this directly. **Hamiltonian Monte Carlo (HMC)** uses the gradient of $\log p(\theta\mid Y)$ to make directed rather than random proposals, dramatically lowering autocorrelation (implemented in Stan). **NUTS**, the No-U-Turn Sampler, is an adaptive form of HMC, and the default sampler in Stan and PyMC. **Variational Bayes** instead approximates the posterior by a tractable family (e.g. Gaussian), minimizing the KL divergence to the true posterior - very fast, but only approximate, and mainly useful for very large models where exact MCMC is infeasible. When the prior and likelihood happen to be conjugate, none of this machinery is needed at all: the posterior is available analytically, in the same family as the prior - the Normal-Wishart case for VARs, developed next.
 
 ## Bayesian VARs: priors {#sec-bvar-priors}
+
+[Open this specification in the Interactive Lab](../interactive-lab.html?method=bvar).
 
 The Bayesian answer to catastrophic VAR over-parameterization - sometimes literally more parameters than observations - is a prior that **shrinks** the VAR toward a parsimonious benchmark (a random walk, say, or zero cross-variable lags), while still letting a sufficiently strong signal in the data override that prior. This is regularization, but carried out in a fully probabilistic and internally coherent way.
 
@@ -142,6 +146,8 @@ Relaxes the Kronecker structure of the Normal-Wishart prior directly: $B\mid\Sig
 Addresses a different question: what if the coefficients $B$ should be shrunk, but there is no strong prior view on $\Sigma$ at all? The prior combines an informative, Minnesota-type shrinkage prior on $B$, $\mathrm{vec}(B) \sim \mathcal{N}(\mathrm{vec}(\underline{B}), \underline{V}_B)$, with a diffuse (Jeffreys) prior on $\Sigma$, $p(\Sigma) \propto |\Sigma|^{-(k+1)/2}$, letting the data determine the error covariance entirely. The posterior is not fully conjugate but both full conditionals remain analytical, so Gibbs sampling is straightforward: $B\mid\Sigma,Y \sim \mathcal{N}(\overline{B},\overline{V}_B)$, and $\Sigma\mid B,Y \sim \mathcal{IW}(\hat E'\hat E,\, T-kp)$ with $\hat E = Y-XB$. This gives coefficient shrinkage without restricting the error-covariance structure at all - useful when the researcher holds a strong theoretical prior on the dynamics but wants the residual covariances left entirely data-driven, as in some SFC or structural models where theory pins down particular behavioral equations while the error structure is deliberately left unrestricted.
 
 ## Time-varying Bayesian VARs {#sec-tvp-bvar}
+
+[Open this specification in the Interactive Lab](../interactive-lab.html?method=tvp-sv).
 
 Every VAR discussed so far assumes constant coefficients $B$ and constant $\Sigma$. But the macro record is full of episodes suggesting otherwise: the Great Moderation (mid-1980s) roughly halved volatility - was that a change in $B$, or simply a change in the size of the shocks hitting the economy? Monetary transmission plausibly changed around the effective lower bound period (2008-2015); cross-country financial spillovers strengthened with globalization. Two distinct dimensions of time variation are worth separating. **Time-varying parameters (TVP)**: the VAR coefficients $B_t$ themselves change over time, capturing gradual structural change (already developed as the TVP-VAR in @sec-tvp-var). **Stochastic volatility (SV)**: the error covariance $\Sigma_t$ changes over time, capturing heteroskedasticity directly - larger shocks in a crisis, smaller ones in tranquil periods. The two can be combined, and estimating a fixed-parameter VAR when either is genuinely present in the data leads to biased coefficients and unreliable inference.
 

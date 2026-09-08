@@ -84,6 +84,8 @@ Two numerical cases illustrate the possibilities:
 
 ## Autoregressive processes: AR(p) {#sec-ar}
 
+[Open this specification in the Interactive Lab](../interactive-lab.html?method=arma-simulation).
+
 The AR($p$) process,
 
 $$
@@ -186,6 +188,8 @@ The intuition behind each pattern: for **AR($p$)**, each $X_t$ depends recursive
 ![Simulated ACF and PACF for an AR(5), an MA(5), and an ARMA(2,2) process: the AR(5) ACF decays smoothly while its PACF cuts off sharply after lag 5; the MA(5) ACF cuts off after lag 5 while its PACF decays gradually; the ARMA(2,2) shows smooth decay in both.](../figures/arma/acf-pacf-identification-patterns.png){#fig-acf-pacf-identification}
 
 ## Estimation {#sec-arma-estimation}
+
+[Open this specification in the Interactive Lab](../interactive-lab.html?method=arma).
 
 The estimation strategy depends on whether the regressors are directly observable.
 

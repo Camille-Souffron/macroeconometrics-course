@@ -1,6 +1,18 @@
 project:
   type: book
   output-dir: _book
+  resources:
+    - interactive/catalog.json
+    - interactive/scope.json
+    - interactive/scope.html
+    - interactive/scope.css
+    - interactive/requirements-advanced.txt
+    - interactive/python/*.py
+    - interactive/js/*.js
+    - interactive/data/*.csv
+    - interactive/data/metadata.json
+    - data/us_real_gdp_fred.csv
+    - data/us_growth_at_risk_fred.csv
 
 book:
   title: "Macroeconometrics"
@@ -15,6 +27,9 @@ book:
     right: "Built with Quarto"
   navbar:
     background: light
+    left:
+      - href: interactive-lab.qmd
+        text: Interactive Lab
   sidebar:
     style: docked
     collapse-level: 1
@@ -25,6 +40,7 @@ book:
   # course roadmap (index.qmd) were not supplied and are not yet converted.
   chapters:
     - index.qmd
+    - interactive-lab.qmd
 
     - part: "Mathematical Preliminaries"
       chapters:

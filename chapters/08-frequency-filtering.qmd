@@ -50,6 +50,8 @@ If $\phi$ is near $1$, shocks are persistent and the denominator is small near $
 
 ## Estimating a spectrum {#sec-spectral-estimation}
 
+[Open this specification in the Interactive Lab](../interactive-lab.html?method=spectrum).
+
 Given $T$ observations, the Fourier frequencies are $\omega_j=2\pi j/T$, $j=0,\ldots,\lfloor T/2\rfloor$. The **periodogram** is
 
 $$
@@ -109,6 +111,8 @@ Everything in this chapter's ordinary spectral analysis is built on **weak (cova
 
 ### Cross-spectrum, coherence, and phase: co-movement by frequency {#sec-cross-spectrum}
 
+[Open this specification in the Interactive Lab](../interactive-lab.html?method=cross-spectrum).
+
 For two jointly stationary series, define the cross-covariance $\gamma_{XY}(h)=\mathrm{Cov}(X_{t+h},Y_t)$. Its Fourier transform, the **cross-spectrum**, is complex-valued:
 
 $$
@@ -151,6 +155,8 @@ It is generally complex. Its modulus is the frequency-specific gain (how strongl
 This simple example mirrors the economic intuition in Beaudry, Galizia, and Portier's appendix, where the risk spread is counter-cyclical and coherence with hours is largest around 38 quarters. It also illustrates why the cross-spectrum is more informative than an unconditional correlation: the relationship is concentrated in a particular range of periodicities. Strohsal, Proaño, and Wolters [@StrohsalProanoWolters2019] take the next step with a multivariate parametric model, reporting coherence and frequency-specific Granger-causality measures for U.S. and U.K. financial-cycle indices. In a VAR, this is the frequency-domain version of asking whether a lagged variable improves prediction at short, business-cycle, or financial-cycle horizons separately.
 
 ## Linear filters as frequency-dependent weights {#sec-linear-filters}
+
+[Open this specification in the Interactive Lab](../interactive-lab.html?method=filters).
 
 ### Why filter at all? {#sec-why-filter}
 

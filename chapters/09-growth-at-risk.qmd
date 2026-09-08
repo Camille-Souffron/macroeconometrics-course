@@ -40,7 +40,7 @@ $$
 When GaR is minus three percent, an expected shortfall of minus six percent and one of minus ten percent carry different economic meanings even though their fifth percentiles coincide.
 
 ::: {.callout-important title="A conditional forecast is not a causal policy effect"}
-If tight financial conditions today are associated with a lower future fifth percentile, it does not follow that an exogenous policy tightening would have that estimated effect. Financial conditions move with anticipated growth, risk appetite, and shocks that may not be observed by the econometrician. GaR is first a conditional forecasting framework. Causal claims need an identification design, such as a credible instrument, quasi-experiment, or structural model; see @sec-svar-identification and @sec-gmm.
+If tight financial conditions today are associated with a lower future fifth percentile, it does not follow that an exogenous policy tightening would have that estimated effect. Financial conditions move with anticipated growth, risk appetite, and shocks that may not be observed by the econometrician. GaR is first a conditional forecasting framework. Causal claims need an identification design, such as a credible instrument, quasi-experiment, or structural model; see @sec-svar and @sec-gmm.
 :::
 
 ## The median is the first quantile regression {#sec-quantile-regression}
@@ -137,6 +137,8 @@ With only seven estimated quantiles, this necessarily involves interpolation and
 ![The curve plots fitted conditional quantiles rather than a density. Between late 2006 and late 2008, the lower part of the predicted distribution moves far more than its upper part; the asymmetry is visible before any parametric density is fitted.](../figures/growth-at-risk/gar-conditional-quantile-curves.png){#fig-gar-quantile-curves}
 
 ## An empirical U.S. exercise {#sec-gar-empirical}
+
+[Open this specification in the Interactive Lab](../interactive-lab.html?method=gar).
 
 The exercise is deliberately small enough to inspect. It is not a replication of the papers and it makes no claim to be a production forecasting system. Real GDP and the GDP deflator are quarterly FRED series; the Chicago Fed National Financial Conditions Index (NFCI) is weekly and is averaged within each quarter. The estimation sample is 1973Q1–2024Q3. NFCI is positive when financial conditions are tighter than their historical average.
 
@@ -247,6 +249,8 @@ There are two important identification lessons. First, adding fixed effects remo
 The horizon mismatch is also worth keeping in view. Climate change unfolds over decades, whereas GaR usually describes a one- to three-year forecasting window. GaR does not estimate the welfare cost of climate change or replace an integrated assessment model. It asks a narrower and operational question: given current exposure and transition conditions, how vulnerable is growth over a stated near- or medium-term horizon? That is exactly the scale at which resilience investment, credit policy, and prudential supervision often need information.
 
 ## From Growth-at-Risk to a distributional VAR {#sec-distributional-var}
+
+[Open this specification in the Interactive Lab](../interactive-lab.html?method=dvar).
 
 The GaR regression above forecasts one variable, future growth, conditional on a set of predictors. Financial conditions enter as information about that distribution. Yet macroeconomic risk is often joint: an adverse growth outcome may arrive with tight financial conditions and an unusually low policy rate, while a different state of the world has the same marginal GaR but a different co-movement among those variables. Estimating three separate quantile regressions does not tell us whether their simulated outcomes can occur together.
 

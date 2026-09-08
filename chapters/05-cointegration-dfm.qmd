@@ -4,6 +4,8 @@ This chapter closes three loose ends left open by the VAR chapters. First, what 
 
 ## A note on panel VAR
 
+[Open this specification in the Interactive Lab](../interactive-lab.html?method=panel).
+
 A **panel VAR (PVAR)** extends the VAR framework to panel data, modeling dynamic interactions *within* each unit while exploiting repeated observations *across* units - credit, capital, and risk for 100 banks over 10 years, say, or output, inflation, and employment for 20 countries or sectors:
 
 $$
@@ -69,6 +71,8 @@ Finally, the **dividend discount model** for stock prices, $P_t - \phi D_t$ stat
 ![Log price and log dividends for the CRSP market portfolio, 1926-2015: broadly co-trending, but with visibly widening and narrowing gaps that a simple constant-$\phi$ cointegrating relation cannot fully explain.](../figures/cointegration-dfm/price-dividend-cointegration.png){#fig-dividend-coint}
 
 ## The error-correction representation {#sec-vecm}
+
+[Open this specification in the Interactive Lab](../interactive-lab.html?method=vecm).
 
 Start with a bivariate long-run relation, $y_t = \gamma_0 + \gamma_1 y_{t-1} + \gamma_2 x_{t-1} + u_t$, with $y_t, x_t \sim I(1)$ and cointegrated. Subtracting $y_{t-1}$ from both sides and rearranging,
 
@@ -150,6 +154,8 @@ Ordinary correlation measures linear association *at a point in time*; it can be
 
 ## Dynamic factor models {#sec-dfm}
 
+[Open this specification in the Interactive Lab](../interactive-lab.html?method=dfm).
+
 Modern macro-finance datasets contain dozens or hundreds of indicators - production, employment, sales, prices, wages across many sectors; credit, spreads, house prices, equity indices; surveys, confidence indicators, expectations - and the goal is to exploit all of it for analysis, forecasting, and structural work. But a VAR with $k$ variables and $p$ lags has roughly $k^2p$ parameters: with $k=20$ and $p=4$, that is 1,600 parameters - the **curse of dimensionality** makes an unrestricted VAR on the full dataset hopeless.
 
 The escape route rests on a stylized fact: most macro and financial variables co-move because of a handful of underlying forces - domestic and global business cycles, domestic and global financial cycles, inflation regimes, uncertainty cycles, market sentiment - and not a great deal else. Idiosyncratic components obviously differ series by series, but the cross-sectional comovement is strong. The core idea of the **dynamic factor model (DFM)**: if $N$ is large, most of the variance of $x_{1t}, \ldots, x_{Nt}$ can be explained by a small number of hidden drivers, and the goal is to extract those few latent common components.
@@ -201,6 +207,8 @@ with $f_t$ the low-dimensional latent state, $x_t$ the high-dimensional observab
 The distinction between a latent state, filtering, and smoothing is introduced in @sec-state-space-foundations.
 
 ## Factor-augmented VAR (FAVAR) {#sec-favar}
+
+[Open this specification in the Interactive Lab](../interactive-lab.html?method=favar).
 
 Suppose the object of interest is a small set of macro variables, $(y_t, \pi_t, i_t)$, but a large information set $x_t = (x_{1t}, \ldots, x_{Nt})'$, $N \gg 3$, is also observed. How can that information be incorporated without estimating a huge VAR? The **factor-augmented VAR (FAVAR)** [Bernanke, Boivin, and Eliasz, -@BernankeBoivinEliasz2005]: extract factors $\hat f_t$ from $x_t$ by PCA, construct the augmented vector $z_t = (y_t, \pi_t, i_t, \hat f_t)'$, and estimate a small VAR in $z_t$. This uses a rich dataset while keeping the estimated VAR itself low-dimensional - and, as a bonus, tends to deliver **more reliable identification**, since the factors absorb omitted variables that would otherwise contaminate the estimated shocks.
 

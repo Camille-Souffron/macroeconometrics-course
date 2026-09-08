@@ -1,0 +1,66 @@
+---
+subtitle: "Specifications, identification, and empirical evidence"
+toc: false
+number-sections: false
+page-layout: full
+---
+
+# Interactive Lab {.unnumbered}
+
+Estimate the models in these notes using Python in your browser. Select an empirical exercise, change its assumptions, and inspect the resulting estimates and diagnostics. Computation begins only when you run a specification; the first run downloads the required scientific packages.
+
+The narrative-shock exercises use the Romer–Romer series extended by Wieland and Yang [@RomerRomer2004; @WielandYang2020]. Their quarterly specifications are adaptations, not exact replications.
+
+```{=html}
+<div id="macro-lab" aria-label="Interactive Macroeconometrics Lab">
+  <noscript>The lab requires JavaScript and WebAssembly. The course notes and downloadable Python implementations remain available without them.</noscript>
+  <form id="lab-controls">
+    <label for="lab-chapter">Course chapter</label>
+    <select id="lab-chapter"></select>
+    <label for="lab-method">Empirical exercise</label>
+    <select id="lab-method"></select>
+    <label for="lab-dataset">Dataset</label>
+    <select id="lab-dataset"></select>
+    <div id="lab-spec-controls"></div>
+    <div class="lab-actions">
+      <button type="submit" id="lab-run">Run specification</button>
+      <button type="button" id="lab-cancel" hidden>Cancel</button>
+      <button type="button" id="lab-reset">Reset</button>
+    </div>
+    <p id="lab-status" role="status" aria-live="polite">Loading the experiment catalog…</p>
+  </form>
+  <section id="lab-results" aria-label="Empirical results">
+    <p class="lab-eyebrow">EMPIRICAL SPECIFICATION</p>
+    <h2 id="lab-title">Interactive Macroeconometrics Lab</h2>
+    <p id="lab-description"></p>
+    <p id="lab-reference"></p>
+    <p><a id="lab-notes" href="chapters/03-var.html">Read the corresponding notes</a></p>
+    <div id="lab-error" role="alert" hidden></div>
+    <div id="lab-empty"><p>The selected specification will be estimated here.</p><p>Figures and tables are calculated from the data at each run. No result is precomputed.</p></div>
+    <div id="lab-output" hidden>
+      <p id="lab-stale" class="lab-warning" hidden>These results belong to the previous specification. Run again to update them.</p>
+      <h3 id="lab-figure-title"></h3>
+      <div id="lab-plot"></div>
+      <div id="lab-legend"></div>
+      <p id="lab-interpretation"></p>
+      <div id="lab-warnings"></div>
+      <h3>Diagnostics</h3>
+      <div id="lab-diagnostics"></div>
+      <div class="lab-actions">
+        <button type="button" id="lab-pin">Keep for comparison</button>
+        <button type="button" id="lab-download-result">Download result</button>
+      </div>
+      <div id="lab-comparison"></div>
+      <details><summary>Estimates and numerical details</summary><div id="lab-tables"></div></details>
+    </div>
+    <details open><summary>Reproducible Python specification</summary>
+      <p>The same specification is passed to the worker. The downloadable script includes the numerical implementation and reads the versioned CSV; it can also use a local copy of that CSV.</p>
+      <pre><code id="lab-code" class="language-python"></code></pre>
+      <div class="lab-actions"><button type="button" id="lab-copy">Copy specification</button><button type="button" id="lab-download-code">Download complete Python script</button></div>
+    </details>
+    <details><summary>Data, sample and provenance</summary><div id="lab-provenance"></div></details>
+    <details><summary>Course coverage and computational scope</summary><div id="lab-coverage"></div></details>
+  </section>
+</div>
+<script type="module" src="interactive/js/lab.js"></script>
+```

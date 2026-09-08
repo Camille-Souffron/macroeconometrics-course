@@ -18,10 +18,40 @@ jobs:
 
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
+        with:
+          version: 1.8.25
 
-      - name: Render and Publish
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: interactive/requirements.txt
+
+      - name: Verify coverage and numerical implementations
+        env:
+          OPENBLAS_NUM_THREADS: '1'
+        run: |
+          python -m pip install -r interactive/requirements.txt
+          python interactive/tools/check_coverage.py
+          python -m pytest interactive/tests -q
+
+      - name: Render the complete book
+        run: quarto render
+
+      - name: Verify the rendered browser lab
+        run: |
+          python interactive/tests/rendered.py
+          python -m playwright install --with-deps chromium
+          python -m http.server 8765 --directory _book &
+          LAB_SERVER_PID=$!
+          trap 'kill "$LAB_SERVER_PID"' EXIT
+          python interactive/tests/browser.py
+
+      - name: Publish verified book
         uses: quarto-dev/quarto-actions/publish@v2
         with:
           target: gh-pages
+          render: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

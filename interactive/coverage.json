@@ -1,0 +1,927 @@
+{
+  "review": "All eleven current chapters inspected; source hashes force re-review after any chapter change.",
+  "method_units": [
+    {
+      "chapter": "01-time-series.qmd",
+      "method": "Stationarity and dependence",
+      "terms": [
+        "ACF",
+        "ADF",
+        "KPSS",
+        "Zivot",
+        "stationarity"
+      ],
+      "experiments": [
+        "stationarity"
+      ],
+      "status": "live"
+    },
+    {
+      "chapter": "02-arma.qmd",
+      "method": "Persistence, invertibility and sampling",
+      "terms": [
+        "AR",
+        "MA",
+        "Wold",
+        "invertibility"
+      ],
+      "experiments": [
+        "arma-simulation"
+      ],
+      "status": "live"
+    },
+    {
+      "chapter": "02-arma.qmd",
+      "method": "AR, MA, ARMA and ARIMA",
+      "terms": [
+        "ARMA",
+        "ARIMA",
+        "maximum likelihood",
+        "AIC",
+        "BIC",
+        "Ljung",
+        "ARCH",
+        "forecast",
+        "Yule",
+        "Burg",
+        "Hannan"
+      ],
+      "experiments": [
+        "arma"
+      ],
+      "status": "live"
+    },
+    {
+      "chapter": "08-frequency-filtering.qmd",
+      "method": "Spectrum and business-cycle frequencies",
+      "terms": [
+        "spectrum",
+        "periodogram",
+        "Welch",
+        "Fourier"
+      ],
+      "experiments": [
+        "spectrum"
+      ],
+      "status": "live"
+    },
+    {
+      "chapter": "08-frequency-filtering.qmd",
+      "method": "Coherence, phase and spectral regression",
+      "terms": [
+        "cross-spectrum",
+        "coherence",
+        "phase",
+        "spectral regression"
+      ],
+      "experiments": [
+        "cross-spectrum"
+      ],
+      "status": "live"
+    },
+    {
+      "chapter": "08-frequency-filtering.qmd",
+      "method": "Filters and endpoint revisions",
+      "terms": [
+        "HP",
+        "Hodrick",
+        "Baxter",
+        "Christiano",
+        "Hamilton",
+        "transfer function",
+        "filter"
+      ],
+      "experiments": [
+        "filters"
+      ],
+      "status": "live"
+    },
+    {
+      "chapter": "03-var.qmd",
+      "method": "Reduced-form VAR",
+      "terms": [
+        "VAR",
+        "OLS",
+        "Granger",
+        "block exogeneity",
+        "FEVD",
+        "Portmanteau",
+        "normality"
+      ],
+      "experiments": [
+        "var"
+      ],
+      "status": "live"
+    },
+    {
+      "chapter": "04-svar-identification.qmd",
+      "method": "Structural identification and shock accounting",
+      "terms": [
+        "Cholesky",
+        "short-run restrictions",
+        "long-run restrictions",
+        "sign restrictions",
+        "heteroskedasticity",
+        "max share",
+        "historical decomposition"
+      ],
+      "experiments": [
+        "svar"
+      ],
+      "status": "live"
+    },
+    {
+      "chapter": "05-cointegration-dfm.qmd",
+      "method": "Cointegration and error correction",
+      "terms": [
+        "cointegration",
+        "VECM",
+        "Johansen",
+        "rank",
+        "trace",
+        "maximum eigenvalue",
+        "error correction"
+      ],
+      "experiments": [
+        "vecm"
+      ],
+      "status": "live"
+    },
+    {
+      "chapter": "05-cointegration-dfm.qmd",
+      "method": "Principal components",
+      "terms": [
+        "PCA"
+      ],
+      "experiments": [
+        "pca"
+      ],
+      "status": "live"
+    },
+    {
+      "chapter": "05-cointegration-dfm.qmd",
+      "method": "Dynamic factor model",
+      "terms": [
+        "DFM",
+        "Kalman",
+        "state-space"
+      ],
+      "experiments": [
+        "dfm"
+      ],
+      "status": "live"
+    },
+    {
+      "chapter": "05-cointegration-dfm.qmd",
+      "method": "Factor-augmented VAR",
+      "terms": [
+        "FAVAR"
+      ],
+      "experiments": [
+        "favar"
+      ],
+      "status": "live"
+    },
+    {
+      "chapter": "05-cointegration-dfm.qmd",
+      "method": "Panel VAR: pooling and moment restrictions",
+      "terms": [
+        "panel VAR",
+        "Nickell",
+        "Mean Group",
+        "GMM",
+        "hierarchical",
+        "GVAR"
+      ],
+      "experiments": [
+        "panel"
+      ],
+      "status": "live"
+    },
+    {
+      "chapter": "06-nonlinear.qmd",
+      "method": "Threshold autoregressions and TVAR",
+      "terms": [
+        "TAR",
+        "TVAR",
+        "threshold",
+        "generalized impulse"
+      ],
+      "experiments": [
+        "tar"
+      ],
+      "status": "live"
+    },
+    {
+      "chapter": "06-nonlinear.qmd",
+      "method": "Smooth-transition autoregressions",
+      "terms": [
+        "STAR",
+        "smooth transition",
+        "GIRF"
+      ],
+      "experiments": [
+        "star"
+      ],
+      "status": "live"
+    },
+    {
+      "chapter": "06-nonlinear.qmd",
+      "method": "Markov-switching VAR",
+      "terms": [
+        "Markov",
+        "EM",
+        "regime"
+      ],
+      "experiments": [
+        "markov"
+      ],
+      "status": "live"
+    },
+    {
+      "chapter": "06-nonlinear.qmd",
+      "method": "Time-varying coefficients: Kalman filter",
+      "terms": [
+        "time-varying",
+        "TVP",
+        "Kalman"
+      ],
+      "experiments": [
+        "tvp"
+      ],
+      "status": "live"
+    },
+    {
+      "chapter": "06-nonlinear.qmd",
+      "method": "Local projections",
+      "terms": [
+        "local projections",
+        "HAC"
+      ],
+      "experiments": [
+        "lp"
+      ],
+      "status": "live"
+    },
+    {
+      "chapter": "06-nonlinear.qmd",
+      "method": "State-dependent local projections",
+      "terms": [
+        "state-dependent",
+        "HAC"
+      ],
+      "experiments": [
+        "state_lp"
+      ],
+      "status": "live"
+    },
+    {
+      "chapter": "06-nonlinear.qmd",
+      "method": "Asymmetric local projections",
+      "terms": [
+        "asymmetric",
+        "HAC"
+      ],
+      "experiments": [
+        "asymmetric_lp"
+      ],
+      "status": "live"
+    },
+    {
+      "chapter": "09-growth-at-risk.qmd",
+      "method": "Quantile regression and Growth-at-Risk",
+      "terms": [
+        "quantile",
+        "Growth-at-Risk",
+        "rearrangement",
+        "check loss"
+      ],
+      "experiments": [
+        "gar"
+      ],
+      "status": "live"
+    },
+    {
+      "chapter": "09-growth-at-risk.qmd",
+      "method": "Conditional distribution regression",
+      "terms": [
+        "distribution regression",
+        "Growth-at-Risk",
+        "rearrangement",
+        "check loss"
+      ],
+      "experiments": [
+        "distribution-regression"
+      ],
+      "status": "live"
+    },
+    {
+      "chapter": "10-machine-learning-time-series.qmd",
+      "method": "Machine-learning forecast comparison",
+      "terms": [
+        "ridge",
+        "lasso",
+        "elastic net",
+        "random forest",
+        "boosting",
+        "MLP",
+        "cross-validation",
+        "RMSE",
+        "MAE",
+        "Diebold"
+      ],
+      "experiments": [
+        "ml"
+      ],
+      "status": "live"
+    },
+    {
+      "chapter": "07-bvar.qmd",
+      "method": "Bayesian VAR priors and posterior uncertainty",
+      "terms": [
+        "Minnesota",
+        "Normal-Wishart",
+        "Normal-diffuse",
+        "Gibbs",
+        "BVAR",
+        "prior"
+      ],
+      "experiments": [
+        "bvar"
+      ],
+      "status": "live"
+    },
+    {
+      "chapter": "07-bvar.qmd",
+      "method": "Bayesian time variation and stochastic volatility",
+      "terms": [
+        "stochastic volatility",
+        "Metropolis",
+        "FFBS",
+        "TVP-BVAR",
+        "outlier",
+        "large-shock",
+        "CCMM",
+        "Cogley",
+        "SV"
+      ],
+      "experiments": [
+        "tvp-sv"
+      ],
+      "status": "live"
+    },
+    {
+      "chapter": "01-time-series.qmd",
+      "method": "Phillips–Perron and DF–GLS",
+      "terms": [
+        "Phillips",
+        "PP",
+        "DF-GLS",
+        "ERS"
+      ],
+      "experiments": [
+        "unit-roots"
+      ],
+      "status": "live"
+    },
+    {
+      "chapter": "01-time-series.qmd",
+      "method": "Seasonal means and seasonal differences",
+      "terms": [
+        "seasonality",
+        "seasonal dummies",
+        "seasonal differencing"
+      ],
+      "experiments": [
+        "seasonality"
+      ],
+      "status": "live"
+    },
+    {
+      "chapter": "01-time-series.qmd",
+      "method": "Known and unknown structural breaks",
+      "terms": [
+        "Chow",
+        "Bai",
+        "structural break"
+      ],
+      "experiments": [
+        "breaks"
+      ],
+      "status": "live"
+    },
+    {
+      "chapter": "01-time-series.qmd",
+      "method": "Known-break unit-root regression",
+      "terms": [
+        "Perron"
+      ],
+      "experiments": [
+        "perron"
+      ],
+      "status": "live"
+    },
+    {
+      "chapter": "00-mathematical-foundations.qmd",
+      "method": "Linear algebra, projection and inference",
+      "terms": [
+        "linear algebra",
+        "projection",
+        "OLS",
+        "eigenvalues",
+        "confidence intervals"
+      ],
+      "experiments": [
+        "linear-projection"
+      ],
+      "status": "live"
+    },
+    {
+      "chapter": "10-machine-learning-time-series.qmd",
+      "method": "RNN, LSTM, causal convolution and attention",
+      "terms": [
+        "RNN",
+        "LSTM",
+        "TCN",
+        "convolution",
+        "attention",
+        "Transformer",
+        "back-propagation",
+        "gradient descent"
+      ],
+      "experiments": [
+        "sequence"
+      ],
+      "status": "live"
+    },
+    {
+      "chapter": "04-svar-identification.qmd",
+      "method": "External instruments: Proxy-VAR",
+      "terms": [
+        "external instruments",
+        "Proxy",
+        "narrative"
+      ],
+      "experiments": [
+        "proxy"
+      ],
+      "status": "live"
+    },
+    {
+      "chapter": "04-svar-identification.qmd",
+      "method": "Narrative monetary-shock projections",
+      "terms": [
+        "external instruments",
+        "Proxy",
+        "narrative"
+      ],
+      "experiments": [
+        "narrative"
+      ],
+      "status": "live"
+    },
+    {
+      "chapter": "09-growth-at-risk.qmd",
+      "method": "Joint distributional VAR and counterfactuals",
+      "terms": [
+        "distributional VAR",
+        "distributional impulse",
+        "joint distribution",
+        "CDF",
+        "counterfactual"
+      ],
+      "experiments": [
+        "dvar"
+      ],
+      "status": "live"
+    },
+    {
+      "chapter": "07-bvar.qmd",
+      "method": "Posterior computation: MH, HMC, NUTS and VI",
+      "terms": [
+        "HMC",
+        "NUTS",
+        "Variational",
+        "Metropolis",
+        "posterior summaries"
+      ],
+      "experiments": [
+        "samplers"
+      ],
+      "status": "live"
+    },
+    {
+      "chapter": "00-mathematical-foundations.qmd",
+      "method": "Probability laws, LLN and the CLT",
+      "terms": [
+        "LLN",
+        "CLT",
+        "Normal",
+        "Student",
+        "chi-square",
+        "Fisher",
+        "Bernoulli",
+        "Poisson",
+        "exponential"
+      ],
+      "experiments": [
+        "sampling"
+      ],
+      "status": "live"
+    }
+  ],
+  "qualified_units": [
+    {
+      "scope": "full-tvp",
+      "chapters": [
+        "07-bvar.qmd",
+        "06-nonlinear.qmd"
+      ],
+      "terms": [
+        "Primiceri",
+        "state covariance",
+        "full covariance",
+        "large-shock",
+        "CCMM"
+      ],
+      "experiments": [
+        "tvp",
+        "tvp-sv",
+        "markov"
+      ],
+      "status": "qualified"
+    },
+    {
+      "scope": "mixed-frequency",
+      "chapters": [
+        "05-cointegration-dfm.qmd"
+      ],
+      "terms": [
+        "mixed-frequency",
+        "nowcasting",
+        "release"
+      ],
+      "experiments": [
+        "dfm",
+        "favar"
+      ],
+      "status": "qualified"
+    },
+    {
+      "scope": "foundation-models",
+      "chapters": [
+        "10-machine-learning-time-series.qmd"
+      ],
+      "terms": [
+        "foundation models",
+        "transfer"
+      ],
+      "experiments": [
+        "sequence",
+        "ml"
+      ],
+      "status": "desktop"
+    },
+    {
+      "scope": "climate",
+      "chapters": [
+        "09-growth-at-risk.qmd"
+      ],
+      "terms": [
+        "climate",
+        "physical",
+        "transition risk"
+      ],
+      "experiments": [
+        "gar",
+        "dvar"
+      ],
+      "status": "qualified"
+    },
+    {
+      "scope": "panel-inference",
+      "chapters": [
+        "05-cointegration-dfm.qmd"
+      ],
+      "terms": [
+        "Arellano",
+        "Hansen",
+        "system GMM",
+        "GVAR"
+      ],
+      "experiments": [
+        "panel"
+      ],
+      "status": "qualified"
+    },
+    {
+      "scope": "unit-root-reference",
+      "chapters": [
+        "01-time-series.qmd"
+      ],
+      "terms": [
+        "Perron",
+        "DF-GLS",
+        "ERS",
+        "Bai"
+      ],
+      "experiments": [
+        "unit-roots",
+        "perron",
+        "breaks"
+      ],
+      "status": "qualified"
+    },
+    {
+      "scope": "dvar-support",
+      "chapters": [
+        "09-growth-at-risk.qmd"
+      ],
+      "terms": [
+        "distributional",
+        "CDF",
+        "PIT",
+        "CRPS"
+      ],
+      "experiments": [
+        "dvar",
+        "distribution-regression",
+        "gar"
+      ],
+      "status": "qualified"
+    }
+  ],
+  "chapter_headings": {
+    "00-mathematical-foundations.qmd": [
+      "Chapter 0: Mathematical Foundations {.unnumbered #sec-mathematical-foundations}",
+      "A small model that contains most of the course {#sec-maths-motivating-system}",
+      "Linear algebra: describing several movements at once {#sec-linear-algebra-foundations}",
+      "Vectors, distances, and directions",
+      "Subspaces, rank, and the information a matrix loses",
+      "Matrices are transformations, not tables {#sec-matrices-transformations}",
+      "Systems, inversion, determinant, and projection",
+      "Eigenvalues: the directions a dynamic system recognises {#sec-eigenvalues-stability}",
+      "Decompositions: choose coordinates that reveal structure {#sec-decompositions}",
+      "Calculus and optimisation: choosing an estimator or an allocation {#sec-optimisation-foundations}",
+      "Functions, logarithms, and rates of change {#sec-functions-transformations}",
+      "From a slope to a gradient",
+      "Constraints and shadow values",
+      "Equilibrium systems and comparative statics",
+      "Probability: describing uncertainty before observing data {#sec-probability-foundations}",
+      "A gamble, an event, and a random variable",
+      "Distribution, expectation, variance, and conditioning",
+      "Joint distributions, information, and prediction {#sec-joint-distributions}",
+      "Elementary probability laws begin with economic situations",
+      "Probability is not statistics {#sec-probability-versus-statistics}",
+      "Why averages become reliable: LLN and CLT {#sec-lln-clt}",
+      "From population restrictions to estimators {#sec-gmm}",
+      "Convergence is a language for increasingly informative samples",
+      "What makes an estimator reliable?",
+      "Why Normal, Student, chi-square, and Fisher distributions appear {#sec-sampling-distributions}",
+      "Estimation, confidence intervals, and tests",
+      "OLS as an inferential model, not only a minimisation problem {#sec-ols-assumptions}",
+      "Confidence intervals and tests are constructed from a reference distribution",
+      "Stochastic processes: probability arranged through time {#sec-stochastic-processes-foundations}",
+      "Time shifts, innovations, and the Wold representation {#sec-lag-operator-foundations}",
+      "States, observations, and filtering {#sec-state-space-foundations}",
+      "Bayesian inference: uncertainty about parameters as well as data {#sec-bayes-foundations}",
+      "Signals and Fourier analysis: another coordinate system for time series {#sec-signal-fourier-foundations}",
+      "Summary: a map for the rest of the course",
+      "Further reading"
+    ],
+    "01-time-series.qmd": [
+      "Introduction to Time Series {#sec-time-series}",
+      "What is a time series? {#sec-ts-definition}",
+      "The additive and multiplicative decomposition",
+      "Dependence and the autocorrelation function {#sec-ts-acf}",
+      "Estimating the ACF from a finite sample",
+      "Stationarity {#sec-stationarity}",
+      "Strong and weak stationarity",
+      "Two benchmark examples",
+      "Why stationarity matters {#sec-why-stationarity}",
+      "Moments of a stationary process",
+      "Diagnosing nonstationarity {#sec-unit-root-tests}",
+      "Trend-stationary vs. difference-stationary processes",
+      "Unit-root and structural-break tests",
+      "Achieving stationarity: transformations and filtering {#sec-ts-transformations}",
+      "Removing seasonality",
+      "First transformation: the logarithm {#sec-ts-logs}",
+      "Second transformation: deviations from a deterministic trend",
+      "Third transformation: first differences",
+      "Centering vs. differencing",
+      "From detrending to filtering",
+      "Summary of transformations",
+      "From stationarity to prediction: the Wold decomposition {#sec-wold}",
+      "A historical note on stationarity and linearity",
+      "Summary",
+      "Further reading"
+    ],
+    "02-arma.qmd": [
+      "AR, MA, and ARMA Processes {#sec-arma}",
+      "From stationarity to dynamic models",
+      "The best linear forecast",
+      "Lag polynomials {#sec-lag-polynomials}",
+      "The lag operator",
+      "Stability, invertibility, and roots {#sec-stability-invertibility}",
+      "Autoregressive processes: AR(p) {#sec-ar}",
+      "Moving-average processes: MA(q) {#sec-ma}",
+      "Why invertibility matters",
+      "ARMA(p,q) {#sec-arma-def}",
+      "Moments, ACF, and PACF",
+      "Identification via ACF and PACF {#sec-arma-identification}",
+      "Estimation {#sec-arma-estimation}",
+      "Maximum likelihood, briefly",
+      "Model selection {#sec-arma-selection}",
+      "The bias-variance trade-off",
+      "Practical workflow",
+      "When AR, when MA, when ARMA",
+      "Forecasting {#sec-arma-forecasting}",
+      "Evaluating forecast accuracy",
+      "Forecast uncertainty and confidence intervals",
+      "From ARMA to ARIMA",
+      "Summary: the Box-Jenkins workflow",
+      "Looking ahead",
+      "Further reading"
+    ],
+    "03-var.qmd": [
+      "Vector Autoregressions {#sec-var}",
+      "Motivating questions",
+      "Sims (1980): the origin of the VAR approach",
+      "The VAR(p) model {#sec-var-definition}",
+      "Companion form and stability {#sec-var-stability}",
+      "How many variables to include?",
+      "Estimation and selection {#sec-var-estimation}",
+      "OLS is system-efficient",
+      "Identification and validation: diagnostics",
+      "Granger causality {#sec-granger-causality}",
+      "Block exogeneity",
+      "Forecasting {#sec-var-forecasting}",
+      "Forecast uncertainty: fan charts",
+      "Stationarity, integration, and cointegration {#sec-var-cointegration}",
+      "Impulse response functions {#sec-irf}",
+      "IRFs from the VMA representation",
+      "Reading an IRF",
+      "Limits of linearity",
+      "Forecast error variance decomposition {#sec-fevd}",
+      "But what about causality? {#sec-var-causality-teaser}"
+    ],
+    "04-svar-identification.qmd": [
+      "Structural VARs, Identification, and Policy Shock Assessment {#sec-svar}",
+      "Why a reduced-form VAR cannot identify causality",
+      "From a structural DGP to its reduced form",
+      "The structural VAR and the identification problem",
+      "Counting unknowns and equations",
+      "The rotation problem",
+      "Recursive (Cholesky) identification",
+      "What Cholesky gives you",
+      "Using structural shocks",
+      "Good practice for Cholesky identification",
+      "Short-run restrictions {#sec-short-run-restrictions}",
+      "Long-run restrictions {#sec-long-run-restrictions}",
+      "Long-run effects in the VAR representation",
+      "Sign restrictions {#sec-sign-restrictions}",
+      "Rotations and set identification",
+      "Pros, cons, and a serious critique",
+      "The narrative approach {#sec-narrative-approach}",
+      "Narrative identification versus Cholesky SVARs",
+      "Monetary policy shocks: a closer look",
+      "External instruments: the Proxy-VAR {#sec-proxy-var}",
+      "What are shocks, really?",
+      "Where we stand, and the limits of linearity",
+      "Appendix: two further identification strategies",
+      "Identification through heteroskedasticity",
+      "Max share identification"
+    ],
+    "05-cointegration-dfm.qmd": [
+      "Panel VAR, Cointegration, and Dynamic Factor Models {#sec-cointegration-dfm}",
+      "A note on panel VAR",
+      "Cointegration {#sec-cointegration}",
+      "The error-correction representation {#sec-vecm}",
+      "The cointegration rank",
+      "Testing for cointegration: the Johansen procedure",
+      "Interpreting $\\beta$ and $\\alpha$",
+      "Correlation is not cointegration",
+      "Two empirical illustrations",
+      "Dynamic factor models {#sec-dfm}",
+      "From hundreds of observables to a few factors",
+      "Estimating the factors by PCA",
+      "From static to dynamic factors",
+      "Factor-augmented VAR (FAVAR) {#sec-favar}",
+      "Core example: the Global Financial Cycle",
+      "Appendix: further topics in dimension reduction and estimation",
+      "Regularization as an alternative to latent factors",
+      "The PCA algorithm, in full",
+      "Identification is only up to rotation",
+      "Kalman filter and EM estimation, in detail",
+      "Mixed-frequency data"
+    ],
+    "06-nonlinear.qmd": [
+      "Beyond Linearity: Thresholds, Regime Changes, and Local Projections {#sec-nonlinear}",
+      "Uncorrelated is not the same as independent",
+      "What does \"nonlinear\" mean here?",
+      "Threshold models: TAR and TVAR {#sec-tar}",
+      "From TAR to TVAR",
+      "State-dependent IRFs",
+      "Estimating and testing a TVAR",
+      "Smooth transition models and generalized impulse responses {#sec-star}",
+      "Three notions of IRF once the state can change",
+      "Markov-switching VARs {#sec-ms-var}",
+      "Regime-dependent dynamics, estimation, and IRFs",
+      "Time-varying-parameter VARs {#sec-tvp-var}",
+      "TVP-VAR as a state-space model",
+      "What a TVP-VAR buys, and how it is estimated",
+      "Recap: which nonlinear VAR, when?",
+      "Local projections {#sec-local-projections}",
+      "Why local projections are useful",
+      "State-dependent and asymmetric local projections",
+      "Local projections in practice: credit, bubbles, and long-run monetary effects",
+      "Further reading"
+    ],
+    "07-bvar.qmd": [
+      "Bayesian Estimation: Foundations and Applications to VARs {#sec-bvar}",
+      "Why Bayesian? {#sec-why-bayesian}",
+      "Bayes' theorem",
+      "Where does the prior come from?",
+      "Posterior summaries",
+      "Bayesian computation {#sec-bayesian-computation}",
+      "The Gibbs sampler",
+      "Metropolis-Hastings and modern samplers",
+      "Bayesian VARs: priors {#sec-bvar-priors}",
+      "Prior 1: the Minnesota prior",
+      "Prior 2: the Normal-Wishart prior",
+      "Prior 3: the independent Normal-Wishart prior",
+      "Prior 4: the Normal-diffuse prior",
+      "Time-varying Bayesian VARs {#sec-tvp-bvar}",
+      "TVP-VAR as a state-space model, in Bayesian form",
+      "Stochastic volatility",
+      "A taxonomy of time-varying BVARs",
+      "Choosing among these models",
+      "Practical implementation {#sec-bvar-practice}",
+      "Forecasting with a BVAR",
+      "Impulse responses from Bayesian VARs",
+      "Summary"
+    ],
+    "08-frequency-filtering.qmd": [
+      "Frequency-Domain Analysis and Filtering {#sec-frequency-filtering}",
+      "From time to frequency {#sec-frequency-intuition}",
+      "Periods, frequencies, and the sampling constraint",
+      "Fourier representation and the spectrum",
+      "Estimating a spectrum {#sec-spectral-estimation}",
+      "A spectral fact about business cycles: a peak near ten years? {#sec-spectral-peaks}",
+      "What the usual DSGE benchmark misses {#sec-dsge-spectral-test}",
+      "Financial cycles: an application with an even lower frequency",
+      "Cross-spectrum, coherence, and phase: co-movement by frequency {#sec-cross-spectrum}",
+      "Spectral regression: a frequency-specific distributed lag",
+      "Linear filters as frequency-dependent weights {#sec-linear-filters}",
+      "Why filter at all? {#sec-why-filter}",
+      "The transfer function",
+      "Differencing and HP in the frequency domain",
+      "Ideal filters and feasible approximations",
+      "An empirical workflow {#sec-frequency-workflow}",
+      "What filtering can and cannot answer {#sec-filtering-conclusion}",
+      "Further reading"
+    ],
+    "09-growth-at-risk.qmd": [
+      "Quantile Regressions and Growth-at-Risk {#sec-growth-at-risk}",
+      "A forecast can miss the risk that matters {#sec-gar-motivation}",
+      "The median is the first quantile regression {#sec-quantile-regression}",
+      "Conditional is doing important work",
+      "What a quantile coefficient says",
+      "Why tail inference is demanding",
+      "A distribution is more than seven regressions",
+      "From a quantile grid to a recession probability",
+      "An empirical U.S. exercise {#sec-gar-empirical}",
+      "The term structure of downside growth",
+      "Validation: a tail forecast earns its place out of sample {#sec-gar-validation}",
+      "Climate risk as a distributional macroeconomic problem {#sec-climate-gar}",
+      "From Growth-at-Risk to a distributional VAR {#sec-distributional-var}",
+      "Why a joint distribution needs more structure than marginal GaR",
+      "Distribution regression: estimating a CDF one threshold at a time",
+      "Distributional impulse responses",
+      "Validation and limits",
+      "A disciplined workflow {#sec-gar-workflow}",
+      "Further reading"
+    ],
+    "10-machine-learning-time-series.qmd": [
+      "Machine Learning Tools for Time Series {#sec-machine-learning-time-series}",
+      "The date of the forecast is part of the model {#sec-ml-forecast-origin}",
+      "A loss function says what a good forecast is",
+      "Why flexibility needs restraint {#sec-ml-regularisation}",
+      "Ridge: the first useful machine-learning tool",
+      "Features are hypotheses about the past",
+      "Nonlinearity from partitions and from networks {#sec-ml-nonlinear-predictors}",
+      "From a lag window to a hidden representation",
+      "Architectures that preserve temporal order {#sec-ml-sequence-architectures}",
+      "Recurrent networks and LSTMs",
+      "Causal convolutions and TCNs",
+      "Attention and Transformers",
+      "One horizon or many?",
+      "Forecasting a distribution, not only its centre {#sec-ml-probabilistic}",
+      "Foundation models, transfer, and the limits of analogy {#sec-ml-foundation-models}",
+      "A small U.S. forecasting exercise {#sec-ml-empirical}",
+      "What to report with a machine-learning forecast",
+      "Forecasting is not structural analysis {#sec-ml-prediction-causality}",
+      "Further reading"
+    ]
+  }
+}
