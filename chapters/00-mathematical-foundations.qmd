@@ -751,7 +751,8 @@ For a $C^2$ scalar function, the derivative of the gradient is the **Hessian**, 
 $$
 \begin{aligned}
 f(a+h)={}&f(a)+\nabla f(a)'h\\
-&+\tfrac12h'H_f(a)h+o(\|h\|_2^2).
+&+\tfrac12h'H_f(a)h\\
+&+o(\|h\|_2^2).
 \end{aligned}
 $$ {#eq-multivariate-taylor}
 
