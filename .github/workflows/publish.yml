@@ -35,6 +35,8 @@ jobs:
           python -m pip install -r interactive/requirements.txt
           python interactive/tools/check_coverage.py
           python -m pytest interactive/tests -q
+          python -m pip install -r code/python/mathematics/requirements-checks.txt
+          python -m pytest code/python/mathematics/test_mathematics.py -q
 
       - name: Render the complete book
         run: quarto render
@@ -47,6 +49,7 @@ jobs:
           LAB_SERVER_PID=$!
           trap 'kill "$LAB_SERVER_PID"' EXIT
           python interactive/tests/browser.py
+          python code/python/mathematics/browser_check.py
 
       - name: Publish verified book
         uses: quarto-dev/quarto-actions/publish@v2

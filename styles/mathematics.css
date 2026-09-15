@@ -1,0 +1,104 @@
+/* Chapter-local reading and figure styles. */
+body:has(#sec-mathematical-foundations) {
+  --math-ink: #203442;
+  --math-teal: #087f82;
+  --math-gold: #a66d16;
+  --math-red: #b35040;
+  --math-paper: #f8f6f0;
+  color: var(--math-ink);
+}
+body:has(#sec-mathematical-foundations) main { font-size: 1.06rem; line-height: 1.83; }
+body:has(#sec-mathematical-foundations) main h1 {
+  font-size: clamp(2rem, 4vw, 3.1rem);
+  line-height: 1.14;
+  letter-spacing: -.035em;
+  margin-bottom: 1.8rem;
+}
+body:has(#sec-mathematical-foundations) main h2 {
+  margin-top: 4rem;
+  padding-top: 1.6rem;
+  border-top: 2px solid #c6d8d4;
+  font-size: 1.9rem;
+  line-height: 1.25;
+  letter-spacing: -.018em;
+}
+body:has(#sec-mathematical-foundations) main h3 {
+  margin-top: 2.8rem;
+  margin-bottom: 1rem;
+  font-size: 1.4rem;
+  line-height: 1.35;
+}
+body:has(#sec-mathematical-foundations) p { margin-bottom: 1.2rem; }
+body:has(#sec-mathematical-foundations) a { color: #076b70; }
+body:has(#sec-mathematical-foundations) main a.quarto-xref { white-space: normal; }
+body:has(#sec-mathematical-foundations) .math.display {
+  display: block; max-width: 100%; overflow-x: auto; padding: .5rem 0; position: relative;
+}
+body:has(#sec-mathematical-foundations) .math.inline {
+  display: inline-block; max-width: 100%; overflow-x: auto; overflow-y: hidden;
+  vertical-align: middle; padding: .1em 0; position: relative;
+}
+body:has(#sec-mathematical-foundations) .quarto-figure { margin: 2rem 0 2.5rem; }
+body:has(#sec-mathematical-foundations) figcaption,
+body:has(#sec-mathematical-foundations) .figure-caption {
+  font: .88rem/1.65 system-ui, sans-serif;
+  color: #56666d; text-align: left; margin-top: .85rem;
+}
+.math-route {
+  border-left: 3px solid var(--math-teal);
+  padding: 1.1rem 1.4rem .1rem;
+  background: var(--math-paper); margin: 2rem 0; font-size: .97rem;
+}
+.math-film { margin: 2rem 0; }
+.math-film video {
+  display: block; width: 100%; aspect-ratio: 16/9;
+  background: var(--math-paper); border: 1px solid #e2e5df; border-radius: 6px;
+}
+.math-print-poster { display: none; }
+.math-explorer {
+  background: var(--math-paper); border: 1px solid #dce3dc; border-radius: 6px;
+  padding: 1.35rem 1.45rem; margin: 2.2rem 0;
+}
+.math-explorer > p:first-child { font-size: 1rem; }
+.math-explorer svg {
+  display: block; width: 100%; height: auto; margin: .4rem 0;
+  font: 17px system-ui, sans-serif;
+}
+.math-controls {
+  display: grid; grid-template-columns: 1fr auto; column-gap: 1rem;
+  align-items: center; font: .9rem/1.5 system-ui, sans-serif; margin: .8rem 0;
+}
+.math-controls label { font-weight: 600; }
+.math-controls input[type=range] {
+  grid-column: 1/-1; width: 100%; min-height: 44px;
+  accent-color: var(--math-teal); cursor: pointer;
+}
+.math-controls output { font-variant-numeric: tabular-nums; color: var(--math-teal); }
+.math-explanation { min-height: 4.8em; font: .92rem/1.65 system-ui, sans-serif; margin-bottom: .6rem; }
+.math-legend { display: flex; flex-wrap: wrap; gap: .5rem 1.15rem; font: .82rem/1.6 system-ui, sans-serif; }
+.math-legend span::before {
+  content: ""; display: inline-block; width: 1.1rem;
+  border-top: 3px solid var(--series); margin: 0 .4rem .2rem 0;
+}
+.math-actions { display: flex; gap: .6rem; flex-wrap: wrap; margin-top: .8rem; }
+.math-actions button {
+  background: transparent; color: var(--math-ink); border: 1px solid #aabbb7;
+  border-radius: 3px; padding: .5rem .8rem; min-height: 44px;
+  font: .8rem system-ui, sans-serif; cursor: pointer;
+}
+.math-actions button:hover { background: #e9eee7; }
+.math-explorer :focus-visible, .math-film video:focus-visible { outline: 3px solid #087f82; outline-offset: 4px; }
+@media (max-width: 600px) {
+  body:has(#sec-mathematical-foundations) main { font-size: 1rem; line-height: 1.75; }
+  body:has(#sec-mathematical-foundations) main h2 { font-size: 1.65rem; }
+  .math-explorer { padding: .8rem .6rem; }
+  .math-explorer svg { font-size: 23px; }
+  .math-route { padding-left: 1rem; }
+  .math-explanation { min-height: 6em; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto !important; } }
+@media print {
+  .math-film video, .math-controls, .math-actions { display: none; }
+  .math-print-poster { display: block; width: 100%; }
+  .math-explorer { break-inside: avoid; }
+}

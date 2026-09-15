@@ -2,6 +2,9 @@ project:
   type: book
   output-dir: _book
   resources:
+    - interactive/math/*.js
+    - figures/mathematics/animations/*.mp4
+    - figures/mathematics/animations/*.png
     - interactive/catalog.json
     - interactive/scope.json
     - interactive/scope.html

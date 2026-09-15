@@ -1,0 +1,14 @@
+name: mathematics-animations
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - manim=0.19.0
+  - sympy=1.14.0
+  - pip
+  - pip:
+      - numpy==2.5.3
+      - scipy==1.18.1
+      - matplotlib==3.11.2
+      - pytest==9.1.1
+      - statanim @ git+https://github.com/rishabhbhartiya/statanim.git@784e0bea9a3f1a1538a265b35a8b26e58d08eba8
