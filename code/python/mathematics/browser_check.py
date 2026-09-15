@@ -120,7 +120,8 @@ def main():
         assert page.locator(".math-print-poster:visible").count()==8
         assert page.locator(".math-film video:visible").count()==0
         # No-script reading retains figures, formulas as source, prose and posters.
-        nojs=browser.new_context(java_script_enabled=False)
+        nojs=browser.new_context(java_script_enabled=False,
+                                 ignore_https_errors=bool(os.environ.get("LAB_TEST_INTERCEPTED_TLS")))
         fallback=nojs.new_page();fallback.goto(BASE+PATH)
         fallback_text=fallback.locator("main").inner_text()
         assert "Karush" in fallback_text, (len(fallback_text), fallback_text[:200], fallback_text[-200:])
