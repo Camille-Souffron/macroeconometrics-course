@@ -1,6 +1,6 @@
 {
   "00-mathematical-foundations.qmd": {
-    "sha256": "9e46994f602abc64e1f9452c23efd7098128dce5f2b65310d42506695c05a328",
+    "sha256": "fff33ae2962fdd9b0a44c25b0ba388660b0e138f2503cdd5687a6a18c7f5a9c3",
     "headings": [
       "Chapter 0: Mathematical Foundations {.unnumbered #sec-mathematical-foundations}",
       "A small model, and the questions it leaves open {#sec-maths-motivating-system}",
