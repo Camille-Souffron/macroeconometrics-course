@@ -181,7 +181,8 @@ def main():
             assert not scrollers,scrollers
             wide=page.evaluate("""()=>[...document.querySelectorAll('main .math.display')]
               .filter(e=>e.scrollWidth>e.clientWidth+2)
-              .map(e=>({width:e.clientWidth,content:e.scrollWidth}))""")
+              .map(e=>({width:e.clientWidth,content:e.scrollWidth,
+                formula:MathJax.startup.document.getMathItemsWithin([e])[0]?.math}))""")
             assert not wide,(width,wide)
         page.emulate_media(reduced_motion="reduce")
         page.reload();page.wait_for_selector(".math-explorer svg")

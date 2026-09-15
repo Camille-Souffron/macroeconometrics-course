@@ -67,6 +67,8 @@ inline and display line breaking. Long derivations are also split explicitly in
 the source. A resize observer recomputes display line breaks as the reading column
 changes width. Neither inline symbols nor displayed equations are scroll controls;
 there are no horizontal scrolling arrows and no clipped formulas.
+Displayed math uses a small mobile size adjustment to leave room for equation
+numbers even when the surrounding serif font has different metrics on Linux.
 
 Sliders have labels, keyboard operation, textual numerical output, reset and SVG
 download. Curves use colour plus labels/line patterns. Videos never autoplay and

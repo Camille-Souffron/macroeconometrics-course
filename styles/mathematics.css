@@ -115,6 +115,8 @@ body:has(#sec-mathematical-foundations) .figure-caption {
 .math-explorer :focus-visible, .math-film video:focus-visible { outline: 3px solid #087f82; outline-offset: 4px; }
 @media (max-width: 600px) {
   body:has(#sec-mathematical-foundations) main { font-size: 1rem; line-height: 1.75; }
+  /* Leave room for equation numbers across platform-specific font metrics. */
+  body:has(#sec-mathematical-foundations) .math.display { font-size: .92em; }
   body:has(#sec-mathematical-foundations) main h2 { font-size: 1.65rem; }
   .math-explorer { padding: .8rem .6rem; }
   .math-explorer svg { font-size: 23px; }
