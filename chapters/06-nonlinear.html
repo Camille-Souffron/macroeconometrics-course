@@ -788,7 +788,7 @@ y_t = A_{0,t} + A_{1,t}y_{t-1} + \cdots + A_{p,t}y_{t-p} + u_t, \qquad u_t \sim 
 <section id="tvp-var-as-a-state-space-model" class="level3">
 <h3 class="anchored" data-anchor-id="tvp-var-as-a-state-space-model">TVP-VAR as a state-space model</h3>
 <p>Stack the coefficients into a state vector, <span class="math inline">\(\theta_t = (\mathrm{vec}(A_{0,t})', \mathrm{vec}(A_{1,t})', \ldots, \mathrm{vec}(A_{p,t})', \mathrm{vech}(\Sigma_t)')'\)</span>, so that the <strong>measurement equation</strong> is the VAR itself, <span class="math inline">\(y_t = A_{0,t} + \cdots + A_{p,t}y_{t-p} + u_t\)</span>, and the <strong>state equation</strong> describes how the parameters evolve:</p>
-<p>The vectorisation notation and the filtering versus smoothing distinction are reviewed in <a href="00-mathematical-foundations.html#sec-decompositions" class="quarto-xref"><span>Section 2.6</span></a> and <a href="00-mathematical-foundations.html#sec-state-space-foundations" class="quarto-xref"><span>Section 7.4</span></a>.</p>
+<p>The vectorisation notation and the filtering versus smoothing distinction are reviewed in <a href="00-mathematical-foundations.html#sec-decompositions" class="quarto-xref"><span>Section 2.13</span></a> and <a href="00-mathematical-foundations.html#sec-state-space-foundations" class="quarto-xref"><span>Section 7.4</span></a>.</p>
 <p><span class="math display">\[
 \theta_t = \theta_{t-1} + \eta_t, \qquad \eta_t \sim \mathcal{N}(0, Q) \text{ with small variance,}
 \]</span></p>

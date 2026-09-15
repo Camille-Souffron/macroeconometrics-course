@@ -32,11 +32,16 @@ body:has(#sec-mathematical-foundations) p { margin-bottom: 1.2rem; }
 body:has(#sec-mathematical-foundations) a { color: #076b70; }
 body:has(#sec-mathematical-foundations) main a.quarto-xref { white-space: normal; }
 body:has(#sec-mathematical-foundations) .math.display {
-  display: block; max-width: 100%; overflow-x: auto; padding: .5rem 0; position: relative;
+  display: block; max-width: 100%; overflow: visible; padding: .5rem 0;
 }
 body:has(#sec-mathematical-foundations) .math.inline {
-  display: inline-block; max-width: 100%; overflow-x: auto; overflow-y: hidden;
-  vertical-align: middle; padding: .1em 0; position: relative;
+  display: inline; overflow: visible; padding: 0;
+}
+body:has(#sec-mathematical-foundations) mjx-container {
+  overflow: visible !important;
+}
+body:has(#sec-mathematical-foundations) main h4 {
+  margin-top: 2rem; font-size: 1.15rem; line-height: 1.45;
 }
 body:has(#sec-mathematical-foundations) .quarto-figure { margin: 2rem 0 2.5rem; }
 body:has(#sec-mathematical-foundations) figcaption,
@@ -75,6 +80,26 @@ body:has(#sec-mathematical-foundations) .figure-caption {
 }
 .math-controls output { font-variant-numeric: tabular-nums; color: var(--math-teal); }
 .math-explanation { min-height: 4.8em; font: .92rem/1.65 system-ui, sans-serif; margin-bottom: .6rem; }
+.math-explorer[data-math="matrix"] > label { display: block; font: 600 .9rem/1.5 system-ui, sans-serif; }
+.math-explorer[data-math="matrix"] select {
+  width: 100%; max-width: 100%; padding: .65rem; margin: .4rem 0 1.1rem;
+  color: var(--math-ink); background: white; border: 1px solid #aabbb7;
+  border-radius: 3px; font: .88rem/1.5 system-ui, sans-serif;
+}
+.matrix-entry { border: 0; padding: 0; margin: 0 0 1rem; min-width: 0; }
+.matrix-entry legend { float: none; width: auto; margin: 0 0 .6rem; font: 600 .9rem/1.5 system-ui, sans-serif; }
+.matrix-coefficients { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); max-width: 330px; gap: .65rem 1.2rem; }
+.matrix-coefficients > div { display: flex; gap: .5rem; align-items: center; min-width: 0; }
+.matrix-coefficients label { font: .9rem system-ui, sans-serif; }
+.matrix-coefficients input {
+  width: 100%; min-width: 0; min-height: 44px; padding: .4rem; border: 1px solid #aabbb7;
+  border-radius: 3px; font: 1rem system-ui, sans-serif; color: var(--math-ink); appearance: textfield;
+}
+.matrix-coefficients input::-webkit-inner-spin-button,
+.matrix-coefficients input::-webkit-outer-spin-button { appearance: none; margin: 0; }
+.matrix-coefficients input:invalid { border-color: var(--math-red); }
+.matrix-help, #matrix-input-help { font: .85rem/1.6 system-ui, sans-serif; color: #56666d; margin: .6rem 0; }
+.math-explorer[data-math="matrix"] .math-explanation { min-height: 9em; }
 .math-legend { display: flex; flex-wrap: wrap; gap: .5rem 1.15rem; font: .82rem/1.6 system-ui, sans-serif; }
 .math-legend span::before {
   content: ""; display: inline-block; width: 1.1rem;
@@ -90,6 +115,8 @@ body:has(#sec-mathematical-foundations) .figure-caption {
 .math-explorer :focus-visible, .math-film video:focus-visible { outline: 3px solid #087f82; outline-offset: 4px; }
 @media (max-width: 600px) {
   body:has(#sec-mathematical-foundations) main { font-size: 1rem; line-height: 1.75; }
+  /* Leave room for equation numbers across platform-specific font metrics. */
+  body:has(#sec-mathematical-foundations) .math.display { font-size: .92em; }
   body:has(#sec-mathematical-foundations) main h2 { font-size: 1.65rem; }
   .math-explorer { padding: .8rem .6rem; }
   .math-explorer svg { font-size: 23px; }
@@ -98,7 +125,8 @@ body:has(#sec-mathematical-foundations) .figure-caption {
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto !important; } }
 @media print {
-  .math-film video, .math-controls, .math-actions { display: none; }
+  .math-film video, .math-controls, .math-actions,
+  .matrix-entry, #matrix-preset, label[for="matrix-preset"] { display: none; }
   .math-print-poster { display: block; width: 100%; }
   .math-explorer { break-inside: avoid; }
 }
