@@ -1,4 +1,7 @@
 import {taylor,cap,descent,posterior,normal} from "./formulas.js";
+import {mountMatrixExplorer} from "./matrix.js";
+
+for(const box of document.querySelectorAll('[data-math="matrix"]')) mountMatrixExplorer(box);
 
 const NS="http://www.w3.org/2000/svg";
 const C={ink:"#203442",teal:"#087f82",gold:"#a66d16",red:"#b35040",grid:"#dce2dc",muted:"#607177"};

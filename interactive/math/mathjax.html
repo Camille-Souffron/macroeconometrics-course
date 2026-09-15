@@ -1,0 +1,30 @@
+<script>
+// Chapter-local MathJax 4: equations wrap instead of becoming scroll controls.
+window.MathJax = {
+  output: {
+    fontPath: 'https://cdn.jsdelivr.net/npm/@mathjax/%%FONT%%-font@4.0.0',
+    displayOverflow: 'linebreak',
+    linebreaks: {inline: true, width: '100%'}
+  },
+  startup: {
+    pageReady() {
+      return MathJax.startup.defaultPageReady().then(() => {
+        const main = document.querySelector('main');
+        let width = main.getBoundingClientRect().width;
+        let timer;
+        const observer = new ResizeObserver(() => {
+          const next = main.getBoundingClientRect().width;
+          if (Math.abs(next - width) < 1) return;
+          width = next;
+          clearTimeout(timer);
+          timer = setTimeout(() => {
+            // Recompute line breaks after rotation or a resized browser window.
+            MathJax.startup.document.rerenderPromise(MathJax._.core.MathItem.STATE.METRICS);
+          }, 100);
+        });
+        observer.observe(main);
+      });
+    }
+  }
+};
+</script>

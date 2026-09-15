@@ -20,3 +20,16 @@ export function posterior(n) {
 export function normal(x,mean,sd) {
   return Math.exp(-.5*((x-mean)/sd)**2)/(sd*Math.sqrt(2*Math.PI));
 }
+
+// The progress parameter interpolates maps, not powers or elapsed model time.
+export function matrixState(a, progress=1) {
+  if(a.length!==4 || !a.every(Number.isFinite) || !Number.isFinite(progress))
+    throw new TypeError("Four finite coefficients and a finite progress value are required.");
+  const [a11,a12,a21,a22]=a;
+  const m=[1+progress*(a11-1),progress*a12,progress*a21,1+progress*(a22-1)];
+  const apply=([x,y])=>[m[0]*x+m[1]*y,m[2]*x+m[3]*y];
+  return {matrix:m,determinant:m[0]*m[3]-m[1]*m[2],
+    targetDeterminant:a11*a22-a12*a21,
+    firstColumn:apply([1,0]),secondColumn:apply([0,1]),vector:apply([1,1]),
+    square:[[0,0],[1,0],[1,1],[0,1]].map(apply)};
+}

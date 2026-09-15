@@ -2,6 +2,10 @@
 format:
   html:
     css: ../styles/mathematics.css
+    html-math-method:
+      method: mathjax
+      url: https://cdn.jsdelivr.net/npm/mathjax@4.0.0/tex-chtml.js
+    include-in-header: ../interactive/math/mathjax.html
     include-after-body: ../interactive/math/include.html
 ---
 
@@ -12,7 +16,7 @@ Suppose that a rise in interest rates is followed by a fall in output. We would 
 These are the questions which motivate the mathematics in this chapter. We begin by collecting several economic quantities in a vector and asking what can be recovered from linear relations between them. We then allow these relations to be nonlinear. This requires a careful account of limits and continuity before derivatives, of differentiability before Taylor expansions, and of feasible movements before optimisation conditions. Only then do we introduce uncertainty and the additional assumptions needed to learn from observations.
 
 ::: {.math-route}
-**Reading this chapter.** Follow the first four sections in order if analysis and optimisation are unfamiliar. The examples are worked through before their general statements. The short proofs explain why the assumptions matter; the exercises at the end return to the same examples. Each animation has playback controls and a still image, and each interactive figure can be adjusted with the keyboard.
+**Reading this chapter.** The examples introduce the questions, but do not replace the definitions. In the first four sections, we distinguish the mathematical objects, the rules for working with them, and the assumptions under which a result holds. The regression discussion likewise separates the calculation of a fitted line from its statistical interpretation. Short proofs and worked exercises explain these distinctions. The animations illustrate transformations; the equations in the text remain fixed and can be read without using any controls.
 :::
 
 ## A small model, and the questions it leaves open {#sec-maths-motivating-system}
@@ -20,11 +24,11 @@ These are the questions which motivate the mathematics in this chapter. We begin
 Let $y_t$ and $\pi_t$ denote deviations of output and inflation from reference levels. A deliberately small model is
 
 $$
-x_t=\begin{pmatrix}y_t\\\pi_t\end{pmatrix},
-\qquad
-x_{t+1}=Ax_t+u_{t+1},
-\qquad
-A=\begin{pmatrix}.7&.2\\.1&.8\end{pmatrix}.
+\begin{gathered}
+x_t=\begin{pmatrix}y_t\\\pi_t\end{pmatrix},\\
+A=\begin{pmatrix}.7&.2\\.1&.8\end{pmatrix},\\
+x_{t+1}=Ax_t+u_{t+1}.
+\end{gathered}
 $$ {#eq-maths-state-system}
 
 For an initial state $x_t=(1,0)'$ and no new disturbance, tomorrow's state is $(.7,.1)'$. The first column of $A$ thus describes the response to a unit movement in output, while the second describes the response to a unit movement in inflation. A prime denotes transpose; vectors are columns throughout.
@@ -33,7 +37,7 @@ This calculation is exact within the proposed model. Its economic interpretation
 
 ## Linear algebra: what can several equations tell us? {#sec-linear-algebra-foundations}
 
-### Combining movements and choosing coordinates
+### Vectors and vector spaces {#sec-vector-spaces}
 
 Suppose two disturbances move output and inflation by $a=(1,.5)'$ and $b=(-.2,1)'$. Doubling the first movement and reversing the second gives
 
@@ -41,31 +45,120 @@ $$
 2a-b=\begin{pmatrix}2.2\\0\end{pmatrix}.
 $$
 
-The inflation changes cancel. More generally, the movements available from $a$ and $b$ are their linear combinations, $\alpha a+\beta b$. Their **span** is the set of all such combinations. Here it is the whole plane: the two directions are not parallel. Had $b$ equalled $2a$, the same exercise would have generated only a line.
+The inflation changes cancel. We have used two operations: adding movements and multiplying a movement by a real number. Before asking what can be obtained in this way, we should make explicit what these operations mean.
 
-A family $v_1,\ldots,v_k$ is **linearly independent** when $\sum_j c_jv_j=0$ implies $c_1=\cdots=c_k=0$. Otherwise at least one direction repeats information supplied by the others. A **basis** of a space is an independent family which spans that space. Every vector then has a unique set of coordinates in that basis, and the number of basis vectors is the **dimension**.
+A vector in $\mathbb R^n$ is an ordered list of $n$ real coordinates. The order matters: output and inflation cannot exchange positions halfway through a calculation. We write vectors as columns. For example,
+
+$$
+x=\begin{pmatrix}x_1\\x_2\end{pmatrix},\qquad
+z=\begin{pmatrix}z_1\\z_2\end{pmatrix}.
+$$
+
+Addition is coordinate by coordinate, and scalar multiplication applies the same real number to each coordinate:
+
+$$
+x+z=\begin{pmatrix}x_1+z_1\\x_2+z_2\end{pmatrix},\qquad
+\alpha x=\begin{pmatrix}\alpha x_1\\\alpha x_2\end{pmatrix}.
+$$
+
+Here a **scalar** is a real number, whereas a **vector** is an element of the space on which these operations act. A negative scalar reverses a movement. The zero vector represents no movement. An arrow drawn in a plane is a useful representation of a vector in $\mathbb R^2$, but it is not the definition of a vector in general.
+
+**Definition (real vector space).** A real vector space $V$ is a nonempty set equipped with addition $V\times V\to V$ and scalar multiplication $\mathbb R\times V\to V$, satisfying the following rules for every $u,v,w\in V$ and every $\alpha,\beta\in\mathbb R$:
+
+1. Addition is associative and commutative: $(u+v)+w=u+(v+w)$ and $u+v=v+u$.
+2. There is a zero vector $0_V$ such that $v+0_V=v$, and every $v$ has an additive inverse $-v$ satisfying $v+(-v)=0_V$.
+3. Scalar multiplication satisfies $1v=v$ and $\alpha(\beta v)=(\alpha\beta)v$.
+4. The two distributive laws hold: $\alpha(u+v)=\alpha u+\alpha v$ and $(\alpha+\beta)v=\alpha v+\beta v$.
+
+The operations must stay inside $V$. This requirement is called **closure**. Together with the rules above, it allows us to manipulate linear expressions without changing their meaning. In particular, $0v=0_V$ and $(-1)v=-v$ follow from these rules; they are not additional assumptions.
+
+The space $\mathbb R^n$ with coordinatewise operations is our main example. But matrices of a fixed size also form a vector space, as do real polynomials: two polynomials can be added, and multiplying a polynomial by any real number gives another polynomial. By contrast, the set of nonnegative consumption bundles is not a vector space, since multiplying a strictly positive bundle by $-1$ leaves that set. Economic feasibility and vector-space structure should therefore not be confused.
+
+### Linear combinations, span, and subspaces {#sec-span-subspaces}
+
+Let $v_1,\ldots,v_k$ be vectors in a real vector space $V$. The expression
+
+$$
+\alpha_1v_1+\cdots+\alpha_kv_k,
+\qquad \alpha_1,\ldots,\alpha_k\in\mathbb R,
+$$
+
+is a **linear combination** of these vectors. There is no requirement that the coefficients be positive or sum to one. Imposing those restrictions would give a convex combination instead.
+
+**Definition (span).** The span of a finite family is the set of all its linear combinations:
+
+$$
+\operatorname{span}(v_1,\ldots,v_k)
+=\left\{\sum_{j=1}^k\alpha_jv_j:
+\alpha_1,\ldots,\alpha_k\in\mathbb R\right\}.
+$$
+
+The braces describe a set, and the colon means “such that”. Thus $x\in\operatorname{span}(v_1,\ldots,v_k)$ means that there exists at least one choice of coefficients for which $x=\sum_j\alpha_jv_j$. It does not yet say whether this choice is unique. In French notation, the same set is often written $\operatorname{Vect}(v_1,\ldots,v_k)$.
+
+For a nonzero vector $a$, its span is the line through zero in direction $a$. For our two disturbances $a=(1,.5)'$ and $b=(-.2,1)'$, the span is the whole plane. Indeed, any target $(r,s)'$ can be obtained by choosing
+
+$$
+\alpha=\frac{r+.2s}{1.1},\qquad
+\beta=\frac{s-.5r}{1.1}.
+$$
+
+Substitution gives $\alpha a+\beta b=(r,s)'$. If we replace $b$ by $2a$, every combination becomes $(\alpha+2\beta)a$, so we obtain only a line. Notice that counting the vectors is not enough to count the directions they provide.
+
+**Definition (vector subspace).** A subset $W$ of a vector space $V$ is a vector subspace if it contains zero and is closed under addition and scalar multiplication. Equivalently, it is nonempty and $\alpha u+\beta v\in W$ for every $u,v\in W$ and every real $\alpha,\beta$. It then inherits the vector-space rules from $V$.
+
+The span of a family is a subspace. To see this, add two combinations by adding their coefficients, or multiply a combination by a scalar by multiplying its coefficients. Both operations give another combination of the same vectors. Moreover, every subspace containing the family must contain all its combinations. The span is therefore the **smallest vector subspace containing that family**.
 
 ![Two directions span a plane when they are independent. Parallel directions span a line. Translating a line away from zero gives an affine set, rather than a vector subspace.](../figures/mathematics/analysis/bases.svg){#fig-bases-span}
 
-The set of available movements is a **vector subspace** if it is nonempty and closed under addition and multiplication by every real scalar. These properties imply that it contains zero. A budget line such as $c_1+c_2=1$ does not contain zero and is therefore an affine set. Its *displacements*, however, satisfy $dc_1+dc_2=0$ and do form a vector subspace. This difference will be useful when we study constrained choice.
+A budget line such as $c_1+c_2=1$ is not a subspace, since it does not contain zero. It is an **affine set**, namely a translation of a subspace. Its displacements satisfy $dc_1+dc_2=0$ and form the line $\operatorname{span}((1,-1)')$. This distinction will matter in optimisation: the set of choices need not be a vector space even when the directions along which one can move form one.
 
-Coordinates depend on the basis. If $P=[v_1\ \cdots\ v_n]$ contains a basis of $\mathbb R^n$, the same vector can be written $x=P[x]_B$, so that $[x]_B=P^{-1}x$. The vector has not moved. We have changed the directions in which its position is measured.
+### Independent, dependent, and spanning families {#sec-vector-families}
+
+We now need to separate two questions. Can the proposed vectors produce every vector in the space of interest? And can they do so in more than one way? These are respectively questions about **generation** and **independence**.
+
+**Definition (spanning family, or famille génératrice).** A family $v_1,\ldots,v_k$ is a spanning family of $V$ if
+
+$$
+V=\operatorname{span}(v_1,\ldots,v_k).
+$$
+
+The ambient space must be specified. The single vector $(1,0)'$ spans the horizontal axis, but does not span $\mathbb R^2$. Every family spans its own span, which can be a proper subspace of the space in which it is drawn.
+
+**Definition (linearly independent family, or famille libre).** A family is linearly independent if the only combination giving zero is the one with every coefficient equal to zero:
+
+$$
+\sum_{j=1}^k\alpha_jv_j=0
+\quad\Longrightarrow\quad
+\alpha_j=0\ \text{for every }j.
+$$
+
+**Definition (linearly dependent family, or famille liée).** A family is linearly dependent if there exist coefficients, not all zero, such that $\sum_j\alpha_jv_j=0$. Choosing an index with a nonzero coefficient and rearranging shows that at least one vector is a combination of the others. This is the precise sense in which that vector provides no additional direction. A family containing the zero vector is necessarily dependent.
+
+Take $e_1=(1,0)'$ and $e_2=(0,1)'$. The family $(e_1,e_2)$ is independent and spans $\mathbb R^2$. The family $(e_1,e_2,e_1+e_2)$ still spans $\mathbb R^2$, but is dependent, since $e_1+e_2-(e_1+e_2)=0$ uses the coefficients $1,1,-1$. Conversely, the family consisting only of $e_1$ is independent but does not span the plane. Independence and generation are thus different properties, neither of which implies the other.
+
+**Definition (basis and dimension).** A **basis** of $V$ is a family which is both independent and spanning. A vector space is finite-dimensional if it has a finite spanning family. In such a space all bases have the same number of vectors; this number is its **dimension**, written $\dim V$. The zero space has dimension zero and the empty family as its basis. The vectors $e_1,\ldots,e_n$, each with a single coordinate equal to one and all others zero, form the **canonical basis** of $\mathbb R^n$.
+
+Why are coordinates in a basis unique? Generation gives at least one representation. If $x=\sum_j\alpha_jv_j=\sum_j\beta_jv_j$, subtracting gives $\sum_j(\alpha_j-\beta_j)v_j=0$. Independence forces $\alpha_j=\beta_j$ for every $j$. Conversely, a dependent family permits different coefficients for the same vector. This is exactly the issue that will arise with collinear regressors.
+
+In a space of dimension $n$, an independent family has at most $n$ members, whereas a spanning family has at least $n$. Any independent family can be extended to a basis, and any finite spanning family can be reduced to a basis by removing redundant vectors. In particular, a family of exactly $n$ vectors is a basis if it is independent, or equivalently if it spans the space. These results follow from the basis exchange argument: an independent vector can replace a spanning vector with a nonzero coefficient in its representation, and this replacement can be repeated until the independent family is exhausted. One cannot insert more independent vectors than the original spanning family contains.
+
+Coordinates nevertheless depend on which basis we choose. In the canonical basis, the coordinates of $(2.2,0)'$ are $2.2$ and $0$. In the basis $(a,b)$ introduced above, they are $2$ and $-1$. The vector has not moved; the directions in which we measure it have changed. We return to the matrix notation for this change after defining matrix multiplication.
 
 ### Length, orthogonality, and the choice of units
 
 Comparing two economic states requires a measure of distance. For vectors in $\mathbb R^n$, the Euclidean inner product and its associated norm are
 
 $$
-\langle a,b\rangle=a'b=\sum_i a_ib_i,
-\qquad
-\|a\|_2=\sqrt{a'a},
-\qquad
-d(a,b)=\|a-b\|_2.
+\begin{aligned}
+\langle a,b\rangle&=a'b=\sum_i a_ib_i,\\
+\|a\|_2&=\sqrt{a'a},\\
+d(a,b)&=\|a-b\|_2.
+\end{aligned}
 $$
 
-For nonzero vectors, the angle satisfies $\cos\theta=a'b/(\|a\|_2\|b\|_2)$. The Cauchy–Schwarz inequality $|a'b|\leq\|a\|_2\|b\|_2$ makes this definition possible. Orthogonality means $a'b=0$ and gives Pythagoras' identity $\|a+b\|_2^2=\|a\|_2^2+\|b\|_2^2$.
+For nonzero vectors, the angle satisfies $\cos\theta=a'b/(\|a\|_2\|b\|_2)$. The Cauchy-Schwarz inequality $|a'b|\leq\|a\|_2\|b\|_2$ makes this definition possible. Orthogonality means $a'b=0$ and gives Pythagoras' identity $\|a+b\|_2^2=\|a\|_2^2+\|b\|_2^2$.
 
-One can see Cauchy–Schwarz directly. For $b\neq0$, minimise the nonnegative expression $\|a-tb\|_2^2$ over $t$. Its minimum at $t=a'b/(b'b)$ is $\|a\|_2^2-(a'b)^2/\|b\|_2^2\geq0$. The inequality is therefore a consequence of the fact that a squared distance cannot be negative.
+One can see Cauchy-Schwarz directly. For $b\neq0$, minimise the nonnegative expression $\|a-tb\|_2^2$ over $t$. Its minimum at $t=a'b/(b'b)$ is $\|a\|_2^2-(a'b)^2/\|b\|_2^2\geq0$. The inequality is therefore a consequence of the fact that a squared distance cannot be negative.
 
 The units remain part of the model. A distance which adds squared euros to squared percentage points is dominated by the numerically larger coordinate. Standardisation or a weighted inner product $\langle a,b\rangle_W=a'Wb$, with $W$ symmetric positive definite, changes this comparison. A gradient's “steepest” direction will likewise depend on the metric chosen.
 
@@ -77,17 +170,68 @@ $$
 
 They nevertheless penalise coefficients differently. This will separate ridge regression from the lasso.
 
-### Matrices, rank, and recoverability {#sec-matrices-transformations}
+### A matrix acts on a vector {#sec-matrices-transformations}
 
-In @eq-maths-state-system, one output coordinate combines both input coordinates. In general, a matrix $A\in\mathbb R^{m\times n}$ represents a linear map from $\mathbb R^n$ to $\mathbb R^m$:
+In @eq-maths-state-system, each of tomorrow's variables depends on both of today's variables. A matrix records these coefficients. More generally, $A=(a_{ij})\in\mathbb R^{m\times n}$ is a rectangular array with $m$ **rows** and $n$ **columns**. The first index $i$ selects a row, and the second index $j$ selects a column. The notation $m\times n$ always means rows first, columns second.
+
+Before calculating a product, write down the dimensions. A column vector with $n$ coordinates is an $n\times1$ matrix. A matrix with $n$ columns can multiply this vector because it has exactly one column for each input coordinate. It produces $m$ output coordinates:
+
+$$
+\underbrace{A}_{m\times n}\,
+\underbrace{x}_{n\times1}
+=\underbrace{Ax}_{m\times1}.
+$$
+
+For a numerical example, take
+
+$$
+M=\begin{pmatrix}1&2&-1\\0&1&3\end{pmatrix},
+\qquad x=\begin{pmatrix}2\\1\\-1\end{pmatrix}.
+$$
+
+The matrix has two rows and three columns. Hence it takes a vector in $\mathbb R^3$ and returns a vector in $\mathbb R^2$. To obtain the first output, multiply the three entries in the first row by the corresponding entries in $x$, then add. Repeat with the second row:
+
+$$
+Mx=\begin{pmatrix}
+1\cdot2+2\cdot1+(-1)\cdot(-1)\\
+0\cdot2+1\cdot1+3\cdot(-1)
+\end{pmatrix}
+=\begin{pmatrix}5\\-2\end{pmatrix}.
+$$
+
+This is the **row-by-column rule**. In general it reads
 
 $$
 (Ax)_i=\sum_{j=1}^n a_{ij}x_j.
 $$
 
-Its columns are the images of the canonical basis vectors. If another map $B\in\mathbb R^{n\times p}$ acts first, the combined map is $AB$, with $(AB)_{ij}=\sum_k a_{ik}b_{kj}$. Thus $(m\times n)(n\times p)$ produces an $m\times p$ matrix. The order of multiplication records the order in which the maps act.
+There is another reading of the very same calculation. Let $a_j$ denote column $j$ of $A$. Then
 
-For $x\in\mathbb R^n$, $x'x$ is a scalar but $xx'$ is an $n\times n$ matrix. Transposition reverses composition: $(AB)'=B'A'$. Inversion, when possible, also reverses it: $(AB)^{-1}=B^{-1}A^{-1}$. These identities are easier to remember by following the transformations than by treating matrices as tables.
+$$
+Ax=x_1a_1+\cdots+x_na_n.
+$$
+
+For our example, the output is $2(1,0)'+(2,1)'-(-1,3)'=(5,-2)'$. The entries of $x$ are the weights applied to the columns of $M$. This **column-combination reading** explains why every output of a matrix belongs to the span of its columns. It will also explain why a fitted regression vector belongs to the span of the regressors.
+
+![The same matrix-vector product read in two ways. On the left, each row computes one output coordinate. On the right, the three weighted columns add to the output vector (5, -2).](../figures/mathematics/analysis/matrix-vector.svg){#fig-matrix-vector}
+
+### Linear transformations and their columns
+
+**Definition (linear transformation).** A map $L:V\to W$ between real vector spaces is linear if, for all $u,v\in V$ and real $\alpha,\beta$,
+
+$$
+L(\alpha u+\beta v)=\alpha L(u)+\beta L(v).
+$$
+
+It preserves linear combinations. In particular, $L(0)=0$. The map $x\mapsto Ax$ is linear by the multiplication rule just established. By contrast, $x\mapsto Ax+c$ with $c\neq0$ is affine, not linear, since it sends zero to $c$.
+
+Now write $x=x_1e_1+\cdots+x_ne_n$. Linearity implies
+
+$$
+L(x)=x_1L(e_1)+\cdots+x_nL(e_n).
+$$
+
+Knowing where the basis vectors go therefore tells us where every vector goes. The matrix representing $L$ in the canonical bases is precisely the matrix whose columns are $L(e_1),\ldots,L(e_n)$. A column is not an arbitrary list: it records the image of one input direction. This also makes the dimensions substantive. The number of columns is the dimension of the input space, and the number of rows is the dimension of the output space.
 
 ::: {#fig-matrix-film .math-film}
 
@@ -102,7 +246,104 @@ For $x\in\mathbb R^n$, $x'x$ is a scalar but $xx'$ is an $n\times n$ matrix. Tra
 A matrix acts on the entire plane. The teal and ochre arrows show the two basis vectors; their images determine the image of every linear combination. The intermediate frames interpolate between maps and are not successive periods of the economic model.
 :::
 
-Now suppose two columns of a regressor matrix are equal. Increasing one coefficient and decreasing the other by the same amount leaves every fitted value unchanged. To express what has been lost, define the **null space** $\mathcal N(A)=\{x:Ax=0\}$ and the **column space** $\mathcal C(A)=\{Ax:x\in\mathbb R^n\}$. The rank is the dimension of the latter, and
+::: {.math-explorer data-math="matrix"}
+**Choose a matrix and follow its action.** Start with the shear: its first column leaves $e_1$ unchanged, while its second column sends $e_2$ to $(1,1)'$. Compare the image of $x=e_1+e_2$ with the sum of the two column images. Then choose the projection preset and observe which direction is lost. The fixed figure and video above remain available without JavaScript.
+:::
+
+### Multiplying matrices means composing transformations {#sec-matrix-composition}
+
+Suppose that we first double the horizontal coordinate and then add the vertical coordinate to the horizontal one. These two operations are represented by
+
+$$
+B=\begin{pmatrix}2&0\\0&1\end{pmatrix},\qquad
+A=\begin{pmatrix}1&1\\0&1\end{pmatrix}.
+$$
+
+Starting from $x=(1,1)'$, the first operation gives $Bx=(2,1)'$. The second gives $A(Bx)=(3,1)'$. We would like a single matrix which performs both operations. Since $B$ acts first and $A$ acts on its output, this matrix is denoted $AB$:
+
+$$
+(AB)x=A(Bx).
+$$
+
+We can find its columns without memorising a new rule. Send $e_1$ through both transformations: $Be_1=(2,0)'$, then $A(Be_1)=(2,0)'$. This is column one of $AB$. Sending $e_2$ through both gives $Be_2=(0,1)'$, then $A(Be_2)=(1,1)'$. This is column two. Hence
+
+$$
+AB=\begin{pmatrix}2&1\\0&1\end{pmatrix}.
+$$
+
+![Read from left to right: the original square and vector, their images after the horizontal stretch B, then their images after the shear A. The final panel is the image under AB. The faint original square provides the same reference in each panel.](../figures/mathematics/analysis/matrix-composition.svg){#fig-matrix-composition}
+
+::: {#fig-composition-film .math-film}
+
+```{=html}
+<video controls preload="none" playsinline poster="../figures/mathematics/animations/MatrixComposition.png" aria-label="Animation: apply a horizontal stretch B then a shear A, and compare with the reversed order">
+<source src="../figures/mathematics/animations/MatrixComposition.mp4" type="video/mp4">
+<a href="../figures/mathematics/animations/MatrixComposition.mp4">Download the animation.</a>
+</video>
+```
+
+The grid, unit square and vector undergo the same two transformations. The first sequence applies B then A and ends at (3, 1). Reversing the order ends at (4, 1). The labels stay fixed while the geometry moves. Intermediate frames make each transformation visible; they are not extra factors in the matrix product.
+:::
+
+The general definition follows the same reasoning. Let $B\in\mathbb R^{n\times p}$ and $A\in\mathbb R^{m\times n}$. Matrix $B$ takes $p$ input coordinates and returns $n$ coordinates, which is exactly the number $A$ accepts. The composition takes $p$ coordinates and returns $m$:
+
+$$
+\mathbb R^p\xrightarrow{B}\mathbb R^n
+\xrightarrow{A}\mathbb R^m.
+$$
+
+**Definition (matrix product).** The product $AB$ is the $m\times p$ matrix with entries
+
+$$
+(AB)_{ij}=\sum_{\ell=1}^n a_{i\ell}b_{\ell j}.
+$$
+
+Entry $(i,j)$ is row $i$ of $A$ multiplied by column $j$ of $B$. Indeed, that column is the output of $B$ for the input $e_j$, and row $i$ of $A$ computes coordinate $i$ of its next image. This gives both the computational rule and its interpretation.
+
+The **inner dimensions must agree**, and the outer dimensions give the size of the result:
+
+$$
+(m\times n)(n\times p)=(m\times p).
+$$
+
+For example, a $2\times3$ matrix can multiply a $3\times4$ matrix, giving a $2\times4$ matrix. It cannot multiply a $2\times4$ matrix: the latter returns two coordinates, whereas the former requires three. Matrix multiplication is not entrywise multiplication. Entrywise multiplication, when wanted, is a different operation defined for matrices of the same size.
+
+Even when both orders are defined, the result usually differs. In the example,
+
+$$
+BA=\begin{pmatrix}2&2\\0&1\end{pmatrix}
+\neq AB.
+$$
+
+Applying the shear first and the stretch second gives $BAx=(4,1)'$, rather than $(3,1)'$. Thus matrix multiplication is generally **not commutative**. It is, however, associative: $(AB)C=A(BC)$ whenever the dimensions permit the products. Both sides apply $C$, then $B$, then $A$. It is also distributive over addition, as in $A(B+C)=AB+AC$ for compatible sizes.
+
+The identity matrix $I_n$ has ones on its diagonal and zeros elsewhere; it leaves every vector of $\mathbb R^n$ unchanged. For $A\in\mathbb R^{m\times n}$, this gives $I_mA=A=AI_n$. An **inverse** of a square matrix $A$ is a matrix $A^{-1}$ satisfying $A^{-1}A=AA^{-1}=I_n$. It reverses the transformation. If $A$ and $B$ are invertible, reversing their composition requires reversing the order: $(AB)^{-1}=B^{-1}A^{-1}$.
+
+### Transposes and a check on dimensions
+
+The **transpose** $A'$ exchanges rows and columns: $(A')_{ij}=a_{ji}$. It has size $n\times m$ if $A$ has size $m\times n$. Transpose does not mean inverse. A column vector $x\in\mathbb R^n$ becomes the row vector $x'$, so the two products below have different meanings:
+
+$$
+\underbrace{x'}_{1\times n}\underbrace{x}_{n\times1}
+=\sum_{i=1}^n x_i^2,
+$$
+
+whereas
+
+$$
+\underbrace{x}_{n\times1}\underbrace{x'}_{1\times n}
+=(x_ix_j)_{i,j=1}^n.
+$$
+
+The first is a scalar, already encountered as squared length. The second is an $n\times n$ matrix, called an **outer product**. Likewise, if $X$ contains $T$ observations of $k$ regressors, then $X'X$ has size $k\times k$, whereas $XX'$ has size $T\times T$. Neither can be substituted for the other. Transposing a product reverses its order: $(AB)'=B'A'$. This follows directly by writing out its entries and is consistent with their dimensions.
+
+We can now express a change of basis. If $P=[v_1\ \cdots\ v_n]$ contains a basis of $\mathbb R^n$ in its columns, and $[x]_B$ contains the coordinates of $x$ in that basis, then $x=P[x]_B$. Since basis coordinates are unique, $P$ is invertible and $[x]_B=P^{-1}x$. Here the multiplication changes the coordinate description, rather than the underlying vector.
+
+### Rank, null space, and recoverability
+
+Now suppose two columns of a regressor matrix are equal. Increasing one coefficient and decreasing the other by the same amount leaves every fitted value unchanged. To express what has been lost, let $A\in\mathbb R^{m\times n}$ and define the **null space** $\mathcal N(A)=\{x\in\mathbb R^n:Ax=0\}$ and the **column space** $\mathcal C(A)=\{Ax:x\in\mathbb R^n\}$. The column space is exactly the span of the columns of $A$, while its null space records the combinations of inputs which the transformation sends to zero. Both are subspaces, but generally of different ambient spaces.
+
+The **rank** of $A$ is the dimension of $\mathcal C(A)$, or equivalently the maximum number of independent columns. The rank-nullity theorem states that
 
 $$
 \operatorname{rank}(A)+\dim\mathcal N(A)=n.
@@ -120,27 +361,120 @@ For actual calculations, row operations solve systems without changing their sol
 
 Invertibility also need not imply precision. The condition number $\kappa_2(A)=\|A\|_2\|A^{-1}\|_2$, using the induced operator norm, measures worst-case relative sensitivity to perturbations in the right-hand side. Nearly proportional columns can make it very large. This is a numerical difficulty related to, though not synonymous with, weak statistical identification.
 
-### Least squares as a projection
+### Least squares with one regressor: fitting a line {#sec-ols-scalar}
 
-Observed data rarely satisfy $X\beta=y$ exactly. Let $X\in\mathbb R^{T\times k}$ and $y\in\mathbb R^T$. We seek a fitted vector in $\mathcal C(X)$ as close as possible to $y$. At the closest point $\hat y$, the residual $r=y-\hat y$ must be orthogonal to every available direction: otherwise moving a little in one of those directions would reduce the distance.
+Suppose we observe consumption $y_t$ and income $x_t$ for $T$ households, and would like to summarise their relation by a straight line. For the moment this is a fitting exercise, not a claim that income is exogenous or that the line measures a causal effect. In the **simple regression**, each $x_t$ and $y_t$ is a scalar. The line nevertheless has two coefficients: an intercept $a$ and a slope $b$.
+
+For given coefficients, the fitted value is $a+bx_t$ and the residual is $y_t-a-bx_t$. Ordinary least squares (OLS) chooses the line which minimises the sum of squared residuals:
+
+$$
+S(a,b)=\sum_{t=1}^T(y_t-a-bx_t)^2.
+$$
+
+Squaring prevents positive and negative residuals from cancelling and penalises a large discrepancy more than a small one. The residual is a vertical distance in a plot of $y$ against $x$: income is treated as the given horizontal coordinate, and the discrepancy concerns the response. OLS does not minimise perpendicular distances to the line in that plot.
+
+We can derive the solution using only algebra. Write $\bar x=T^{-1}\sum_t x_t$ and $\bar y=T^{-1}\sum_t y_t$. Adding and subtracting these means in each residual, then expanding the square, gives
+
+$$
+\begin{aligned}
+S(a,b)={}&\sum_{t=1}^T\big[(y_t-\bar y)-b(x_t-\bar x)\big]^2\\
+&+T(\bar y-a-b\bar x)^2.
+\end{aligned}
+$$
+
+The cross term is zero because each centred variable sums to zero. For any slope $b$, the second term is minimised by $a=\bar y-b\bar x$. Thus the best line passes through the sample means. We are left with choosing its slope.
+
+Define the two sample sums
+
+$$
+\begin{aligned}
+S_{xx}&=\sum_{t=1}^T(x_t-\bar x)^2,\\
+S_{xy}&=\sum_{t=1}^T(x_t-\bar x)(y_t-\bar y).
+\end{aligned}
+$$
+
+If $S_{xx}>0$, completing the square in $b$ yields the unique estimates
+
+$$
+\hat b=\frac{S_{xy}}{S_{xx}},\qquad
+\hat a=\bar y-\hat b\bar x.
+$$ {#eq-ols-scalar}
+
+Indeed, after setting $a=\bar y-b\bar x$, the objective equals its minimum plus $S_{xx}(b-\hat b)^2$. No other slope can improve it. The slope is a ratio of sample covariance to sample variance, since the common divisor used in these two statistics cancels. If all incomes are identical, $S_{xx}=0$: the observations cannot distinguish a change in the slope from a compensating change in the intercept. This is the scalar form of exact collinearity.
+
+For a small numerical example, take four pairs
+
+$$
+(x_t,y_t)\in\{(0,1),(1,2),(2,2),(3,4)\}.
+$$
+
+Then $\bar x=1.5$, $\bar y=2.25$, $S_{xx}=5$ and $S_{xy}=4.5$. Hence $\hat a=\hat b=.9$. The fitted values are $.9,1.8,2.7,3.6$, giving residuals $.1,.2,-.7,.4$ and a sum of squares of $.70$. The proposed line $1+x$ instead gives a sum of squares of $1$. These calculations show exactly what is being compared.
+
+The OLS residuals $\hat u_t=y_t-\hat a-\hat b x_t$ satisfy
+
+$$
+\sum_{t=1}^T\hat u_t=0,\qquad
+\sum_{t=1}^Tx_t\hat u_t=0.
+$$
+
+These are the **normal equations**: the residuals are orthogonal to the constant and to the regressor in the observed sample. After introducing derivatives, one can obtain the same equations by setting the two partial derivatives of $S(a,b)$ to zero. Importantly, they are identities created by the fit. They are not evidence that the unobserved economic error is exogenous.
+
+If the intercept is deliberately excluded, the line is restricted to pass through zero. Minimising $\sum_t(y_t-bx_t)^2$ then gives
+
+$$
+\hat b_{\text{no intercept}}
+=\frac{\sum_t x_ty_t}{\sum_t x_t^2},
+\qquad \sum_t x_t^2>0.
+$$
+
+This is a different model. Its residuals need not sum to zero, and the centred formula in @eq-ols-scalar no longer applies.
+
+### From the scalar normal equations to matrix OLS {#sec-ols-matrix}
+
+To write the same simple regression in matrix form, place the observations in rows and the regressors in columns:
+
+$$
+X=\begin{pmatrix}
+1&x_1\\1&x_2\\\vdots&\vdots\\1&x_T
+\end{pmatrix},\qquad
+\beta=\begin{pmatrix}a\\b\end{pmatrix}.
+$$
+
+The first column of $X$ supplies the intercept. Multiplication gives $(X\beta)_t=a+bx_t$, so stacking the observations has not changed a single fitted value. The two scalar normal equations become $X'(y-X\hat\beta)=0$. Written out, this is
+
+$$
+\begin{pmatrix}
+T&\sum_t x_t\\
+\sum_t x_t&\sum_t x_t^2
+\end{pmatrix}
+\begin{pmatrix}\hat a\\\hat b\end{pmatrix}
+=\begin{pmatrix}\sum_t y_t\\\sum_t x_ty_t\end{pmatrix}.
+$$
+
+Solving its first row for $\hat a$, then substituting into its second row, reproduces @eq-ols-scalar. The determinant of this $2\times2$ matrix is $TS_{xx}$, so invertibility imposes exactly the same variation requirement as before.
+
+With several regressors, we add columns to $X$. Let $X\in\mathbb R^{T\times k}$, where $k$ counts all coefficients including an intercept when present, and let $y\in\mathbb R^T$. The fitted vector $X\beta$ is a linear combination of these columns. We therefore seek a vector in $\mathcal C(X)$ as close as possible to $y$. At the closest point $\hat y$, the residual $r=y-\hat y$ must be orthogonal to every available direction: otherwise moving a little in one of those directions would reduce the distance.
 
 Indeed, if $X'r=0$, then for any coefficient change $d$,
 
 $$
+\begin{aligned}
 \|y-X(\hat\beta+d)\|_2^2
-=\|r-Xd\|_2^2
-=\|r\|_2^2+\|Xd\|_2^2.
+&=\|r-Xd\|_2^2\\
+&=\|r\|_2^2+\|Xd\|_2^2.
+\end{aligned}
 $$
 
 This proves optimality without yet using differentiation. When $X$ has full column rank, $\|Xd\|_2^2>0$ for $d\neq0$, so the coefficients are unique:
 
 $$
-X'(y-X\hat\beta)=0,
-\qquad
+\begin{gathered}
+X'(y-X\hat\beta)=0,\\
 \hat\beta=(X'X)^{-1}X'y.
+\end{gathered}
 $$ {#eq-ols-projection}
 
-The projection matrix $P_X=X(X'X)^{-1}X'$ satisfies $P_X'=P_X$ and $P_X^2=P_X$. Thus $y=P_Xy+(I-P_X)y$ is a decomposition into orthogonal components. With deficient rank the fitted vector remains unique, although several coefficient vectors produce it. None of these geometric statements requires a distribution for the data.
+Check the dimensions in @eq-ols-projection: $X'X$ and its inverse have size $k\times k$, $X'y$ has size $k\times1$, and $\hat\beta$ has size $k\times1$. The projection matrix $P_X=X(X'X)^{-1}X'$ instead has size $T\times T$, since it sends the observed response vector to its fitted vector. It satisfies $P_X'=P_X$ and $P_X^2=P_X$. Thus $y=P_Xy+(I_T-P_X)y$ is a decomposition into orthogonal components. With deficient rank the fitted vector remains unique, although several coefficient vectors produce it. None of these geometric statements requires a distribution for the data.
 
 ![In the observation plot, OLS minimises squared vertical residuals. In data space, the same operation projects the response vector onto the regressor space.](../figures/mathematics/analysis/projection.svg){#fig-ols-geometry}
 
@@ -219,14 +553,16 @@ A function is specified by a domain, a codomain, and a rule assigning exactly on
 
 To say precisely that $f(g)$ is close to $g$ near zero, we need limits. A sequence $x_n\in\mathbb R^d$ converges to $a$ when, for every $\varepsilon>0$, there is an $N$ such that $n\geq N$ implies $\|x_n-a\|_2<\varepsilon$. The threshold $N$ may depend on the requested accuracy, but every subsequent term must meet it. Seeing a few small discrepancies is not enough.
 
-For a function on $D\subseteq\mathbb R^d$, a limit at an accumulation point $a$ is the corresponding statement about *all* nearby inputs:
+For a function on $D\subseteq\mathbb R^d$, a limit at an accumulation point $a$ is the corresponding statement about *all* nearby inputs. We write
 
 $$
 \lim_{\substack{x\to a\\x\in D}}f(x)=\ell
-\quad\Longleftrightarrow\quad
-\forall\varepsilon>0\ \exists\delta>0:
-\quad x\in D,\ 0<\|x-a\|_2<\delta
-\Rightarrow \|f(x)-\ell\|_2<\varepsilon.
+$$
+
+if, for every $\varepsilon>0$, there exists $\delta>0$ such that every $x\in D$ satisfying $0<\|x-a\|_2<\delta$ also satisfies
+
+$$
+\|f(x)-\ell\|_2<\varepsilon.
 $$
 
 Equivalently, every sequence in $D\setminus\{a\}$ converging to $a$ must have images converging to $\ell$. The order of the quantifiers is crucial: one $\delta$ must control every admissible approach within that neighbourhood.
@@ -293,20 +629,23 @@ The **mean value theorem** makes a local derivative informative about a finite i
 An accumulated flow motivates integration. If a marginal cost $c(q)$ varies continuously with output, partition an interval into small quantities $\Delta q_j$ and sum $c(q_j)\Delta q_j$. As the largest interval width tends to zero, these sums define the Riemann integral. Continuous functions on a compact interval are integrable. The fundamental theorem of calculus gives
 
 $$
-F(x)=\int_a^x c(s)\,ds \ \Rightarrow\ F'(x)=c(x),
-\qquad
+\begin{gathered}
+F(x)=\int_a^x c(s)\,ds \ \Rightarrow\ F'(x)=c(x),\\
 f(b)-f(a)=\int_a^b f'(s)\,ds
+\end{gathered}
 $$
 
 when $c$ is continuous and, for the second identity, $f$ is continuously differentiable. Integration by parts, $\int u v'=[uv]-\int u'v$, follows by integrating the product rule. Substitution follows in the same way from the chain rule.
 
 ![Midpoint sums approximate the integral of marginal cost over quantities from zero to one. Finer rectangles reduce the discrepancy with the area under the curve.](../figures/mathematics/analysis/integration.svg){#fig-integration}
 
-For a $C^2$ function near $a$—one with continuous derivatives through order two—integrate twice along the segment from $a$ to $a+h$:
+Suppose $f$ has continuous derivatives through order two near $a$, which we write as $f\in C^2$ near $a$. Integrating twice along the segment from $a$ to $a+h$ gives
 
 $$
-f(a+h)=f(a)+f'(a)h+
-h^2\int_0^1(1-t)f''(a+th)\,dt.
+\begin{aligned}
+f(a+h)={}&f(a)+f'(a)h\\
+&+h^2\int_0^1(1-t)f''(a+th)\,dt.
+\end{aligned}
 $$
 
 Replacing the second derivative inside the integral by $f''(a)$ yields
@@ -320,9 +659,10 @@ This is the second-order **Taylor expansion**. The little-$o$ statement follows 
 For log growth, $f'(0)=1$, $f''(0)=-1$, and $f'''(g)=2/(1+g)^3$. Hence, for $|g|\leq r<1$,
 
 $$
-\log(1+g)=g-\frac{g^2}{2}+R(g),
-\qquad
+\begin{gathered}
+\log(1+g)=g-\frac{g^2}{2}+R(g),\\
 |R(g)|\leq\frac{|g|^3}{3(1-r)^3}.
+\end{gathered}
 $$ {#eq-log-taylor}
 
 The bound explicitly identifies where the approximation is controlled. It deteriorates near $g=-1$. At $g=.02$, the quadratic gives $.0198$, within about $2.63\times10^{-6}$ of the exact value.
@@ -340,9 +680,10 @@ Suppose output is $F(K,L)=K^\alpha L^{1-\alpha}$. Increasing capital while holdi
 A map $F:U\subseteq\mathbb R^n\to\mathbb R^m$, with $U$ open, is **differentiable at $a$** if a linear map $J$ satisfies
 
 $$
-F(a+h)=F(a)+Jh+r(h),
-\qquad
+\begin{gathered}
+F(a+h)-F(a)=Jh+r(h),\\
 \frac{\|r(h)\|_2}{\|h\|_2}\longrightarrow0.
+\end{gathered}
 $$ {#eq-total-derivative}
 
 The linear map is unique. Indeed, if two such maps existed, setting $h=tv$ would imply $(J_1-J_2)v=0$ for every $v$. Taking $v$ successively as the basis vectors shows that $J_{ij}=\partial F_i/\partial x_j$. The matrix $J=J_F(a)\in\mathbb R^{m\times n}$ is the **Jacobian**: one row per output, one column per input.
@@ -353,7 +694,7 @@ $$
 dF=F\left(\alpha\frac{dK}{K}+(1-\alpha)\frac{dL}{L}\right).
 $$
 
-Dividing by $F$ explains the familiar first-order relation between proportional changes. For Cobb–Douglas the *log-level* identity $\log F=\alpha\log K+(1-\alpha)\log L$ is exact; replacing log changes by proportional changes is the approximation.
+Dividing by $F$ explains the familiar first-order relation between proportional changes. For Cobb-Douglas the *log-level* identity $\log F=\alpha\log K+(1-\alpha)\log L$ is exact; replacing log changes by proportional changes is the approximation.
 
 The existence of partial derivatives does not by itself establish @eq-total-derivative. Extend $f(x,y)=x^2y/(x^2+y^2)$ by $f(0,0)=0$. We already proved continuity. Both partial derivatives at zero are zero, so any total derivative would have to vanish. Yet along $(x,y)=(t,t)$, $f=t/2$ and
 
@@ -370,7 +711,11 @@ Consider the nonlinear two-equation map
 $$
 G(x_1,x_2)=
 \begin{pmatrix}x_1+.4x_2+.12x_1^2\\-.2x_1+.8x_2+.08x_2^2\end{pmatrix},
-\quad
+$$
+
+whose Jacobian is
+
+$$
 J_G(x)=
 \begin{pmatrix}1+.24x_1&.4\\-.2&.8+.16x_2\end{pmatrix}.
 $$
@@ -396,12 +741,15 @@ $$
 J_{F\circ G}(a)=J_F(G(a))J_G(a).
 $$
 
-The dimensions are $(p\times m)(m\times n)$. For scalar $f$ and a unit vector $v$, the directional derivative is $\nabla f(a)'v$. Cauchy–Schwarz bounds it above by $\|\nabla f(a)\|_2$, attained by $v=\nabla f(a)/\|\nabla f(a)\|_2$ when the gradient is nonzero. This proves the steepest-ascent interpretation in the Euclidean metric.
+The dimensions are $(p\times m)(m\times n)$. For scalar $f$ and a unit vector $v$, the directional derivative is $\nabla f(a)'v$. Cauchy-Schwarz bounds it above by $\|\nabla f(a)\|_2$, attained by $v=\nabla f(a)/\|\nabla f(a)\|_2$ when the gradient is nonzero. This proves the steepest-ascent interpretation in the Euclidean metric.
 
 For a $C^2$ scalar function, the derivative of the gradient is the **Hessian**, $H_f=(\partial_i\partial_j f)_{ij}$. Continuity of second partial derivatives ensures symmetry. Applying the one-dimensional expansion to $\varphi(t)=f(a+th)$ gives
 
 $$
-f(a+h)=f(a)+\nabla f(a)'h+\tfrac12h'H_f(a)h+o(\|h\|_2^2).
+\begin{aligned}
+f(a+h)={}&f(a)+\nabla f(a)'h\\
+&+\tfrac12h'H_f(a)h+o(\|h\|_2^2).
+\end{aligned}
 $$ {#eq-multivariate-taylor}
 
 The quadratic term includes interactions: in two dimensions it is $\tfrac12 f_{11}h_1^2+f_{12}h_1h_2+\tfrac12 f_{22}h_2^2$. If $\|H_f(x)-H_f(y)\|_2\leq L\|x-y\|_2$ near the segment, the remainder is bounded by $L\|h\|_2^3/6$. For a vector-valued function, each output has its own Hessian; the Jacobian alone is the first-order object.
@@ -505,33 +853,48 @@ They satisfy $x^*-a+\mu^*=0$, $x^*-b\leq0$, $\mu^*\geq0$, and $\mu^*(x^*-b)=0$. 
 **Move the cap.** The unconstrained choice is $a=1$. As $b$ passes through one, compare the optimum, the multiplier and the optimised loss.
 :::
 
-These are the **Karush–Kuhn–Tucker (KKT) conditions**. For the problem
+These are the **Karush-Kuhn-Tucker (KKT) conditions**. For the problem
 
 $$
-\min_{x\in U} f(x)
-\quad\text{subject to}\quad
-g_i(x)\leq0\ (i=1,\ldots,m),\qquad h_j(x)=0\ (j=1,\ldots,r),
+\begin{aligned}
+&\min_{x\in U} f(x)\\
+&\text{subject to }g_i(x)\leq0\quad(i=1,\ldots,m),\\
+&\phantom{\text{subject to }}h_j(x)=0\quad(j=1,\ldots,r),
+\end{aligned}
 $$
 
 where $U$ is open, define
 
 $$
+\begin{aligned}
 \mathcal L(x,\mu,\lambda)
-=f(x)+\sum_{i=1}^m\mu_i g_i(x)+\sum_{j=1}^r\lambda_j h_j(x).
+={}&f(x)+\sum_{i=1}^m\mu_i g_i(x)\\
+&+\sum_{j=1}^r\lambda_j h_j(x).
+\end{aligned}
 $$
 
-At a candidate $(x^*,\mu^*,\lambda^*)$, the four requirements are
+At a candidate $(x^*,\mu^*,\lambda^*)$, the four requirements concern different parts of the problem.
+
+**Stationarity:** the gradient of the Lagrangian with respect to the choice is zero:
 
 $$
 \begin{aligned}
-\text{stationarity:}\quad&
-\nabla f(x^*)+\sum_i\mu_i^*\nabla g_i(x^*)+
-\sum_j\lambda_j^*\nabla h_j(x^*)=0,\\
-\text{primal feasibility:}\quad&g_i(x^*)\leq0,\qquad h_j(x^*)=0,\\
-\text{dual feasibility:}\quad&\mu_i^*\geq0,\\
-\text{complementary slackness:}\quad&\mu_i^*g_i(x^*)=0.
+0={}&\nabla f(x^*)+\sum_i\mu_i^*\nabla g_i(x^*)\\
+&+\sum_j\lambda_j^*\nabla h_j(x^*).
 \end{aligned}
 $$ {#eq-kkt}
+
+**Primal feasibility:** the choice satisfies the original constraints, $g_i(x^*)\leq0$ for every inequality and $h_j(x^*)=0$ for every equality.
+
+**Dual feasibility:** each inequality multiplier satisfies $\mu_i^*\geq0$. Equality multipliers are unrestricted.
+
+**Complementary slackness:** for each inequality,
+
+$$
+\mu_i^*g_i(x^*)=0.
+$$
+
+Hence a slack inequality has a zero multiplier. An active inequality may have a positive or a zero multiplier, as the scalar cap example showed.
 
 The signs follow from the stated minimisation convention and the form $g_i\leq0$. A lower bound $x\geq0$ must be written $-x\leq0$. Maximisation can be converted to minimisation by negating the objective.
 
@@ -576,8 +939,11 @@ If a KKT point instead satisfies strict positivity for every nonzero $d\in\mathc
 Suppose two nonnegative instruments jointly use a limited resource. Consider
 
 $$
-\min_{x,y\geq0}q(x,y)=(x-1)^2+2(y-1)^2
-\qquad\text{subject to}\qquad x+y\leq b,\quad b>0.
+\begin{gathered}
+\min_{x,y\geq0}q(x,y),\\
+q(x,y)=(x-1)^2+2(y-1)^2,\\
+\text{subject to }x+y\leq b,\quad b>0.
+\end{gathered}
 $$
 
 At $b=1$, the unconstrained optimum $(1,1)$ is infeasible. Write $g_1=x+y-b$, $g_2=-x$, $g_3=-y$. If only the resource cap binds, stationarity gives $2(x-1)+\mu=0$, $4(y-1)+\mu=0$, and $x+y=b$. Hence
@@ -592,12 +958,20 @@ These candidates are positive for $1/2<b<2$, with $\mu>0$. At $b=1$, the solutio
 For a smaller resource, the formula would make $x$ negative. We must change the active set rather than keep using it. At $0<b<1/2$, set $x=0$, $y=b$. The resource multiplier is $4(1-b)$ and the multiplier on $-x\leq0$ is $2-4b\geq0$. For $b>2$, both instruments can attain their preferred levels and the cap is slack. Combining the regimes,
 
 $$
-(x^*,y^*)=
+\begin{gathered}
+x^*=
 \begin{cases}
-(0,b),&0<b\leq1/2,\\
-((2b-1)/3,(b+1)/3),&1/2\leq b\leq2,\\
-(1,1),&b\geq2.
+0,&0<b\leq1/2,\\
+(2b-1)/3,&1/2\leq b\leq2,\\
+1,&b\geq2,
+\end{cases}\\[.7em]
+y^*=
+\begin{cases}
+b,&0<b\leq1/2,\\
+(b+1)/3,&1/2\leq b\leq2,\\
+1,&b\geq2.
 \end{cases}
+\end{gathered}
 $$ {#eq-two-instruments}
 
 The formulas agree at the junctions. Binding constraints have zero multipliers at the transitions, so imposing strict complementarity would unnecessarily exclude those valid optima.
@@ -626,11 +1000,9 @@ v(b)=
 \tfrac23(2-b)^2,&1/2\leq b\leq2,\\
 0,&b\geq2.
 \end{cases}
-\qquad
-v'(b)=-\mu(b).
 $$
 
-Relaxing the cap reduces the minimum loss. With $\mathcal L=f+\mu(c-b)$, the multiplier is the *negative* derivative with respect to the right-hand side. In a utility maximisation problem expressed as minimisation of negative utility, the derivative of maximised utility has the opposite sign.
+Differentiating on each regime gives $v'(b)=-\mu(b)$. Relaxing the cap reduces the minimum loss. With $\mathcal L=f+\mu(c-b)$, the multiplier is the *negative* derivative with respect to the right-hand side. In a utility maximisation problem expressed as minimisation of negative utility, the derivative of maximised utility has the opposite sign.
 
 More generally, along a differentiable local solution and multiplier branch with a stable active set and the required regularity, the **envelope theorem** gives
 
@@ -688,7 +1060,7 @@ $$
 \operatorname{Var}(X)=E[(X-\mu)^2]=E[X^2]-\mu^2,\qquad \mu=E[X].
 $$
 
-For two square-integrable variables, $\operatorname{Cov}(X,Y)=E[(X-EX)(Y-EY)]$. Dividing by positive standard deviations gives correlation, which is bounded by one in absolute value by Cauchy–Schwarz. Independence implies zero covariance when these moments exist. The converse fails: for $X\sim\mathrm{Uniform}(-1,1)$ and $Y=X^2$, covariance is zero by symmetry, yet $Y$ is entirely determined by $X$.
+For two square-integrable variables, $\operatorname{Cov}(X,Y)=E[(X-EX)(Y-EY)]$. Dividing by positive standard deviations gives correlation, which is bounded by one in absolute value by Cauchy-Schwarz. Independence implies zero covariance when these moments exist. The converse fails: for $X\sim\mathrm{Uniform}(-1,1)$ and $Y=X^2$, covariance is zero by symmetry, yet $Y$ is entirely determined by $X$.
 
 Skewness is $E[(X-\mu)^3]/\sigma^3$ and kurtosis is $E[(X-\mu)^4]/\sigma^4$, assuming the required absolute moments exist and $\sigma>0$. The Gaussian benchmark has skewness zero and kurtosis three. Kurtosis weights large standardised deviations to the fourth power; it does not order every tail probability or by itself identify a density's shape. Two laws with the same first four moments can still differ.
 
@@ -725,8 +1097,11 @@ Limits cannot always be moved through integrals. Let $f_n(x)=n\,\mathbf1_{(0,1/n
 Let $Y$ be next quarter's inflation and $X$ today's indicators. A forecast $m(X)$ may use those indicators but cannot use tomorrow's observation. If $E[Y^2]<\infty$, the best forecast under squared loss is $m(X)=E[Y\mid X]$. Indeed, for any square-integrable forecast $a(X)$,
 
 $$
+\begin{aligned}
 E[(Y-a(X))^2]
-=E[(Y-m(X))^2]+E[(m(X)-a(X))^2].
+={}&E[(Y-m(X))^2]\\
+&+E[(m(X)-a(X))^2].
+\end{aligned}
 $$
 
 The cross term vanishes because $E[Y-m(X)\mid X]=0$. This is the probability version of the projection argument for OLS, except that the space now contains all square-integrable functions of the information rather than just linear combinations of regressors.
@@ -735,9 +1110,15 @@ Formally, $E[Y\mid\mathcal G]$ for integrable $Y$ is a $\mathcal G$-measurable v
 
 $$
 E[E(Y\mid\mathcal G)\mid\mathcal H]=E[Y\mid\mathcal H],
-\qquad
-\operatorname{Var}(Y)=E[\operatorname{Var}(Y\mid\mathcal G)]
-+\operatorname{Var}(E[Y\mid\mathcal G]).
+$$
+
+and
+
+$$
+\begin{aligned}
+\operatorname{Var}(Y)={}&E[\operatorname{Var}(Y\mid\mathcal G)]\\
+&+\operatorname{Var}(E[Y\mid\mathcal G]).
+\end{aligned}
 $$
 
 For a vector $X$, $\Sigma=E[(X-EX)(X-EX)']$ collects variances and covariances. In a jointly Gaussian law, conditional means are affine and conditional covariance does not depend on the observed value. These useful properties belong to that distributional model; zero correlation alone does not imply them.
@@ -843,39 +1224,210 @@ A statistical model is a family $\{P_\theta:\theta\in\Theta\}$. The **likelihood
 
 For a regular correctly specified i.i.d. model with an interior identified parameter, appropriate smoothness and domination, and nonsingular per-observation Fisher information $\mathcal I(\theta_0)$, a consistent MLE is asymptotically Normal with covariance $\mathcal I(\theta_0)^{-1}$ after $\sqrt T$ scaling. The expected score is zero when differentiation and integration can be interchanged on a fixed support. Parameter-dependent support, boundaries or misspecification require a separate argument; the information identity is not automatic.
 
-### OLS inference needs more than a projection {#sec-ols-assumptions}
+### The five OLS assumptions {#sec-ols-assumptions}
 
-Write
+In @sec-ols-scalar we fitted a line without specifying how the observations were generated. We now ask a different question: when do its coefficients estimate a population relation, and when can we attach valid confidence intervals to them? The distinction matters because the least-squares calculation will return coefficients even when their proposed economic interpretation is wrong.
+
+Start again with one scalar regressor:
+
+$$
+y_t=\beta_0+\beta_1x_t+u_t.
+$$
+
+Here $u_t$ is the unobserved error in the population model, not the fitted residual $\hat u_t$. With several regressors, write
 
 $$
 y=X\beta+u,\qquad X\in\mathbb R^{T\times k}.
 $$ {#eq-ols-model}
 
-With full column rank, substitution into @eq-ols-projection gives
+In this section the five assumptions describe the classical **conditional, finite-sample** model. We condition on the full observed regressor matrix $X$, take $\beta$ as a fixed parameter, and assume $T>k$. Assumption 4 has two distinct parts, 4a and 4b. Large-sample arguments will be introduced separately; they should not be silently substituted for these assumptions.
+
+#### Assumption 1: a model linear in its coefficients {#sec-ols-assumption-1}
+
+The observations satisfy @eq-ols-model with the same coefficient vector $\beta$ across observations. “Linear” refers to the unknown coefficients. For instance,
+
+$$
+y_t=\beta_0+\beta_1x_t+\beta_2x_t^2+u_t
+$$
+
+is linear in its coefficients even though it is curved in $x_t$. The columns of $X$ are then a constant, $x_t$, and $x_t^2$. In contrast, a coefficient inside an exponential, as in $y_t=\exp(\beta x_t)+u_t$, gives a nonlinear estimation problem.
+
+**If relaxed.** A genuinely nonlinear parameterisation requires an appropriate estimator, such as nonlinear least squares. If the issue is instead a missing square term or a coefficient which changes across regimes, one may still use linear regression after adding the relevant transformed variables or interactions. But a misspecified fitted line need not estimate the intended economic relation. Since any proposed $\beta$ allows us to define $u=y-X\beta$, the decomposition alone says little: Assumption 3 supplies its conditional-mean content. Misspecification can therefore also appear as a failure of that assumption.
+
+#### Assumption 2: no exact collinearity {#sec-ols-assumption-2}
+
+The columns of $X$ are linearly independent:
+
+$$
+\operatorname{rank}(X)=k.
+$$
+
+Equivalently, $X'X$ is invertible. Indeed, $d'X'Xd=\|Xd\|_2^2$ is positive for every nonzero $d$ exactly when no nontrivial column combination vanishes. In the simple regression with an intercept, this condition reduces to $S_{xx}>0$. We need variation in income to distinguish its slope from the intercept.
+
+**If relaxed.** Separate coefficients are not identified by the sample: several coefficient vectors give the same fitted values. Including a constant and one dummy for every category is a familiar example, since the dummies sum to the constant. Removing a redundant column or imposing an economically justified restriction restores a unique parameterisation. A generalised inverse or a ridge penalty can select one coefficient vector, but does not create the missing identifying variation. Near collinearity is different: coefficients remain unique, although estimates can be very imprecise and numerically sensitive.
+
+#### Assumption 3: zero conditional mean {#sec-ols-assumption-3}
+
+The errors have zero mean conditional on the full regressor matrix:
+
+$$
+E[u\mid X]=0.
+$$
+
+For the simple time-indexed regression, this says $E[u_t\mid x_1,\ldots,x_T]=0$ for every $t$. It is stronger than $E[u_t]=0$ and stronger than merely $E[x_tu_t]=0$. It implies that the conditional mean of $y$ is $X\beta$, so the regressors do not systematically predict the omitted part of the response.
+
+**If relaxed.** OLS need not be unbiased or consistent for the intended coefficient. Consider an omitted variable $z_t$ in the population relation
+
+$$
+y_t=\beta_0+\beta_1x_t+\gamma z_t+\varepsilon_t.
+$$
+
+Under sampling conditions giving convergence of the relevant sample moments, positive $\operatorname{Var}(x_t)$, and $\operatorname{Cov}(x_t,\varepsilon_t)=0$, regressing $y_t$ only on a constant and $x_t$ gives
+
+$$
+\operatorname{plim}\hat\beta_1
+=\beta_1+\gamma\frac{\operatorname{Cov}(x_t,z_t)}{\operatorname{Var}(x_t)}.
+$$
+
+The slope attributes to $x_t$ the part of the omitted effect which moves with it. Simultaneity, selection and measurement error can create related failures. Additional controls, a valid instrument or a research design may address particular sources of endogeneity, but each requires its own assumptions. Changing standard errors does not remove this problem. Conversely, replacing strict exogeneity by weaker moment restrictions can preserve consistency in some time-series models; it does not preserve the finite-sample unbiasedness result automatically.
+
+#### Assumption 4a: homoskedasticity {#sec-ols-assumption-4a}
+
+Every error has the same finite conditional variance, for a common parameter $\sigma^2>0$:
+
+$$
+\operatorname{Var}(u_t\mid X)=\sigma^2
+\quad\text{for every }t.
+$$
+
+For example, the dispersion of unexplained consumption around the conditional mean is assumed not to grow with income. This concerns the errors, not the unconditional variance of consumption itself.
+
+**If relaxed.** Conditional variances can differ, giving **heteroskedasticity**. Under Assumptions 1 to 3, OLS remains conditionally unbiased, but the classical variance formula is generally wrong and the usual efficiency guarantee is lost. With independent observations and appropriate moment and leverage conditions, heteroskedasticity-robust standard errors give asymptotically valid inference. Weighted least squares can improve efficiency when the variance structure is correctly specified. Neither approach repairs a nonzero conditional mean.
+
+#### Assumption 4b: no serial correlation {#sec-ols-assumption-4b}
+
+Different errors have zero conditional covariance:
+
+$$
+\operatorname{Cov}(u_t,u_s\mid X)=0
+\quad\text{whenever }t\neq s.
+$$
+
+For time-indexed observations, this is the absence of serial correlation, also called **autocorrelation**, in the errors. Homoskedasticity alone does not imply it: a sequence can have a constant variance and still be persistent. Nor does zero covariance generally imply independence. The two parts of Assumption 4 address different entries of the conditional covariance matrix:
+
+$$
+\Omega:=\operatorname{Var}(u\mid X).
+$$
+
+Assumption 4a fixes its diagonal entries at $\sigma^2$; Assumption 4b sets its off-diagonal entries to zero. Only together do they imply $\Omega=\sigma^2I_T$.
+
+**If relaxed.** Under Assumptions 1 to 3, correlated errors do not by themselves bias OLS, but its classical standard errors and efficiency guarantee generally fail. In time series, HAC standard errors estimate a long-run covariance under suitable weak-dependence, moment and bandwidth conditions. Ordinary heteroskedasticity-robust standard errors do not suffice if the regression scores remain serially correlated. For grouped data, cluster-robust inference instead requires an appropriate cluster structure and enough independent or suitably weakly dependent clusters. Generalised least squares can exploit a correctly specified covariance matrix. With lagged dependent variables, however, serial correlation can also violate Assumption 3, in which case a covariance correction alone is insufficient.
+
+#### Assumption 5: joint conditional normality {#sec-ols-assumption-5}
+
+The error vector is jointly Gaussian conditional on $X$. Together with Assumptions 3, 4a and 4b, this gives
+
+$$
+u\mid X\sim N(0,\sigma^2I_T).
+$$
+
+Joint normality is stronger than requiring each error to have a Normal marginal distribution. Combined with zero conditional covariances, it also implies conditional independence of the errors.
+
+**If relaxed.** The OLS formula, conditional unbiasedness and the Gauss-Markov efficiency result remain valid under Assumptions 1 to 4. What is lost is the general guarantee of exact finite-sample Student and Fisher reference distributions. Large-sample inference may still be justified by a CLT for the regression scores. It requires moment and sampling conditions, not simply a large number printed next to the sample size. Normality is thus an assumption for a particular form of exact inference, not a condition which makes a regression causal.
+
+### What the assumptions allow us to conclude {#sec-ols-results}
+
+The implications can be derived from one identity. Under Assumptions 1 and 2, substitute $y=X\beta+u$ into the OLS formula:
 
 $$
 \hat\beta-\beta=(X'X)^{-1}X'u.
 $$ {#eq-ols-error-decomposition}
 
-If $E[u\mid X]=0$, the estimator is conditionally unbiased. If also $\operatorname{Var}(u\mid X)=\sigma^2I_T$, then
+In the scalar regression with an intercept, its slope component is
+
+$$
+\hat\beta_1-\beta_1
+=\frac{\sum_t(x_t-\bar x)u_t}{S_{xx}}.
+$$
+
+This makes the issue visible: estimation error depends on how the unexplained response moves with the observed regressor. Under Assumption 3, taking the conditional expectation makes the numerator zero. The matrix argument is the same, since $X$ is fixed inside the conditional expectation:
+
+$$
+E[\hat\beta\mid X]=\beta.
+$$
+
+The conditional covariance under a general finite $\Omega$ is
+
+$$
+\operatorname{Var}(\hat\beta\mid X)
+=(X'X)^{-1}X'\Omega X(X'X)^{-1}.
+$$ {#eq-ols-sandwich}
+
+With both 4a and 4b, this simplifies to
 
 $$
 \operatorname{Var}(\hat\beta\mid X)=\sigma^2(X'X)^{-1}.
 $$ {#eq-ols-variance}
 
-The variance assumption combines homoskedasticity and absence of conditional cross-observation covariance. Under these conditions Gauss–Markov says that any other conditionally linear unbiased estimator has covariance at least as large in the positive-semidefinite ordering. Normality is unnecessary for this comparison.
+For the scalar slope, it becomes $\operatorname{Var}(\hat\beta_1\mid X)=\sigma^2/S_{xx}$. More variation in the regressor improves precision, while more unexplained variation reduces it. This interpretation was already present in the scalar calculation; the matrix notation extends it to several coefficients at once.
 
-For exact small-sample tests, impose the stronger condition $u\mid X\sim N(0,\sigma^2I_T)$ and $T>k$. Then $\hat\sigma^2=\|y-X\hat\beta\|^2/(T-k)$ supplies the independent chi-square scale estimate needed for Student $t_{T-k}$ coefficient tests and $F$ tests of joint linear restrictions.
+**Gauss-Markov theorem.** Under Assumptions 1 to 4, OLS is the best linear unbiased estimator (BLUE), conditional on $X$. Here “linear” means linear in the observed response $y$, and “best” means smallest covariance in the positive-semidefinite ordering, within that class of unbiased estimators. It does not compare OLS with every nonlinear or biased estimator.
 
-Lagged dependent variables make $E[u\mid X]=0$ particularly demanding. A current innovation can be uncorrelated with its own past regressors while entering future rows of the full matrix $X$. Finite-sample conditional unbiasedness need not follow. Time-series consistency instead commonly rests on $T^{-1}X'X\xrightarrow{p}Q\succ0$ and $T^{-1}X'u\xrightarrow{p}0$. A CLT for $T^{-1/2}X'u$ then supplies asymptotic inference.
-
-With independent heteroskedastic observations and suitable regularity, the HC0 estimator of $\operatorname{Var}(\hat\beta)$ is
+For a short proof, write another linear estimator as $Cy$, where $C$ may depend on $X$. Unbiasedness for every $\beta$ requires $CX=I_k$. Define $L=(X'X)^{-1}X'$ and $D=C-L$. Then $DX=0$, and the cross terms in $CC'$ vanish because $LD'=0$. Consequently,
 
 $$
-(X'X)^{-1}\left(\sum_{t=1}^T x_tx_t'\hat u_t^2\right)(X'X)^{-1}.
+\operatorname{Var}(Cy\mid X)
+-\operatorname{Var}(\hat\beta\mid X)
+=\sigma^2DD'\succeq0.
 $$
 
-This expression is on the scale of $\hat\beta$, not $\sqrt T(\hat\beta-\beta)$. HAC estimators add weighted sample lag covariances of $x_t\hat u_t$ to allow serial correlation; cluster estimators allow dependence within groups under assumptions on the number and dependence of clusters. These adjustments do not repair endogeneity.
+The last inequality follows from $a'DD'a=\|D'a\|^2\geq0$ for every $a$. Nothing in this argument invokes normality.
+
+Adding Assumption 5 yields exact finite-sample inference. Let $\hat u=y-X\hat\beta$ and
+
+$$
+\hat\sigma^2=\frac{\hat u'\hat u}{T-k}.
+$$
+
+The residual projection has rank $T-k$. Under the Gaussian model, $(T-k)\hat\sigma^2/\sigma^2$ has a chi-square distribution with $T-k$ degrees of freedom and is independent of $\hat\beta$. Thus, under $H_0:\beta_j=\beta_{j,0}$,
+
+$$
+\frac{\hat\beta_j-\beta_{j,0}}
+{\hat\sigma\sqrt{[(X'X)^{-1}]_{jj}}}
+\sim t_{T-k}.
+$$
+
+For $q$ independent linear restrictions, the usual restricted-versus-unrestricted sum-of-squares statistic has an $F_{q,T-k}$ distribution under the null. Without normality, $\hat\sigma^2$ is still conditionally unbiased under Assumptions 1 to 4, but these exact distributional conclusions do not follow in general.
+
+To keep the hierarchy in view: Assumptions 1 and 2 give a unique coefficient estimate; adding 3 gives conditional unbiasedness; adding both parts of 4 gives the classical variance formula and BLUE; adding 5 gives exact Gaussian-model tests. A violation should be assessed against the conclusion it invalidates, rather than treated as a single undifferentiated failure of “the OLS assumptions”.
+
+### Weaker assumptions and robust inference {#sec-ols-relaxations}
+
+The finite-sample model is a useful benchmark, but strict exogeneity is particularly demanding in macroeconometrics. A current innovation can be uncorrelated with its own past regressors while entering future rows of the full matrix $X$. In an autoregression, for example, $u_t$ affects $y_t$, and $y_t$ is a regressor at date $t+1$. Consequently, conditioning on all rows of $X$ is not the same as conditioning on information available before $u_t$ occurs.
+
+Consistency can instead follow from the two limits
+
+$$
+T^{-1}X'X\xrightarrow{p}Q\succ0,\qquad
+T^{-1}X'u\xrightarrow{p}0.
+$$
+
+Dividing both sample products in @eq-ols-error-decomposition by $T$ then gives $\hat\beta\xrightarrow{p}\beta$. A suitable LLN must justify these limits. For inference, a further CLT is needed for $T^{-1/2}X'u$. If its limiting covariance is $S$, then the limiting covariance of $\sqrt T(\hat\beta-\beta)$ is $Q^{-1}SQ^{-1}$. These arguments can allow heteroskedasticity and dependence, but do not follow from dropping assumptions without replacing them.
+
+For independent heteroskedastic observations with suitable regularity, define $x_t$ here as the $k$-component regressor vector, so row $t$ of $X$ is $x_t'$. The HC0 estimator is
+
+$$
+\widehat V_{\mathrm{HC0}}
+=(X'X)^{-1}\widehat M(X'X)^{-1},
+$$
+
+where
+
+$$
+\widehat M=\sum_{t=1}^T x_tx_t'\hat u_t^2.
+$$
+
+The formula estimates the covariance of $\hat\beta$, not that of its $\sqrt T$-scaled error. HAC estimators add weighted sample lag covariances of the scores $x_t\hat u_t$. These procedures modify estimated uncertainty, while leaving the OLS coefficients unchanged. If the coefficients converge to the wrong target because of endogeneity, robust standard errors do not change that target.
 
 ### Intervals, tests, and resampling
 
@@ -1074,6 +1626,30 @@ The modulus is the gain; the argument is the phase shift. For a causal stable AR
 
 ## Exercises with worked answers {#sec-maths-exercises}
 
+### Distinguishing generation from independence
+
+In $\mathbb R^2$, let $u=(1,0)'$, $v=(0,1)'$ and $w=(1,1)'$. For each family $(u)$, $(u,v)$ and $(u,v,w)$, give its span and say whether it is independent, spanning in $\mathbb R^2$, and a basis of $\mathbb R^2$. Give two representations of $(2,1)'$ using the last family.
+
+::: {.callout-note collapse="true" title="Worked answer"}
+The family $(u)$ is independent and spans the horizontal axis, but does not span $\mathbb R^2$. The family $(u,v)$ is independent and spans the plane, hence is a basis. The family $(u,v,w)$ spans the plane but is dependent because $u+v-w=0$. For example, $(2,1)'=2u+v=u+w$. The coefficient triples $(2,1,0)$ and $(1,0,1)$ describe the same vector. The dimension of the span is two, not the number of vectors in the redundant family.
+:::
+
+### Predicting a composition before multiplying
+
+Let $A=\left(\begin{smallmatrix}1&1\\0&1\end{smallmatrix}\right)$ and $B=\left(\begin{smallmatrix}2&0\\0&1\end{smallmatrix}\right)$. Find the columns of $AB$ by following the basis vectors through $B$ and then $A$. Compare $AB(1,1)'$ and $BA(1,1)'$. Finally, if $M$ is $2\times3$ and $N$ is $3\times4$, which of $MN$ and $NM$ is defined?
+
+::: {.callout-note collapse="true" title="Worked answer"}
+The first basis vector becomes $(2,0)'$ after $B$ and stays there after $A$. The second becomes $(0,1)'$ after $B$, then $(1,1)'$ after $A$. Thus $AB=\left(\begin{smallmatrix}2&1\\0&1\end{smallmatrix}\right)$ and $AB(1,1)'=(3,1)'$. In the reverse order, $BA=\left(\begin{smallmatrix}2&2\\0&1\end{smallmatrix}\right)$ and $BA(1,1)'=(4,1)'$. The product $MN$ is defined and has size $2\times4$. The product $NM$ is not defined because its inner dimensions would be 4 and 2. It is not enough that each matrix is rectangular.
+:::
+
+### Separating an OLS fit from its assumptions
+
+Reproduce the intercept and slope for the four observations in @sec-ols-scalar and verify both normal equations. Does the fact that the fitted residuals sum to zero establish Assumption 3? If the population errors have unequal conditional variances but are uncorrelated across observations, which assumption fails and which OLS results can remain valid?
+
+::: {.callout-note collapse="true" title="Worked answer"}
+The centred sums are $S_{xx}=5$ and $S_{xy}=4.5$, so both coefficients equal $.9$. The residuals $.1,.2,-.7,.4$ sum to zero; their products with $x_t$ sum to $.2-1.4+1.2=0$. These equalities follow from the minimisation problem, not from a population restriction on $u_t$. Unequal conditional variances violate 4a, not 4b. If 1 to 3 still hold, OLS is conditionally unbiased. Its covariance is the general expression in @eq-ols-sandwich, rather than @eq-ols-variance; heteroskedasticity-robust inference needs the additional large-sample regularity described in @sec-ols-relaxations.
+:::
+
 ### Recovering two coefficients
 
 Let $X=\left(\begin{smallmatrix}1&1\\2&2\\3&3\end{smallmatrix}\right)$ and $y=(1,2,4)'$. Find the fitted vector and all least-squares coefficient vectors. Does the absence of an inverse prevent a fitted value from existing?
@@ -1146,6 +1722,6 @@ The following chapters specialise these requirements to time series. It is usefu
 
 ## Further reading and visual sources
 
-For linear algebra and projection geometry, see Strang [@Strang2016]. Lebl's open textbook [*Basic Analysis*, volumes I and II](https://www.jirka.org/ra/) develops real and multivariable analysis, including the inverse and implicit function theorems. Boyd and Vandenberghe's [*Convex Optimization*, chapters 2–5](https://web.stanford.edu/~boyd/cvxbook/bv_cvxbook.pdf) covers convexity, duality, Slater's condition and KKT sufficiency. For nonconvex first- and second-order conditions, see Nocedal and Wright [@NocedalWright2006], chapter 12. Casella and Berger [@CasellaBerger2002] cover probability and inference; van der Vaart [@vanDerVaart1998] develops asymptotic arguments, and Hamilton [@Hamilton1994] connects them to time series.
+For linear algebra and projection geometry, see Strang [@Strang2016]. The open textbook *Interactive Linear Algebra* also develops [span](https://textbooks.math.gatech.edu/ila/spans.html) and [matrix multiplication as composition](https://textbooks.math.gatech.edu/ila/matrix-multiplication.html). Lebl's open textbook [*Basic Analysis*, volumes I and II](https://www.jirka.org/ra/) develops real and multivariable analysis, including the inverse and implicit function theorems. Boyd and Vandenberghe's [*Convex Optimization*, chapters 2 to 5](https://web.stanford.edu/~boyd/cvxbook/bv_cvxbook.pdf) covers convexity, duality, Slater's condition and KKT sufficiency. For nonconvex first- and second-order conditions, see Nocedal and Wright [@NocedalWright2006], chapter 12. Casella and Berger [@CasellaBerger2002] cover probability and inference; van der Vaart [@vanDerVaart1998] develops asymptotic arguments, and Hamilton [@Hamilton1994] connects them to time series. For the conditional OLS efficiency argument, see also Taboga's [proof of the Gauss-Markov theorem](https://www.statlect.com/fundamentals-of-statistics/Gauss-Markov-theorem).
 
 The animations were made for this chapter with [Manim Community](https://github.com/ManimCommunity/manim) and [StatAnim](https://github.com/rishabhbhartiya/statanim). Their [Python sources and reproduction instructions](https://github.com/Camille-Souffron/macroeconometrics-course/tree/main/code/python/mathematics) specify the formulas, dependency versions and numerical checks. The still figures and interactive displays use the same examples. Animations illustrate the arguments; their still images and the surrounding text remain available without playback.

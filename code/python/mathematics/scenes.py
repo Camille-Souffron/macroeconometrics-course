@@ -1,4 +1,4 @@
-"""Eight original teaching scenes; render with render.py, no LaTeX needed."""
+"""Original teaching scenes; render with render.py, no LaTeX needed."""
 import numpy as np
 from scipy.stats import norm
 from manim import (
@@ -85,6 +85,79 @@ class LinearMap(Lesson):
         objects = VGroup(plane,square,arrows)
         transformed = objects.copy().apply_function(mapped)
         self.play(Transform(objects,transformed),run_time=4)
+        self.wait(4)
+
+
+class MatrixComposition(Lesson):
+    def construct(self):
+        self.heading("01B / MATRIX MULTIPLICATION", "Two operations, one matrix product",
+                     "B = [[2, 0], [0, 1]]          A = [[1, 1], [0, 1]]")
+        plane = NumberPlane(x_range=[-1, 5, 1], y_range=[-1, 2, 1],
+                            x_length=10.5, y_length=3.4,
+                            background_line_style={"stroke_color": GRID, "stroke_width": 1},
+                            axis_config={"stroke_color": MUTED, "stroke_width": 1.4})
+        plane.move_to([0, -.35, 0])
+        origin = plane.c2p(0, 0)
+        sx = np.linalg.norm(plane.c2p(1, 0) - origin)
+        sy = np.linalg.norm(plane.c2p(0, 1) - origin)
+        square = Polygon(*[plane.c2p(*p) for p in [(0, 0), (1, 0), (1, 1), (0, 1)]],
+                         fill_color=TEAL, fill_opacity=.17, stroke_color=TEAL, stroke_width=2)
+        arrows = VGroup(Arrow(origin, plane.c2p(1, 0), buff=0, color=TEAL),
+                        Arrow(origin, plane.c2p(0, 1), buff=0, color=GOLD),
+                        Arrow(origin, plane.c2p(1, 1), buff=0, color=RED))
+        original = VGroup(plane, square, arrows)
+        # Clip neither the geometry nor labels: this grid is deliberately small
+        # enough to keep both composed images within the frame.
+        grid = NumberPlane(x_range=[0, 1, .25], y_range=[0, 1, .25],
+                           x_length=sx, y_length=sy,
+                           background_line_style={"stroke_color": GRID, "stroke_width": 1.4},
+                           axis_config={"stroke_opacity": 0})
+        grid.shift(origin - grid.c2p(0, 0))
+        # Coordinate axes remain a fixed reference; only the unit grid is mapped.
+        self.add(plane)
+        original = VGroup(grid, square, arrows)
+        for value in range(5):
+            self.add(label(str(value), 17, MUTED).next_to(plane.c2p(value, 0), DOWN, buff=.14))
+        self.add(label("0", 17, MUTED).next_to(plane.c2p(0, 0), LEFT, buff=.14),
+                 label("1", 17, MUTED).next_to(plane.c2p(0, 1), LEFT, buff=.14))
+        A = np.array([[1, 1], [0, 1]])
+        B = np.diag([2, 1])
+
+        def target(matrix):
+            def mapped(p):
+                q = matrix @ ((p - origin)[:2] / [sx, sy])
+                return origin + np.array([q[0] * sx, q[1] * sy, 0])
+            return original.copy().apply_function(mapped)
+
+        phase = label("First apply B, then A", 23, TEAL).move_to([0, 2.05, 0])
+        note = self.note("Start at x = (1, 1). The red arrow is the vector being followed.")
+        objects = original.copy()
+        self.add(phase)
+        self.play(FadeIn(objects), run_time=1)
+        self.wait(2)
+        self.play(Transform(objects, target(B)), run_time=3)
+        self.remove(note)
+        note = self.note("After B: (2, 1). The horizontal coordinate has doubled.")
+        self.wait(2)
+        self.play(Transform(objects, target(A @ B)), run_time=3)
+        self.remove(note)
+        note = self.note("After A: (3, 1). This is ABx = A(Bx).")
+        self.wait(3)
+        self.play(FadeOut(objects), run_time=.5)
+        self.remove(phase, note)
+        phase = label("Now reverse the order: A first, then B", 23, GOLD).move_to([0, 2.05, 0])
+        note = self.note("Return to the same initial vector x = (1, 1).")
+        objects = original.copy()
+        self.add(phase)
+        self.play(FadeIn(objects), run_time=.5)
+        self.wait(1)
+        self.play(Transform(objects, target(A)), run_time=3)
+        self.remove(note)
+        note = self.note("After A: (2, 1). Now apply the horizontal stretch.")
+        self.wait(1)
+        self.play(Transform(objects, target(B @ A)), run_time=3)
+        self.remove(note)
+        self.note("After B: (4, 1). BAx differs from ABx: order matters.")
         self.wait(4)
 
 

@@ -115,6 +115,61 @@ def projection():
     save(fig,"projection")
 
 
+def matrix_vector():
+    fig, axes = plt.subplots(1, 2, figsize=(11.5, 4.8), layout="constrained")
+    ax = axes[0]
+    ax.axis("off")
+    ax.set_title("Read each row against the input")
+    for y, text, color in [
+        (.87, "M has 2 rows and 3 columns", INK),
+        (.74, "Input x = (2, 1, −1)", INK),
+        (.54, "Row 1:  1 × 2 + 2 × 1 + (−1) × (−1)", TEAL),
+        (.43, "First output = 5", TEAL),
+        (.23, "Row 2:  0 × 2 + 1 × 1 + 3 × (−1)", GOLD),
+        (.12, "Second output = −2", GOLD),
+    ]:
+        ax.text(.02, y, text, transform=ax.transAxes, fontsize=11.5, color=color)
+    ax = axes[1]
+    ax.set(title="Or add the three weighted columns", xlim=(-.5, 6),
+           ylim=(-3, 2), aspect="equal", xlabel="first output", ylabel="second output")
+    points = [(0, 0), (2, 0), (4, 1), (5, -2)]
+    for start, end, color, name, offset in zip(
+        points[:-1], points[1:], [TEAL, GOLD, RED],
+        ["2 × column 1", "1 × column 2", "−1 × column 3"],
+        [(0, -19), (-25, 12), (12, 0)],
+    ):
+        ax.annotate("", xy=end, xytext=start,
+                    arrowprops={"arrowstyle": "->", "color": color, "lw": 2.5})
+        mid = (np.array(start) + np.array(end)) / 2
+        ax.annotate(name, mid, xytext=offset, textcoords="offset points", fontsize=9, color=color)
+    ax.plot([0, 5], [0, -2], color=INK, linestyle=":", linewidth=1.7)
+    ax.scatter(5, -2, color=INK, zorder=4)
+    ax.annotate("Mx = (5, −2)", (5, -2), xytext=(-55, -22), textcoords="offset points", fontsize=11)
+    save(fig, "matrix-vector")
+
+
+def matrix_composition():
+    fig, axes = plt.subplots(1, 3, figsize=(12, 4.2), layout="constrained")
+    A = np.array([[1, 1], [0, 1]])
+    B = np.diag([2, 1])
+    square = np.array([[0, 0], [1, 0], [1, 1], [0, 1]])
+    for ax, matrix, title, name in zip(
+        axes, [np.eye(2), B, A @ B],
+        ["1. Original", "2. Apply B: stretch", "3. Apply A: shear"],
+        ["x = (1, 1)", "Bx = (2, 1)", "ABx = (3, 1)"],
+    ):
+        ax.add_patch(Polygon(square, fill=False, edgecolor=INK, linestyle=":"))
+        ax.add_patch(Polygon(square @ matrix.T, facecolor=TEAL, alpha=.18, edgecolor=TEAL))
+        arrow(ax, matrix[:, 0], TEAL, "")
+        arrow(ax, matrix[:, 1], GOLD, "")
+        end = matrix @ np.ones(2)
+        ax.scatter(*end, color=RED, zorder=5)
+        ax.annotate(name, end, xytext=(-50, 12), textcoords="offset points", color=RED, fontsize=10)
+        ax.set(xlim=(-.4, 3.6), ylim=(-.4, 1.8), aspect="equal", title=title,
+               xlabel="first coordinate")
+    save(fig, "matrix-composition")
+
+
 def moments():
     fig,axes=plt.subplots(2,2,figsize=(10.5,6.5),layout="constrained")
     x=np.linspace(-4,5,500)
@@ -226,6 +281,6 @@ def integration():
 
 
 if __name__=="__main__":
-    for make in [paths,curvature,bases,determinant,projection,moments,laws,intervals,timepaths,filtering,compactness,convexity,integration]:
+    for make in [paths,curvature,bases,determinant,projection,moments,laws,intervals,timepaths,filtering,compactness,convexity,integration,matrix_vector,matrix_composition]:
         make()
-    print("Thirteen SVG figures generated.")
+    print("Fifteen SVG figures generated.")

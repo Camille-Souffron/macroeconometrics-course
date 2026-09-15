@@ -8,6 +8,71 @@ from scipy.stats import norm
 from models import JACOBIAN, nonlinear, allocation, loss, sampling_density, posterior
 
 
+def test_span_coordinates_and_dependent_family():
+    basis=sp.Matrix([[1,sp.Rational(-1,5)],[sp.Rational(1,2),1]])
+    r,s=sp.symbols('r s')
+    coefficients=sp.Matrix([(r+s/5)/sp.Rational(11,10),(s-r/2)/sp.Rational(11,10)])
+    assert sp.simplify(basis*coefficients)==sp.Matrix([r,s])
+    family=sp.Matrix([[1,0,1],[0,1,1]])
+    assert family.rank()==2
+    assert family*sp.Matrix([1,1,-1])==sp.zeros(2,1)
+
+
+def test_matrix_vector_and_composition_examples():
+    M=sp.Matrix([[1,2,-1],[0,1,3]])
+    x=sp.Matrix([2,1,-1])
+    assert M*x==sp.Matrix([5,-2])
+    assert sum((x[j]*M[:,j] for j in range(3)),sp.zeros(2,1))==M*x
+    A=sp.Matrix([[1,1],[0,1]]);B=sp.diag(2,1);v=sp.ones(2,1)
+    assert A*B==sp.Matrix([[2,1],[0,1]])
+    assert B*A==sp.Matrix([[2,2],[0,1]])
+    assert A*(B*v)==sp.Matrix([3,1])
+    assert B*(A*v)==sp.Matrix([4,1])
+
+
+def test_scalar_ols_matches_matrix_and_completed_squares():
+    x=sp.Matrix([0,1,2,3]);y=sp.Matrix([1,2,2,4]);ones=sp.ones(4,1)
+    X=ones.row_join(x)
+    beta=(X.T*X).inv()*X.T*y
+    assert beta==sp.Matrix([sp.Rational(9,10),sp.Rational(9,10)])
+    residual=y-X*beta
+    assert residual==sp.Matrix([sp.Rational(1,10),sp.Rational(2,10),sp.Rational(-7,10),sp.Rational(4,10)])
+    assert (residual.T*residual)[0]==sp.Rational(7,10)
+    assert X.T*residual==sp.zeros(2,1)
+    assert (X.T*X).det()==4*5
+    a,b=sp.symbols('a b')
+    errors=y-X*sp.Matrix([a,b])
+    expected=sp.Rational(7,10)+5*(b-sp.Rational(9,10))**2+4*(sp.Rational(9,4)-a-sp.Rational(3,2)*b)**2
+    assert sp.expand((errors.T*errors)[0]-expected)==0
+
+
+def test_ols_covariance_relaxations_and_gauss_markov():
+    X=np.column_stack([np.ones(4),np.arange(4)])
+    inverse=np.linalg.inv(X.T@X);L=inverse@X.T
+    np.testing.assert_allclose(L@X,np.eye(2),atol=1e-14)
+    for omega in [np.diag([1.,2.,3.,4.]),.5**np.abs(np.arange(4)[:,None]-np.arange(4))]:
+        assert np.linalg.eigvalsh(omega).min()>0
+        covariance=L@omega@L.T
+        np.testing.assert_allclose(covariance,inverse@X.T@omega@X@inverse)
+        weights=(X[:,1]-1.5)/5
+        assert covariance[1,1]==pytest.approx(weights@omega@weights)
+    D=np.array([[1.,-2.,1.,0.],[0.,1.,-2.,1.]])
+    np.testing.assert_allclose(D@X,0,atol=1e-14)
+    np.testing.assert_allclose((L+D)@(L+D).T-L@L.T,D@D.T,atol=1e-14)
+
+
+def test_omitted_variable_slope_identity():
+    # Exact sample counterpart: choose the remaining error orthogonal to x.
+    x=np.arange(5,dtype=float);z=x*x
+    X=np.column_stack([np.ones(5),x])
+    epsilon=np.array([1.,-2.,1.,0.,0.])
+    beta,gamma=.7,1.2
+    y=2+beta*x+gamma*z+epsilon
+    fitted=np.linalg.lstsq(X,y,rcond=None)[0][1]
+    xc=x-x.mean();zc=z-z.mean()
+    assert fitted==pytest.approx(beta+gamma*(xc@zc)/(xc@xc))
+
+
 def test_jacobian_and_taylor_identity():
     x,y=sp.symbols("x y")
     G=sp.Matrix([x+sp.Rational(2,5)*y+sp.Rational(3,25)*x*x,

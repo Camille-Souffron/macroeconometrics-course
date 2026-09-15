@@ -7,9 +7,9 @@ import sys
 import tempfile
 
 ROOT = Path(__file__).resolve().parents[3]
-SCENES = ["LinearMap", "Stability", "Taylor", "Jacobian", "KKT",
+SCENES = ["LinearMap", "MatrixComposition", "Stability", "Taylor", "Jacobian", "KKT",
           "Sampling", "NormalArea", "Fourier"]
-POSTER_TIMES = dict(LinearMap=9, Stability=8, Taylor=15, Jacobian=6,
+POSTER_TIMES = dict(LinearMap=9, MatrixComposition=12, Stability=8, Taylor=15, Jacobian=6,
                     KKT=10, Sampling=13, NormalArea=9, Fourier=10)
 
 
