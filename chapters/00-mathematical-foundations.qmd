@@ -11,43 +11,38 @@ format:
 
 # Chapter 0: Mathematical Foundations {.unnumbered #sec-mathematical-foundations}
 
-An interest-rate rise is followed by lower output. How large was the response? Will it last? How much trust should we place in an estimate drawn from a short sample? The observation cannot settle any of this on its own. Both variables react to other forces, their relation may change with the state of the economy, and persistence makes short samples particularly deceptive. Before estimating an effect, we have to say which quantities may move, which are held fixed, and which differences the data can recover.
+Macroeconometrics uses a small number of mathematical objects in many different forms. A vector may collect observations, coefficients or shocks. A matrix may represent a linear map, a covariance or a system of equations. A derivative may describe a local approximation, a comparative-static response or an optimisation condition. Confusion begins when the notation changes but the underlying object is left implicit.
 
-That is the thread running through this chapter. We first collect economic quantities in vectors and study what linear relations reveal about them. Nonlinear relations come next, bringing limits, derivatives and the error in a local approximation. Optimisation adds feasible directions and boundaries. Probability and statistics then let us state what a sample can teach us once uncertainty enters the picture.
+This chapter therefore proceeds from the general object to the particular calculation. Definitions come first. Results follow with their assumptions stated beside them. Economic examples then show what the result says and where its interpretation stops. The order matters: an example can illustrate a theorem, but it cannot define the theorem's scope.
+
+The main objects are arranged as follows.
+
+| Object | General form | Main question |
+|---|---|---|
+| Vector space and linear map | $V$, $L:V\to W$ | Which combinations and directions are available? |
+| Function and derivative | $F:U\subseteq\mathbb R^n\to\mathbb R^m$ | How does the output change near a point? |
+| Optimisation problem | $\min_{x\in C}f(x)$ | Does an optimum exist, and how can it be characterised? |
+| Probability model | $(\Omega,\mathcal F,\mathbb P)$ and $X:\Omega\to\mathbb R^d$ | How is uncertainty represented before observation? |
+| Statistical model | $\{P_\theta:\theta\in\Theta\}$ and $\hat\theta(Y)$ | What can a sample reveal about an unknown parameter? |
+| Stochastic process | $(X_t)_{t\in\mathbb Z}$ | What can one dependent history reveal over time? |
+
+Four distinctions will recur. An abstract object differs from its coordinates in a chosen basis. A deterministic calculation differs from a probabilistic claim. A population parameter differs from an estimate computed from one sample. A local statement differs from a global one. Each section will say explicitly which side of these distinctions it uses.
 
 ::: {.math-route}
-**How to read this chapter.** Each example poses a problem before the formal definition appears. The first four sections keep three things separate: the object being studied, the algebra used on it, and the assumptions behind each result. The treatment of regression makes the same distinction between fitting a line and interpreting its coefficients. Proofs are included when they expose the mechanism of a result. The animations help with the geometry, while every argument remains readable from the fixed figures and equations.
+**How to read the notation.** Vectors are columns, and a prime denotes transpose. A displayed definition fixes an object; a theorem or proposition states what follows under listed assumptions; an example comes afterwards. The figures and animations, produced with Manim and StatAnim, illustrate the geometry after the formal argument has been given. Every result remains available in the equations and fixed figures without video playback.
 :::
-
-## A small dynamic model {#sec-maths-motivating-system}
-
-Let $y_t$ and $\pi_t$ denote deviations of output and inflation from reference levels. A deliberately small model is
-
-$$
-\begin{gathered}
-x_t=\begin{pmatrix}y_t\\\pi_t\end{pmatrix},\\
-A=\begin{pmatrix}.7&.2\\.1&.8\end{pmatrix},\\
-x_{t+1}=Ax_t+u_{t+1}.
-\end{gathered}
-$$ {#eq-maths-state-system}
-
-Start from $x_t=(1,0)'$ and switch off the next disturbance. Tomorrow's state is $(.7,.1)'$. The first column of $A$ records the response to a unit movement in output, and the second records the response to a unit movement in inflation. Throughout the chapter, vectors are columns and a prime denotes transpose.
-
-Within the model, the calculation is exact. The economics demands more care. Nothing here establishes that $.1$ is a causal effect of output on inflation, or that the same matrix describes a large departure from the reference state. Algebra tells us what follows from the specification. Analysis controls the approximation. Probability and statistics tell us what survives when the specification has to be estimated.
 
 ## Linear algebra and systems of equations {#sec-linear-algebra-foundations}
 
+Linear algebra studies vector spaces and the maps that preserve their linear combinations. The abstract objects are a domain space $V$, a codomain space $W$ and a linear map $L:V\to W$. Coordinates enter only after bases have been chosen. A matrix is then the coordinate representation of $L$.
+
+The section follows that order. It defines spaces and bases, introduces linear maps, represents them by matrices, and then studies composition, rank, projections and repeated application. Regression and dynamic systems appear only after the required structure is available.
+
 ### Vectors and vector spaces {#sec-vector-spaces}
 
-Suppose two disturbances move output and inflation by $a=(1,.5)'$ and $b=(-.2,1)'$. Doubling the first movement and reversing the second gives
+A **vector space** is a set whose elements can be added and multiplied by real numbers without leaving the set. Its elements are called vectors, whether they are coordinate lists, functions, polynomials or matrices. The word describes the allowed operations, rather than a particular geometric picture.
 
-$$
-2a-b=\begin{pmatrix}2.2\\0\end{pmatrix}.
-$$
-
-The two inflation changes cancel. We obtained that result by adding movements and by scaling one movement with a real number. It helps to state these operations precisely before asking which other movements they can produce.
-
-A vector in $\mathbb R^n$ is an ordered list of $n$ real coordinates. The order matters: output and inflation cannot exchange positions halfway through a calculation. We write vectors as columns. For example,
+The familiar space $\mathbb R^n$ consists of ordered lists of $n$ real coordinates. We write them as columns:
 
 $$
 x=\begin{pmatrix}x_1\\x_2\end{pmatrix},\qquad
@@ -61,9 +56,9 @@ x+z=\begin{pmatrix}x_1+z_1\\x_2+z_2\end{pmatrix},\qquad
 \alpha x=\begin{pmatrix}\alpha x_1\\\alpha x_2\end{pmatrix}.
 $$
 
-Here a **scalar** is a real number. A **vector** belongs to the space on which addition and scalar multiplication act. Negative scalars reverse a movement, and the zero vector represents no movement at all. An arrow in the plane is a handy picture of a vector in $\mathbb R^2$. It is only a picture, since vectors need not live in a plane.
+Here a **scalar** is a real number. The coordinate order is part of the definition: output and inflation cannot exchange positions during a calculation. Negative scalars reverse a direction, and the zero vector represents no movement. An arrow in the plane is a useful representation of a vector in $\mathbb R^2$, but it is only one representation.
 
-**Definition (real vector space).** A real vector space $V$ is a nonempty set equipped with addition $V\times V\to V$ and scalar multiplication $\mathbb R\times V\to V$, satisfying the following rules for every $u,v,w\in V$ and every $\alpha,\beta\in\mathbb R$:
+**Definition (real vector space).** A real vector space $V$ is a nonempty set equipped with addition $V\times V\to V$ and scalar multiplication $\mathbb R\times V\to V$. For every $u,v,w\in V$ and every $\alpha,\beta\in\mathbb R$, these operations satisfy:
 
 1. Addition is associative and commutative: $(u+v)+w=u+(v+w)$ and $u+v=v+u$.
 2. There is a zero vector $0_V$ such that $v+0_V=v$, and every $v$ has an additive inverse $-v$ satisfying $v+(-v)=0_V$.
@@ -73,6 +68,14 @@ Here a **scalar** is a real number. A **vector** belongs to the space on which a
 Both operations must return an element of $V$, a requirement called **closure**. Once the listed rules hold, familiar identities such as $0v=0_V$ and $(-1)v=-v$ follow from them. They do not have to be added as separate assumptions.
 
 Our main example is $\mathbb R^n$ with coordinatewise operations. Fixed-size matrices and real polynomials also form vector spaces. Add two polynomials and the result is still a polynomial. Multiply one by any real number and the same remains true. Nonnegative consumption bundles fail this test because multiplication by $-1$ leaves the feasible set. Economic feasibility and vector-space structure answer different questions.
+
+Now take two possible movements of output and inflation, $a=(1,.5)'$ and $b=(-.2,1)'$. The vector-space operations give
+
+$$
+2a-b=\begin{pmatrix}2.2\\0\end{pmatrix}.
+$$
+
+The inflation coordinates cancel. This calculation is an instance of the general operations above: addition combines two movements, while scalar multiplication changes their size and possibly their direction.
 
 ### Linear combinations, span, and subspaces {#sec-span-subspaces}
 
@@ -146,7 +149,7 @@ Coordinates still depend on the chosen basis. The vector $(2.2,0)'$ has coordina
 
 ### Length, orthogonality, and the choice of units
 
-Comparing two economic states requires a measure of distance. For vectors in $\mathbb R^n$, the Euclidean inner product and its associated norm are
+An **inner product** on a real vector space is a symmetric bilinear form $\langle\cdot,\cdot\rangle$ satisfying $\langle x,x\rangle>0$ for every nonzero $x$. It induces the norm $\|x\|=\sqrt{\langle x,x\rangle}$ and the distance $d(x,y)=\|x-y\|$. In $\mathbb R^n$, the Euclidean choices are
 
 $$
 \begin{aligned}
@@ -170,9 +173,46 @@ $$
 
 They nevertheless penalise coefficients differently. This will separate ridge regression from the lasso.
 
+### Linear transformations and their columns
+
+**Definition (linear transformation).** A map $L:V\to W$ between real vector spaces is linear if, for all $u,v\in V$ and real $\alpha,\beta$,
+
+$$
+L(\alpha u+\beta v)=\alpha L(u)+\beta L(v).
+$$
+
+It preserves every finite linear combination. In particular, $L(0)=0$. Once coordinates are chosen, the map $x\mapsto Ax$ satisfies this definition because matrix multiplication distributes over vector addition and scalar multiplication. By contrast, $x\mapsto Ax+c$ with $c\neq0$ is affine, since it sends zero to $c$.
+
+Now write $x=x_1e_1+\cdots+x_ne_n$. Linearity implies
+
+$$
+L(x)=x_1L(e_1)+\cdots+x_nL(e_n).
+$$
+
+Once the images of the basis vectors are known, the image of every vector follows. In the canonical bases, the matrix representing $L$ has columns $L(e_1),\ldots,L(e_n)$. Each column records the image of one input direction. The dimensions now have a direct meaning: columns count input coordinates and rows count output coordinates.
+
+::: {#fig-matrix-film .math-film}
+
+```{=html}
+<video controls preload="none" playsinline poster="../figures/mathematics/animations/LinearMap.png" aria-label="Animation: two basis vectors and a grid under a linear transformation">
+<source src="../figures/mathematics/animations/LinearMap.mp4" type="video/mp4">
+<a href="../figures/mathematics/animations/LinearMap.mp4">Download the animation.</a>
+</video>
+```
+
+
+A matrix acts on the entire plane. The teal and ochre arrows show the two basis vectors; their images determine the image of every linear combination. The intermediate frames interpolate between maps and are not successive periods of the economic model.
+:::
+
+::: {.math-explorer data-math="matrix"}
+**Choose a matrix and follow its action.** Start with the shear: its first column leaves $e_1$ unchanged, while its second column sends $e_2$ to $(1,1)'$. Compare the image of $x=e_1+e_2$ with the sum of the two column images. Then choose the projection preset and observe which direction is lost. The fixed figure and video above remain available without JavaScript.
+:::
+
 ### A matrix acts on a vector {#sec-matrices-transformations}
 
-In @eq-maths-state-system, each of tomorrow's variables depends on both of today's variables. A matrix records these coefficients. More generally, $A=(a_{ij})\in\mathbb R^{m\times n}$ is a rectangular array with $m$ **rows** and $n$ **columns**. The first index $i$ selects a row, and the second index $j$ selects a column. The notation $m\times n$ always means rows first, columns second.
+A matrix $A=(a_{ij})\in\mathbb R^{m\times n}$ is a rectangular array with $m$ **rows** and $n$ **columns**. The first index $i$ selects an output coordinate and the second index $j$ selects an input coordinate. The notation $m\times n$ always means rows first, columns second.
+
+Once bases have been chosen, every linear map from $\mathbb R^n$ to $\mathbb R^m$ is represented by such a matrix. Conversely, every $m\times n$ matrix defines a linear map $x\mapsto Ax$. The array and the map are related objects: the entries of the array depend on the chosen bases, while the linear map itself does not.
 
 Write down the dimensions before multiplying. A column vector with $n$ coordinates is an $n\times1$ matrix. A matrix with $n$ columns accepts exactly those $n$ input coordinates and returns $m$ outputs:
 
@@ -211,59 +251,42 @@ $$
 Ax=x_1a_1+\cdots+x_na_n.
 $$
 
-In the numerical example, the output is $2(1,0)'+(2,1)'-(-1,3)'=(5,-2)'$. The entries of $x$ simply weight the columns of $M$. This **column-combination reading** puts every output of a matrix in the span of its columns. Later, the same observation will place a fitted regression vector in the span of the regressors.
+In the numerical example, the output is $2(1,0)'+(2,1)'-(-1,3)'=(5,-2)'$. The entries of $x$ weight the columns of $M$. This **column-combination reading** puts every output of a matrix in the span of its columns. Later, the same observation will place a fitted regression vector in the span of the regressors.
 
 ![The same matrix-vector product read in two ways. On the left, each row computes one output coordinate. On the right, the three weighted columns add to the output vector (5, -2).](../figures/mathematics/analysis/matrix-vector.svg){#fig-matrix-vector}
 
-### Linear transformations and their columns
-
-**Definition (linear transformation).** A map $L:V\to W$ between real vector spaces is linear if, for all $u,v\in V$ and real $\alpha,\beta$,
-
-$$
-L(\alpha u+\beta v)=\alpha L(u)+\beta L(v).
-$$
-
-It preserves linear combinations. In particular, $L(0)=0$. The map $x\mapsto Ax$ is linear by the multiplication rule just established. By contrast, $x\mapsto Ax+c$ with $c\neq0$ is affine, not linear, since it sends zero to $c$.
-
-Now write $x=x_1e_1+\cdots+x_ne_n$. Linearity implies
-
-$$
-L(x)=x_1L(e_1)+\cdots+x_nL(e_n).
-$$
-
-Once the images of the basis vectors are known, the image of every vector follows. In the canonical bases, the matrix representing $L$ has columns $L(e_1),\ldots,L(e_n)$. Each column records the image of one input direction. The dimensions now have a direct meaning: columns count input coordinates and rows count output coordinates.
-
-::: {#fig-matrix-film .math-film}
-
-```{=html}
-<video controls preload="none" playsinline poster="../figures/mathematics/animations/LinearMap.png" aria-label="Animation: two basis vectors and a grid under a linear transformation">
-<source src="../figures/mathematics/animations/LinearMap.mp4" type="video/mp4">
-<a href="../figures/mathematics/animations/LinearMap.mp4">Download the animation.</a>
-</video>
-```
-
-
-A matrix acts on the entire plane. The teal and ochre arrows show the two basis vectors; their images determine the image of every linear combination. The intermediate frames interpolate between maps and are not successive periods of the economic model.
-:::
-
-::: {.math-explorer data-math="matrix"}
-**Choose a matrix and follow its action.** Start with the shear: its first column leaves $e_1$ unchanged, while its second column sends $e_2$ to $(1,1)'$. Compare the image of $x=e_1+e_2$ with the sum of the two column images. Then choose the projection preset and observe which direction is lost. The fixed figure and video above remain available without JavaScript.
-:::
-
 ### Multiplying matrices means composing transformations {#sec-matrix-composition}
 
-Suppose that we first double the horizontal coordinate and then add the vertical coordinate to the horizontal one. These two operations are represented by
+Let $B\in\mathbb R^{n\times p}$ and $A\in\mathbb R^{m\times n}$. Matrix $B$ maps $p$ input coordinates into $n$ intermediate coordinates, which are then accepted by $A$. Their composition is represented by the product $AB\in\mathbb R^{m\times p}$:
+
+$$
+\mathbb R^p\xrightarrow{B}\mathbb R^n
+\xrightarrow{A}\mathbb R^m,
+\qquad (AB)x=A(Bx).
+$$
+
+**Definition (matrix product).** The entries of the product are
+
+$$
+(AB)_{ij}=\sum_{\ell=1}^n a_{i\ell}b_{\ell j}.
+$$
+
+Entry $(i,j)$ applies row $i$ of $A$ to column $j$ of $B$. The inner dimensions must agree, while the outer dimensions give the size of the result:
+
+$$
+(m\times n)(n\times p)=(m\times p).
+$$
+
+This order follows composition. The map on the right acts first. Matrix multiplication is associative and distributive, but it is generally not commutative.
+
+For an example, first double the horizontal coordinate and then add the vertical coordinate to the horizontal one. The two maps are represented by
 
 $$
 B=\begin{pmatrix}2&0\\0&1\end{pmatrix},\qquad
 A=\begin{pmatrix}1&1\\0&1\end{pmatrix}.
 $$
 
-Start from $x=(1,1)'$. Applying $B$ gives $(2,1)'$, then applying $A$ gives $(3,1)'$. The single matrix that carries out this pair of operations is written $AB$, because $B$ acts first and $A$ receives its output:
-
-$$
-(AB)x=A(Bx).
-$$
+Starting from $x=(1,1)'$, applying $B$ gives $(2,1)'$, then applying $A$ gives $(3,1)'$.
 
 Its columns can be found without memorising another formula. Send $e_1$ through both maps. It becomes $(2,0)'$ under $B$ and remains $(2,0)'$ under $A$, giving the first column of $AB$. The second basis vector becomes $(0,1)'$ and then $(1,1)'$, giving the second column. Hence
 
@@ -284,27 +307,6 @@ $$
 
 The grid, unit square and vector all pass through the same two transformations. Applying B and then A ends at (3, 1). Reversing the order ends at (4, 1). The labels stay fixed as the geometry moves. Intermediate frames only make the motion visible and add no factor to the matrix product.
 :::
-
-The dimensions carry the same reasoning in general. Let $B\in\mathbb R^{n\times p}$ and $A\in\mathbb R^{m\times n}$. Matrix $B$ takes $p$ coordinates and returns the $n$ coordinates expected by $A$. Their composition maps $p$ coordinates into $m$:
-
-$$
-\mathbb R^p\xrightarrow{B}\mathbb R^n
-\xrightarrow{A}\mathbb R^m.
-$$
-
-**Definition (matrix product).** The product $AB$ is the $m\times p$ matrix with entries
-
-$$
-(AB)_{ij}=\sum_{\ell=1}^n a_{i\ell}b_{\ell j}.
-$$
-
-Entry $(i,j)$ pairs row $i$ of $A$ with column $j$ of $B$. That column is the output of $B$ when the input is $e_j$, and row $i$ of $A$ computes coordinate $i$ of the next image. The formula is simply composition written coordinate by coordinate.
-
-The **inner dimensions must agree**, and the outer dimensions give the size of the result:
-
-$$
-(m\times n)(n\times p)=(m\times p).
-$$
 
 A $2\times3$ matrix, for example, can multiply a $3\times4$ matrix and produces a $2\times4$ result. A $2\times4$ matrix on its right would return two coordinates where three are required, so that product is undefined. Entrywise multiplication is a separate operation and requires matrices of the same size.
 
@@ -341,7 +343,19 @@ A change of basis now fits into one line. Put a basis of $\mathbb R^n$ in the co
 
 ### Rank, null space, and recoverability
 
-Suppose two columns of a regressor matrix are identical. Raise one coefficient and lower the other by the same amount, and every fitted value stays unchanged. The **null space** $\mathcal N(A)=\{x\in\mathbb R^n:Ax=0\}$ records these invisible changes for a matrix $A\in\mathbb R^{m\times n}$. Its **column space** $\mathcal C(A)=\{Ax:x\in\mathbb R^n\}$ contains every attainable output and equals the span of the columns. Both sets are subspaces, though they usually belong to different ambient spaces.
+For a matrix $A\in\mathbb R^{m\times n}$, the **null space**
+
+$$
+\mathcal N(A)=\{x\in\mathbb R^n:Ax=0\}
+$$
+
+contains the input directions erased by the map. The **column space**
+
+$$
+\mathcal C(A)=\{Ax:x\in\mathbb R^n\}
+$$
+
+contains every attainable output and equals the span of the columns. The two spaces usually have different ambient spaces: $\mathcal N(A)\subseteq\mathbb R^n$ and $\mathcal C(A)\subseteq\mathbb R^m$.
 
 The **rank** of $A$ is the dimension of $\mathcal C(A)$, or equivalently the maximum number of independent columns. The rank-nullity theorem states that
 
@@ -350,6 +364,8 @@ $$
 $$
 
 The row space is $\mathcal C(A')=\mathcal N(A)^\perp$ inside $\mathbb R^n$. The left null space is $\mathcal N(A')=\mathcal C(A)^\perp$ inside $\mathbb R^m$. Regression residuals live in $\mathcal N(X')$, orthogonal to the columns of $X$. Writing down the ambient dimensions prevents a common transpose mistake.
+
+If two columns of a regressor matrix are identical, raising one coefficient and lowering the other by the same amount leaves every fitted value unchanged. The coefficient change lies in $\mathcal N(X)$. This is the linear-algebraic reason separate coefficients cannot be recovered under exact collinearity.
 
 A system $Ax=b$ has a solution if and only if $b\in\mathcal C(A)$, equivalently $\operatorname{rank}(A)=\operatorname{rank}([A\mid b])$. Once one solution $x_0$ exists, every solution is $x_0+v$ with $v\in\mathcal N(A)$. Uniqueness therefore requires full column rank. For a square matrix these conditions reduce to invertibility, or $\det A\neq0$.
 
@@ -361,9 +377,53 @@ Row operations solve systems without changing their solution set. Starting from 
 
 An invertible system may still be numerically fragile. Using the induced operator norm, the condition number $\kappa_2(A)=\|A\|_2\|A^{-1}\|_2$ measures its worst relative sensitivity to perturbations in the right-hand side. Nearly proportional columns can send this number soaring. The resulting numerical problem is related to weak statistical identification, though the two concepts are distinct.
 
-### Least squares with one regressor: fitting a line {#sec-ols-scalar}
+### Least squares as orthogonal projection {#sec-ols-matrix}
 
-Suppose we observe consumption $y_t$ and income $x_t$ for $T$ households and want a straight-line summary of their relation. At this stage we are only fitting the observations. Exogeneity and causality have yet to enter. In the **simple regression**, each $x_t$ and $y_t$ is a scalar, while the line has two coefficients: an intercept $a$ and a slope $b$.
+Let $y\in\mathbb R^T$ be an observed response and let $X\in\mathbb R^{T\times k}$. Each coefficient vector $\beta\in\mathbb R^k$ produces the fitted vector $X\beta\in\mathcal C(X)$. **Ordinary least squares** is the projection problem
+
+$$
+\hat\beta=\arg\min_{\beta\in\mathbb R^k}\|y-X\beta\|_2^2.
+$$
+
+Thus OLS first has a deterministic meaning: among all vectors in the column space of $X$, it selects the one closest to $y$. No probability model is required for this definition. A projection onto the finite-dimensional space $\mathcal C(X)$ always exists and is unique. The coefficient vector producing it is unique exactly when $X$ has full column rank. At any minimiser, the residual $r=y-X\hat\beta$ is orthogonal to every column of $X$, which gives the normal equations $X'r=0$.
+
+Indeed, if $X'r=0$, then for any coefficient change $d$,
+
+$$
+\begin{aligned}
+\|y-X(\hat\beta+d)\|_2^2
+&=\|r-Xd\|_2^2\\
+&=\|r\|_2^2+\|Xd\|_2^2.
+\end{aligned}
+$$
+
+This identity proves optimality directly. If $X$ has full column rank, then $\|Xd\|_2^2>0$ whenever $d\neq0$, which also proves uniqueness of the coefficients:
+
+$$
+\begin{gathered}
+X'(y-X\hat\beta)=0,\\
+\hat\beta=(X'X)^{-1}X'y.
+\end{gathered}
+$$ {#eq-ols-projection}
+
+The dimensions in @eq-ols-projection offer a useful check. Both $X'X$ and its inverse are $k\times k$, while $X'y$ and $\hat\beta$ are $k\times1$. By comparison, $P_X=X(X'X)^{-1}X'$ is $T\times T$ because it sends the observed response vector to its fitted value. The identities $P_X'=P_X$ and $P_X^2=P_X$ split $y$ into the orthogonal components $P_Xy$ and $(I_T-P_X)y$. If $X$ is rank deficient, several coefficient vectors produce the same unique fitted vector. This geometry uses no probability model.
+
+![In the observation plot, OLS minimises squared vertical residuals. In data space, the same operation projects the response vector onto the regressor space.](../figures/mathematics/analysis/projection.svg){#fig-ols-geometry}
+
+[Explore regression and projection in the Interactive Lab](../interactive-lab.html?method=linear-projection).
+
+### Simple regression as a special case {#sec-ols-scalar}
+
+The general projection becomes a straight-line fit when the design matrix has a column of ones and one observed regressor:
+
+$$
+X=\begin{pmatrix}
+1&x_1\\1&x_2\\\vdots&\vdots\\1&x_T
+\end{pmatrix},\qquad
+\beta=\begin{pmatrix}a\\b\end{pmatrix}.
+$$
+
+Then $(X\beta)_t=a+bx_t$. Suppose, for example, that $y_t$ is consumption and $x_t$ is income for household $t$. At this stage the line only summarises the observations. Exogeneity and causality have yet to enter.
 
 For given coefficients, the fitted value is $a+bx_t$ and the residual is $y_t-a-bx_t$. Ordinary least squares (OLS) chooses the line which minimises the sum of squared residuals:
 
@@ -429,82 +489,31 @@ $$
 
 This is a different model. Its residuals need not sum to zero, and the centred formula in @eq-ols-scalar no longer applies.
 
-### From the scalar normal equations to matrix OLS {#sec-ols-matrix}
+### Eigenvalues and repeated linear maps {#sec-eigenvalues-stability}
 
-To write the same simple regression in matrix form, place the observations in rows and the regressors in columns:
-
-$$
-X=\begin{pmatrix}
-1&x_1\\1&x_2\\\vdots&\vdots\\1&x_T
-\end{pmatrix},\qquad
-\beta=\begin{pmatrix}a\\b\end{pmatrix}.
-$$
-
-The first column of $X$ supplies the intercept. Since $(X\beta)_t=a+bx_t$, stacking observations changes none of the fitted values. The two scalar normal equations now become $X'(y-X\hat\beta)=0$, or explicitly
+Let $A:\mathbb R^n\to\mathbb R^n$ be a linear map represented by a square matrix. A nonzero vector $v$ is an **eigenvector** if
 
 $$
-\begin{pmatrix}
-T&\sum_t x_t\\
-\sum_t x_t&\sum_t x_t^2
-\end{pmatrix}
-\begin{pmatrix}\hat a\\\hat b\end{pmatrix}
-=\begin{pmatrix}\sum_t y_t\\\sum_t x_ty_t\end{pmatrix}.
+Av=\lambda v
 $$
 
-Solving its first row for $\hat a$, then substituting into its second row, reproduces @eq-ols-scalar. The determinant of this $2\times2$ matrix is $TS_{xx}$, so invertibility imposes exactly the same variation requirement as before.
-
-Several regressors simply add columns to $X$. Let $X\in\mathbb R^{T\times k}$, where $k$ counts every coefficient, including an intercept when present, and let $y\in\mathbb R^T$. Each fitted vector $X\beta$ is a linear combination of the columns. OLS searches the column space $\mathcal C(X)$ for the point closest to $y$. At that point, the residual $r=y-\hat y$ is orthogonal to every available direction. Any nonzero component along such a direction would leave room for a closer fit.
-
-Indeed, if $X'r=0$, then for any coefficient change $d$,
+for some scalar $\lambda$, called its **eigenvalue**. The direction spanned by $v$ is invariant under $A$: the map only rescales it. Repeated application is therefore immediate,
 
 $$
-\begin{aligned}
-\|y-X(\hat\beta+d)\|_2^2
-&=\|r-Xd\|_2^2\\
-&=\|r\|_2^2+\|Xd\|_2^2.
-\end{aligned}
+A^hv=\lambda^hv.
 $$
 
-This identity proves optimality directly. If $X$ has full column rank, then $\|Xd\|_2^2>0$ whenever $d\neq0$, which also proves uniqueness of the coefficients:
+Eigenvalues are the roots of $\det(A-\lambda I)=0$. A negative real eigenvalue reverses the direction at each application. A nonreal conjugate pair combines rotation with scaling on a real invariant plane. The **spectral radius** is $\rho(A)=\max_i|\lambda_i|$.
 
-$$
-\begin{gathered}
-X'(y-X\hat\beta)=0,\\
-\hat\beta=(X'X)^{-1}X'y.
-\end{gathered}
-$$ {#eq-ols-projection}
-
-The dimensions in @eq-ols-projection offer a useful check. Both $X'X$ and its inverse are $k\times k$, while $X'y$ and $\hat\beta$ are $k\times1$. By comparison, $P_X=X(X'X)^{-1}X'$ is $T\times T$ because it sends the observed response vector to its fitted value. The identities $P_X'=P_X$ and $P_X^2=P_X$ split $y$ into the orthogonal components $P_Xy$ and $(I_T-P_X)y$. If $X$ is rank deficient, several coefficient vectors produce the same unique fitted vector. This geometry uses no probability model.
-
-![In the observation plot, OLS minimises squared vertical residuals. In data space, the same operation projects the response vector onto the regressor space.](../figures/mathematics/analysis/projection.svg){#fig-ols-geometry}
-
-[Explore regression and projection in the Interactive Lab](../interactive-lab.html?method=linear-projection).
-
-### Repeated movements and eigenvalues {#sec-eigenvalues-stability}
-
-Return to @eq-maths-state-system and switch off new shocks. After $h$ periods the state is $A^hx_t$. For this particular matrix,
-
-$$
-A\begin{pmatrix}1\\1\end{pmatrix}
-=.9\begin{pmatrix}1\\1\end{pmatrix},
-\qquad
-A\begin{pmatrix}2\\-1\end{pmatrix}
-=.6\begin{pmatrix}2\\-1\end{pmatrix}.
-$$
-
-These two directions keep their orientation. A nonzero vector $v$ satisfying $Av=\lambda v$ is an **eigenvector**, with eigenvalue $\lambda$. Repeated application gives $A^hv=\lambda^hv$. In this example, every initial state decomposes along the two displayed directions and the corresponding components decay at rates $.9^h$ and $.6^h$.
-
-Eigenvalues solve $\det(A-\lambda I)=0$. For a $2\times2$ matrix, their sum equals the trace and their product equals the determinant. A negative real eigenvalue flips the sign at every step. Nonreal eigenvalues of a real matrix arrive in conjugate pairs and combine rotation with scaling on a real invariant plane. Discrete-time decay is governed by their modulus.
-
-For any finite square matrix,
+**Stability result.** For every finite square matrix,
 
 $$
 A^h\longrightarrow0
 \quad\Longleftrightarrow\quad
-\rho(A):=\max_i|\lambda_i|<1.
+\rho(A)<1.
 $$
 
-The statement concerns the limit as $h$ grows. A matrix may amplify a disturbance for several periods before attenuation takes over. Eigenvalues on the unit circle can also produce unbounded paths: the powers of $\left(\begin{smallmatrix}1&1\\0&1\end{smallmatrix}\right)$ are $\left(\begin{smallmatrix}1&h\\0&1\end{smallmatrix}\right)$. In continuous time, for $\dot x=Ax$, decay instead requires every eigenvalue to have a strictly negative real part.
+The result is asymptotic. Powers of a nonnormal matrix may first grow and only later decay. Eigenvalues on the unit circle also require care: the powers of $\left(\begin{smallmatrix}1&1\\0&1\end{smallmatrix}\right)$ equal $\left(\begin{smallmatrix}1&h\\0&1\end{smallmatrix}\right)$ and are unbounded even though both eigenvalues equal one. In continuous time, the system $\dot x=Ax$ decays when every eigenvalue has a strictly negative real part.
 
 ::: {#fig-dynamics-film .math-film}
 
@@ -519,9 +528,43 @@ The statement concerns the limit as $h$ grows. A matrix may amplify a disturbanc
 The same initial displacement is propagated by two rotation matrices, scaled by 0.88 and 1.06. Dots mark discrete dates. Joining them helps follow the sequence; the joining segments are not continuous-time solutions.
 :::
 
+### A small dynamic model {#sec-maths-motivating-system}
+
+Let $y_t$ and $\pi_t$ denote deviations of output and inflation from reference levels. Collect them in a state vector and consider the linear system
+
+$$
+\begin{gathered}
+x_t=\begin{pmatrix}y_t\\\pi_t\end{pmatrix},\qquad
+A=\begin{pmatrix}.7&.2\\.1&.8\end{pmatrix},\\
+x_{t+1}=Ax_t+u_{t+1}.
+\end{gathered}
+$$ {#eq-maths-state-system}
+
+Conditional on the specification, the first column of $A$ gives the next-period change produced by a unit displacement in output with inflation held at zero. The second column does the same for an inflation displacement. If $x_t=(1,0)'$ and $u_{t+1}=0$, then $x_{t+1}=(.7,.1)'$.
+
+To study repeated propagation, set future disturbances to zero. Then $x_{t+h}=A^hx_t$. This matrix has two independent eigenvectors:
+
+$$
+A\begin{pmatrix}1\\1\end{pmatrix}
+=.9\begin{pmatrix}1\\1\end{pmatrix},
+\qquad
+A\begin{pmatrix}2\\-1\end{pmatrix}
+=.6\begin{pmatrix}2\\-1\end{pmatrix}.
+$$
+
+Every initial state is a unique combination of these directions, so its two components decay at rates $.9^h$ and $.6^h$. The spectral radius is $.9<1$, which proves asymptotic stability.
+
+This calculation has a narrow interpretation. It describes propagation inside the stated linear system. It does not establish that $.1$ is a causal effect, that the coefficients are known, or that the same matrix remains accurate far from the reference state. Those questions belong respectively to identification, statistical uncertainty and nonlinear approximation.
+
 ### Decompositions and covariance matrices {#sec-decompositions}
 
-Place the preceding eigenvectors in $V$. Then $A=V\Lambda V^{-1}$ with diagonal $\Lambda$, and the dynamics separate in the new coordinates. This **diagonalisation** requires a full basis of eigenvectors, possibly over $\mathbb C$. A repeated eigenvalue causes no difficulty when its eigenspace has the same dimension as its algebraic multiplicity. Otherwise Jordan blocks add polynomial factors in $h$. Multiplication by $\lambda^h$ still makes those terms decay when $|\lambda|<1$.
+A square matrix is **diagonalisable** when it has a basis of eigenvectors. Placing those eigenvectors in the columns of $V$ gives
+
+$$
+A=V\Lambda V^{-1},
+$$
+
+where $\Lambda$ contains the eigenvalues on its diagonal. In these coordinates, repeated application separates into scalar powers. The dynamic matrix above is diagonalisable because its two displayed eigenvectors form a basis. A repeated eigenvalue causes no difficulty when its eigenspace has the same dimension as its algebraic multiplicity. Otherwise Jordan blocks add polynomial factors in $h$. Multiplication by $\lambda^h$ still makes those terms decay when $|\lambda|<1$.
 
 For a real symmetric matrix $S$, an orthonormal eigenbasis always exists:
 
@@ -545,13 +588,15 @@ keeps equations and observations in the same calculation. Under $Y=XB+U$ and $\o
 
 ## Analysis and local approximation {#sec-analysis-foundations}
 
-### Growth rates and limits {#sec-functions-transformations}
+Analysis studies limits and the approximations built from them. The basic object is a function $F:D\to C$. Its domain determines admissible movements, continuity controls the behaviour of nearby values, and differentiability supplies a linear approximation. Integration accumulates local changes. Compactness and curvature turn these local statements into existence or approximation results.
 
-Output rising from 100 to 102 has a proportional growth rate of $.02$ and a log change of $\log(1.02)\simeq .019803$. They are close. A fall from 100 to 50 gives $-.5$ and $\log(.5)\simeq-.693147$, a much wider gap. Limits let us explain the first approximation and track why it worsens as the change grows.
+The assumptions become stronger as the conclusions become sharper. Continuity does not imply differentiability. The existence of partial derivatives does not imply a total derivative. A finite Taylor expansion does not imply convergence of an infinite Taylor series.
 
-A function comes with a domain, a codomain and a rule assigning one output to each input. For $f(g)=\log(1+g)$, the domain is $g>-1$. This boundary has economic content because a proportional loss cannot push a positive level below zero and still leave its logarithm defined. With several variables, the production function $F(K,L)=K^\alpha L^{1-\alpha}$ is naturally studied on $(0,\infty)^2$ for $0<\alpha<1$.
+### Functions, domains, and limits {#sec-functions-transformations}
 
-The claim that $f(g)$ lies close to $g$ near zero needs a precise meaning. A sequence $x_n\in\mathbb R^d$ converges to $a$ if every tolerance $\varepsilon>0$ can be matched by a threshold $N$ after which $\|x_n-a\|_2<\varepsilon$. The threshold may depend on the tolerance. Once it has been crossed, every later term must satisfy the bound.
+A function $f:D\to C$ consists of a **domain** $D$, a **codomain** $C$ and a rule assigning exactly one value $f(x)\in C$ to each $x\in D$. The rule alone is incomplete. Its domain determines which inputs and which limiting movements are admissible, while its codomain determines the type of output.
+
+A sequence $x_n\in\mathbb R^d$ converges to $a$ if, for every tolerance $\varepsilon>0$, there is an integer $N$ such that $\|x_n-a\|_2<\varepsilon$ whenever $n\geq N$. The threshold may depend on the tolerance. After it has been crossed, every later term must satisfy the bound.
 
 For a function on $D\subseteq\mathbb R^d$, a limit at an accumulation point $a$ is the corresponding statement about *all* nearby inputs. We write
 
@@ -567,7 +612,11 @@ $$
 
 Equivalently, take any sequence in $D\setminus\{a\}$ that converges to $a$. Its images must converge to $\ell$. The order of the quantifiers matters here because a single $\delta$ has to control every admissible route through the neighbourhood.
 
-### Several approaches to the same point
+Consider $f(g)=\log(1+g)$, whose domain is $g>-1$. Output rising from 100 to 102 has proportional growth $.02$ and log change $\log(1.02)\simeq .019803$. A fall from 100 to 50 has proportional growth $-.5$ and log change $\log(.5)\simeq-.693147$. The first pair is close because $\log(1+g)/g\to1$ as $g\to0$. The domain boundary at $-1$ explains why the approximation cannot remain uniform over arbitrarily large losses. With several inputs, the same discipline applies: $F(K,L)=K^\alpha L^{1-\alpha}$ is naturally defined on $(0,\infty)^2$ when $0<\alpha<1$.
+
+### Limits in several dimensions
+
+The definition of a multivariate limit quantifies over every route to the point. To disprove a proposed limit, it is enough to find two sequences approaching the same point whose images have different limits. To prove a limit, one needs an argument that controls all admissible directions at once.
 
 Consider $f(x,y)=xy/(x^2+y^2)$ away from the origin. It equals zero on either coordinate axis, which makes zero look like a plausible missing value at the origin. The diagonal $y=x$ gives $1/2$ all the way in. Those approaches disagree, so the limit does not exist.
 
@@ -587,25 +636,34 @@ A function is **continuous at $a\in D$** when $f(x)\to f(a)$ as $x\to a$ within 
 
 ### Neighbourhoods, boundaries, and existence
 
-The function $(x-2)^2$ attains its unconstrained minimum at $2$. Restrict it to the open interval $(0,1)$ and the values approach $1$ as $x\uparrow1$, while the endpoint stays outside the domain. The infimum is $1$, with no minimiser. Any request to find a minimum therefore begins with an existence question.
-
-![The same continuous function has an unattained infimum on the open interval and an attained minimum on its closure. Filling in an endpoint changes the existence question.](../figures/mathematics/analysis/compactness.svg){#fig-compactness}
-
-An **open ball** $B(a,r)=\{x:\|x-a\|_2<r\}$ is a neighbourhood of $a$. A point is interior to a set when some open ball around it lies entirely inside the set. Open sets contain a ball around each of their points. Closed sets contain the limits of their convergent sequences. Every neighbourhood of a boundary point meets both the set and its complement. These distinctions tell us which small movements remain available near a constraint.
+An **open ball** $B(a,r)=\{x:\|x-a\|_2<r\}$ is a neighbourhood of $a$. A point is interior to a set when some open ball around it lies entirely inside the set. A set is open when all its points are interior. A set is closed when it contains the limits of all its convergent sequences. Every neighbourhood of a boundary point meets both the set and its complement. These definitions determine which local movements remain available near a constraint.
 
 In $\mathbb R^d$, a set is **compact** exactly when it is closed and bounded. Equivalently, every sequence in the set has a convergent subsequence whose limit stays there. This is enough to prove existence: a continuous real function on a nonempty compact set attains its minimum and maximum. For the minimum, take a sequence of points whose values approach the infimum. Compactness supplies a convergent subsequence, and continuity makes its limit attain that infimum. An open set can lose the candidate at an excluded boundary. An unbounded set can lose it at infinity.
 
 Compactness also upgrades pointwise continuity to **uniform continuity**, meaning one $\delta$ works throughout the domain for each $\varepsilon$. The function $f(x)=1/x$ on $(0,1)$ shows what can go wrong elsewhere. Although $x_n=1/n$ and $y_n=1/(n+1)$ draw arbitrarily close, their images remain one unit apart. Approximations are correspondingly easier to control on a fixed compact region than near a singularity.
 
-### From a secant to a derivative
+The distinction is visible in a simple optimisation problem. The function $(x-2)^2$ attains its unconstrained minimum at $2$. Restricted to the open interval $(0,1)$, its values approach $1$ as $x\uparrow1$, but the endpoint is excluded. The infimum is $1$ and no minimiser exists. On the closed interval $[0,1]$, the same function attains that value at $1$.
 
-We can now return to log growth. The slope between $(a,f(a))$ and $(a+h,f(a+h))$ is a finite change divided by $h$. If the slopes converge as $h\to0$ from both sides, their limit is
+![The same continuous function has an unattained infimum on the open interval and an attained minimum on its closure. Filling in an endpoint changes the existence question.](../figures/mathematics/analysis/compactness.svg){#fig-compactness}
+
+### Derivatives and first-order approximation
+
+Let $f$ be defined on an open interval containing $a$. It is **differentiable at $a$** if the difference quotients have a finite limit
 
 $$
 f'(a)=\lim_{h\to0}\frac{f(a+h)-f(a)}h.
 $$
 
-Rearrange the definition to get $f(a+h)=f(a)+f'(a)h+r(h)$, where $r(h)/h\to0$. The derivative supplies a linear approximation whose error becomes negligible relative to the displacement. This is written $r(h)=o(|h|)$. The weaker notation $r(h)=O(|h|)$ only keeps $|r(h)|/|h|$ bounded and allows a nonzero limiting ratio.
+Equivalently,
+
+$$
+f(a+h)=f(a)+f'(a)h+r(h),
+\qquad \frac{r(h)}{|h|}\longrightarrow0.
+$$
+
+The derivative is therefore the coefficient of the best first-order local approximation. The notation $r(h)=o(|h|)$ says that the error is negligible relative to the displacement. The weaker statement $r(h)=O(|h|)$ only says that the ratio stays bounded.
+
+For $f(g)=\log(1+g)$ at zero, $f'(0)=1$. Hence $\log(1+g)=g+o(|g|)$. The nearby secant slopes explain the approximation geometrically; the definition above states exactly what must converge.
 
 ::: {#fig-taylor-film .math-film}
 
@@ -626,7 +684,9 @@ The **mean value theorem** connects this local object to a finite interval. If $
 
 ### Integration and the size of the Taylor remainder
 
-Integration naturally appears when a flow accumulates. If marginal cost $c(q)$ varies continuously with output, partition the output interval into small quantities $\Delta q_j$ and add $c(q_j)\Delta q_j$. Letting the largest width shrink to zero gives the Riemann integral. Every continuous function on a compact interval is integrable, and the fundamental theorem of calculus gives
+For a bounded function on $[a,b]$, a tagged partition produces sums $\sum_j f(\xi_j)\Delta x_j$. If all such sums converge to the same finite value as the largest interval width tends to zero, that value is the **Riemann integral** $\int_a^b f(x)\,dx$. Every continuous function on a compact interval is Riemann integrable.
+
+The **fundamental theorem of calculus** links this accumulated quantity to differentiation:
 
 $$
 \begin{gathered}
@@ -636,6 +696,8 @@ f(b)-f(a)=\int_a^b f'(s)\,ds
 $$
 
 when $c$ is continuous and, for the second identity, $f$ is continuously differentiable. Integration by parts, $\int u v'=[uv]-\int u'v$, follows by integrating the product rule. Substitution follows in the same way from the chain rule.
+
+If $c(q)$ is marginal cost, the sum $\sum_jc(q_j)\Delta q_j$ approximates total cost over an output interval. The integral is the limit of these approximations.
 
 ![Midpoint sums approximate the integral of marginal cost over quantities from zero to one. Finer rectangles reduce the discrepancy with the area under the curve.](../figures/mathematics/analysis/integration.svg){#fig-integration}
 
@@ -671,11 +733,11 @@ This bound states where the approximation is reliable and shows its deterioratio
 **Try a different growth rate.** Move $g$ to compare the exact logarithm, its tangent and its quadratic approximation.
 :::
 
-A finite Taylor formula and an infinite power series are different claims. The series $\log(1+g)=\sum_{k\geq1}(-1)^{k+1}g^k/k$ converges for $|g|<1$. Smoothness by itself does not make a function equal to its Taylor series. Define $e^{-1/x^2}$ for $x\neq0$ and set its value to zero at the origin. Every derivative at zero vanishes, while the function is positive elsewhere. It is smooth there and nonanalytic.
+A finite Taylor formula and an infinite power series are different claims. The series $\log(1+g)=\sum_{k\geq1}(-1)^{k+1}g^k/k$ converges for $|g|<1$. Smoothness by itself does not make a function equal to its Taylor series. The standard counterexample isolates this point: define $e^{-1/x^2}$ for $x\neq0$ and set its value to zero at the origin. Every derivative at zero vanishes, so its Taylor series is identically zero, while the function is positive away from zero. The example is included only to mark the gap between smoothness and analyticity.
 
 ### From partial to total derivatives {#sec-multivariate-differentiability}
 
-Take output to be $F(K,L)=K^\alpha L^{1-\alpha}$. Raise capital while holding labour fixed and the derivative is $\partial_KF=\alpha K^{\alpha-1}L^{1-\alpha}$. Move labour alone and it is $\partial_LF=(1-\alpha)K^\alpha L^{-\alpha}$. These **partial derivatives** follow the coordinate axes. Simultaneous changes require one linear rule that works in every direction.
+Partial derivatives measure changes along the coordinate axes. Multivariate differentiability requires more: a single linear map must approximate simultaneous changes in every direction, with an error small relative to the size of the displacement.
 
 A map $F:U\subseteq\mathbb R^n\to\mathbb R^m$, with $U$ open, is **differentiable at $a\in U$** if there is a linear map $J$ for which the remainder
 
@@ -691,7 +753,9 @@ $$ {#eq-total-derivative}
 
 This linear map is unique. If $J_1$ and $J_2$ both worked, setting $h=tv$ would give $(J_1-J_2)v=0$ for every $v$. Apply that result to each basis vector and the entries must satisfy $J_{ij}=\partial F_i/\partial x_j$. The matrix $J=J_F(a)\in\mathbb R^{m\times n}$ is the **Jacobian**, with one row for each output and one column for each input.
 
-For a scalar function, its gradient is a column, $\nabla f=(\partial_1f,\ldots,\partial_nf)'$, whereas $J_f=\nabla f'$. Consequently $df=\nabla f'\,dx$. For the production function,
+For a scalar function, its gradient is a column, $\nabla f=(\partial_1f,\ldots,\partial_nf)'$, whereas $J_f=\nabla f'$. Consequently $df=\nabla f'\,dx$.
+
+For example, let $F(K,L)=K^\alpha L^{1-\alpha}$ on $(0,\infty)^2$. Its partial derivatives are $\partial_KF=\alpha K^{\alpha-1}L^{1-\alpha}$ and $\partial_LF=(1-\alpha)K^\alpha L^{-\alpha}$. Since they are continuous on the domain, $F$ is differentiable there. Its total differential is
 
 $$
 dF=F\left(\alpha\frac{dK}{K}+(1-\alpha)\frac{dL}{L}\right).
@@ -709,7 +773,27 @@ so differentiability fails. This example even has a directional derivative along
 
 ### Composition, curvature, and a local picture {#sec-jacobian-foundations}
 
-Consider the nonlinear two-equation map
+If $G:\mathbb R^n\to\mathbb R^m$ is differentiable at $a$ and $F:\mathbb R^m\to\mathbb R^p$ is differentiable at $G(a)$, then their composition is differentiable and
+
+$$
+J_{F\circ G}(a)=J_F(G(a))J_G(a).
+$$
+
+The dimensions are $(p\times m)(m\times n)$, exactly as for the composition of linear maps. For scalar $f$ and unit vector $v$, the directional derivative is $\nabla f(a)'v$. Cauchy-Schwarz bounds it by $\|\nabla f(a)\|_2$. When the gradient is nonzero, the bound is attained at $v=\nabla f(a)/\|\nabla f(a)\|_2$, the direction of steepest ascent under the Euclidean metric.
+
+For a $C^2$ scalar function, the derivative of the gradient is the **Hessian**, $H_f=(\partial_i\partial_j f)_{ij}$. Continuity of the second partial derivatives makes it symmetric. Applying the one-dimensional Taylor expansion to $\varphi(t)=f(a+th)$ gives
+
+$$
+\begin{aligned}
+f(a+h)={}&f(a)+\nabla f(a)'h\\
+&+\tfrac12h'H_f(a)h\\
+&+o(\|h\|_2^2).
+\end{aligned}
+$$ {#eq-multivariate-taylor}
+
+The quadratic term records both curvature along individual coordinates and interactions between them. In two dimensions it is $\tfrac12 f_{11}h_1^2+f_{12}h_1h_2+\tfrac12 f_{22}h_2^2$. If the Hessian satisfies $\|H_f(x)-H_f(y)\|_2\leq L\|x-y\|_2$ near the segment, the remainder is bounded by $L\|h\|_2^3/6$. A vector-valued function has one Hessian for each output, while its Jacobian remains the first-order object.
+
+Now consider the nonlinear two-equation map
 
 $$
 G(x_1,x_2)=
@@ -738,31 +822,9 @@ At zero, the linear approximation has error $(.12h_1^2,.08h_2^2)'$. Halving the 
 The teal grid is the nonlinear image of a neighbourhood of zero; the ochre grid is its Jacobian approximation. The view rescales by the neighbourhood radius as it shrinks, so their agreement shows an error small *relative* to the displacement.
 :::
 
-If $G:\mathbb R^n\to\mathbb R^m$ is differentiable at $a$ and $F:\mathbb R^m\to\mathbb R^p$ is differentiable at $G(a)$, composition gives
-
-$$
-J_{F\circ G}(a)=J_F(G(a))J_G(a).
-$$
-
-The dimensions are $(p\times m)(m\times n)$. For scalar $f$ and unit vector $v$, the directional derivative is $\nabla f(a)'v$. Cauchy-Schwarz bounds it by $\|\nabla f(a)\|_2$. When the gradient is nonzero, equality occurs at $v=\nabla f(a)/\|\nabla f(a)\|_2$. This is the steepest-ascent direction under the Euclidean metric.
-
-For a $C^2$ scalar function, the derivative of the gradient is the **Hessian**, $H_f=(\partial_i\partial_j f)_{ij}$. Continuity of second partial derivatives ensures symmetry. Applying the one-dimensional expansion to $\varphi(t)=f(a+th)$ gives
-
-$$
-\begin{aligned}
-f(a+h)={}&f(a)+\nabla f(a)'h\\
-&+\tfrac12h'H_f(a)h\\
-&+o(\|h\|_2^2).
-\end{aligned}
-$$ {#eq-multivariate-taylor}
-
-The quadratic term includes interactions. In two dimensions it is $\tfrac12 f_{11}h_1^2+f_{12}h_1h_2+\tfrac12 f_{22}h_2^2$. If the Hessian satisfies $\|H_f(x)-H_f(y)\|_2\leq L\|x-y\|_2$ near the segment, the remainder is at most $L\|h\|_2^3/6$. A vector-valued function has one Hessian for each output, while its Jacobian remains the first-order object.
-
 ### Equilibrium, local inversion, and comparative statics {#sec-implicit-function}
 
-Suppose an equilibrium price $p$ solves $D(p,\tau)-S(p)=0$, where $\tau$ shifts demand. Take $D=a+\tau-bp$ and $S=cp$, with $b,c>0$. Solving gives $p=(a+\tau)/(b+c)$ and $\partial p/\partial\tau=1/(b+c)$. The derivative is large when demand and supply together adjust little to a price change.
-
-The same calculation works when the system has no convenient explicit solution. Write it as $F(z,\theta)=0$, where $z\in\mathbb R^n$ is endogenous and $\theta\in\mathbb R^k$. Suppose $F$ is $C^1$ on an open neighbourhood of $(z_0,\theta_0)$, satisfies $F(z_0,\theta_0)=0$, and has invertible square matrix $F_z(z_0,\theta_0)$. The **implicit function theorem** then gives nearby solutions of the form $z=z(\theta)$ for a unique $C^1$ function. Differentiating that identity yields
+Write an equilibrium system as $F(z,\theta)=0$, where $z\in\mathbb R^n$ is endogenous and $\theta\in\mathbb R^k$ is a parameter. Suppose $F$ is $C^1$ on an open neighbourhood of $(z_0,\theta_0)$, satisfies $F(z_0,\theta_0)=0$, and has invertible square matrix $F_z(z_0,\theta_0)$. The **implicit function theorem** gives neighbourhoods in which the solution can be written uniquely as a $C^1$ function $z=z(\theta)$. Its derivative is
 
 $$
 F_z\,D_\theta z+F_\theta=0,
@@ -772,21 +834,27 @@ $$
 
 The theorem supplies the locally existing solution before we differentiate it. Algebraic manipulation of the displayed identity cannot do that. Its close relative, the **inverse function theorem**, says that a $C^1$ square map with nonsingular Jacobian at a point has a $C^1$ local inverse whose derivative is the inverse Jacobian. Both results are local and leave global uniqueness open.
 
+For a transparent example, let an equilibrium price solve $D(p,\tau)-S(p)=0$, where $D=a+\tau-bp$, $S=cp$ and $b,c>0$. Here $F_p=-(b+c)\neq0$, so the theorem applies. Direct solution gives $p=(a+\tau)/(b+c)$, while the derivative formula gives $\partial p/\partial\tau=1/(b+c)$. The response is large when demand and supply together adjust little to a price change.
+
 For $F(z,\theta)=z^2-\theta$, the positive branch has derivative $1/(2\sqrt\theta)$ for $\theta>0$. At zero the Jacobian with respect to $z$ vanishes; two solutions exist for positive $\theta$ and none for negative $\theta$. Singularity means the theorem is unavailable, not that every singular system must exhibit exactly this failure.
 
 If $x_{t+1}=G(x_t)$ and $G(x^*)=x^*$, @eq-total-derivative gives $x_{t+1}-x^*=J_G(x^*)(x_t-x^*)+o(\|x_t-x^*\|)$. For a $C^1$ map, $\rho(J_G(x^*))<1$ gives local asymptotic stability, while an eigenvalue outside the unit circle gives instability. The linear test says nothing conclusive about eigenvalues on the unit circle. Near zero, $x_{t+1}=x_t-x_t^3$ converges to zero and $x_{t+1}=x_t+x_t^3$ moves away, even though both derivatives at zero equal one. Forward-looking models add another issue because determinacy depends on boundary conditions and on how many variables can adjust freely.
 
 ## Optimisation with feasible directions {#sec-optimisation-foundations}
 
+An optimisation problem combines an objective with a feasible set. Three questions must be answered in order: does an optimum exist, which conditions must a local optimum satisfy, and which additional assumptions make those conditions sufficient or global? The distinction between these questions prevents a first-order condition from being mistaken for a solution.
+
 ### Existence, stationarity, and curvature
 
-The least-squares criterion is $S(\beta)=\|y-X\beta\|_2^2$, whose minimiser was found geometrically above. Differentiation gives $\nabla S=2X'(X\beta-y)$ and $H_S=2X'X$. When $X$ has full column rank, this Hessian is positive definite and the minimum is unique.
+An optimisation problem consists of an objective $f:C\to\mathbb R$ and a feasible set $C$. A point $x^*\in C$ is a **local minimum** if it minimises $f$ over some neighbourhood within $C$. It is a **global minimum** if $f(x^*)\leq f(x)$ for every $x\in C$. At a strict minimum, the inequality is strict for every other point in the relevant set.
 
-A **local minimum** $x^*$ minimises $f$ among nearby feasible points. A **global minimum** does so over the whole feasible set. The inequality becomes strict at a strict minimum for every other point in the relevant set. None of these labels matters until a minimiser exists. Continuity on a nonempty compact set guarantees existence. On a closed unbounded set, continuity together with **coercivity**, $f(x)\to+\infty$ as $\|x\|\to\infty$ within the set, reduces the search to a compact sublevel set.
+These labels describe an optimum only after existence has been established. Continuity on a nonempty compact set guarantees that a minimum and a maximum are attained. On a closed unbounded set, continuity together with **coercivity**, $f(x)\to+\infty$ as $\|x\|\to\infty$ within $C$, reduces the search to a compact sublevel set.
 
 At an interior local minimum of a differentiable function, $\nabla f(x^*)=0$. Every small direction $v$ and its reverse $-v$ are feasible, forcing $\nabla f(x^*)'v$ to vanish for all $v$. This condition is only necessary. The function $x^3$ has zero derivative at the origin and continues increasing through it.
 
 For a $C^2$ function, the Hessian at an interior minimum must be positive semidefinite. A zero gradient together with a positive definite Hessian is enough for a strict local minimum. If $m>0$ is the smallest eigenvalue, the Taylor quadratic is at least $m\|h\|^2/2$ and eventually dominates the $o(\|h\|^2)$ remainder. Negative definiteness gives a strict maximum, while an indefinite Hessian gives a saddle.
+
+For the least-squares objective $S(\beta)=\|y-X\beta\|_2^2$, differentiation gives $\nabla S=2X'(X\beta-y)$ and $H_S=2X'X$. Full column rank makes the Hessian positive definite. The normal equations then identify the unique global minimiser.
 
 ![A positive quadratic form rises in every direction; an indefinite one rises in one direction and falls in another. The flat Hessian at zero cannot distinguish the minimum of $x^4$ from the maximum of $-x^4$.](../figures/mathematics/analysis/curvature.svg){#fig-curvature}
 
@@ -794,7 +862,7 @@ Semidefiniteness leaves the second-order test undecided. Both $x^4$ and $-x^4$ h
 
 ### Convexity and global minima {#sec-convexity}
 
-For a quadratic loss, the loss at an average of two coefficient vectors cannot exceed the average of their losses. Convexity generalises this property. A set $C$ is convex when $(1-t)x+ty$ belongs to $C$ for every $x,y\in C$ and $t\in[0,1]$. A function on a convex domain is **convex** if
+A set $C$ is **convex** when $(1-t)x+ty$ belongs to $C$ for every $x,y\in C$ and $t\in[0,1]$. A function on a convex domain is **convex** if
 
 $$
 f((1-t)x+ty)\leq(1-t)f(x)+tf(y).
@@ -808,13 +876,23 @@ $$
 
 Apply the chord inequality to $x+t(y-x)$, divide by $t$, and let $t\downarrow0$ to obtain the supporting-plane inequality. For the reverse implication, apply the supporting-plane inequality at the intermediate point to both endpoints and take their weighted sum. When $f$ is $C^2$, either condition is equivalent to $H_f(x)\succeq0$ throughout the open convex domain.
 
+For a quadratic loss, this says that the loss at an average of two coefficient vectors cannot exceed the corresponding average of their losses. Positive semidefiniteness of the Hessian verifies the property directly.
+
 This changes the optimisation problem. Any stationary point of a differentiable convex function is a global minimum. A local minimum over a convex feasible set is also global, since a short step toward any better feasible point would contradict local optimality. Strict convexity permits at most one minimiser, though it does not guarantee existence. The strictly convex function $e^x$ on $\mathbb R$ approaches an unattained infimum of zero. The example $x^4$ also shows that strict convexity can hold without a positive definite Hessian everywhere.
 
 ![For a convex function, each tangent supplies a lower bound and each chord an upper bound between its endpoints. A horizontal supporting tangent therefore certifies a global minimum.](../figures/mathematics/analysis/convexity.svg){#fig-convexity}
 
 ### An equality constraint and the Lagrangian
 
-Consider a two-period household choosing $c_1,c_2>0$ to maximise $\log c_1+\beta\log c_2$, with $\beta>0$, subject to $c_1+c_2/R=w$, where $R,w>0$. Eliminating $c_2$ gives $\log c_1+\beta\log(R(w-c_1))$ on $0<c_1<w$. Its derivative is $1/c_1-\beta/(w-c_1)$, and it vanishes at
+Consider $\min_x f(x)$ subject to $h(x)=0$, where $h:\mathbb R^n\to\mathbb R^r$ is $C^1$. At a feasible point where $J_h$ has full row rank, first-order feasible displacements satisfy $J_hd=0$. At a local optimum, movement in either tangent direction cannot improve the objective, so $\nabla f(x^*)'d=0$ for every $d$ in this null space. Its orthogonal complement is spanned by the constraint gradients. Therefore some multiplier $\lambda\in\mathbb R^r$ satisfies
+
+$$
+\nabla f(x^*)+J_h(x^*)'\lambda=0,\qquad h(x^*)=0.
+$$
+
+The **Lagrangian** $\mathcal L(x,\lambda)=f(x)+\lambda'h(x)$ collects these equations as $\nabla_x\mathcal L=0$ and $h=0$. Full row rank lets the implicit function theorem identify the linearised directions with the actual tangent space. Equality multipliers have no sign restriction.
+
+For an application, let a household choose $c_1,c_2>0$ to maximise $\log c_1+\beta\log c_2$, with $\beta>0$, subject to $c_1+c_2/R=w$, where $R,w>0$. Under the minimisation convention, set $f=-\log c_1-\beta\log c_2$ and $h=c_1+c_2/R-w$. The stationarity equations are $-1/c_1+\lambda=0$ and $-\beta/c_2+\lambda/R=0$. Together with $h=0$, they give
 
 $$
 c_1^*=\frac{w}{1+\beta},
@@ -822,42 +900,11 @@ c_1^*=\frac{w}{1+\beta},
 c_2^*=\frac{\beta Rw}{1+\beta}.
 $$
 
-The second derivative is negative, and utility tends to $-\infty$ at the endpoints. This verifies existence and the unique maximum on the open feasible segment.
+The objective is strictly convex after the sign change, and it diverges at the boundary of the positive feasible segment. The candidate is therefore the unique optimum. Direct elimination gives the same solution, but the Lagrangian extends without change to many choices and constraints.
 
-Eliminating variables soon becomes cumbersome when a problem has many choices and constraints. We use a minimisation convention throughout. Set $f=-\log c_1-\beta\log c_2$ and $h(c,w)=c_1+c_2/R-w$. The **Lagrangian** is $\mathcal L=f+\lambda h$. Its stationarity equations, $-1/c_1+\lambda=0$ and $-\beta/c_2+\lambda/R=0$, combined with $h=0$, recover the allocation above.
+### Inequality constraints and KKT conditions {#sec-kkt}
 
-The multiplier has a geometric origin. At a feasible point where the equality gradients are linearly independent, first-order feasible displacements satisfy $J_h d=0$. Along a feasible curve through an optimum, moving in either direction rules out a nonzero first-order change, so $\nabla f'd=0$ for every tangent $d$. The orthogonal complement of this null space is spanned by the constraint gradients. Hence
-
-$$
-\nabla f(x^*)+J_h(x^*)'\lambda=0,\qquad h(x^*)=0.
-$$
-
-For $C^1$ equalities, full row rank of $J_h$ allows the implicit function theorem to identify these linearised displacements with the actual tangent space. Equality multipliers have no sign restriction.
-
-### A borrowing bound makes an inequality bind {#sec-kkt}
-
-Now take a simpler allocation problem in which a scalar choice cannot exceed a cap:
-
-$$
-\min_x\ \tfrac12(x-a)^2
-\qquad\text{subject to}\qquad x-b\leq0.
-$$
-
-When $a<b$, the preferred choice $a$ is feasible and the cap is slack. When $a>b$, the best feasible choice is $b$. At $a=b$, the cap binds with zero first-order value from relaxing it. The solution and multiplier are
-
-$$
-x^*=\min(a,b),
-\qquad
-\mu^*=\max(a-b,0).
-$$ {#eq-cap-solution}
-
-They satisfy $x^*-a+\mu^*=0$, $x^*-b\leq0$, $\mu^*\geq0$, and $\mu^*(x^*-b)=0$. The final equation allows a positive multiplier only on a binding constraint. At $a=b$, the example also gives a binding constraint with multiplier zero.
-
-::: {.math-explorer data-math="kkt"}
-**Move the cap.** The unconstrained choice is $a=1$. As $b$ passes through one, compare the optimum, the multiplier and the optimised loss.
-:::
-
-These are the **Karush-Kuhn-Tucker (KKT) conditions**. For the problem
+Consider the constrained problem
 
 $$
 \begin{aligned}
@@ -902,9 +949,32 @@ A slack inequality therefore has multiplier zero. The scalar cap example shows t
 
 The signs follow from the stated minimisation convention and the form $g_i\leq0$. A lower bound $x\geq0$ must be written $-x\leq0$. Maximisation can be converted to minimisation by negating the objective.
 
+The **Karush-Kuhn-Tucker (KKT) conditions** are necessary at a regular local optimum and sufficient under the convexity conditions stated below. Keeping those two directions separate is essential: writing down KKT equations does not by itself prove either necessity or optimality.
+
+For a scalar example, minimise a quadratic loss subject to an upper bound:
+
+$$
+\min_x\ \tfrac12(x-a)^2
+\qquad\text{subject to}\qquad x-b\leq0.
+$$
+
+When $a<b$, the preferred choice $a$ is feasible and the cap is slack. When $a>b$, the best feasible choice is $b$. At $a=b$, the cap binds but has zero first-order value. The solution and multiplier are
+
+$$
+x^*=\min(a,b),
+\qquad
+\mu^*=\max(a-b,0).
+$$ {#eq-cap-solution}
+
+They satisfy stationarity $x^*-a+\mu^*=0$, primal feasibility $x^*-b\leq0$, dual feasibility $\mu^*\geq0$ and complementary slackness $\mu^*(x^*-b)=0$. This example also shows why a binding constraint need not have a positive multiplier.
+
+::: {.math-explorer data-math="kkt"}
+**Move the cap.** The unconstrained choice is $a=1$. As $b$ passes through one, compare the optimum, the multiplier and the optimised loss.
+:::
+
 ### Why a constraint qualification is necessary
 
-Consider $\min_x x$ subject to $x^2\leq0$. Only $x=0$ is feasible, so it is certainly a global minimum. Yet stationarity would require $1+\mu(2x)=0$, which is impossible at zero. The gradient of the constraint vanishes at the very point where it must describe the restriction.
+The following deliberately artificial problem isolates the role of regularity: minimise $x$ subject to $x^2\leq0$. Only $x=0$ is feasible, so it is a global minimum. Yet KKT stationarity would require $1+\mu(2x)=0$, which is impossible at zero. The problem is not an economic model. It shows that a constraint whose gradient vanishes can have a feasible set that its first-order approximation fails to describe.
 
 KKT necessity requires an appropriate **constraint qualification**. One convenient sufficient condition is **LICQ**: the gradients of every equality and every active inequality
 
@@ -995,6 +1065,15 @@ The feasible region is the triangle beneath $x+y=b$ in the positive quadrant. As
 
 ### Shadow values, duality, and the envelope theorem
 
+For a parameterised problem with optimum value $v(\theta)$, suppose a differentiable local solution and multiplier branch exists near the parameter of interest, the active set is stable, and the required regularity conditions hold. The **envelope theorem** then gives
+
+$$
+\frac{dv}{d\theta}
+=\partial_\theta\mathcal L(x^*(\theta),\mu^*(\theta),\lambda^*(\theta);\theta).
+$$
+
+Stationarity and the differentiated active constraints cancel the derivatives of the optimal choice. A change in the active set can create a kink in the value function, so the formula applies only where differentiability has been established.
+
 Let $v(b)$ be the optimised loss in the preceding example. Substitution gives
 
 $$
@@ -1006,22 +1085,15 @@ v(b)=
 \end{cases}
 $$
 
-Differentiation within each regime gives $v'(b)=-\mu(b)$. Relaxing the cap lowers the minimum loss. Under the convention $\mathcal L=f+\mu(c-b)$, the multiplier is the *negative* derivative with respect to the right-hand side. If utility maximisation is written as minimisation of negative utility, the derivative of maximised utility changes sign accordingly.
-
-More generally, along a differentiable local solution and multiplier branch with a stable active set and the required regularity, the **envelope theorem** gives
-
-$$
-\frac{dv}{d\theta}
-=\partial_\theta\mathcal L(x^*(\theta),\mu^*(\theta),\lambda^*(\theta);\theta).
-$$
-
-Stationarity and the differentiated active constraints cancel every term containing the derivative of the choice. A change in the active set can create a kink in the value function, so differentiability must be checked at the boundary between regimes. In this quadratic example, the first derivatives happen to agree at both transitions.
+Differentiation within each regime gives $v'(b)=-\mu(b)$. Relaxing the cap lowers the minimum loss. Under the convention $\mathcal L=f+\mu(c-b)$, the multiplier is the negative derivative with respect to the right-hand side. In this quadratic example, the first derivatives agree at both transitions even though the active set changes. Other problems may produce a kink there.
 
 The multiplier also has a global interpretation. For $\mu\geq0$, the dual function $d(\mu,\lambda)=\inf_{x\in U}\mathcal L(x,\mu,\lambda)$ bounds the primal minimum from below because $d\leq\mathcal L\leq f(x)$ at every feasible $x$. The dual problem maximises this bound. This **weak duality** result holds without convexity. Under convexity and Slater's condition, the best bound equals the primal optimum, giving **strong duality**.
 
 ### Nonsmooth objectives and numerical optimisation
 
-A lasso coefficient can land exactly at zero, the point where the absolute-value penalty lacks an ordinary derivative. For a convex function, a **subgradient** $s$ at $x$ satisfies $f(y)\geq f(x)+s'(y-x)$ throughout the domain. The subdifferential of $|x|$ is $\{1\}$ for $x>0$, $\{-1\}$ for $x<0$, and the whole interval $[-1,1]$ at zero. The minimum condition is then $0\in\partial f(x)$.
+For a convex function $f$, a **subgradient** at $x$ is a vector $s$ satisfying $f(y)\geq f(x)+s'(y-x)$ throughout the domain. The set of all such vectors is the subdifferential $\partial f(x)$. A point minimises a proper convex function when $0\in\partial f(x)$, under the usual domain conditions.
+
+For the absolute-value function, $\partial|x|=\{1\}$ when $x>0$, $\{-1\}$ when $x<0$, and the interval $[-1,1]$ at zero. This last case matters for the lasso because a coefficient can land exactly where the penalty has no ordinary derivative.
 
 For $\tfrac12(x-a)^2+\lambda|x|$ with $\lambda\geq0$, solving that condition yields $x^*=\operatorname{sign}(a)\max(|a|-\lambda,0)$. The interval of admissible subgradients accounts for the entire region in which the optimum is zero. Differentiating as though the penalty were smooth would miss it.
 
@@ -1042,19 +1114,29 @@ For a constrained problem, a numerical check should report feasibility, stationa
 
 ## Probability before the observation {#sec-probability-foundations}
 
+Probability describes uncertainty inside a specified model before the outcome is observed. It begins with a space of outcomes and events, then maps outcomes into numerical random variables. Distributions, expectations and conditional expectations are properties of those random variables under the probability measure.
+
 ### Outcomes, events, and random variables
 
-Before a monetary-policy meeting, the rate may be cut, held or raised. Afterwards, one of those outcomes has occurred. Let $\Omega=\{\text{cut},\text{hold},\text{hike}\}$ with probabilities $.2,.5,.3$. The event "no cut" is the subset containing a hold and a hike, so it has probability $.8$. A random variable $X$ can attach changes of $-25,0,25$ basis points to the three outcomes. Its expectation is $2.5$ basis points, even though the committee can never choose that exact move.
+A **probability space** is a triple $(\Omega,\mathcal F,\mathbb P)$. The set $\Omega$ contains the possible elementary outcomes. The sigma-algebra $\mathcal F$ contains the events to which probabilities are assigned; it includes $\Omega$ and is closed under complements and countable unions. The probability measure $\mathbb P$ is nonnegative, assigns probability one to $\Omega$, and is countably additive over disjoint events.
 
-In a general probability space $(\Omega,\mathcal F,\mathbb P)$, the sigma-algebra $\mathcal F$ contains $\Omega$ and is closed under complements and countable unions. A probability measure is nonnegative, assigns probability one to $\Omega$, and is **countably additive** over disjoint events. A real random variable is a measurable map $X:\Omega\to\mathbb R$. Measurability means that $\{X\leq a\}\in\mathcal F$ for every real $a$, so probabilities of threshold events are well defined.
+A real **random variable** is a measurable map $X:\Omega\to\mathbb R$. Measurability means that $\{X\leq a\}\in\mathcal F$ for every real $a$. The outcome $\omega$ is what occurs; $X(\omega)$ is the numerical quantity recorded from that outcome. The distinction matters because several random variables can be defined on the same underlying experiment.
 
 Countable operations become essential once a model contains limits or an infinite history. Under a continuous shock, each individual outcome may have probability zero even though intervals have positive probability, so point masses cannot describe the law. The cumulative distribution function $F_X(x)=\Pr(X\leq x)$ works in both discrete and continuous settings. It is nondecreasing and right-continuous, approaching zero and one at the two infinities.
 
 For events $A,B$, $\Pr(A\cup B)=\Pr(A)+\Pr(B)-\Pr(A\cap B)$. If $\Pr(B)>0$, conditioning gives $\Pr(A\mid B)=\Pr(A\cap B)/\Pr(B)$. Independence means $\Pr(A\cap B)=\Pr(A)\Pr(B)$; independence of random variables requires this relation for all measurable sets of their values.
 
+For example, before a monetary-policy meeting let $\Omega=\{\text{cut},\text{hold},\text{hike}\}$ with probabilities $.2,.5,.3$. The event "no cut" contains the last two outcomes and has probability $.8$. A random variable can attach changes of $-25,0,25$ basis points to the three outcomes. Its expectation is $2.5$ basis points, although no elementary outcome takes that value.
+
 ### Densities, expectations, and moments
 
-Suppose next quarter's inflation has density $p$. Then $\Pr(a\leq X\leq b)=\int_a^b p(x)\,dx$. A density is nonnegative and integrates to one. Its height can exceed one: the uniform density on $(0,.1)$ equals ten.
+A probability law is **discrete** when it can be described by masses $p(x)=\Pr(X=x)$ on a countable set. It is **absolutely continuous** when some nonnegative density $p$ integrates to one and satisfies
+
+$$
+\Pr(a\leq X\leq b)=\int_a^b p(x)\,dx.
+$$
+
+A density value is a height, rather than a probability. It may exceed one: the uniform density on $(0,.1)$ equals ten, while the area under it remains one.
 
 For a discrete variable, $E[X]=\sum_x x\Pr(X=x)$. With a density, $E[X]=\int_{\mathbb R}xp(x)\,dx$. The condition $E|X|<\infty$ guarantees a finite expectation. Undefined positive and negative parts cannot be cancelled to manufacture a mean. The Cauchy law is the standard example of a distribution with no finite expectation.
 
@@ -1098,19 +1180,7 @@ Limits do not pass through every integral. On $(0,1)$, let $f_n(x)=n\,\mathbf1_{
 
 ### Information and conditional expectation {#sec-joint-distributions}
 
-Let $Y$ denote next quarter's inflation and $X$ today's indicators. A forecast $m(X)$ can use the indicators available today. With $E[Y^2]<\infty$, the forecast minimising squared loss is $m(X)=E[Y\mid X]$. For any square-integrable alternative $a(X)$,
-
-$$
-\begin{aligned}
-E[(Y-a(X))^2]
-={}&E[(Y-m(X))^2]\\
-&+E[(m(X)-a(X))^2].
-\end{aligned}
-$$
-
-The cross term vanishes because $E[Y-m(X)\mid X]=0$. This is the projection argument for OLS in a larger space: every square-integrable function of the available information is now allowed, rather than only linear combinations of regressors.
-
-Formally, $E[Y\mid\mathcal G]$ for integrable $Y$ is a $\mathcal G$-measurable variable $M$ satisfying $E[M\mathbf1_A]=E[Y\mathbf1_A]$ for every $A\in\mathcal G$. It is unique up to events of probability zero. Under square integrability the error is orthogonal to every square-integrable $\mathcal G$-measurable variable. The tower property, for $\mathcal H\subseteq\mathcal G$, and the variance decomposition are
+For an integrable random variable $Y$ and a sub-sigma-algebra $\mathcal G\subseteq\mathcal F$, the **conditional expectation** $E[Y\mid\mathcal G]$ is a $\mathcal G$-measurable random variable $M$. It satisfies $E[M\mathbf1_A]=E[Y\mathbf1_A]$ for every $A\in\mathcal G$ and is unique up to events of probability zero. Under square integrability, the error $Y-M$ is orthogonal to every square-integrable $\mathcal G$-measurable random variable. The tower property, for $\mathcal H\subseteq\mathcal G$, and the variance decomposition are
 
 $$
 E[E(Y\mid\mathcal G)\mid\mathcal H]=E[Y\mid\mathcal H],
@@ -1124,6 +1194,18 @@ $$
 &+\operatorname{Var}(E[Y\mid\mathcal G]).
 \end{aligned}
 $$
+
+The definition now gives the forecasting result. Let $Y$ denote next quarter's inflation and $X$ today's indicators. A forecast $m(X)$ can use the sigma-algebra generated by those indicators. With $E[Y^2]<\infty$, the forecast minimising squared loss is $m(X)=E[Y\mid X]$. For any square-integrable alternative $a(X)$,
+
+$$
+\begin{aligned}
+E[(Y-a(X))^2]
+={}&E[(Y-m(X))^2]\\
+&+E[(m(X)-a(X))^2].
+\end{aligned}
+$$
+
+The cross term vanishes because $E[Y-m(X)\mid X]=0$. This is the projection argument for OLS in a larger space: every square-integrable function of the available information is now allowed, rather than only linear combinations of regressors.
 
 For a vector $X$, $\Sigma=E[(X-EX)(X-EX)']$ collects its variances and covariances. Under a jointly Gaussian law, conditional means are affine and conditional covariance is constant in the observed value. Those properties come from the full distributional assumption. Zero correlation alone does not provide them.
 
@@ -1140,6 +1222,12 @@ For $X\sim N(\mu,\sigma^2)$, the standardised variable $Z=(X-\mu)/\sigma$ has de
 For matrices, $E\sim\mathcal{MN}(0,U,V)$ means $\operatorname{vec}(E)\sim N(0,V\otimes U)$. A Wishart matrix is built by summing outer products of independent Gaussian vectors. With positive definite scale and at least as many integer-valued draws as dimensions, it is positive definite almost surely. Fewer draws make it singular. In the nonsingular density formulation, degrees of freedom may be real but must exceed the dimension minus one. The inverse-Wishart defines a distribution on positive definite covariance matrices. Bayesian VAR formulas depend on these conventions.
 
 ## Statistics from one sample {#sec-probability-versus-statistics}
+
+A statistical problem begins with observable data $Y$ taking values in a sample space $\mathcal Y$ and a family of candidate laws $\{P_\theta:\theta\in\Theta\}$. The index $\theta$ is the parameter. It may be a scalar, a vector or a function. The family is the **statistical model**; choosing it specifies which features of the data-generating process are maintained and which remain unknown.
+
+A **statistic** is any measurable function of the data. An **estimator** $\hat\theta=\hat\theta(Y)$ is a statistic designed to learn about $\theta$. Before observation it is random and has a sampling distribution under each $P_\theta$. After observation, its realised numerical value is an **estimate**. An estimand is the population quantity being targeted. These three terms refer to different objects and will be kept separate below.
+
+Sampling assumptions enter before any theorem. Independent and identically distributed observations form one design. A time series forms another. The law of large numbers, central limit theorem and standard-error formula must match that design.
 
 ### A mean across repeated samples {#sec-lln-clt}
 
@@ -1195,11 +1283,19 @@ For vector $g$, the covariance is $J_g(\theta_0)VJ_g(\theta_0)'$. The proof appl
 
 ### Moment restrictions lead to estimators {#sec-gmm}
 
-Estimating a mean replaces the condition $E[X-\mu]=0$ with its sample counterpart. A model that implies $E[g(W_t,\theta_0)]=0$ suggests the same construction. Define $\bar g_T(\theta)=T^{-1}\sum_tg(W_t,\theta)$. When the number of independent moments equals the number of parameters, one looks for a root $\bar g_T(\hat\theta)=0$ and checks whether it exists uniquely. With extra moments, sampling noise usually prevents every sample moment from vanishing. **GMM** then minimises
+A **moment-restriction model** specifies a function $g$ such that
+
+$$
+E[g(W_t,\theta_0)]=0
+$$
+
+at the target parameter. Its sample analogue is $\bar g_T(\theta)=T^{-1}\sum_tg(W_t,\theta)$. When the number of independent moments equals the number of parameters, one looks for a root $\bar g_T(\hat\theta)=0$ and checks whether it exists uniquely. With extra moments, sampling noise usually prevents every sample moment from vanishing. **Generalised method of moments (GMM)** then minimises
 
 $$
 Q_T(\theta)=\bar g_T(\theta)'W_T\bar g_T(\theta),\qquad W_T\succ0.
 $$
+
+Estimating a population mean is the simplest case: $g(X_t,\mu)=X_t-\mu$, and the sample moment equation gives $\hat\mu=\bar X_T$.
 
 A pointwise LLN at each fixed parameter does not prove consistency for a minimiser chosen from the data. One sufficient argument uses a compact parameter set, a continuous population criterion $Q$ with unique minimiser $\theta_0$, uniform convergence $\sup_\theta|Q_T(\theta)-Q(\theta)|\xrightarrow{p}0$, and an approximate minimiser whose objective error vanishes in probability. Compactness and uniqueness create a positive population loss gap outside every neighbourhood of $\theta_0$. Uniform convergence eventually carries that gap into the sample criterion.
 
@@ -1435,7 +1531,9 @@ The formula estimates the covariance of $\hat\beta$ itself. HAC estimators add w
 
 ### Intervals, tests, and resampling
 
-Suppose a coefficient estimate is $.4$ with standard error $.2$. A Normal approximation gives the 95 percent interval $[.008,.792]$. Coverage refers to repeating the sampling experiment with a fixed true parameter. Under the assumptions, about 95 percent of the resulting intervals contain that parameter. Once this particular interval has been observed, the frequentist statement assigns no probability to the fixed parameter.
+A $(1-\alpha)$ **confidence procedure** maps each possible sample $Y$ to a set $C(Y)$ and is designed so that $\Pr_\theta\{\theta\in C(Y)\}\geq1-\alpha$ under the maintained model, either exactly or asymptotically. The probability concerns repetitions of the random sample with $\theta$ fixed. After one interval has been observed, the frequentist statement does not assign a probability to that fixed parameter.
+
+For example, an estimate of $.4$ with standard error $.2$ gives the approximate 95 percent Normal interval $[.008,.792]$. Its interpretation depends on the assumptions that justify the Normal approximation and the standard error.
 
 ![Each interval comes from a separate simulated sample. The fixed vertical reference is covered by most intervals, while some miss it. A coverage probability concerns repetitions of this construction.](../figures/mathematics/analysis/intervals.svg){#fig-confidence-intervals}
 
@@ -1462,13 +1560,17 @@ The nonparametric bootstrap substitutes the empirical distribution for an unknow
 
 ## Stochastic processes and one observed history {#sec-stochastic-processes-foundations}
 
+A stochastic process is a probability model for an indexed collection of random variables. Its law describes possible histories; a dataset contains one realised history. This distinction is the source of the extra assumptions needed to replace cross-sectional averaging by averaging over time.
+
 ### Stationarity and time averages
 
-A country gives us one historical path rather than a fresh, independent economy at each date. A **stochastic process** $(X_t)_{t\in\mathbb Z}$ assigns a random variable to every date, and the series in the dataset is one realisation of that process. A filtration $(\mathcal F_t)$ is an increasing sequence of sigma-algebras representing the information accumulated through time. The process is adapted when $X_t$ is $\mathcal F_t$-measurable.
+A **stochastic process** $(X_t)_{t\in T}$ is a family of random variables defined on a common probability space and indexed by time. A realised time series is one function $t\mapsto X_t(\omega)$ obtained after the outcome $\omega$ is fixed. In macroeconomic data we usually observe one such history, rather than independent repetitions of the whole economy.
 
-Draw a permanent level $Z$ once and set $X_t=Z$ at every date. Shifting the dates leaves the law unchanged, so the process is strictly stationary. Its sample average, however, equals $Z$ at every sample size and reaches $E[Z]$ only in the degenerate case. An unchanging distribution over time does not ensure that one history reveals the population mean.
+A filtration $(\mathcal F_t)$ is an increasing family of sigma-algebras representing information available through date $t$. The process is **adapted** when $X_t$ is $\mathcal F_t$-measurable. This is a statement about information timing, rather than stationarity.
 
-**Strict stationarity** makes every finite-dimensional joint distribution invariant to a common shift in time. **Weak stationarity** asks for finite second moments, a constant mean, and covariance $\operatorname{Cov}(X_t,X_{t-h})=\gamma(h)$ that depends only on the lag. A strictly stationary process with finite second moments is weakly stationary. For Gaussian processes the converse also holds, while other processes may have stationary first and second moments without a stationary joint law.
+A process is **strictly stationary** when every finite-dimensional joint distribution is invariant to a common shift in time. It is **weakly stationary** when it has finite second moments, a constant mean and covariance $\operatorname{Cov}(X_t,X_{t-h})=\gamma(h)$ depending only on the lag. Strict stationarity plus finite second moments implies weak stationarity. For Gaussian processes the converse holds because means and covariances determine all finite-dimensional laws. It fails for general non-Gaussian processes.
+
+Stationarity alone does not justify time averaging. Draw a permanent random level $Z$ once and set $X_t=Z$ at every date. The process is strictly stationary, yet its sample average equals $Z$ at every sample size. Unless $Z$ is degenerate, the average does not converge to $E[Z]$.
 
 Ergodicity rules out nontrivial events that remain unchanged under time shifts. If the process is strictly stationary and ergodic with $E|X_0|<\infty$, the ergodic theorem gives $T^{-1}\sum_{t=1}^TX_t\to E[X_0]$ almost surely. This is an LLN. A CLT needs additional moment and dependence conditions, such as those in a suitable mixing theorem, and can give the scaled mean limiting variance
 
@@ -1517,13 +1619,21 @@ where convergence is in mean square and $e_t$ are the linear innovations. Pure n
 
 ### Regimes and unobserved states {#sec-state-space-foundations}
 
-Suppose the economy is in expansion or recession and the distribution of tomorrow's regime depends only on today's. A **Markov chain** with transition matrix
+A finite-state **Markov chain** $(S_t)$ satisfies
+
+$$
+\Pr(S_{t+1}=j\mid S_t,S_{t-1},\ldots)=\Pr(S_{t+1}=j\mid S_t).
+$$
+
+Its transition matrix has entries $p_{ij}=\Pr(S_{t+1}=j\mid S_t=i)$. Rows index current states, columns index next states, and each row sums to one. If $\pi_t$ is a row vector of state probabilities, then $\pi_{t+1}=\pi_tP$.
+
+For an expansion-recession example, take
 
 $$
 P=\begin{pmatrix}.92&.08\\.35&.65\end{pmatrix}
 $$
 
-uses rows for current states and columns for next states. A row probability vector evolves according to $\pi_{t+1}=\pi_tP$. This finite chain is irreducible and aperiodic, giving a unique invariant distribution reached from every initial distribution. Solving $\pi=\pi P$ gives $\pi=(35/43,8/43)$, or about $(.814,.186)$.
+This chain is irreducible and aperiodic, so it has a unique invariant distribution reached from every initial distribution. Solving $\pi=\pi P$ gives $\pi=(35/43,8/43)$, or about $(.814,.186)$.
 
 When the state is hidden, write a **state-space model**
 
@@ -1540,17 +1650,13 @@ Filtering estimates $s_t$ from observations $y_1,\ldots,y_t$. Smoothing also use
 
 ## Bayesian updating of parameter uncertainty {#sec-bayes-foundations}
 
-Suppose a recession occurs with probability $.05$. An alarm sounds during $.80$ of recessions and $.10$ of other periods. Across a hypothetical 1,000 repetitions, this produces 40 recession alarms and 95 false alarms in expectation. After an alarm,
+For events $A$ and $B$ with positive probabilities, the definition of conditional probability gives **Bayes' rule**
 
 $$
-\Pr(\text{recession}\mid\text{alarm})
-=\frac{.80\times.05}{.80\times.05+.10\times.95}
-=\frac{8}{27}\simeq .296.
+\Pr(A\mid B)=\frac{\Pr(B\mid A)\Pr(A)}{\Pr(B)}.
 $$
 
-The alarm carries information, yet false alarms are still the majority in this example. Sensitivity and the probability of recession conditional on an alarm are different quantities.
-
-The same identity applies to an unknown parameter with prior density $p(\theta)$ and sampling density $p(y\mid\theta)$:
+For an unknown parameter $\theta$ with prior density $p(\theta)$ and data density $p(y\mid\theta)$, the continuous version is
 
 $$
 p(\theta\mid y)=\frac{p(y\mid\theta)p(\theta)}
@@ -1558,6 +1664,16 @@ p(\theta\mid y)=\frac{p(y\mid\theta)p(\theta)}
 $$ {#eq-bayes-rule}
 
 The denominator is a marginal density for continuous data and a probability mass for discrete data. A posterior exists through this normalisation only when the denominator is finite and strictly positive. An improper prior also requires a separate check that the posterior is proper.
+
+The distinction between $\Pr(B\mid A)$ and $\Pr(A\mid B)$ is already visible in a finite example. Suppose a recession has prior probability $.05$. An alarm sounds during $.80$ of recessions and $.10$ of other periods. Across 1,000 hypothetical repetitions, this gives 40 recession alarms and 95 false alarms in expectation. Hence
+
+$$
+\Pr(\text{recession}\mid\text{alarm})
+=\frac{.80\times.05}{.80\times.05+.10\times.95}
+=\frac{8}{27}\simeq .296.
+$$
+
+The alarm is informative, while false alarms remain more numerous in this example. Sensitivity and the posterior probability of recession answer different questions.
 
 For a concrete update, let $\theta\sim N(m_0,s_0^2)$ and, conditional on $\theta$, let $y_i$ be independent $N(\theta,\sigma^2)$ observations, with all variances known and positive. Completing the square in the log posterior gives
 
@@ -1581,9 +1697,9 @@ When direct integration is impractical, Monte Carlo approximates posterior expec
 
 ## Fourier analysis and recurring movements {#sec-signal-fourier-foundations}
 
-Monthly production may combine a seasonal rhythm, a slower cycle and irregular noise. All three overlap in calendar time. Fourier analysis asks how strongly the sample aligns with waves of different periods, turning the problem into another projection, this time onto trigonometric directions.
+Fourier analysis represents a finite data vector in an orthogonal basis of oscillating functions. A sinusoid $\cos(\omega t+\varphi)$ has angular frequency $\omega$, period $2\pi/\omega$ when $\omega>0$, and phase $\varphi$. Euler's identity $e^{i\omega t}=\cos(\omega t)+i\sin(\omega t)$ packages the cosine and sine coordinates into one complex number.
 
-A sinusoid $\cos(\omega t+\varphi)$ has angular frequency $\omega$, period $2\pi/\omega$ when $\omega>0$, and phase $\varphi$. Euler's identity $e^{i\omega t}=\cos(\omega t)+i\sin(\omega t)$ packages two real coordinates into one complex number. For $T$ equally spaced observations, define
+For $T$ equally spaced observations, the **discrete Fourier transform** and its inverse are
 
 $$
 \widetilde X_j=\sum_{t=0}^{T-1}x_t e^{-2\pi ijt/T},
@@ -1592,6 +1708,8 @@ x_t=\frac1T\sum_{j=0}^{T-1}\widetilde X_j e^{2\pi ijt/T}.
 $$
 
 Orthogonality gives the inverse. By the finite geometric-sum formula, $\sum_{t=0}^{T-1}e^{2\pi i(j-k)t/T}$ equals $T$ when $j=k$ modulo $T$ and zero otherwise. The transform is exact on the observed grid, and real-valued data produce conjugate-symmetric coefficients.
+
+Monthly production may combine a seasonal rhythm, a slower cycle and irregular noise. These movements overlap in calendar time. The Fourier coefficients measure how strongly the observed sample aligns with each admissible frequency, so the calculation is another projection, now onto trigonometric directions.
 
 ::: {#fig-fourier-film .math-film}
 
@@ -1720,7 +1838,9 @@ The process is strictly and weakly stationary, has mean zero, and satisfies $\ga
 
 ## Returning to the economic question
 
-Return to the interest-rate rise and output fall that opened the chapter. Distinct coefficients can be recovered only from independent directions of variation. A local approximation is credible when its derivative comes with a controlled remainder. An estimated optimum rests on existence, a feasible set, and conditions suited to the active constraints and local curvature. Statements about uncertainty require moments, dependence assumptions and a sampling argument. A causal reading adds restrictions connecting economic shocks to the observed responses.
+Return to the dynamic system in @sec-maths-motivating-system. Linear algebra determines which state movements the matrix can represent and whether distinct coefficients can be recovered. Analysis determines when that linear system is a defensible local approximation. Optimisation becomes relevant when the equations describe choices subject to constraints. Probability specifies the disturbances, while statistics determines what one sample can reveal about the unknown coefficients. Time-series assumptions then decide whether averages and limiting distributions are available from a single history.
+
+None of these mathematical steps supplies a causal interpretation on its own. Causality requires additional restrictions linking an economic shock to observed variation. The calculation and its interpretation are separate claims, and each needs its own assumptions.
 
 The chapters that follow specialise these requirements to time series. When a later calculation seems to rest on convention alone, the convention usually traces back to an object defined here: the order of Jacobian multiplication, the sign of a multiplier, the scaling of a covariance estimate, or the information set behind a forecast.
 
@@ -1728,4 +1848,4 @@ The chapters that follow specialise these requirements to time series. When a la
 
 Strang [@Strang2016] is the main reference here for linear algebra and projection geometry. The open textbook *Interactive Linear Algebra* gives accessible treatments of [span](https://textbooks.math.gatech.edu/ila/spans.html) and [matrix multiplication as composition](https://textbooks.math.gatech.edu/ila/matrix-multiplication.html). For real and multivariable analysis, including the inverse and implicit function theorems, see Lebl's open [*Basic Analysis*, volumes I and II](https://www.jirka.org/ra/). Boyd and Vandenberghe cover convexity, duality, Slater's condition and KKT sufficiency in [chapters 2 to 5 of *Convex Optimization*](https://web.stanford.edu/~boyd/cvxbook/bv_cvxbook.pdf). Nocedal and Wright [@NocedalWright2006], chapter 12, treat first- and second-order conditions beyond convex problems. Casella and Berger [@CasellaBerger2002] develop probability and inference, van der Vaart [@vanDerVaart1998] develops asymptotic theory, and Hamilton [@Hamilton1994] carries these tools into time series. Taboga also gives a concise [proof of the Gauss-Markov theorem](https://www.statlect.com/fundamentals-of-statistics/Gauss-Markov-theorem).
 
-The chapter animations were made with [Manim Community](https://github.com/ManimCommunity/manim) and [StatAnim](https://github.com/rishabhbhartiya/statanim). The [Python sources and reproduction instructions](https://github.com/Camille-Souffron/macroeconometrics-course/tree/main/code/python/mathematics) record the formulas, dependency versions and numerical checks. Still figures and interactive displays reuse the same examples, so every argument remains available without video playback.
+The chapter's animations and figures were made with [Manim Community](https://github.com/ManimCommunity/manim) and [StatAnim](https://github.com/rishabhbhartiya/statanim). The [Python sources and reproduction instructions](https://github.com/Camille-Souffron/macroeconometrics-course/tree/main/code/python/mathematics) record the formulas, dependency versions and numerical checks. The interactive displays reuse the same examples, so every argument remains available without video playback.
