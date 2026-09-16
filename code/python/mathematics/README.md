@@ -21,7 +21,7 @@ Pango text, while the book typesets its full formulas with MathJax.
 
 The nine H.264 movies are 1280×720 at 30 frames per second, with browser-friendly
 pixel format and fast-start metadata. Each has an informative PNG poster.
-Fifteen still diagrams are SVGs with searchable text. All data are illustrative,
+Sixteen still diagrams are SVGs with searchable text. All data are illustrative,
 with fixed seeds for random figures. The generation scripts do not fetch data.
 
 The book commits the rendered assets. Ordinary publication needs neither Manim

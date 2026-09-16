@@ -198,6 +198,8 @@ $$
 \|x\|_\infty\leq\|x\|_2\leq\|x\|_1\leq\sqrt n\,\|x\|_2.
 $$
 
+This chain is to be proved, rather than taken as a convention, and the worked exercise in @sec-exercise-norm-comparison derives each inequality from the coordinate definitions and Cauchy-Schwarz.
+
 They nevertheless penalise coefficients differently. This will separate ridge regression from the lasso.
 
 ### Linear transformations and their columns
@@ -1269,17 +1271,204 @@ The cross term vanishes because $E[Y-m(X)\mid X]=0$. This is the projection argu
 
 For a vector $X$, $\Sigma=E[(X-EX)(X-EX)']$ collects its variances and covariances. Under a jointly Gaussian law, conditional means are affine and conditional covariance is constant in the observed value. Those properties come from the full distributional assumption. Zero correlation alone does not provide them.
 
-### Some laws arise from different sampling questions
+### Named laws answer different sampling questions {#sec-reference-laws}
 
-A default indicator $D$ follows a Bernoulli law when $\Pr(D=1)=p$, giving $E[D]=p$ and $\operatorname{Var}(D)=p(1-p)$. Count defaults among $n$ independent firms with the same probability and the result is Binomial: $\Pr(N=k)=\binom nk p^k(1-p)^{n-k}$, with mean $np$ and variance $np(1-p)$. Common exposures break the independence assumption and may change portfolio risk sharply.
+A probability law specifies a support and assigns probability across it, so its choice should follow the quantity being recorded and the mechanism proposed for it. A default flag, a number of defaults among 100 firms, a number of arrivals during one quarter and the time until the next arrival are four different random variables even when their realised values reuse zeros and ones.
 
-For arrivals during a time interval, a Poisson count has mass $e^{-\lambda}\lambda^k/k!$ and mean and variance $\lambda$. A homogeneous Poisson process also has independent increments and a constant rate. Waiting times then have Exponential density $\lambda e^{-\lambda x}$ for $x\geq0$, mean $1/\lambda$, and survival probability $e^{-\lambda x}$. Dividing the relevant survival probabilities gives $\Pr(X>s+t\mid X>s)=\Pr(X>t)$. The remaining wait has no memory of the elapsed duration.
+| Recorded quantity | Reference law | Generating condition |
+|---|---|---|
+| One yes-or-no outcome | Bernoulli | One trial with success probability $p$ |
+| Successes among a fixed number of trials | Binomial | Independent Bernoulli trials with a common $p$ |
+| Arrivals during a fixed interval | Poisson | Constant-rate process with independent increments |
+| Time to the first or $k$th arrival | Exponential or Gamma | Waiting time in that Poisson process |
+| Additive continuous disturbance | Gaussian | A Gaussian specification, exact or used as an approximation for a sum |
+| Squared length of a standard Gaussian vector | Chi-square | Sum of independent squared standard Normals |
+| Gaussian quantity divided by an estimated scale | Student | Independent Normal numerator and chi-square scale estimate |
+| Ratio of two Gaussian variance components | Fisher $F$ | Ratio of independent scaled chi-square variables |
 
-![A Bernoulli indicator, a Binomial count, a Poisson count and an Exponential waiting time answer different questions. Bars carry probability masses; area under a continuous curve carries probability.](../figures/mathematics/analysis/laws.svg){#fig-basic-distributions}
+The assumptions in the third column do the modelling work. Once adopted, the familiar name records their probabilistic consequences.
 
-For $X\sim N(\mu,\sigma^2)$, the standardised variable $Z=(X-\mu)/\sigma$ has density $\phi(z)=(2\pi)^{-1/2}e^{-z^2/2}$. If $Z_1,\ldots,Z_\nu$ are independent standard Normals, then $V=\sum_iZ_i^2\sim\chi_\nu^2$. If $Z$ is an independent standard Normal, $Z/\sqrt{V/\nu}\sim t_\nu$. Finally, independent $V_1\sim\chi^2_{\nu_1}$ and $V_2\sim\chi^2_{\nu_2}$ give $(V_1/\nu_1)/(V_2/\nu_2)\sim F_{\nu_1,\nu_2}$. The independence conditions explain why these reference laws cannot be assigned to arbitrary ratios.
+### Indicators and counts with a fixed number of trials
 
-For matrices, $E\sim\mathcal{MN}(0,U,V)$ means $\operatorname{vec}(E)\sim N(0,V\otimes U)$. A Wishart matrix is built by summing outer products of independent Gaussian vectors. With positive definite scale and at least as many integer-valued draws as dimensions, it is positive definite almost surely. Fewer draws make it singular. In the nonsingular density formulation, degrees of freedom may be real but must exceed the dimension minus one. The inverse-Wishart defines a distribution on positive definite covariance matrices. Bayesian VAR formulas depend on these conventions.
+A Bernoulli variable $D$ takes values zero and one, with
+
+$$
+\Pr(D=d)=p^d(1-p)^{1-d},\qquad d\in\{0,1\}.
+$$
+
+Its mean is $p$ and its variance is $p(1-p)$. This makes a sample average of indicators a sample proportion. A recession indicator, a loan-default flag or the answer to one survey question can be modelled this way after the event and the observation unit have been fixed.
+
+Now let $D_1,\ldots,D_n$ be independent Bernoulli variables with the same probability $p$. Their sum $N=\sum_iD_i$ is Binomial:
+
+$$
+\Pr(N=k)=\binom nkp^k(1-p)^{n-k},
+\qquad E[N]=np,
+\qquad \operatorname{Var}(N)=np(1-p).
+$$
+
+The upper bound $n$ is built into the question. Dependence across firms or different probabilities $p_i$ destroys the Binomial formula, even though the sum is still a count, and common macroeconomic exposure tends to create precisely such dependence. When $n$ is large, $p$ is small and $np\to\lambda$, the Binomial law converges to a Poisson law with parameter $\lambda$. This approximation concerns rare outcomes among many fixed opportunities.
+
+### Arrivals, waiting times, and the Gamma family
+
+A homogeneous Poisson process $(N(t))_{t\geq0}$ is a count process with independent increments and a constant rate $\lambda>0$. Over a short interval of length $h$,
+
+$$
+\begin{aligned}
+\Pr\{N(t+h)-N(t)=1\}&=\lambda h+o(h),\\
+\Pr\{N(t+h)-N(t)\geq2\}&=o(h).
+\end{aligned}
+$$
+
+These local conditions, together with $N(0)=0$, give
+
+$$
+N(t)\sim\operatorname{Poisson}(\lambda t),\qquad
+\Pr\{N(t)=k\}=e^{-\lambda t}\frac{(\lambda t)^k}{k!}.
+$$
+
+Both the mean and variance equal $\lambda t$. If $t$ is measured in quarters, then $\lambda$ is an arrival rate per quarter, and counts from disjoint intervals or independent sources remain Poisson after their parameters are added.
+
+The model suits unscheduled event counts such as failures or insurance claims when the constant-rate and independence assumptions are credible. Clustering, contagion and changing exposure usually make the variance exceed the mean, producing **overdispersion** that counts against a homogeneous Poisson model. A fixed maximum calls for a Binomial model. With covariates, Poisson regression commonly writes $E[N_i\mid X_i]=\exp(X_i'\beta)$ and obtains an exact likelihood when the full conditional law is Poisson. Consistency under a weaker conditional-mean specification needs the corresponding quasi-likelihood argument and a suitable covariance estimator.
+
+Let $W_1$ denote the first waiting time. Then
+
+$$
+\Pr(W_1>w)=\Pr\{N(w)=0\}=e^{-\lambda w},
+$$
+
+so $W_1$ has Exponential density $\lambda e^{-\lambda w}$ on $w\geq0$ and mean $1/\lambda$. It is memoryless:
+
+$$
+\Pr(W_1>s+t\mid W_1>s)=\Pr(W_1>t).
+$$
+
+The wait to the $k$th arrival is a sum of $k$ independent Exponential waiting times. It follows a Gamma law. Under the shape-rate convention,
+
+$$
+f(x)=\frac{\lambda^\alpha}{\Gamma(\alpha)}
+x^{\alpha-1}e^{-\lambda x},
+\qquad x>0,
+$$
+
+with mean $\alpha/\lambda$ and variance $\alpha/\lambda^2$. The Poisson count and Gamma waiting time are two readings of the same arrival process: one fixes the interval and counts events, while the other fixes the event number and measures time.
+
+Here $\Gamma(\alpha)=\int_0^\infty t^{\alpha-1}e^{-t}\,dt$ is the Gamma function, with $\Gamma(k)=(k-1)!$ for positive integers, so the Exponential law is the case $\alpha=1$ and the wait to the $k$th arrival uses $\alpha=k$.
+
+![A Bernoulli indicator, a Binomial count, a Poisson count and an Exponential waiting time answer different sampling questions. Bars carry probability masses. Area under a continuous curve carries probability.](../figures/mathematics/analysis/laws.svg){#fig-basic-distributions}
+
+### Gaussian laws and linear combinations
+
+A scalar Gaussian variable $X\sim N(\mu,\sigma^2)$ has density
+
+$$
+p(x)=\frac1{\sigma\sqrt{2\pi}}
+\exp\left[-\frac{(x-\mu)^2}{2\sigma^2}\right],
+\qquad \sigma>0.
+$$
+
+Standardisation gives $Z=(X-\mu)/\sigma\sim N(0,1)$. Affine transformations and sums of independent Gaussian variables remain Gaussian, while a random vector is jointly Gaussian when every linear combination of its coordinates is Gaussian. Its mean vector and covariance matrix then determine the whole law, which is why conditional means, regression calculations and state-space filters become especially tractable under Gaussian assumptions.
+
+Two routes lead to a Normal reference. In an exact Gaussian model, the observations or disturbances are assumed Gaussian at the stated sample size, whereas a central limit theorem gives an approximation for a standardised sum or estimator under a particular sequence of sampling conditions. Individual observations remain as they were. Heavy tails, dependence or a parameter on a boundary may also change the limiting law.
+
+### Why chi-square, Student, and Fisher laws appear {#sec-chi-square-student-fisher}
+
+Let $Z_1,\ldots,Z_\nu$ be independent $N(0,1)$ variables. Their squared Euclidean length
+
+$$
+U=\sum_{j=1}^{\nu}Z_j^2
+$$
+
+has a **chi-square distribution with $\nu$ degrees of freedom**, written $U\sim\chi_\nu^2$. It is a Gamma law with shape $\nu/2$ and rate $1/2$, so
+
+$$
+E[U]=\nu,
+\qquad
+\operatorname{Var}(U)=2\nu.
+$$
+
+Its support is $[0,\infty)$. The squared-length construction explains that restriction, while the degrees of freedom count independent Gaussian directions and determine the law used in variance estimation and quadratic-form tests.
+
+Take an i.i.d. Gaussian sample $X_1,\ldots,X_n\sim N(\mu,\sigma^2)$ and define
+
+$$
+S^2=\frac1{n-1}\sum_{i=1}^n(X_i-\bar X)^2.
+$$
+
+After the sample mean has been fitted, the residual vector lies in an $(n-1)$-dimensional subspace. Orthogonal Gaussian components are independent, which gives
+
+$$
+\frac{(n-1)S^2}{\sigma^2}\sim\chi_{n-1}^2,
+\qquad
+\bar X\ \text{independent of }S^2.
+$$
+
+This is an exact finite-sample result. Estimating the mean costs one degree of freedom. In Gaussian regression, fitting $k$ linearly independent coefficients leaves a residual subspace of dimension $T-k$, producing the chi-square result used for the residual sum of squares.
+
+If the scale $\sigma$ were known, $\sqrt n(\bar X-\mu)/\sigma$ would be standard Normal. Replacing it by the random estimate $S$ gives
+
+$$
+T=\frac{\sqrt n(\bar X-\mu)}{S}
+=\frac{Z}{\sqrt{U/(n-1)}}
+\sim t_{n-1},
+$$
+
+where $Z\sim N(0,1)$ is independent of $U\sim\chi_{n-1}^2$. This ratio defines Student's law. Randomness in the denominator gives it heavier tails than a standard Normal, so its critical values are wider in small samples. As the degrees of freedom increase, $U/\nu$ concentrates near one, the estimated scale fluctuates less from sample to sample, and the resulting $t_\nu$ law approaches $N(0,1)$. Its variance is $\nu/(\nu-2)$ for $\nu>2$, becomes infinite for $1<\nu\leq2$, and loses even a defined mean when $\nu\leq1$.
+
+For two independent chi-square variables $U_1\sim\chi^2_{\nu_1}$ and $U_2\sim\chi^2_{\nu_2}$, the ratio
+
+$$
+F=\frac{U_1/\nu_1}{U_2/\nu_2}
+$$
+
+has a **Fisher-Snedecor distribution** $F_{\nu_1,\nu_2}$. It compares two independent Gaussian variance components. In a Gaussian linear regression, testing $q$ linear restrictions compares the extra residual sum of squares imposed by those restrictions with the unrestricted residual variance:
+
+$$
+F=
+\frac{(\mathrm{RSS}_R-\mathrm{RSS}_U)/q}
+{\mathrm{RSS}_U/(T-k)}
+\sim F_{q,T-k}
+\quad\text{under }H_0.
+$$ {#eq-f-test-reference}
+
+The two quadratic forms are independent because they arise from orthogonal Gaussian projections. With one restriction, squared Student is Fisher: $t_{T-k}^2\sim F_{1,T-k}$. These exact reference laws rely on the Gaussian model and the stated independence.
+
+Chi-square also appears asymptotically. Suppose $h(\theta_0)=0$ contains $q$ restrictions and
+
+$$
+\sqrt T\,h(\hat\theta)\xrightarrow{d}N(0,\Omega),
+\qquad \widehat\Omega\xrightarrow{p}\Omega\succ0.
+$$
+
+Then the Wald statistic
+
+$$
+W_T=T\,h(\hat\theta)'\widehat\Omega^{-1}h(\hat\theta)
+\xrightarrow{d}\chi_q^2.
+$$
+
+After whitening by $\Omega^{-1/2}$, the limiting vector has $q$ independent standard Normal coordinates, and $W_T$ is their squared length. Score and likelihood-ratio statistics share this limit under their own regularity conditions. Fisher information, introduced with likelihood below, is a different object from the Fisher-Snedecor distribution.
+
+![Squaring independent standard Normals produces chi-square laws, estimating the denominator thickens Student tails, and ratios of scaled chi-square variables produce positive, right-skewed Fisher laws.](../figures/mathematics/analysis/reference-laws.svg){#fig-reference-laws}
+
+### Gaussian vectors, matrix-Normal laws, and Wishart laws
+
+The multivariate Gaussian density in @sec-multivariate-integration describes one random vector, while a random matrix $E$ uses the notation
+
+$$
+E\sim\mathcal{MN}(M,U,V)
+\quad\Longleftrightarrow\quad
+\operatorname{vec}(E)\sim N(\operatorname{vec}M,V\otimes U)
+$$
+
+separates row covariance $U$ from column covariance $V$. This Kronecker structure is useful in multivariate regressions and Bayesian VARs, but it is a restriction on the full covariance of $\operatorname{vec}(E)$.
+
+Let $Z_1,\ldots,Z_\nu$ be independent $N_p(0,\Sigma)$ vectors. The random matrix
+
+$$
+W=\sum_{j=1}^{\nu}Z_jZ_j'
+$$
+
+has a **Wishart distribution**, written $W\sim\mathcal W_p(\Sigma,\nu)$, with $E[W]=\nu\Sigma$. It is the matrix analogue of a chi-square variable, and $p=1$ reduces the construction to a scaled chi-square sum. For a Gaussian sample with the usual covariance estimator, $(n-1)S\sim\mathcal W_p(\Sigma,n-1)$ and is independent of the sample mean. With positive definite $\Sigma$ and integer $\nu\geq p$, $W$ is positive definite almost surely. Fewer independent draws leave it singular. In the nonsingular density formulation, the degrees of freedom may be real but must exceed $p-1$, and the inverse-Wishart then places a law on positive definite covariance matrices for use as a conjugate prior in some Bayesian VARs. An application still needs an assessment of the prior dependence and tail behaviour this choice implies.
 
 ## Statistics from one sample {#sec-probability-versus-statistics}
 
@@ -1416,9 +1605,53 @@ $$
 
 Ridge may lower mean squared error by accepting some bias in exchange for a larger variance reduction. Consistency is a statement about a sequence of growing sample sizes and differs from finite-sample unbiasedness. Efficiency also depends on a comparison class and a set of assumptions. No estimator is unconditionally "most efficient".
 
-A statistical model is a family $\{P_\theta:\theta\in\Theta\}$. Evaluated at the observed sample and viewed as a function of $\theta$, its mass or density is the **likelihood**. For continuous data this is a density value because the exact sample has probability zero. Maximum likelihood chooses the parameter that maximises this function, usually through its logarithm $\ell_T(\theta)$.
+A statistical model is a family $\{P_\theta:\theta\in\Theta\}$. Evaluated at the observed sample and viewed as a function of $\theta$, its mass or density is the **likelihood** $L_T(\theta\mid y)$: the data $y$ are fixed inside this function and the parameter varies. For continuous data, $L_T$ is a density value because the exact sample has probability zero, and it supplies no probability distribution over $\theta$ without a prior and Bayes' rule.
 
-Consider a regular, correctly specified i.i.d. model with an interior identified parameter, suitable smoothness and domination, and nonsingular per-observation Fisher information $\mathcal I(\theta_0)$. A consistent MLE is then asymptotically Normal after $\sqrt T$ scaling, with covariance $\mathcal I(\theta_0)^{-1}$. The expected score equals zero when differentiation and integration may be interchanged over a fixed support. Parameter-dependent support, boundary points and misspecification each require another argument. The information identity is not automatic.
+Maximum likelihood chooses the parameter that maximises $L_T$, usually by maximising the log likelihood $\ell_T(\theta)$. In an i.i.d. model with density $p_\theta$,
+
+$$
+\ell_T(\theta)=\sum_{t=1}^T\log p_\theta(Y_t).
+$$
+
+The **score** is the gradient $s_T(\theta)=\partial\ell_T(\theta)/\partial\theta$, so a differentiable interior maximum solves $s_T(\hat\theta)=0$. For one observation, Fisher information is
+
+$$
+\mathcal I(\theta)
+=E_\theta[s_1(\theta)s_1(\theta)'].
+$$
+
+Under a fixed support and conditions that permit differentiation under the integral, $E_\theta[s_1(\theta)]=0$ and
+
+$$
+\mathcal I(\theta)
+=-E_\theta\!\left[\frac{\partial^2\log p_\theta(Y_1)}
+{\partial\theta\,\partial\theta'}\right].
+$$
+
+The first expression measures score variability, the second measures expected log-likelihood curvature, and their equality is the **information identity** under the stated regularity.
+
+A Taylor expansion of the score around the true parameter explains the large-sample variance. With
+
+$$
+\overline H_T
+=\int_0^1 H_T\!\left(\theta_0+r(\hat\theta-\theta_0)\right)\,dr,
+$$
+
+the integral remainder gives
+
+$$
+0=s_T(\hat\theta)
+=s_T(\theta_0)+\overline H_T(\hat\theta-\theta_0).
+$$
+
+Here $H_T$ is the log-likelihood Hessian. A CLT for $T^{-1/2}s_T(\theta_0)$ and a uniform LLN that sends $-T^{-1}\overline H_T$ to $\mathcal I(\theta_0)$ then give
+
+$$
+\sqrt T(\hat\theta-\theta_0)
+\xrightarrow{d}N\!\left(0,\mathcal I(\theta_0)^{-1}\right)
+$$
+
+for a consistent MLE in a regular, correctly specified model with an interior identified parameter and nonsingular information. Parameter-dependent support, a boundary parameter or weak identification changes this argument, while misspecification separates score variance from expected curvature and produces a sandwich covariance.
 
 ### The five OLS assumptions {#sec-ols-assumptions}
 
@@ -1626,6 +1859,8 @@ $$
 The formula estimates the covariance of $\hat\beta$ itself. HAC estimators add weighted sample lag covariances of the scores $x_t\hat u_t$. Both procedures change the estimate of uncertainty and leave the OLS coefficients in place. If endogeneity sends those coefficients to the wrong target, a covariance correction cannot redirect them.
 
 ### Intervals, tests, and resampling
+
+A **pivot** is a statistic whose distribution under the maintained model does not depend on unknown parameters, or depends on them only through the null value being tested. Pivots turn observed discrepancies into reference-law tail areas. For a Gaussian mean, known variance gives a Normal pivot and estimating that variance from the same sample gives the Student pivot in @sec-chi-square-student-fisher. Gaussian regression produces the corresponding Student and Fisher pivots through orthogonal projections, while large-sample work may replace an exact pivot with an asymptotic one.
 
 A $(1-\alpha)$ **confidence procedure** maps each possible sample $Y$ to a set $C(Y)$ and is designed so that $\Pr_\theta\{\theta\in C(Y)\}\geq1-\alpha$ under the maintained model, either exactly or asymptotically. The probability concerns repetitions of the random sample with $\theta$ fixed. After one interval has been observed, the frequentist statement does not assign a probability to that fixed parameter.
 
@@ -1854,6 +2089,52 @@ In $\mathbb R^2$, let $u=(1,0)'$, $v=(0,1)'$ and $w=(1,1)'$. For each family $(u
 The one-vector family $(u)$ is independent and spans the horizontal axis, leaving the rest of $\mathbb R^2$ unreachable. Adding $v$ gives an independent spanning family, hence a basis of the plane. The third family still spans the plane and is dependent because $u+v-w=0$. For instance, $(2,1)'=2u+v=u+w$, so the coefficient triples $(2,1,0)$ and $(1,0,1)$ describe the same vector. Its span has dimension two even though the redundant family contains three vectors.
 :::
 
+### Proving the comparison of norms {#sec-exercise-norm-comparison}
+
+For $x=(x_1,\ldots,x_n)'\in\mathbb R^n$, prove
+
+$$
+\|x\|_\infty\leq\|x\|_2\leq\|x\|_1
+\leq\sqrt n\,\|x\|_2.
+$$
+
+The exercise asks for three proofs, one for each inequality. State when equality can hold.
+
+::: {.callout-note collapse="true" title="Worked answer"}
+Choose an index $k$ with $|x_k|=\|x\|_\infty$. Since every squared coordinate is nonnegative,
+
+$$
+\|x\|_\infty^2=x_k^2
+\leq\sum_{i=1}^n x_i^2=\|x\|_2^2.
+$$
+
+Both sides are nonnegative, so taking square roots proves the first inequality. Equality holds when at most one coordinate is nonzero.
+
+For the second, expand the square of the one-norm:
+
+$$
+\|x\|_1^2
+=\left(\sum_{i=1}^n|x_i|\right)^2
+=\sum_{i=1}^n x_i^2+2\sum_{i<j}|x_ix_j|
+\geq\|x\|_2^2.
+$$
+
+Taking square roots gives $\|x\|_2\leq\|x\|_1$. Equality again requires at most one nonzero coordinate.
+
+For the last inequality, apply Cauchy-Schwarz to the vectors $(|x_1|,\ldots,|x_n|)'$ and $(1,\ldots,1)'$:
+
+$$
+\|x\|_1
+=\sum_{i=1}^n|x_i|
+\leq
+\left(\sum_{i=1}^n x_i^2\right)^{1/2}
+\left(\sum_{i=1}^n1^2\right)^{1/2}
+=\sqrt n\,\|x\|_2.
+$$
+
+Here equality holds exactly when all $|x_i|$ are equal, including the zero vector. The constants cannot be improved uniformly over $\mathbb R^n$: a coordinate vector attains equality in the first two bounds, while $(1,\ldots,1)'$ attains equality in the last.
+:::
+
 ### Predicting a composition before multiplying
 
 Let $A=\left(\begin{smallmatrix}1&1\\0&1\end{smallmatrix}\right)$ and $B=\left(\begin{smallmatrix}2&0\\0&1\end{smallmatrix}\right)$. Find the columns of $AB$ by following the basis vectors through $B$ and then $A$. Compare $AB(1,1)'$ and $BA(1,1)'$. Finally, if $M$ is $2\times3$ and $N$ is $3\times4$, which of $MN$ and $NM$ is defined?
@@ -1923,7 +2204,17 @@ For the first problem, write $g(x)=-x$ and $\mathcal L=(x+2)^2/2-\mu x$. At $x^*
 Solve the two-instrument problem at $b=.25$, $b=1$ and $b=3$. Give every inequality multiplier and verify $v'(b)=-\mu$ in each regime.
 
 ::: {.callout-note collapse="true" title="Worked answer"}
-Ordering the constraints as the resource cap, $-x$ and $-y$, the multipliers are $(3,1,0)$ at $(0,.25)$, $(4/3,0,0)$ at $(1/3,2/3)$, and $(0,0,0)$ at $(1,1)$. The corresponding value derivatives are $-3$, $-4/3$ and zero. Each point satisfies KKT and is globally optimal by convexity. In the first regime, stationarity requires the positive multiplier on the lower bound for $x$.
+Order the constraints as the resource cap, $-x$ and $-y$. At $b=.25$, the first regime in @eq-two-instruments gives $(x^*,y^*)=(0,.25)$, with resource multiplier $4(1-b)=3$, multiplier $2-4b=1$ on $-x$, and zero on $-y$. Stationarity reads
+
+$$
+2(x^*-1)+3-1=0,
+\qquad
+4(y^*-1)+3=0.
+$$
+
+Substituting $b=.25$ in the value formula gives $v'(.25)=4(.25-1)=-3$, exactly the negative of the resource multiplier found above.
+
+At $b=1$, the middle regime gives $(1/3,2/3)$, multipliers $(4/3,0,0)$ and $v'(1)=-4/3$. At $b=3$, the unconstrained point $(1,1)$ is feasible with zero multipliers and $v'(3)=0$. Convexity and the affine constraints make each KKT point globally optimal, and the first case shows how omitting a nonnegativity multiplier can break stationarity at an otherwise feasible choice.
 :::
 
 ### Curvature of a constraint
@@ -1939,7 +2230,80 @@ Feasibility reduces the problem to $y=x^2$, whose unique global minimum is $(0,0
 Suppose $\sqrt n(\hat\theta-\theta_0)\xrightarrow{d}N(0,\sigma^2)$. Find the delta-method variance for $g(\theta)=\theta^2$. What changes if $\theta_0=0$?
 
 ::: {.callout-note collapse="true" title="Worked answer"}
-The first-order variance is $4\theta_0^2\sigma^2$. At $\theta_0=0$ this variance vanishes and the $\sqrt n$ limit degenerates. The continuous mapping theorem instead gives $n\hat\theta^2\xrightarrow{d}\sigma^2\chi_1^2$. The useful approximation has rate $n$ and a non-Normal limit.
+Since $g'(\theta_0)=2\theta_0$, the delta method gives
+
+$$
+\sqrt n(\hat\theta^2-\theta_0^2)
+\xrightarrow{d}N(0,4\theta_0^2\sigma^2)
+$$
+
+when $\theta_0\neq0$. At $\theta_0=0$, the first-order variance vanishes, so write the assumed limit as $\sqrt n\hat\theta\xrightarrow{d}\sigma Z$ with $Z\sim N(0,1)$. The continuous mapping theorem then gives
+
+$$
+n\hat\theta^2=(\sqrt n\hat\theta)^2
+\xrightarrow{d}\sigma^2Z^2
+\sim\sigma^2\chi_1^2.
+$$
+
+The first nondegenerate approximation therefore has rate $n$ and a chi-square limit. Squaring the Gaussian limit is exactly where $\chi_1^2$ enters.
+:::
+
+### Connecting Poisson counts and Gamma waiting times
+
+Events follow a homogeneous Poisson process at rate two per quarter, with $N$ counting one quarter, $W_1$ measuring the first wait and $W_3$ measuring the wait to event three. Calculate $\Pr(N=0)$, $\Pr(N\geq1)$, $E[N]$, $\operatorname{Var}(N)$, $\Pr(W_1>1/2)$ and $E[W_3]$, then identify the law of $D=\mathbf1\{N\geq1\}$.
+
+::: {.callout-note collapse="true" title="Worked answer"}
+Multiplying the quarterly rate by one quarter gives parameter two, so $N\sim\operatorname{Poisson}(2)$ and
+
+$$
+\Pr(N=0)=e^{-2},
+\qquad
+\Pr(N\geq1)=1-e^{-2},
+\qquad
+E[N]=\operatorname{Var}(N)=2.
+$$
+
+The first waiting time is Exponential with rate two, so $\Pr(W_1>1/2)=e^{-2(1/2)}=e^{-1}$, while the third waiting time is Gamma with shape three and rate two. Its mean is $3/2$ quarters. The same rate appears because the count and the waiting times describe one arrival process from two directions.
+
+The indicator discards the size of every positive count. It therefore follows a Bernoulli law with success probability $1-e^{-2}$, while $N$ itself keeps its Poisson probabilities over all nonnegative integers.
+:::
+
+### Deriving chi-square, Student, and Fisher reference laws
+
+Let $X_1,\ldots,X_{10}$ be i.i.d. $N(\mu,\sigma^2)$ observations with sample variance $S_X^2$ using denominator nine, and independently let $Y_1,\ldots,Y_{16}$ be i.i.d. $N(\eta,\sigma^2)$ observations with sample variance $S_Y^2$ using denominator fifteen.
+
+1. Determine the law of $9S_X^2/\sigma^2$ and explain its degrees of freedom.
+2. Derive the law of $\sqrt{10}(\bar X-\mu)/S_X$ and explain why it is not standard Normal.
+3. Find the law of $S_X^2/S_Y^2$.
+4. State the relation between a squared Student variable and a Fisher variable.
+
+::: {.callout-note collapse="true" title="Worked answer"}
+Subtracting $\bar X$ projects the ten-dimensional Gaussian sample onto the nine-dimensional subspace orthogonal to the constant vector. Its squared standardised residual length is therefore
+
+$$
+\frac{9S_X^2}{\sigma^2}\sim\chi_9^2.
+$$
+
+The standardised mean $Z=\sqrt{10}(\bar X-\mu)/\sigma$ is $N(0,1)$ and is independent of $U=9S_X^2/\sigma^2$. Replacing $\sigma$ by $S_X$ gives
+
+$$
+\frac{\sqrt{10}(\bar X-\mu)}{S_X}
+=\frac{Z}{\sqrt{U/9}}
+\sim t_9.
+$$
+
+The denominator is random, and Student's heavier tails account for the uncertainty introduced by estimating it from nine residual degrees of freedom.
+
+The independent second sample gives $15S_Y^2/\sigma^2\sim\chi_{15}^2$, which supplies the denominator in
+
+$$
+\frac{S_X^2}{S_Y^2}
+=\frac{(9S_X^2/\sigma^2)/9}
+{(15S_Y^2/\sigma^2)/15}
+\sim F_{9,15}.
+$$
+
+Finally, $T\sim t_\nu$ implies $T^2\sim F_{1,\nu}$, which is why a two-sided $t$ test and a one-restriction $F$ test give the same rejection decision when they use the same model and significance level.
 :::
 
 ### A stationary series that does not average out

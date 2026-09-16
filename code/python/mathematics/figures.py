@@ -199,6 +199,31 @@ def laws():
     save(fig,"laws")
 
 
+def reference_laws():
+    fig,axes=plt.subplots(1,3,figsize=(12.4,3.8),layout="constrained")
+
+    x=np.linspace(.025,20,600)
+    for df,color,style in [(1,RED,":"),(5,GOLD,"--"),(12,TEAL,"-")]:
+        axes[0].plot(x,stats.chi2.pdf(x,df),color=color,ls=style,label=f"df = {df}")
+    axes[0].set(title="Chi-square: squared Gaussian length",xlabel="nonnegative value",ylabel="density",xlim=(0,20),ylim=(0,.45))
+    axes[0].legend(fontsize=9)
+
+    x=np.linspace(-5,5,600)
+    axes[1].plot(x,stats.norm.pdf(x),color=INK,lw=1.7,label="Normal")
+    axes[1].plot(x,stats.t.pdf(x,3),color=RED,ls=":",label="Student, df = 3")
+    axes[1].plot(x,stats.t.pdf(x,10),color=TEAL,ls="--",label="Student, df = 10")
+    axes[1].set(title="Estimated scale thickens the tails",xlabel="standardised value",ylabel="density",xlim=(-5,5),ylim=(0,.43))
+    axes[1].legend(fontsize=9)
+
+    x=np.linspace(.025,5,600)
+    for dfs,color,style in [((1,20),RED,":"),((5,20),GOLD,"--"),((20,20),TEAL,"-")]:
+        axes[2].plot(x,stats.f.pdf(x,*dfs),color=color,ls=style,label=f"df = {dfs[0]}, {dfs[1]}")
+    axes[2].axvline(1,color=INK,lw=1.2,alpha=.55)
+    axes[2].set(title="Fisher: a ratio of variance scales",xlabel="positive ratio",ylabel="density",xlim=(0,5),ylim=(0,1.05))
+    axes[2].legend(fontsize=9)
+    save(fig,"reference-laws")
+
+
 def intervals():
     rng=np.random.default_rng(47)
     means=rng.normal(0,1,size=(40,25)).mean(axis=1)
@@ -281,6 +306,6 @@ def integration():
 
 
 if __name__=="__main__":
-    for make in [paths,curvature,bases,determinant,projection,moments,laws,intervals,timepaths,filtering,compactness,convexity,integration,matrix_vector,matrix_composition]:
+    for make in [paths,curvature,bases,determinant,projection,moments,laws,reference_laws,intervals,timepaths,filtering,compactness,convexity,integration,matrix_vector,matrix_composition]:
         make()
-    print("Fifteen SVG figures generated.")
+    print("Sixteen SVG figures generated.")

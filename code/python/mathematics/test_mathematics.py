@@ -4,7 +4,7 @@ import pytest
 import sympy as sp
 from scipy.integrate import quad
 from scipy.optimize import minimize
-from scipy.stats import norm
+from scipy.stats import chi2, f as fisher_f, norm, t as student_t
 from models import JACOBIAN, nonlinear, allocation, loss, sampling_density, posterior
 
 
@@ -16,6 +16,26 @@ def test_span_coordinates_and_dependent_family():
     family=sp.Matrix([[1,0,1],[0,1,1]])
     assert family.rank()==2
     assert family*sp.Matrix([1,1,-1])==sp.zeros(2,1)
+
+
+def test_norm_comparison_and_reference_law_exercises():
+    rng=np.random.default_rng(271)
+    for n in [1,2,5,20]:
+        for _ in range(20):
+            x=rng.normal(size=n)
+            one=np.linalg.norm(x,1);two=np.linalg.norm(x,2);infinity=np.linalg.norm(x,np.inf)
+            assert infinity<=two+1e-14
+            assert two<=one+1e-14
+            assert one<=np.sqrt(n)*two+1e-14
+    coordinate=np.array([3.,0.,0.])
+    assert np.linalg.norm(coordinate,np.inf)==np.linalg.norm(coordinate,2)==np.linalg.norm(coordinate,1)
+    equal=np.ones(4)
+    assert np.linalg.norm(equal,1)==pytest.approx(2*np.linalg.norm(equal,2))
+
+    assert np.exp(-2)==pytest.approx(.1353352832366127)
+    assert chi2.mean(9)==9 and chi2.var(9)==18
+    tcrit=student_t.ppf(.975,9)
+    assert fisher_f.cdf(tcrit*tcrit,1,9)==pytest.approx(.95)
 
 
 def test_matrix_vector_and_composition_examples():

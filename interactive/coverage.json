@@ -695,7 +695,12 @@
       "Densities, expectations, and moments",
       "Integrating in several variables {#sec-multivariate-integration}",
       "Information and conditional expectation {#sec-joint-distributions}",
-      "Some laws arise from different sampling questions",
+      "Named laws answer different sampling questions {#sec-reference-laws}",
+      "Indicators and counts with a fixed number of trials",
+      "Arrivals, waiting times, and the Gamma family",
+      "Gaussian laws and linear combinations",
+      "Why chi-square, Student, and Fisher laws appear {#sec-chi-square-student-fisher}",
+      "Gaussian vectors, matrix-Normal laws, and Wishart laws",
       "Statistics from one sample {#sec-probability-versus-statistics}",
       "Identification comes before estimation {#sec-identification-foundations}",
       "A mean across repeated samples {#sec-lln-clt}",
@@ -721,6 +726,7 @@
       "Fourier analysis and recurring movements {#sec-signal-fourier-foundations}",
       "Exercises with worked answers {#sec-maths-exercises}",
       "Distinguishing generation from independence",
+      "Proving the comparison of norms {#sec-exercise-norm-comparison}",
       "Predicting a composition before multiplying",
       "Summing a stable recursion",
       "Separating an OLS fit from its assumptions",
@@ -732,6 +738,8 @@
       "Relaxing a resource cap",
       "Curvature of a constraint",
       "Uncertainty after a nonlinear transformation",
+      "Connecting Poisson counts and Gamma waiting times",
+      "Deriving chi-square, Student, and Fisher reference laws",
       "A stationary series that does not average out",
       "Returning to the economic question",
       "Further reading and visual sources"
@@ -972,7 +980,7 @@
     ]
   },
   "foundations_review": {
-    "scope": "Foundations revised from general objects to applications: sets and proof language precede specialised structures; vector spaces and linear maps precede matrices; infinite series precede dynamic recursions; identification precedes estimation; OLS begins as a general projection; finite-sample assumptions are separated from their large-sample replacements.",
+    "scope": "Foundations revised from general objects to applications: sets and proof language precede specialised structures; vector spaces and linear maps precede matrices; infinite series precede dynamic recursions; probability laws are tied to their sampling mechanisms; chi-square, Student and Fisher reference laws are derived before exact inference; identification precedes estimation; OLS begins as a general projection; finite-sample assumptions are separated from their large-sample replacements.",
     "inline_experiments": [
       "Editable matrix transformations and interpolation",
       "Taylor approximation and error bounds",
@@ -991,6 +999,6 @@
       "NormalArea",
       "Fourier"
     ],
-    "qualification": "Definitions and theorem hypotheses precede the examples that use them. Analysis, optimisation, identification and probability results state their scope; inline experiments remain illustrations rather than general-purpose solvers."
+    "qualification": "Definitions and theorem hypotheses precede the examples that use them. Probability laws state their generating assumptions and support; analysis, optimisation, identification and inference results state their scope; inline experiments remain illustrations rather than general-purpose solvers."
   }
 }
