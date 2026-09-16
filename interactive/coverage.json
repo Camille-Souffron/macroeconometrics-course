@@ -654,6 +654,7 @@
   "chapter_headings": {
     "00-mathematical-foundations.qmd": [
       "Chapter 0: Mathematical Foundations {.unnumbered #sec-mathematical-foundations}",
+      "Sets, statements, and maps {#sec-sets-statements-maps}",
       "Linear algebra and systems of equations {#sec-linear-algebra-foundations}",
       "Vectors and vector spaces {#sec-vector-spaces}",
       "Linear combinations, span, and subspaces {#sec-span-subspaces}",
@@ -671,6 +672,7 @@
       "Decompositions and covariance matrices {#sec-decompositions}",
       "Analysis and local approximation {#sec-analysis-foundations}",
       "Functions, domains, and limits {#sec-functions-transformations}",
+      "Infinite sums and stable recursions {#sec-infinite-series}",
       "Limits in several dimensions",
       "Neighbourhoods, boundaries, and existence",
       "Derivatives and first-order approximation",
@@ -695,6 +697,7 @@
       "Information and conditional expectation {#sec-joint-distributions}",
       "Some laws arise from different sampling questions",
       "Statistics from one sample {#sec-probability-versus-statistics}",
+      "Identification comes before estimation {#sec-identification-foundations}",
       "A mean across repeated samples {#sec-lln-clt}",
       "Modes of convergence, and a transformed estimator",
       "Moment restrictions lead to estimators {#sec-gmm}",
@@ -719,8 +722,10 @@
       "Exercises with worked answers {#sec-maths-exercises}",
       "Distinguishing generation from independence",
       "Predicting a composition before multiplying",
+      "Summing a stable recursion",
       "Separating an OLS fit from its assumptions",
       "Recovering two coefficients",
+      "Finding an identified set",
       "Approximating a recession",
       "A gradient which fails to describe simultaneous changes",
       "A lower bound and a failed qualification",
@@ -967,7 +972,7 @@
     ]
   },
   "foundations_review": {
-    "scope": "Foundations revised: explicit vector-space definitions and matrix composition; scalar OLS before matrix OLS; five finite-sample assumptions with separate 4a/4b and relaxation consequences. Existing lab estimators retained.",
+    "scope": "Foundations revised from general objects to applications: sets and proof language precede specialised structures; vector spaces and linear maps precede matrices; infinite series precede dynamic recursions; identification precedes estimation; OLS begins as a general projection; finite-sample assumptions are separated from their large-sample replacements.",
     "inline_experiments": [
       "Editable matrix transformations and interpolation",
       "Taylor approximation and error bounds",
@@ -986,6 +991,6 @@
       "NormalArea",
       "Fourier"
     ],
-    "qualification": "Analysis and optimisation theorems are taught with explicit hypotheses and worked examples; the inline experiments are illustrations, not general-purpose solvers."
+    "qualification": "Definitions and theorem hypotheses precede the examples that use them. Analysis, optimisation, identification and probability results state their scope; inline experiments remain illustrations rather than general-purpose solvers."
   }
 }

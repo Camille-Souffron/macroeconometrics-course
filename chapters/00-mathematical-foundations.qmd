@@ -19,6 +19,7 @@ The main objects are arranged as follows.
 
 | Object | General form | Main question |
 |---|---|---|
+| Set, statement and map | $A\subseteq B$, $P\Rightarrow Q$, $f:A\to B$ | Which objects are in scope, and what follows from the assumptions? |
 | Vector space and linear map | $V$, $L:V\to W$ | Which combinations and directions are available? |
 | Function and derivative | $F:U\subseteq\mathbb R^n\to\mathbb R^m$ | How does the output change near a point? |
 | Optimisation problem | $\min_{x\in C}f(x)$ | Does an optimum exist, and how can it be characterised? |
@@ -31,6 +32,32 @@ Four distinctions will recur. An abstract object differs from its coordinates in
 ::: {.math-route}
 **How to read the notation.** Vectors are columns, and a prime denotes transpose. A displayed definition fixes an object; a theorem or proposition states what follows under listed assumptions; an example comes afterwards. The figures and animations, produced with Manim and StatAnim, illustrate the geometry after the formal argument has been given. Every result remains available in the equations and fixed figures without video playback.
 :::
+
+## Sets, statements, and maps {#sec-sets-statements-maps}
+
+A set fixes the collection of objects under discussion. The notation $x\in A$ says that $x$ belongs to $A$, while $A\subseteq B$ says that every element of $A$ also belongs to $B$. The empty set $\varnothing$ has no elements. Set-builder notation records a membership rule, as in
+
+$$
+A=\{x\in\mathbb R:x^2\leq1\}=[-1,1].
+$$
+
+The union $A\cup B$ contains elements found in at least one of the two sets. Their intersection $A\cap B$ contains those found in both, $A\setminus B$ removes the elements of $B$ from $A$, and the Cartesian product $A\times B$ consists of ordered pairs $(a,b)$. Order matters here. In a dataset, $(\text{date},\text{inflation})$ is a different kind of object from $(\text{inflation},\text{date})$.
+
+Quantifiers state the scope of a claim. The expression
+
+$$
+\forall x\in A,\quad P(x)
+$$
+
+says that $P(x)$ holds for every element of $A$. The expression $\exists x\in A$ asks for at least one. Their negations swap the quantifiers: denying a universal claim means finding an $x$ for which the claim fails, while denying an existence claim means showing failure for every $x$. One counterexample therefore disproves a universal statement. A hundred favourable examples still do not prove it.
+
+An implication $P\Rightarrow Q$ says that $Q$ follows whenever $P$ holds, which makes $P$ sufficient for $Q$ and $Q$ necessary for $P$. The converse $Q\Rightarrow P$ is a separate claim. The symbol $P\Leftrightarrow Q$ means that both directions hold. For a theorem, the assumptions sit on the left of an implication and the conclusion sits on the right. The conclusion alone does not verify them.
+
+A **map** $f:A\to B$ assigns one element of the codomain $B$ to every element of the domain $A$. For $C\subseteq A$, its image is $f(C)=\{f(x):x\in C\}$. For $D\subseteq B$, the preimage $f^{-1}(D)=\{x\in A:f(x)\in D\}$ is defined even when the map has no inverse function.
+
+The map is **injective** when equal outputs imply equal inputs, **surjective** when every element of the codomain is reached, and **bijective** when both properties hold. A bijection has an inverse map $f^{-1}:B\to A$. Domain and codomain are part of these statements. The rule $f(x)=x^2$ from $\mathbb R$ to $\mathbb R$ is neither injective nor surjective. Changing the codomain to $[0,\infty)$ makes it surjective. Restricting the domain as well, to $[0,\infty)$, makes it bijective with inverse $f^{-1}(y)=\sqrt y$.
+
+These definitions carry much of the chapter. A matrix represents a map after bases are chosen. An identification argument asks whether a parameter-to-distribution map is injective. A random variable is a measurable map from outcomes to recorded values. The extra adjectives change from section to section, but the underlying object does not.
 
 ## Linear algebra and systems of equations {#sec-linear-algebra-foundations}
 
@@ -613,6 +640,39 @@ $$
 Equivalently, take any sequence in $D\setminus\{a\}$ that converges to $a$. Its images must converge to $\ell$. The order of the quantifiers matters here because a single $\delta$ has to control every admissible route through the neighbourhood.
 
 Consider $f(g)=\log(1+g)$, whose domain is $g>-1$. Output rising from 100 to 102 has proportional growth $.02$ and log change $\log(1.02)\simeq .019803$. A fall from 100 to 50 has proportional growth $-.5$ and log change $\log(.5)\simeq-.693147$. The first pair is close because $\log(1+g)/g\to1$ as $g\to0$. The domain boundary at $-1$ explains why the approximation cannot remain uniform over arbitrarily large losses. With several inputs, the same discipline applies: $F(K,L)=K^\alpha L^{1-\alpha}$ is naturally defined on $(0,\infty)^2$ when $0<\alpha<1$.
+
+### Infinite sums and stable recursions {#sec-infinite-series}
+
+An infinite sum is defined by a limit. Given terms $a_0,a_1,\ldots$, form the partial sums
+
+$$
+S_n=\sum_{j=0}^n a_j.
+$$
+
+The series $\sum_{j=0}^{\infty}a_j$ converges to $S$ when the sequence $(S_n)$ converges to $S$. Thus the infinity sign does not instruct us to finish an endless addition. It names the limit of finite calculations. Convergence forces $a_j\to0$, yet the harmonic series $\sum_{j=1}^{\infty}1/j$ has vanishing terms and partial sums that grow without bound.
+
+For scalar terms, **absolute convergence** means $\sum_j|a_j|<\infty$. This stronger condition guarantees convergence and permits regrouping or rearranging the terms without changing the answer. For vectors or matrices, $\sum_j\|a_j\|<\infty$ is sufficient under any norm, and changing the norm in finite dimensions may alter a numerical bound without altering convergence.
+
+The geometric series supplies the basic dynamic example. For a scalar $r$,
+
+$$
+\sum_{j=0}^{\infty}r^j=\frac1{1-r}
+\quad\Longleftrightarrow\quad |r|<1.
+$$
+
+Its matrix counterpart uses the same partial-sum argument. If $A$ is square and $\rho(A)<1$, then $A^n\to0$ and
+
+$$
+\sum_{j=0}^{\infty}A^j=(I-A)^{-1}.
+$$ {#eq-matrix-geometric-series}
+
+Indeed, $(I-A)\sum_{j=0}^nA^j=I-A^{n+1}$. The right side tends to $I$, and $I-A$ is invertible because one is not an eigenvalue of $A$. The resulting inverse is the long-run multiplier. Iterating $x_{t+1}=Ax_t+u_{t+1}$ gives
+
+$$
+x_t=A^tx_0+\sum_{j=0}^{t-1}A^ju_{t-j}.
+$$
+
+When $\rho(A)<1$, the initial state fades. If the input is the same vector $b$ at every date, the limiting state is $(I-A)^{-1}b$. Random infinite sums require a stated mode of convergence, such as mean-square or almost-sure convergence, because those are probabilistic claims. A deterministic matrix series instead converges in norm, even when the two settings use the same summation sign.
 
 ### Limits in several dimensions
 
@@ -1229,6 +1289,42 @@ A **statistic** is any measurable function of the data. An **estimator** $\hat\t
 
 Sampling assumptions enter before any theorem. Independent and identically distributed observations form one design. A time series forms another. The law of large numbers, central limit theorem and standard-error formula must match that design.
 
+### Identification comes before estimation {#sec-identification-foundations}
+
+A statistical model defines a map from parameters to observable laws,
+
+$$
+\theta\longmapsto P_\theta.
+$$
+
+The parameter $\theta_0$ is **point identified** when no other admissible value produces the same law:
+
+$$
+P_\theta=P_{\theta_0}\quad\Longrightarrow\quad\theta=\theta_0.
+$$
+
+If this implication holds throughout $\Theta$, the model is globally identified. Local identification only rules out observationally equivalent values in some neighbourhood of $\theta_0$. When uniqueness fails, the **identified set** under an observable law $P$ is
+
+$$
+\Theta_I(P)=\{\theta\in\Theta:P_\theta=P\}.
+$$
+
+Identification is a population property. It asks what could be learned if the observable law were known exactly. Estimation asks what a finite sample can recover, and no estimator, larger dataset or smaller standard error can choose between two parameter values that imply the same distribution. Every such claim is relative to the maintained model. Injectivity alone establishes neither correct specification nor causal meaning.
+
+Consider the model $Y\sim N(\theta^2,1)$ with $\theta\in\mathbb R$. Values $\theta$ and $-\theta$ generate the same law, so the sign is unidentified while the magnitude $|\theta|$ is identified. Restricting the parameter space to $[0,\infty)$ makes $\theta$ point identified. The restriction adds information to the model. Extra draws do not.
+
+Moment models use the same idea with fewer observables. Point identification then requires a unique admissible root of $m(\theta)=0$. Under suitable smoothness, a full-column-rank Jacobian $J_m(\theta_0)$ can establish local identification, while global uniqueness still requires a separate argument. The scalar map $m(\theta)=\theta^2-1$ has a nonzero derivative at both roots and still admits the two distant solutions $-1$ and $1$.
+
+Linear regression gives a familiar rank condition at the population level. Under $E[Xu]=0$ in $Y=X'\beta+u$, let $Q=E[XX']$. If $Q$ is nonsingular, then
+
+$$
+\beta=Q^{-1}E[XY],
+$$
+
+so the observable second moments identify $\beta$. If $Q$ is singular, some nonzero $d$ satisfies $X'd=0$ almost surely, so the coefficient vectors $\beta$ and $\beta+d$ produce the same linear predictor. This is population nonidentification. Exact collinearity in one realised design matrix is its sample counterpart, though the two claims should not be confused.
+
+Structural models add another layer. The distribution may identify a reduced-form covariance matrix while leaving its structural impact factor observationally equivalent to many others. If $\Sigma=BB'$, then $BQ$ gives the same covariance for every orthogonal matrix $Q$. Timing assumptions, sign restrictions, long-run restrictions or external instruments narrow that class, sometimes to one point and sometimes to an identified set. Precision within a chosen structure does not measure uncertainty about restrictions that were never imposed.
+
 ### A mean across repeated samples {#sec-lln-clt}
 
 Suppose expenditures $X_1,\ldots,X_n$ are independent and identically distributed, with finite mean $\mu$ and variance $\sigma^2$. Their sample mean has variance $\sigma^2/n$. Chebyshev's inequality therefore gives
@@ -1697,7 +1793,9 @@ When direct integration is impractical, Monte Carlo approximates posterior expec
 
 ## Fourier analysis and recurring movements {#sec-signal-fourier-foundations}
 
-Fourier analysis represents a finite data vector in an orthogonal basis of oscillating functions. A sinusoid $\cos(\omega t+\varphi)$ has angular frequency $\omega$, period $2\pi/\omega$ when $\omega>0$, and phase $\varphi$. Euler's identity $e^{i\omega t}=\cos(\omega t)+i\sin(\omega t)$ packages the cosine and sine coordinates into one complex number.
+Fourier analysis represents a finite data vector in an orthogonal basis of oscillating functions. Its compact notation uses complex numbers. A complex number has the form $z=a+ib$, where $i^2=-1$, with conjugate $\bar z=a-ib$ and modulus $|z|=\sqrt{a^2+b^2}$. Writing $z=|z|e^{i\varphi}$ separates its magnitude from its angle $\varphi$. Multiplication then multiplies magnitudes and adds angles.
+
+A sinusoid $\cos(\omega t+\varphi)$ has angular frequency $\omega$, period $2\pi/\omega$ when $\omega>0$, and phase $\varphi$. Euler's identity $e^{i\omega t}=\cos(\omega t)+i\sin(\omega t)$ packages its cosine and sine coordinates into one complex number, which shortens the algebra while conjugate coefficients at opposite frequencies keep the reconstructed signal real.
 
 For $T$ equally spaced observations, the **discrete Fourier transform** and its inverse are
 
@@ -1764,6 +1862,14 @@ Let $A=\left(\begin{smallmatrix}1&1\\0&1\end{smallmatrix}\right)$ and $B=\left(\
 Under $B$, the first basis vector becomes $(2,0)'$, and $A$ leaves that vector fixed. The second becomes $(0,1)'$ and then $(1,1)'$. These images are the columns of $AB=\left(\begin{smallmatrix}2&1\\0&1\end{smallmatrix}\right)$, which gives $AB(1,1)'=(3,1)'$. Reversing the order produces $BA=\left(\begin{smallmatrix}2&2\\0&1\end{smallmatrix}\right)$ and $BA(1,1)'=(4,1)'$. The inner dimensions of $MN$ match, so the product is defined and has size $2\times4$. For $NM$, the inner dimensions would be 4 and 2, so no product is defined.
 :::
 
+### Summing a stable recursion
+
+Starting from $x_0=0$, let $x_{t+1}=.8x_t+2$. Express $x_t$ as a finite geometric sum and find its limit. Check the same limit by solving for a fixed point. What happens if $.8$ is replaced by one?
+
+::: {.callout-note collapse="true" title="Worked answer"}
+Repeated substitution gives $x_t=2\sum_{j=0}^{t-1}.8^j=10(1-.8^t)$, which converges to ten. A fixed point must satisfy $x=.8x+2$, and this equation gives the same value. With a coefficient of one, the recursion becomes $x_t=2t$. Its increments never fade, the geometric series diverges, and no finite fixed point solves $x=x+2$.
+:::
+
 ### Separating an OLS fit from its assumptions
 
 Reproduce the intercept and slope for the four observations in @sec-ols-scalar and verify both normal equations. Does the fact that the fitted residuals sum to zero establish Assumption 3? If the population errors have unequal conditional variances but are uncorrelated across observations, which assumption fails and which OLS results can remain valid?
@@ -1778,6 +1884,14 @@ Let $X=\left(\begin{smallmatrix}1&1\\2&2\\3&3\end{smallmatrix}\right)$ and $y=(1
 
 ::: {.callout-note collapse="true" title="Worked answer"}
 Let $v=(1,2,3)'$. Then $X\beta=(\beta_1+\beta_2)v$, so only the sum of the coefficients affects the fit. Its least-squares value is $v'y/(v'v)=17/14$. Hence $\hat y=(17/14)v$, and every pair satisfying $\beta_1+\beta_2=17/14$ minimises the loss. The residual $(-3,-6,5)'/14$ is orthogonal to $v$. There is one fitted vector and a whole line of coefficient vectors that produce it.
+:::
+
+### Finding an identified set
+
+Let $Y\sim N(\theta^2,1)$ with $\theta\in[-2,2]$. Suppose the observable population law has mean one. Find the identified set for $\theta$. Which simple restriction makes the parameter point identified? Would an arbitrarily large sample choose between the original candidates? Is $|\theta|$ identified?
+
+::: {.callout-note collapse="true" title="Worked answer"}
+The population mean satisfies $\theta^2=1$, so $\Theta_I=\{-1,1\}$. Restricting the parameter space to $[0,2]$ selects $\theta=1$. Without that restriction, more observations estimate the common law ever more precisely but cannot distinguish its two parameter labels. The magnitude is identified because both candidates give $|\theta|=1$.
 :::
 
 ### Approximating a recession
