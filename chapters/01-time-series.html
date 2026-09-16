@@ -495,7 +495,7 @@ window.Quarto = {
 </div>
 <div class="callout-body-container callout-body">
 <p><span class="math inline">\(x_t\)</span> is treated as the <strong>realization of a random variable</strong> <span class="math inline">\(X_t\)</span>, defined for every <span class="math inline">\(t \in \mathbb{Z}\)</span>; <span class="math inline">\((X_t)_{t \in \mathbb{Z}}\)</span> is the <strong>stochastic process</strong>, and <span class="math inline">\(\{x_t, t = 1, \ldots, T\}\)</span> is one <strong>trajectory</strong> of it. In practice the realization and the random variable are usually denoted the same way (<span class="math inline">\(x_t\)</span> or <span class="math inline">\(X_t\)</span> indifferently), and “time series” and “stochastic process” are used interchangeably. What distinguishes time-series data from cross-sectional data is that observations are <em>ordered in time</em>: what happens today is linked to what happened before.</p>
-<p>For the underlying probability language, information sets, white noise, and ergodicity, see the mathematical foundations chapter (<a href="00-mathematical-foundations.html#sec-stochastic-processes-foundations" class="quarto-xref"><span>Section 7</span></a>).</p>
+<p>For the underlying probability language, information sets, white noise, and ergodicity, see the mathematical foundations chapter (<a href="00-mathematical-foundations.html#sec-stochastic-processes-foundations" class="quarto-xref"><span>Section 6</span></a>).</p>
 </div>
 </div>
 <p>Equivalently: if history could be rerun <span class="math inline">\(M\)</span> times, each run would produce a different sample path <span class="math inline">\(x_1^{(m)}, \ldots, x_T^{(m)}\)</span>, <span class="math inline">\(m = 1, \ldots, M\)</span>. In practice only one such path is ever observed. Our (very ambitious) objective is to find the process <span class="math inline">\((X_t)\)</span> that best generated the single observed path <span class="math inline">\(x_t\)</span>.</p>
@@ -523,7 +523,7 @@ Figure&nbsp;1.1: Stylized business cycle: peak, contraction, trough, and expansi
 \qquad m_t = \log M_t,\; s_t = \log S_t,\; \text{(noise term in logs)},
 \]</span></p>
 <p>which is why working in logs is the default choice for macro series that grow multiplicatively (<a href="#sec-ts-logs" class="quarto-xref"><span>Section 1.5.2</span></a>).</p>
-<p>The approximation linking a log difference to a proportional growth rate follows from Taylor’s expansion and is recalled in <a href="00-mathematical-foundations.html#sec-functions-transformations" class="quarto-xref"><span>Section 3.1</span></a>.</p>
+<p>The approximation linking a log difference to a proportional growth rate follows from Taylor’s expansion and is recalled in <a href="00-mathematical-foundations.html#sec-functions-transformations" class="quarto-xref"><span>Section 2.1</span></a>.</p>
 <div id="fig-classical-decomposition" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-classical-decomposition-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
