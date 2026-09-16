@@ -42,7 +42,7 @@ def main():
         assert page.evaluate("MathJax.version.startsWith('4.')")
         for suffix in ["1","2","3","4a","4b","5"]:
             section=page.locator("#sec-ols-assumption-"+suffix)
-            assert "If relaxed." in section.inner_text()
+            assert "When it fails." in section.inner_text()
         assert page.locator("#sec-ols-scalar").count()==1
         assert page.locator("#sec-vector-spaces").count()==1
         assert page.locator("#sec-vector-families").count()==1
